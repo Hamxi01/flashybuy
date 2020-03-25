@@ -8,11 +8,16 @@
         $name        =   addslashes( $_POST['name'] );    
         $meta_title  =   addslashes( $_POST['meta_title'] );
         $meta_desc   =   addslashes( $_POST['meta_description'] );
+        $slug        = str_replace(" ","-", $name);
 
-        $sql = "INSERT into categories (name, meta_title, meta_description) VALUES ('$name', '$meta_title', '$meta_desc')";
+        $sql = "INSERT into categories (name, meta_title, meta_description,slug) VALUES ('$name', '$meta_title', '$meta_desc','$slug')";
         if ( mysqli_query($con,$sql)){
 
-            header("location:deals_block.php?msg=success");
+            $msg = "<span>Data Inserted successfully...!!</span>";
+        }
+        else{
+
+            $error = "<span>Something went wrong...!!</span>";
         }
 
      }
@@ -41,10 +46,34 @@
                                 </div>
                             </div>
                         </div>
+ <!-- Start Showing success or warning Msg -->
+<?php
+if (isset($error)) {?>
+    <div class="row">
+        <div class="col-lg-6 col-sm-offset-3">
+            <div class="alert alert-warning">    
+    <?php echo $error; ?>
+            </div>
+        </div>
+    </div>
+<?php
+}
+?>
+<?php
+if (isset($msg)) { ?>
+<div class="row">
+    <div class="col-lg-6 col-sm-offset-3">
+        <div class="alert alert-success">    
+    <?php echo $msg; ?>
 
+        </div>
+    </div>
+</div>
+<?php 
+}
+?>
 
-
-
+<!-- End Message Alert -->
                        <div class="row">
                             <div class="col-lg-6 col-sm-offset-3">
                                 <div class="card-box">
