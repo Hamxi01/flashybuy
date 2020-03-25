@@ -5,12 +5,14 @@
 
      if(isset($_POST['form_category'])){
 
-        $name        =   addslashes( $_POST['name'] );    
-        $meta_title  =   addslashes( $_POST['meta_title'] );
-        $meta_desc   =   addslashes( $_POST['meta_description'] );
-        $slug        = str_replace(" ","-", $name);
+        $name          =   addslashes( $_POST['name'] );    
+        $meta_title    =   addslashes( $_POST['meta_title'] );
+        $meta_desc     =   addslashes( $_POST['meta_description'] );
+        $category_id   =   addslashes( $_POST['category_id'] );
+        $slug          = str_replace(" ","-", $name);
 
-        $sql = "INSERT into categories (name, meta_title, meta_description,slug) VALUES ('$name', '$meta_title', '$meta_desc','$slug')";
+        $sql = "INSERT into sub_categories (name, meta_title, meta_description,slug,category_id) VALUES ('$name', '$meta_title', '$meta_desc','$slug','$category_id')";
+
         if ( mysqli_query($con,$sql)){
 
             $msg = "<span>Data Inserted successfully...!!</span>";
@@ -42,7 +44,7 @@
                                         <li><a href="#">Forms</a></li>
                                         <li class="active">Form Validation</li>
                                     </ol>
-                                    <h4 class="page-title">Add Categories</h4>
+                                    <h4 class="page-title">Add Subcategories</h4>
                                 </div>
                             </div>
                         </div>
@@ -77,24 +79,31 @@ if (isset($msg)) { ?>
                        <div class="row">
                             <div class="col-lg-6 col-sm-offset-3">
                                 <div class="card-box">
-                                    <h4 class="m-t-0 header-title"><b>Category Information</b></h4>
+                                    <h4 class="m-t-0 header-title"><b>SubCategory Information</b></h4>
                                     <p class="text-muted font-13 m-b-30">
-                                        Add your Categories.
+                                        Add your Subcategories.
                                     </p>
 
-                                    <form id="form_category"  method="post" action="add-categories.php">
+                                    <form id="form_category"  method="post" action="add-subcategories.php">
                                         <div class="form-group">
                                             <label for="userName"> Name*</label>
                                             <input type="text" name="name" required parsley-trigger="change"  placeholder="Name" class="form-control" id="userName">
                                         </div>
                                         <div class="form-group">
-                                            <label for="emailAddress">banner</label>
-                                            <input type="file" name="banner" parsley-trigger="change" required  class="form-control">
+                                            <label>Choose Parent Category</label>
+                                            <select class="form-control select2" name="category_id">
+                                                <option  selected disabled>Choose</option>
+                                            <?php
+                                                $sql = mysqli_query($con, "SELECT * From categories");
+                                                $row = mysqli_num_rows($sql);
+                                                while ($row = mysqli_fetch_array($sql)){
+                                                echo "<option value='". $row['cat_id'] ."'>" .$row['name'] ."</option>" ;
+                                            }
+                                            ?>
+                                            
+                                            </select>
                                         </div>
-                                        <div class="form-group">
-                                            <label for="pass1">icon</label>
-                                            <input  type="file" name="icon" required class="form-control">
-                                        </div>
+                                        
                                         <div class="form-group">
                                             <label for="passWord2">Meta title</label>
                                             <input  type="text" name="meta_title" required placeholder="meta title" class="form-control" >
