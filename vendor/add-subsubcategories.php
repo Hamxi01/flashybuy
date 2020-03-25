@@ -8,10 +8,10 @@
         $name          =   addslashes( $_POST['name'] );    
         $meta_title    =   addslashes( $_POST['meta_title'] );
         $meta_desc     =   addslashes( $_POST['meta_description'] );
-        $category_id   =   addslashes( $_POST['category_id'] );
+        $subcategory_id   =   addslashes( $_POST['category_id'] );
         $slug          = str_replace(" ","-", $name);
 
-        $sql = "INSERT into sub_categories (name, meta_title, meta_description,slug,category_id) VALUES ('$name', '$meta_title', '$meta_desc','$slug','$category_id')";
+        $sql = "INSERT into sub_sub_categories (name, meta_title, meta_description,slug,sub_category_id) VALUES ('$name', '$meta_title', '$meta_desc','$slug','$subcategory_id')";
 
         if ( mysqli_query($con,$sql)){
 
@@ -44,7 +44,7 @@
                                         <li><a href="#">Forms</a></li>
                                         <li class="active">Form Validation</li>
                                     </ol>
-                                    <h4 class="page-title">Add Subcategories</h4>
+                                    <h4 class="page-title">Add Sub Sub-Categories</h4>
                                 </div>
                             </div>
                         </div>
@@ -79,12 +79,12 @@ if (isset($msg)) { ?>
                        <div class="row">
                             <div class="col-lg-6 col-sm-offset-3">
                                 <div class="card-box">
-                                    <h4 class="m-t-0 header-title"><b>SubCategory Information</b></h4>
+                                    <h4 class="m-t-0 header-title"><b>Sub-subCategory Information</b></h4>
                                     <p class="text-muted font-13 m-b-30">
-                                        Add your Subcategories.
+                                        Add your Sub-subcategories.
                                     </p>
 
-                                    <form id="form_category"  method="post" action="add-subcategories.php">
+                                    <form id="form_category"  method="post" action="add-subsubcategories.php">
                                         <div class="form-group">
                                             <label for="userName"> Name*</label>
                                             <input type="text" name="name" required parsley-trigger="change"  placeholder="Name" class="form-control" id="userName">
@@ -94,10 +94,10 @@ if (isset($msg)) { ?>
                                             <select class="form-control select2" name="category_id">
                                                 <option  selected disabled>Choose</option>
                                             <?php
-                                                $sql = mysqli_query($con, "SELECT * From categories");
+                                                $sql = mysqli_query($con, "SELECT * From sub_categories");
                                                 $row = mysqli_num_rows($sql);
                                                 while ($row = mysqli_fetch_array($sql)){
-                                                echo "<option value='". $row['cat_id'] ."'>" .$row['name'] ."</option>" ;
+                                                echo "<option value='". $row['sub_cat_id'] ."'>" .$row['name'] ."</option>" ;
                                             }
                                             ?>
                                             
