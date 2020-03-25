@@ -136,6 +136,16 @@
     <script src="plugins/jquery.slimscroll.min.js"></script>
     <script src="plugins/select2/dist/js/select2.full.min.js"></script>
     <script src="plugins/gmap3.min.js"></script>
+
+
+
+
+
+    
+    <script src="plugins/switchery/switchery.min.js"></script>
+    <script src="plugins/dropzone/dist/dropzone.js"></script>
+    <script src="assets/js/jquery.core.js"></script>
+        <script src="assets/js/jquery.app.js"></script>
     <!-- custom scripts-->
     <script src="js/main.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDxflHHc5FlDVI-J71pO7hM1QJNW1dRp4U&amp;region=GB"></script>

@@ -10,7 +10,8 @@
 
         <title>Minton - Responsive Admin Dashboard Template</title>
 
-        <link href="../plugins/switchery/switchery.min.css" rel="stylesheet" />
+        <link href="plugins/switchery/switchery.min.css" rel="stylesheet" />
+        <link href="plugins/dropzone/dist/dropzone.css" rel="stylesheet" type="text/css" />
         <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
         <link href="assets/css/core.css" rel="stylesheet" type="text/css">
         <link href="assets/css/icons.css" rel="stylesheet" type="text/css">
