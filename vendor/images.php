@@ -49,7 +49,9 @@
 
                 </div>
                 <!-- end content -->
-
+                <script>
+            var resizefunc = [];
+        </script>
 
 
                 <!-- FOOTER -->

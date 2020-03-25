@@ -262,10 +262,12 @@
         <script src="assets/js/wow.min.js"></script>
         <script src="assets/js/jquery.nicescroll.js"></script>
         <script src="assets/js/jquery.scrollTo.min.js"></script>
-        <script src="../plugins/switchery/switchery.min.js"></script>
+        <script src="plugins/switchery/switchery.min.js"></script>
 
+<!-- Dropzone js -->
+<script src="plugins/dropzone/dist/dropzone.js"></script>
         <!-- Parsleyjs -->
-        <script type="text/javascript" src="../plugins/parsleyjs/dist/parsley.min.js"></script>
+        <script type="text/javascript" src="plugins/parsleyjs/dist/parsley.min.js"></script>
 
         <script src="assets/js/jquery.core.js"></script>
         <script src="assets/js/jquery.app.js"></script>
