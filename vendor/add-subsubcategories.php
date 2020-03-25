@@ -103,6 +103,20 @@ if (isset($msg)) { ?>
                                             
                                             </select>
                                         </div>
+                                        <div class="form-group">
+                                            <label>Choose variation type</label>
+                                            <select class="form-control select2" name="category_id">
+                                                <option  selected disabled>Choose</option>
+                                            <?php
+                                                $sql = mysqli_query($con, "SELECT * From variations");
+                                                $row = mysqli_num_rows($sql);
+                                                while ($row = mysqli_fetch_array($sql)){
+                                                echo "<option value='". $row['id'] ."'>" .$row['variation_name'] ."</option>" ;
+                                            }
+                                            ?>
+                                            
+                                            </select>
+                                        </div>
                                         
                                         <div class="form-group">
                                             <label for="passWord2">Meta title</label>
