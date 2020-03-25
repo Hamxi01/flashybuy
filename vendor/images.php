@@ -15,31 +15,83 @@
                             <div class="col-sm-12">
                                 <div class="page-title-box">
                                     <ol class="breadcrumb pull-right">
-                                        <li><a href="#">Minton</a></li>
+                                        <li><a href="#">Image</a></li>
                                         <li><a href="#">Forms</a></li>
-                                        <li class="active">Multiple File Upload</li>
+                                        <li class="active">Image Upload with Crop</li>
                                     </ol>
-                                    <h4 class="page-title">Multiple File Upload</h4>
+                                    <h4 class="page-title">Image Upload with Crop</h4>
                                 </div>
                             </div>
                         </div>
-
+                        <form action="upload.php" method="post" enctype="multipart/form-data">
                         <div class="row">
-                            <div class="col-md-12 portlets">
+                      
+                            <div class="col-md-2 portlets">
                                 <!-- Your awesome content goes here -->
+
                                 <div class="m-b-30">
-                                    <form action="#" class="dropzone" id="dropzone">
+                                    <div class="dropzone" id="dropzone1">
                                       <div class="fallback">
-                                        <input name="file" type="file" multiple />
+                                        <input name="file1" type="file" />
                                       </div>
 
-                                    </form>
-                                    <div class="clearfix pull-right m-t-15">
+                                    </div>
+                                    <!-- <div class="clearfix pull-right m-t-15">
                                       	<button type="button" class="btn btn-pink btn-rounded waves-effect waves-light">Submit</button>
-                                  </div>
+                                  </div> -->
                                 </div>
                             </div>
+                            <div class="col-md-2 portlets">
+                                <!-- Your awesome content goes here -->
+                                <div class="m-b-30">
+                                    <div class="dropzone" id="dropzone2">
+                                      <div class="fallback">
+                                        <input name="file2" type="file" />
+                                      </div>
+
+                                    </div>
+                                    <!-- <div class="clearfix pull-right m-t-15">
+                                      	<button type="button" class="btn btn-pink btn-rounded waves-effect waves-light">Submit</button>
+                                  </div> -->
+                                </div>
+                            </div>
+                            <div class="col-md-2 portlets">
+                                <!-- Your awesome content goes here -->
+                                <div class="m-b-30">
+                                    <div class="dropzone" id="dropzone3">
+                                      <div class="fallback">
+                                        <input name="file3" type="file"/>
+                                      </div>
+
+                                    </div>
+                                    <!-- <div class="clearfix pull-right m-t-15">
+                                      	<button type="button" class="btn btn-pink btn-rounded waves-effect waves-light">Submit</button>
+                                  </div> -->
+                                </div>
+                            </div>
+                            <div class="col-md-2 portlets">
+                                <!-- Your awesome content goes here -->
+                                <div class="m-b-30">
+                                    <div class="dropzone" id="dropzone4">
+                                      <div class="fallback">
+                                        <input name="file4" type="file" />
+                                      </div>
+
+                                    </div>
+                                    <!-- <div class="clearfix pull-right m-t-15">
+                                      	<button type="button" class="btn btn-pink btn-rounded waves-effect waves-light">Submit</button>
+                                  </div> -->
+                                </div>
+                            </div>
+                            
+
                         </div>
+                        <div class="row">
+                        <div class="col-md-2">
+                                      	<button type="submit" class="btn btn-pink btn-rounded waves-effect waves-light">Submit</button>
+                                  </div>
+                                  </div>
+                        </form>
                         <!-- end row -->
 
 
@@ -49,11 +101,9 @@
 
                 </div>
                 <!-- end content -->
-                <script>
-            var resizefunc = [];
-        </script>
+              
 
-
+    
                 <!-- FOOTER -->
                 <?php 
                      include('includes/footer.php');

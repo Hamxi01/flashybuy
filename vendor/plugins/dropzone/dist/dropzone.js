@@ -123,10 +123,10 @@
       paramName: "file",
       createImageThumbnails: true,
       maxThumbnailFilesize: 10,
-      thumbnailWidth: 120,
-      thumbnailHeight: 120,
+      thumbnailWidth: 175,
+      thumbnailHeight: 175,
       filesizeBase: 1000,
-      maxFiles: null,
+      maxFiles: 1,
       filesizeBase: 1000,
       params: {},
       clickable: true,
@@ -153,7 +153,10 @@
         return done();
       },
       init: function() {
-        return noop;
+        this.on("maxfilesexceeded", function(file) {
+          this.removeAllFiles();
+          this.addFile(file);
+    });
       },
       forceFallback: false,
       fallback: function() {
