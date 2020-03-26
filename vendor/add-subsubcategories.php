@@ -5,13 +5,14 @@
 
      if(isset($_POST['form_category'])){
 
-        $name          =   addslashes( $_POST['name'] );    
-        $meta_title    =   addslashes( $_POST['meta_title'] );
-        $meta_desc     =   addslashes( $_POST['meta_description'] );
+        $name             =   addslashes( $_POST['name'] );    
+        $meta_title       =   addslashes( $_POST['meta_title'] );
+        $meta_desc        =   addslashes( $_POST['meta_description'] );
         $subcategory_id   =   addslashes( $_POST['category_id'] );
-        $slug          = str_replace(" ","-", $name);
+        $variation_id   =   addslashes( $_POST['variation_id'] );
+        $slug             = str_replace(" ","-", $name);
 
-        $sql = "INSERT into sub_sub_categories (name, meta_title, meta_description,slug,sub_category_id) VALUES ('$name', '$meta_title', '$meta_desc','$slug','$subcategory_id')";
+        $sql = "INSERT into sub_sub_categories (name, meta_title, meta_description,slug,sub_category_id,variation_id) VALUES ('$name', '$meta_title', '$meta_desc','$slug','$subcategory_id','$variation_id')";
 
         if ( mysqli_query($con,$sql)){
 
@@ -105,7 +106,7 @@ if (isset($msg)) { ?>
                                         </div>
                                         <div class="form-group">
                                             <label>Choose variation type</label>
-                                            <select class="form-control select2" name="category_id">
+                                            <select class="form-control select2" name="variation_id">
                                                 <option  selected disabled>Choose</option>
                                             <?php
                                                 $sql = mysqli_query($con, "SELECT * From variations");
