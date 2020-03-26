@@ -67,7 +67,7 @@ $sql = mysqli_query($con, "SELECT * From categories WHERE cat_id=$category_id");
                                         <li><a href="#">Forms</a></li>
                                         <li class="active">Form Validation</li>
                                     </ol>
-                                    <h4 class="page-title">Add Subcategories</h4>
+                                    <h4 class="page-title">Update Subcategories</h4>
                                 </div>
                             </div>
                         </div>

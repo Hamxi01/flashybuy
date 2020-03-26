@@ -76,19 +76,19 @@ if (isset($msg)) { ?>
                             <div class="col-lg-12">
 								<div class="card-box">
                                     <div class="col-lg-9">
-                                        <h4 class="m-t-0 header-title"><b>Categories</b></h4><br>
+                                        <h4 class="m-t-0 header-title"><b>Sub-Categories</b></h4><br>
                                     </div>
                                     <div class="col-lg-3">
-                                        <button class="btn-rounded btn-primary"><a href="add-categories.php" style="color:#fff">Add new Category</a></button>
+                                        <button class="btn-rounded btn-primary"><a href="add-subcategories.php" style="color:#fff">Add new Sub-category</a></button>
                                     </div>    
                                     <table class="table table-striped m-0">
                                         <thead>
                                             <tr>
                                                 <th>#</th>
                                                 <th>Name</th>
-                                                <th>Banner</th>
-                                                <th>Icon</th>
                                                 <th>Slug</th>
+                                                <th>Meta Title</th>
+                                                <th>Meta Description</th>
                                                 <th>Actions</th>
                                             </tr>
                                         </thead>
