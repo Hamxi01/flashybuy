@@ -23,7 +23,7 @@
                                 </div>
                             </div>
                         </div>
-                        <form action="upload.php" method="post" enctype="multipart/form-data">
+                        <form action="upload.php" method="post" enctype="multipart/form-data" > 
                         <div class="row">
                       
                             <div class="col-md-2 portlets">
@@ -88,7 +88,7 @@
                         </div>
                         <div class="row">
                         <div class="col-md-2">
-                                      	<button type="submit" class="btn btn-pink btn-rounded waves-effect waves-light">Submit</button>
+                                      	<button type="submit" name="submit" class="btn btn-pink btn-rounded waves-effect waves-light">Submit</button>
                                   </div>
                                   </div>
                         </form>

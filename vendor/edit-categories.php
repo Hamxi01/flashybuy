@@ -2,8 +2,6 @@
       include('includes/header.php');
       include('includes/sidebar.php'); 
 ?>
-    
-
 <?php    
     $cat_id = base64_decode($_GET['id']);
      if(isset($_POST['form_category'])){
