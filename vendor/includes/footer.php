@@ -278,6 +278,24 @@
 			});
 		</script>
 
+<script>
+      var myDropzone = new Dropzone("div#dropzone1", {
+        url: "http://localhost/flashybuy/upload/product"
+      });
     
+      var myDropzone = new Dropzone("div#dropzone2", {
+        url: "http://localhost/flashybuy/upload/product"
+      });
+     
+      var myDropzone = new Dropzone("div#dropzone3", {
+        url: "http://localhost/flashybuy/upload/product"
+      });
+     
+      var myDropzone = new Dropzone("div#dropzone4", {
+        url: "http://localhost/flashybuy/upload/product"
+      });
+    
+
+    </script>
     </body>
 </html>

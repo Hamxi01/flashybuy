@@ -268,8 +268,8 @@
     .dropzone .dz-preview .dz-image {
       border-radius: 20px;
       overflow: hidden;
-      width: 120px;
-      height: 120px;
+      width: 175px;
+      height:  175px;
       position: relative;
       display: block;
       z-index: 10; }
