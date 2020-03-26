@@ -6,7 +6,7 @@
 
         $cat_id = base64_decode($_GET['id']);
         
-        $sql = "DELETE from categories WHERE cat_id = $cat_id";
+        $sql = "DELETE from variations WHERE id = $cat_id";
         if(mysqli_query($con,$sql)){
 
             $msg = "<span>Data Deleted successfully...!!</span>";
@@ -76,19 +76,17 @@ if (isset($msg)) { ?>
                             <div class="col-lg-12">
 								<div class="card-box">
                                     <div class="col-lg-9">
-                                        <h4 class="m-t-0 header-title"><b>Categories</b></h4><br>
+                                        <h4 class="m-t-0 header-title"><b>Variations</b></h4><br>
                                     </div>
                                     <div class="col-lg-3">
-                                        <button class="btn-rounded btn-primary"><a href="add-categories.php" style="color:#fff">Add new Category</a></button>
+                                        <button class="btn-rounded btn-primary"><a href="add-variations.php" style="color:#fff">Add new Variation</a></button>
                                     </div>    
                                     <table class="table table-striped m-0">
                                         <thead>
                                             <tr>
                                                 <th>#</th>
                                                 <th>Name</th>
-                                                <th>Banner</th>
-                                                <th>Icon</th>
-                                                <th>Slug</th>
+                                                <th>Image Approval</th>
                                                 <th>Actions</th>
                                             </tr>
                                         </thead>
@@ -96,27 +94,33 @@ if (isset($msg)) { ?>
 <!-- Fetch Categories -->
 <?php
 
-    $sql = mysqli_query($con, "SELECT * From categories");
+    $sql = mysqli_query($con, "SELECT * From variations");
     $i = 0;
     $row = mysqli_num_rows($sql);
     while ($row = mysqli_fetch_array($sql)){
-        $id = base64_encode($row['cat_id']);
+        $id = base64_encode($row['id']);
         $i++;
 ?>
                                             <tr>
                                                 <th scope="row"><?=$i?></th>
 
-                                                <td><?=$row['name']?></td>
-                                                <td><?=$row['banner']?></td>
-                                                <td><?=$row['icon']?></td>
-                                                <td><?=$row['slug']?></td>
+                                                <td><?=$row['variation_name']?></td>
+                                                <td>
+                                                    <?php if($row['image_approval']=='Y'){?>
+
+                                                     YES
+                                                     <?php }else{?>
+                                                        NO
+                                                     <?php } ?>   
+                                                 </td>
+                                                    
                                                 <td>
                                                     <div class="btn-group">
                                                         <button type="button" class="btn btn-inverse dropdown-toggle waves-effect waves-light"             data-toggle="dropdown" aria-expanded="false">Actions<span class="caret"></span>
                                                         </button>
                                                         <ul class="dropdown-menu" role="menu">
-                                                            <li><a href="edit-categories.php?id=<?=$id?>">Edit</a></li>
-                                                            <li><a href="categories.php?id=<?=$id?>">Delete</a></li>
+                                                            <li><a href="edit-variations.php?id=<?=$id?>">Edit</a></li>
+                                                            <li><a href="variations.php?id=<?=$id?>">Delete</a></li>
                                                         </ul>
                                                     </div>
                                                 </td>
