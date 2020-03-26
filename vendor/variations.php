@@ -36,9 +36,9 @@
                                     <ol class="breadcrumb pull-right">
                                         <li><a href="#">Minton</a></li>
                                         <li><a href="#">Tables</a></li>
-                                        <li class="active">Categories</li>
+                                        <li class="active">Variations</li>
                                     </ol>
-                                    <h4 class="page-title">Categories</h4>
+                                    <h4 class="page-title">Variations</h4>
                                 </div>
                             </div>
                         </div>
