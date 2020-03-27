@@ -279,6 +279,7 @@
 		</script>
 
 <script>
+    Dropzone.autoDiscover = false;
       var myDropzone = new Dropzone("div#dropzone1", {
         url: "http://localhost/flashybuy/upload/product"
       });
