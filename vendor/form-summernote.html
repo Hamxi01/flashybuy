@@ -10,7 +10,9 @@
 
         <title>Minton - Responsive Admin Dashboard Template</title>
 
-        <link href="../plugins/switchery/switchery.min.css" rel="stylesheet" />
+        <link href="plugins/summernote/dist/summernote.css" rel="stylesheet" />
+
+        <link href="plugins/switchery/switchery.min.css" rel="stylesheet" />
         <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
         <link href="assets/css/core.css" rel="stylesheet" type="text/css">
         <link href="assets/css/icons.css" rel="stylesheet" type="text/css">
@@ -343,7 +345,7 @@
                     </div>
                 </div>
             </div>
-            <!-- Left Sidebar End -->
+            <!-- Left Sidebar End --> 
 
 
 
@@ -362,63 +364,50 @@
                                     <ol class="breadcrumb pull-right">
                                         <li><a href="#">Minton</a></li>
                                         <li><a href="#">Forms</a></li>
-                                        <li class="active">Form Validation</li>
+                                        <li class="active">Summernote Editor</li>
                                     </ol>
-                                    <h4 class="page-title">Form Validation</h4>
+                                    <h4 class="page-title">Summernote Editor</h4>
                                 </div>
                             </div>
                         </div>
 
+                        <div class="row">
+							<div class="col-sm-12">
+								<div class="card-box">
+									<h4 class="m-b-30 m-t-0 header-title"><b>Default Editor</b></h4>
+									<div class="summernote">
+										<h3>Hello Summernote</h3>
+									</div>
+								</div>
+							</div>
+						</div>
 
+                        <!-- End row -->
 
+                        <div class="row">
+							<div class="col-sm-12">
+								<div class="card-box">
+									<h4 class="m-t-0 m-b-30 header-title"><b>Inline Editor</b></h4>
+									<div class="inline-editor">
 
-                       <div class="row">
-                            <div class="col-lg-6 col-sm-offset-3">
-                                <div class="card-box">
-                                    <h4 class="m-t-0 header-title"><b>Category Information</b></h4>
-                                    <p class="text-muted font-13 m-b-30">
-                                        Add your Categories.
-                                    </p>
+										<h3>This is an Air-mode editable area.</h3>
+										<ul>
+											<li>
+												Select a text to reveal the toolbar.
+											</li>
+											<li>
+												Edit rich document on-the-fly, so elastic!
+											</li>
+										</ul>
+										<p>
+											End of air-mode area
+										</p>
+									</div>
+								</div>
+							</div>
+						</div>
 
-                                    <form action="#" data-parsley-validate novalidate>
-                                        <div class="form-group">
-                                            <label for="userName"> Name*</label>
-                                            <input type="text" name="name" parsley-trigger="change" required placeholder="Name" class="form-control" id="userName">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="emailAddress">banner</label>
-                                            <input type="file" name="banner" parsley-trigger="change" required  class="form-control">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="pass1">icon</label>
-                                            <input  type="file" name="icon" required class="form-control">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="passWord2">Meta title</label>
-                                            <input  type="text" name="meta_title" required placeholder="meta title" class="form-control" >
-                                        </div>
-                                        <div class="form-group">
-                                                    <label>Textarea</label>
-                                                   
-                                                    <textarea required class="form-control" name="meta_description"></textarea>
-                                                
-                                        </div>
-
-                                        <div class="form-group text-right m-b-0">
-                                            <button class="btn btn-primary waves-effect waves-light" type="submit">
-                                                Submit
-                                            </button>
-                                            <button type="reset" class="btn btn-default waves-effect waves-light m-l-5">
-                                                Cancel
-                                            </button>
-                                        </div>
-
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-
-
+                        <!-- End row -->
 
                     </div>
                     <!-- end container -->
@@ -441,7 +430,7 @@
 
 
             <!-- Right Sidebar -->
-            <!-- <div class="side-bar right-bar">
+            <div class="side-bar right-bar">
                 <div class="nicescroll">
                     <ul class="nav nav-tabs tabs">
                         <li class="active tab">
@@ -670,7 +659,7 @@
                         </div>
                     </div>
                 </div>
-            </div> -->
+            </div>
             <!-- /Right-bar -->
 
         </div>
@@ -695,17 +684,30 @@
         <script src="assets/js/jquery.scrollTo.min.js"></script>
         <script src="../plugins/switchery/switchery.min.js"></script>
 
-        <!-- Parsleyjs -->
-        <script type="text/javascript" src="../plugins/parsleyjs/dist/parsley.min.js"></script>
+        <!--form summernote-->
+        <script src="plugins/summernote/dist/summernote.min.js"></script>
 
         <script src="assets/js/jquery.core.js"></script>
         <script src="assets/js/jquery.app.js"></script>
 
-        <script type="text/javascript">
-			$(document).ready(function() {
-				$('form').parsley();
-			});
-		</script>
+        <script>
+
+            jQuery(document).ready(function(){
+
+                $('.summernote').summernote({
+                    height: 350,                 // set editor height
+                    minHeight: null,             // set minimum height of editor
+                    maxHeight: null,             // set maximum height of editor
+                    focus: false                 // set focus to editable area after initializing summernote
+                });
+
+                $('.inline-editor').summernote({
+                    airMode: true
+                });
+
+            });
+        </script>
+
 
     
     </body>
