@@ -36,9 +36,9 @@
                                     <ol class="breadcrumb pull-right">
                                         <li><a href="#">Minton</a></li>
                                         <li><a href="#">Tables</a></li>
-                                        <li class="active">Variations</li>
+                                        <li class="active">Brands</li>
                                     </ol>
-                                    <h4 class="page-title">Variations</h4>
+                                    <h4 class="page-title">Brands</h4>
                                 </div>
                             </div>
                         </div>
@@ -79,14 +79,14 @@ if (isset($msg)) { ?>
                                         <h4 class="m-t-0 header-title"><b>Variations</b></h4><br>
                                     </div>
                                     <div class="col-lg-3">
-                                        <button class="btn-rounded btn-primary"><a href="add-variations.php" style="color:#fff">Add new Variation</a></button>
+                                        <button class="btn-rounded btn-primary"><a href="add-brands.php" style="color:#fff">Add new Brands</a></button>
                                     </div>    
-                                    <table class="table table-striped m-0">
+                                    <table class="table table-responsive m-0">
                                         <thead>
                                             <tr>
                                                 <th>#</th>
                                                 <th>Name</th>
-                                                <th>Image Approval</th>
+                                                <th>Slug</th>
                                                 <th>Actions</th>
                                             </tr>
                                         </thead>
@@ -94,7 +94,7 @@ if (isset($msg)) { ?>
 <!-- Fetch Categories -->
 <?php
 
-    $sql = mysqli_query($con, "SELECT * From variations");
+    $sql = mysqli_query($con, "SELECT * From brands");
     $i = 0;
     $row = mysqli_num_rows($sql);
     while ($row = mysqli_fetch_array($sql)){
@@ -104,14 +104,9 @@ if (isset($msg)) { ?>
                                             <tr>
                                                 <th scope="row"><?=$i?></th>
 
-                                                <td><?=$row['variation_name']?></td>
+                                                <td><?=$row['name']?></td>
                                                 <td>
-                                                    <?php if($row['image_approval']=='Y'){?>
-
-                                                     YES
-                                                     <?php }else{?>
-                                                        NO
-                                                     <?php } ?>   
+                                                    <?=$row['slug']?>     
                                                  </td>
                                                     
                                                 <td>
@@ -119,8 +114,8 @@ if (isset($msg)) { ?>
                                                         <button type="button" class="btn btn-inverse dropdown-toggle waves-effect waves-light"             data-toggle="dropdown" aria-expanded="false">Actions<span class="caret"></span>
                                                         </button>
                                                         <ul class="dropdown-menu" role="menu">
-                                                            <li><a href="edit-variations.php?id=<?=$id?>">Edit</a></li>
-                                                            <li><a href="variations.php?id=<?=$id?>">Delete</a></li>
+                                                            <li><a href="edit-brands.php?id=<?=$id?>">Edit</a></li>
+                                                            <li><a href="brands.php?id=<?=$id?>">Delete</a></li>
                                                         </ul>
                                                     </div>
                                                 </td>

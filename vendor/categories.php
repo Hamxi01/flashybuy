@@ -47,7 +47,7 @@
 if (isset($error)) {?>
     <div class="row">
         <div class="col-lg-6 col-sm-offset-3">
-            <div class="alert alert-warning">    
+            <div class="alert alert-warning msg">    
     <?php echo $error; ?>
             </div>
         </div>
@@ -59,7 +59,7 @@ if (isset($error)) {?>
 if (isset($msg)) { ?>
 <div class="row">
     <div class="col-lg-6 col-sm-offset-3">
-        <div class="alert alert-success">    
+        <div class="alert alert-success msg">    
     <?php echo $msg; ?>
 
         </div>
@@ -140,3 +140,9 @@ if (isset($msg)) { ?>
 
                 <!-- FOOTER -->
 <?php include('includes/footer.php')?>
+<script type="text/javascript">
+    $(document).ready(function() {
+
+        setTimeout(function(){ $(".msg").hide(); }, 5000);
+    });
+</script> 

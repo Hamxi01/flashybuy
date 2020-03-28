@@ -1,29 +1,45 @@
 <?php include('../includes/db.php'); 
       include('includes/header.php');
       include('includes/sidebar.php'); 
+?>
+    
 
-
+<?php    
+    $id = base64_decode($_GET['id']);
      if(isset($_POST['form_category'])){
 
-        $name        =   addslashes( $_POST['name'] );    
-        $meta_title  =   addslashes( $_POST['meta_title'] );
-        $meta_desc   =   addslashes( $_POST['meta_description'] );
+        $id            =    addslashes($_POST['id']);
+        $name          =   addslashes( $_POST['name'] );    
         $slug        = str_replace(" ","-", $name);
 
-        $sql = "INSERT into categories (name, meta_title, meta_description,slug) VALUES ('$name', '$meta_title', '$meta_desc','$slug')";
-        if ( mysqli_query($con,$sql)){
+        $query = "update brands SET name='".$name."', slug='".$slug."' Where id='".$id."'";       
+        
+        if (mysqli_query($con,$query)){
 
-            $msg = "<span>Data Inserted successfully...!!</span>";
+            echo "<script>window.location.assign('brands.php');</script>";
+            $msg = "<span>Categories updated successfully...!!</span>";
         }
-        else{
-
+        else{ 
+            header("location:edit-brands.php?id=".$id);
             $error = "<span>Something went wrong...!!</span>";
         }
 
      }
 
-?>
 
+//  Get Category data bases on cat_id /////
+
+     $sql = mysqli_query($con, "SELECT * From brands WHERE id=$id");
+        $row = mysqli_num_rows($sql);
+        while ($row = mysqli_fetch_array($sql)){
+
+            $id                 = $row['id'];
+            $name               = $row['name'];     
+
+        }
+
+?>    
+<!-- End -->
             <!-- Left Sidebar End -->
             <!-- ============================================================== -->
             <!-- Start right Content here -->
@@ -42,7 +58,7 @@
                                         <li><a href="#">Forms</a></li>
                                         <li class="active">Form Validation</li>
                                     </ol>
-                                    <h4 class="page-title">Add Categories</h4>
+                                    <h4 class="page-title">Update Variations</h4>
                                 </div>
                             </div>
                         </div>
@@ -77,34 +93,18 @@ if (isset($msg)) { ?>
                        <div class="row">
                             <div class="col-lg-6 col-sm-offset-3">
                                 <div class="card-box">
-                                    <h4 class="m-t-0 header-title"><b>Category Information</b></h4>
+                                    <h4 class="m-t-0 header-title"><b>Brands Information</b></h4>
                                     <p class="text-muted font-13 m-b-30">
-                                        Add your Categories.
+                                        Update your Brands.
                                     </p>
 
-                                    <form id="form_category"  method="post" action="add-categories.php">
+                                    <form id="form_category"  method="post" action="" enctype="multipart/form-data">
+                                        <input type="hidden" name="id" value="<?=$id?>">
                                         <div class="form-group">
-                                            <label for="userName"> Name*</label>
-                                            <input type="text" name="name" required parsley-trigger="change"  placeholder="Name" class="form-control" id="userName">
+                                            <label for="userName">Brand Name*</label>
+                                            <input type="text" name="name" required parsley-trigger="change"  placeholder="Name" class="form-control" id="userName" value="<?=$name?>">
                                         </div>
-                                        <div class="form-group">
-                                            <label for="emailAddress">banner</label>
-                                            <input type="file" name="banner" parsley-trigger="change" required  class="form-control">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="pass1">icon</label>
-                                            <input  type="file" name="icon" required class="form-control">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="passWord2">Meta title</label>
-                                            <input  type="text" name="meta_title" required placeholder="meta title" class="form-control" >
-                                        </div>
-                                        <div class="form-group">
-                                                    <label>Textarea</label>
-                                                   
-                                                    <textarea required class="form-control" name="meta_description"></textarea>
-                                                
-                                        </div>
+                                        
 
                                         <div class="form-group text-right m-b-0">
                                             <button class="btn btn-primary waves-effect waves-light" name="form_category" type="submit">

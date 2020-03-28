@@ -5,12 +5,12 @@
 
      if(isset($_POST['form_category'])){
 
-        $name        =   addslashes( $_POST['name'] );    
-        $meta_title  =   addslashes( $_POST['meta_title'] );
-        $meta_desc   =   addslashes( $_POST['meta_description'] );
+        $name          =   addslashes( $_POST['name'] );
         $slug        = str_replace(" ","-", $name);
+        
 
-        $sql = "INSERT into categories (name, meta_title, meta_description,slug) VALUES ('$name', '$meta_title', '$meta_desc','$slug')";
+        $sql = "INSERT into brands (name, slug) VALUES ('$name', '$slug')";
+
         if ( mysqli_query($con,$sql)){
 
             $msg = "<span>Data Inserted successfully...!!</span>";
@@ -42,7 +42,7 @@
                                         <li><a href="#">Forms</a></li>
                                         <li class="active">Form Validation</li>
                                     </ol>
-                                    <h4 class="page-title">Add Categories</h4>
+                                    <h4 class="page-title">Add Brands</h4>
                                 </div>
                             </div>
                         </div>
@@ -77,35 +77,16 @@ if (isset($msg)) { ?>
                        <div class="row">
                             <div class="col-lg-6 col-sm-offset-3">
                                 <div class="card-box">
-                                    <h4 class="m-t-0 header-title"><b>Category Information</b></h4>
+                                    <h4 class="m-t-0 header-title"><b>Brands Information</b></h4>
                                     <p class="text-muted font-13 m-b-30">
-                                        Add your Categories.
+                                        Add your Brands.
                                     </p>
 
-                                    <form id="form_category"  method="post" action="add-categories.php">
+                                    <form id="form_category"  method="post" action="add-brands.php">
                                         <div class="form-group">
-                                            <label for="userName"> Name*</label>
+                                            <label for="userName">Brand Name*</label>
                                             <input type="text" name="name" required parsley-trigger="change"  placeholder="Name" class="form-control" id="userName">
                                         </div>
-                                        <div class="form-group">
-                                            <label for="emailAddress">banner</label>
-                                            <input type="file" name="banner" parsley-trigger="change" required  class="form-control">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="pass1">icon</label>
-                                            <input  type="file" name="icon" required class="form-control">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="passWord2">Meta title</label>
-                                            <input  type="text" name="meta_title" required placeholder="meta title" class="form-control" >
-                                        </div>
-                                        <div class="form-group">
-                                                    <label>Textarea</label>
-                                                   
-                                                    <textarea required class="form-control" name="meta_description"></textarea>
-                                                
-                                        </div>
-
                                         <div class="form-group text-right m-b-0">
                                             <button class="btn btn-primary waves-effect waves-light" name="form_category" type="submit">
                                                 Submit
@@ -139,4 +120,4 @@ if (isset($msg)) { ?>
 
         setTimeout(function(){ $(".msg").hide(); }, 5000);
     });
-</script>                
+</script>
