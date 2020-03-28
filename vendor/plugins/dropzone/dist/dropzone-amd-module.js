@@ -145,7 +145,7 @@
       ignoreHiddenFiles: true,
       acceptedFiles: null,
       acceptedMimeTypes: null,
-      autoProcessQueue: true,
+      autoProcessQueue: false,
       autoQueue: true,
       addRemoveLinks: false,
       previewsContainer: null,
