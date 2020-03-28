@@ -9,6 +9,7 @@
         <link rel="shortcut icon" href="assets/images/favicon_1.ico">
 
         <title>Admin</title>
+        <link href="plugins/bootstrap-tagsinput/dist/bootstrap-tagsinput.css" rel="stylesheet" />
          <link href="plugins/dropzone/dist/dropzone.css" rel="stylesheet" type="text/css" />
         <link href="plugins/switchery/switchery.min.css" rel="stylesheet" />
         <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">

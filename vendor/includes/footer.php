@@ -264,8 +264,9 @@
         <script src="assets/js/jquery.scrollTo.min.js"></script>
         <script src="plugins/switchery/switchery.min.js"></script>
 
+        <script src="plugins/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js"></script>
 <!-- Dropzone js -->
-<script src="plugins/dropzone/dist/dropzone.js"></script>
+        <script src="plugins/dropzone/dist/dropzone.js"></script>
         <!-- Parsleyjs -->
         <script type="text/javascript" src="plugins/parsleyjs/dist/parsley.min.js"></script>
 
