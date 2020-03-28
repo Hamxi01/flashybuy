@@ -4,9 +4,9 @@
 
     if($_GET['id']){
 
-        $cat_id = base64_decode($_GET['id']);
+        $id = base64_decode($_GET['id']);
         
-        $sql = "DELETE from variations WHERE id = $cat_id";
+        $sql = "DELETE from brands WHERE id = $id";
         if(mysqli_query($con,$sql)){
 
             $msg = "<span>Data Deleted successfully...!!</span>";
