@@ -1,4 +1,5 @@
-<?php include('config/db.php'); 
+<?php 
+include('../includes/db.php');
 	$obj = new connection();
 ?>
 <!DOCTYPE html>
@@ -25,6 +26,7 @@
         <link href="../admin/assets/css/menu.css" rel="stylesheet" type="text/css">
         <link href="../admin/assets/css/responsive.css" rel="stylesheet" type="text/css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <script type="text/javascript" src="http://ajax.microsoft.com/ajax/jquery.validate/1.7/jquery.validate.js"></script>
 
 <!-- Latest compiled JavaScript -->
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -48,15 +50,16 @@
         <div class="wrapper-page">
 
             <div class="text-center">
-                <a href="index.html" class="logo-lg"><i class="md md-equalizer"></i> <span>Flashy Buy</span> </a>
+                <a href="#" class="logo-lg"><i class="md md-equalizer"></i> <span>Flashy Buy</span> </a>
             </div>
 
-            <form class="form-horizontal m-t-20" method="post" action="php/signup.php">
+            <form class="form-horizontal m-t-20" id="form_register" method="post" action="php/signup.php">
                 <div class="form-group">
                     <div class="col-xs-12">
                         
-                        <input class="form-control" type="text" id="firstname" name="firstname" required="" placeholder="Firstname">
+                        <input class="form-control" type="text" id="firstname" name="firstname"placeholder="Firstname" tabindex="1">
                         <span id="lblError" class="text-danger"></span>
+                        <p id="lbl_error"></p>
 
                         <i class="fa fa-user form-control-feedback l-h-34"></i>
                     </div>
@@ -66,7 +69,7 @@
                  <div class="form-group">
                     <div class="col-xs-12">
                         
-                        <input class="form-control" type="text" required="" id="lastname" name="lastname" placeholder="Lastname">
+                        <input class="form-control" type="text"  id="lastname" name="lastname" placeholder="Lastname">
                         <span id="lastname" class="text-danger"></span>
                         <i class="fa fa-user form-control-feedback l-h-34"></i>
                     </div>
@@ -75,7 +78,7 @@
                  <div class="form-group">
                     <div class="col-xs-12">
                         
-                        <input class="form-control" type="text" required="" id="shp_name" name="shp_name" placeholder="Shop Name">
+                        <input class="form-control" type="text"  id="shp_name" name="shp_name" placeholder="Shop Name">
                         <span id="lastname" class="text-danger"></span>
                         <i class="fa fa-user form-control-feedback l-h-34"></i>
                     </div>
@@ -85,7 +88,9 @@
                  <div class="form-group">
                     <div class="col-xs-12">
                         
-                        <input class="form-control" type="email" id="email" name="email" required="" placeholder="Email">
+                        <input class="form-control" type="email" id="email" name="email" onblur="checkMailStatus()"  placeholder="Email">
+                              <span id="availability"></span>
+
                         <i class="fa fa-envelope form-control-feedback l-h-34"></i>
                     </div>
                 </div>
@@ -93,12 +98,15 @@
 
                 <div class="form-group">
                     <div class="col-xs-6">
-                        <input class="form-control" type="text" id="phone_number" name="mobile_number"  placeholder="Mobile Number">
+
+
+
+                        <input class="form-control" type="text" data-mask="+27 000 000" id="mobile_number" name="mobile_number"  placeholder="Cell Phone Number (optional)">
                         <i class="fa fa-mobile form-control-feedback l-h-34"></i>
                     </div>
 
                     <div class="col-xs-6">
-                        <input class="form-control" type="text"  id="phone_number" name="phone_number" placeholder="Phone Number">
+                        <input class="form-control" type="text"  id="phone_number" name="phone_number" placeholder="Phone Number (optional)">
                         <i class="fa fa-phone form-control-feedback l-h-34"></i>
                     </div>
                 </div>
@@ -109,7 +117,7 @@
                   <div class="form-group">
                     <div class="col-xs-12">
                         
-                        <input class="form-control" type="text" required="" id="company" name="company" placeholder="Company Name">
+                        <input class="form-control" type="text"  id="company" name="company" placeholder="Company Name">
                           <span id="lblcompany" class="text-danger"></span>
                         <i class="fa fa-bank form-control-feedback l-h-34"></i>
                     </div>
@@ -172,7 +180,7 @@
                 <div class="form-group" style="display:none" id="vat">
                     <div class="col-xs-12">
                         
-                        <input class="form-control" name="v_number" type="text" required="" placeholder="Vat Number">
+                        <input class="form-control" name="v_number" type="text"  placeholder="Vat Number">
                         <i class="fa fa-gg-circle form-control-feedback l-h-34"></i>
                     </div>
                 </div>
@@ -182,6 +190,7 @@
                     <div class="col-xs-12">
                         <label>Monthly Revenue</label><br>
                       <div class="radio">
+                      
                       <input type="radio" name="r_amount" id="r_amount" value="YES" >
                       <label for="radio11">
                       Less than R20k
@@ -229,21 +238,22 @@
                  <div class="form-group">
                     <div class="col-xs-12">
                       <label>Business Registration Number</label>  
-             <input class="form-control" type="text" required="" name="b_number" id="b_number" placeholder="Business Registration Number">
+             <input class="form-control" type="text"  name="b_number" id="b_number" placeholder="Business Registration Number">
                   </div>
                 </div>
 
 
                 <div class="form-group text-right m-t-20">
                 	<div class="col-xs-12">
-                		<textarea class="form-control" name="extra_comment" placeholder="Do you have any additional comments?"></textarea>
+                		<textarea class="form-control" name="extra_comment" placeholder="Do you have any additional comments?" style="height:90px; resize: none;"></textarea>
                 </div>
 
-                <div class="form-group text-right m-t-20">
-                    <div class="col-xs-12">
-                        <button class="btn btn-primary btn-custom waves-effect waves-light w-md" name="btnsub" type="submit">Apply To Sell</button>
-                    </div>
-                </div>
+                
+                    
+                    
+                        <button style="margin-top: 20px; margin-right: 120px;" class="btn btn-primary btn-custom waves-effect waves-light w-md" id="btnsub" name="btnsub" type="submit">Apply To Sell</button>
+                    
+                
 
 
             </form>
@@ -274,6 +284,29 @@
   </div>
 </div>
         </div>
+
+
+
+
+
+<script type="text/javascript">
+function checkMailStatus(){
+    //alert("came");
+var email=$("#email").val();// value in field email
+$.ajax({
+    type:'post',
+        url:'php/check.php',// put your real file name 
+        data:{email: email},
+        success:function(msg){
+        $("#availability").html(msg)
+        }
+ });
+}
+
+</script>
+
+
+
 <?php if(isset($_GET['msg']))
 {
 	 echo "<script>$('#message_modal').modal('show')</script>";

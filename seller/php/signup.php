@@ -1,5 +1,5 @@
 <?php 
-	include('../config/db.php');
+	include('../../includes/db.php');
 $obj = new connection();
 
 if (isset($_POST['btnsub']))

@@ -23,5 +23,6 @@
 			$select = mysqli_query($this->connect(),"select * from categories");
 			return $select;
 		}
+		
 	}
 ?>
