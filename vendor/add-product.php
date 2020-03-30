@@ -72,7 +72,7 @@ if (isset($_GET['msg'])) { ?>
 	                                    Add Your Products Details
 	                                </p>
 
-									<form action="action/add_product.php" method="POST" data-parsley-validate novalidate>
+									<form action="action/add_product.php" method="POST" data-parsley-validate novalidate id="product_form">
 										<div class="form-group">
 											<label for="userName">Product Name*</label>
 											<input type="text" name="name" parsley-trigger="change" required placeholder="Enter Product name" class="form-control" id="userName">
@@ -204,32 +204,42 @@ if (isset($_GET['msg'])) { ?>
                                                     <label>Product Variants (Options)</label>
                                                 </div>    
                                                     <div class="col-lg-8">
-                                                        <select class="form-control variations"  name="variations_name">
-                                                            <option selected disabled>Choose</option>
-                                                            <option value="colors">Colors</option>
-                                                            <option value="size">Size</option>
-                                                            <option value="color-size">Colors & Size</option>
+                                                        <select class="select2 select2-multiple" id="variations_name" multiple="multiple" multiple data-placeholder="Choose ...">
+                                                            <option></option>
                                                         </select>
                                                     </div><br><br>
                                             </div>
-
-                                             
-                                            <div class="row">
-                                                    <div class="col-lg-9"></div>
-                                                    <div class="col-lg-2">
-                                                        <button type="button" id="add_more" class="btn  btn-danger text-danger" style="display: none;">Add more</button>
-                                                    </div>
-                                            </div><br>
                                             <div class="row" id="varition-options">
                                                 
                                             </div>
+                                            <table class="table table-bordered" id="variant_table" style="display: none;">
+        <thead>
+            <tr>
+                <td class="text-center">
+                    <label for="" class="control-label">Variant</label>
+                </td>
+                <td class="text-center">
+                    <label for="" class="control-label">Variant Price</label>
+                </td>
+                <td class="text-center">
+                    <label for="" class="control-label">SKU</label>
+                </td>
+                <td class="text-center">
+                    <label for="" class="control-label">Quantity</label>
+                </td>
+            </tr>
+        </thead>
+        <tbody id="variant_combinations">
+        </tbody>
+</table>
                                         </div>
                                         <div class="form-group">
                                             <label>Description</label>
                                             <textarea name="description"></textarea>
                                         </div>
-                                        </div>
                                         
+                                        </div>
+                                    
 										<div class="form-group text-right m-b-0">
 											<button class="btn btn-primary waves-effect waves-light" type="submit" name="add-product">
 												Submit
@@ -316,7 +326,6 @@ if (isset($_GET['msg'])) { ?>
         function get_subcategories_by_category(el, cat_id){
             list_item_highlight(el);
             category_id = cat_id;
-            console.log(category_id);
             category_name = $(el).html();
             $('#subcategories').html(null);
             $('#subsubcategories').html(null);
@@ -333,7 +342,6 @@ if (isset($_GET['msg'])) { ?>
         function get_subsubcategories_by_subcategory(el, cat_id){
             list_item_highlight(el);
             subcategory_id = cat_id;
-            console.log(category_id);
             sub_category_name = $(el).html();
             $('#subsubcategories').html(null);
             $.ajax({
@@ -351,6 +359,22 @@ if (isset($_GET['msg'])) { ?>
             list_item_highlight(el);
             subsubcategory_id = subsubcat_id;
             subsubcategory_name = $(el).html();
+            fetch_Variations(subsubcategory_id);
+        }
+        function fetch_Variations(id){
+
+            $.ajax({
+                type: "POST",
+                url: 'action/getvariations.php',
+                data: {sub_sub_cat:id},
+                success:function(data){
+                
+                        $('#variations_name').append(data);
+                    
+                }
+            });
+
+
         }
         function closeModal(){
             if(category_id > 0 && subcategory_id > 0 && subsubcategory_id > 0){
@@ -364,7 +388,7 @@ if (isset($_GET['msg'])) { ?>
                 alert('Please choose categories...');
             }
         }
-        
+        $(".select2").select2();
         function showVariations(){
 
             var variations = $('#variations').val();
@@ -381,45 +405,85 @@ if (isset($_GET['msg'])) { ?>
                 $('#variations').val('Y');
             }  
         }
-            $("select.variations").change(function(){
-                var vari = $(this).children("option:selected").val();
-                $("#varition-options").html(null);
-                $('#add_more').css("display","");
-                if(vari == "color-size"){
+/////////////////////////////////
+    //Append attribute/////
+////////////////////////////////
+var i = 0;
+$("select#variations_name").change(function(){
 
-                    $("#varition-options").append('<div class="col-lg-3"><input type="text" name="first_variation_value[]" class="form-control" placeholder="option eg:red,black etc."></div><div class="col-md-3"><input type="text" name="second_variation_value[]" class="form-control" placeholder="option eg:small,large etc."></div><div class="col-md-2"><input type="number" name="price[]" min="1" class="form-control" placeholder="Price"></div><div class="col-md-2"><input type="number" name="stock[]" min="1" class="form-control" placeholder="Quantity"></div><div class="col-md-2"><input type="number" name="mk_price[]" class="form-control" placeholder="market_price"></div><br><br><div class="col-lg-3"><input type="text" name="first_variation_value[]" class="form-control" placeholder="option eg:red,black etc."></div><div class="col-md-3"><input type="text" name="second_variation_value[]" class="form-control" placeholder="option eg:small,large etc."></div><div class="col-md-2"><input type="number" name="price[]" min="1" class="form-control" placeholder="Price"></div><div class="col-md-2"><input type="number" name="stock[]" min="1" class="form-control" placeholder="Quantity"></div><div class="col-md-2"><input type="number" name="mk_price[]" class="form-control" placeholder="market_price"></div><br><br>');
-                }
-                if(vari == "colors"){
-
-                    $("#varition-options").append('<div class="col-lg-3"><input type="text" name="first_variation_value[]" class="form-control" placeholder="option eg:red,black etc."></div><div class="col-md-2"><input type="number" name="price[]" min="1" class="form-control" placeholder="Price"></div><div class="col-md-2"><input type="number" name="stock[]" min="1" class="form-control" placeholder="Quantity"></div><div class="col-md-2"><input type="number" name="mk_price[]" class="form-control" placeholder="market_price"></div><br><br><div class="col-lg-3"><input type="text" name="first_variation_value[]" class="form-control" placeholder="option eg:red,black etc."></div><div class="col-md-2"><input type="number" name="price[]" min="1" class="form-control" placeholder="Price"></div><div class="col-md-2"><input type="number" name="stock[]" min="1" class="form-control" placeholder="Quantity"></div><div class="col-md-2"><input type="number" name="mk_price[]" class="form-control" placeholder="market_price"></div><br><br>');
-                }
-                if(vari == "size"){
-
-                    $("#varition-options").append('<div class="col-md-3"><input type="text" name="first_variation_value[]" class="form-control" placeholder="option eg:small,large etc."></div><div class="col-md-2"><input type="number" name="price[]" min="1" class="form-control" placeholder="Price"></div><div class="col-md-2"><input type="number" name="stock[]" min="1" class="form-control" placeholder="Quantity"></div><div class="col-md-2"><input type="number" name="mk_price[]" class="form-control" placeholder="market_price"></div><br><br><div class="col-md-3"><input type="text" name="first_variation_value[]" class="form-control" placeholder="option eg:small,large etc."></div><div class="col-md-2"><input type="number" name="price[]" min="1" class="form-control" placeholder="Price"></div><div class="col-md-2"><input type="number" name="stock[]" min="1" class="form-control" placeholder="Quantity"></div><div class="col-md-2"><input type="number" name="mk_price[]" class="form-control" placeholder="market_price"></div><br><br>');
-
-                }
+    var vari = $(this).children("option:selected").val();
+    
+        if (vari != null) {
+                $("#varition-options").append('<div class="row '+vari+'"><div class="col-lg-3"><input type="text"  value="'+vari+'" class="form-control" disabled=""><input type="hidden" name="vari_type[]" value="'+i+'" class="form-control"></div><div class="col-lg-8"><input type="text" class="form-control tagsInput" onchange="update_sku()" id="'+vari+'" name="options_'+i+'[]" value=""></div><div class="col-lg-1"><button type="button" onclick="delete_row(this)" class="btn btn-link btn-icon text-danger"><i class="fa fa-trash-o"></i></button></div></div>');
+                i++;
+                $('.tagsInput').tagsinput('items');
                 
-            });
+        }
+               
+});
+function delete_row(em){
+            
+     $(em).closest('.row').remove();
+     var  va =$('.bootstrap-tagsinput').val();
+     $("#variant_table").css("display","none"); 
+     update_sku();
+
+}
+function update_sku(){
+
+    $.ajax({
+                type: "POST",
+                url: 'action/combinations.php',
+                data: $('#product_form').serialize(),
+                success:function(data){
+                
+                console.log(data);
+                $("#variant_table").css("display","");
+                $('#variant_combinations').html(data);
+                    
+                }
+    });
+}
+    
+    //         $("select.variations").change(function(){
+    //             var vari = $(this).children("option:selected").val();
+    //             $("#varition-options").html(null);
+    //             $('#add_more').css("display","");
+    //             if(vari == "color-size"){
+
+    //                 $("#varition-options").append('<div class="col-lg-3"><input type="text" name="first_variation_value[]" class="form-control" placeholder="option eg:red,black etc."></div><div class="col-md-3"><input type="text" name="second_variation_value[]" class="form-control" placeholder="option eg:small,large etc."></div><div class="col-md-2"><input type="number" name="price[]" min="1" class="form-control" placeholder="Price"></div><div class="col-md-2"><input type="number" name="stock[]" min="1" class="form-control" placeholder="Quantity"></div><div class="col-md-2"><input type="number" name="mk_price[]" class="form-control" placeholder="market_price"></div><br><br><div class="col-lg-3"><input type="text" name="first_variation_value[]" class="form-control" placeholder="option eg:red,black etc."></div><div class="col-md-3"><input type="text" name="second_variation_value[]" class="form-control" placeholder="option eg:small,large etc."></div><div class="col-md-2"><input type="number" name="price[]" min="1" class="form-control" placeholder="Price"></div><div class="col-md-2"><input type="number" name="stock[]" min="1" class="form-control" placeholder="Quantity"></div><div class="col-md-2"><input type="number" name="mk_price[]" class="form-control" placeholder="market_price"></div><br><br>');
+    //             }
+    //             if(vari == "colors"){
+
+    //                 $("#varition-options").append('<div class="col-lg-3"><input type="text" name="first_variation_value[]" class="form-control" placeholder="option eg:red,black etc."></div><div class="col-md-2"><input type="number" name="price[]" min="1" class="form-control" placeholder="Price"></div><div class="col-md-2"><input type="number" name="stock[]" min="1" class="form-control" placeholder="Quantity"></div><div class="col-md-2"><input type="number" name="mk_price[]" class="form-control" placeholder="market_price"></div><br><br><div class="col-lg-3"><input type="text" name="first_variation_value[]" class="form-control" placeholder="option eg:red,black etc."></div><div class="col-md-2"><input type="number" name="price[]" min="1" class="form-control" placeholder="Price"></div><div class="col-md-2"><input type="number" name="stock[]" min="1" class="form-control" placeholder="Quantity"></div><div class="col-md-2"><input type="number" name="mk_price[]" class="form-control" placeholder="market_price"></div><br><br>');
+    //             }
+    //             if(vari == "size"){
+
+    //                 $("#varition-options").append('<div class="col-md-3"><input type="text" name="first_variation_value[]" class="form-control" placeholder="option eg:small,large etc."></div><div class="col-md-2"><input type="number" name="price[]" min="1" class="form-control" placeholder="Price"></div><div class="col-md-2"><input type="number" name="stock[]" min="1" class="form-control" placeholder="Quantity"></div><div class="col-md-2"><input type="number" name="mk_price[]" class="form-control" placeholder="market_price"></div><br><br><div class="col-md-3"><input type="text" name="first_variation_value[]" class="form-control" placeholder="option eg:small,large etc."></div><div class="col-md-2"><input type="number" name="price[]" min="1" class="form-control" placeholder="Price"></div><div class="col-md-2"><input type="number" name="stock[]" min="1" class="form-control" placeholder="Quantity"></div><div class="col-md-2"><input type="number" name="mk_price[]" class="form-control" placeholder="market_price"></div><br><br>');
+
+    //             }
+                
+    //         });
        
-    $("#add_more").click(function(){
+    // $("#add_more").click(function(){
         
-            var vari = $("select.variations").children("option:selected").val();
+    //         var vari = $("select.variations").children("option:selected").val();
 
-            if(vari == "color-size"){
+    //         if(vari == "color-size"){
 
-                $("#varition-options").append('<div class="col-lg-3"><input type="text" name="first_variation_value[]" class="form-control" placeholder="option eg:red,black etc."></div> <div class="col-md-3"> <input type="text" name="second_variation_value[]" class="form-control" placeholder="option eg:small,large etc."> </div> <div class="col-md-2"> <input type="number" name="price[]" min="1" class="form-control" placeholder="Price"> </div> <div class="col-md-2"> <input type="number" name="stock[]" min="1" class="form-control" placeholder="Quantity"> </div> <div class="col-md-2"> <input type="number" name="mk_price[]" class="form-control" placeholder="market_price"> </div><br><br>');
-              }
-              if(vari == "colors"){
+    //             $("#varition-options").append('<div class="col-lg-3"><input type="text" name="first_variation_value[]" class="form-control" placeholder="option eg:red,black etc."></div> <div class="col-md-3"> <input type="text" name="second_variation_value[]" class="form-control" placeholder="option eg:small,large etc."> </div> <div class="col-md-2"> <input type="number" name="price[]" min="1" class="form-control" placeholder="Price"> </div> <div class="col-md-2"> <input type="number" name="stock[]" min="1" class="form-control" placeholder="Quantity"> </div> <div class="col-md-2"> <input type="number" name="mk_price[]" class="form-control" placeholder="market_price"> </div><br><br>');
+    //           }
+    //           if(vari == "colors"){
 
-                    $("#varition-options").append('<div class="col-lg-3"><input type="text" name="first_variation_value[]" class="form-control" placeholder="option eg:red,black etc."></div><div class="col-md-2"><input type="number" name="price[]" min="1" class="form-control" placeholder="Price"></div><div class="col-md-2"><input type="number" name="stock[]" min="1" class="form-control" placeholder="Quantity"></div><div class="col-md-2"><input type="number" name="mk_price[]" class="form-control" placeholder="market_price"></div><br><br>');
-                }
-                if(vari == "size"){
+    //                 $("#varition-options").append('<div class="col-lg-3"><input type="text" name="first_variation_value[]" class="form-control" placeholder="option eg:red,black etc."></div><div class="col-md-2"><input type="number" name="price[]" min="1" class="form-control" placeholder="Price"></div><div class="col-md-2"><input type="number" name="stock[]" min="1" class="form-control" placeholder="Quantity"></div><div class="col-md-2"><input type="number" name="mk_price[]" class="form-control" placeholder="market_price"></div><br><br>');
+    //             }
+    //             if(vari == "size"){
 
-                    $("#varition-options").append('<div class="col-md-3"><input type="text" name="first_variation_value[]" class="form-control" placeholder="option eg:small,large etc."></div><div class="col-md-2"><input type="number" name="price[]" min="1" class="form-control" placeholder="Price"></div><div class="col-md-2"><input type="number" name="stock[]" min="1" class="form-control" placeholder="Quantity"></div><div class="col-md-2"><input type="number" name="mk_price[]" class="form-control" placeholder="market_price"></div><br><br>');
-                }
+    //                 $("#varition-options").append('<div class="col-md-3"><input type="text" name="first_variation_value[]" class="form-control" placeholder="option eg:small,large etc."></div><div class="col-md-2"><input type="number" name="price[]" min="1" class="form-control" placeholder="Price"></div><div class="col-md-2"><input type="number" name="stock[]" min="1" class="form-control" placeholder="Quantity"></div><div class="col-md-2"><input type="number" name="mk_price[]" class="form-control" placeholder="market_price"></div><br><br>');
+    //             }
            
         
-    });
+    // });
     $(document).ready(function() {
 
         setTimeout(function(){ $(".msg").hide(); }, 5000);
