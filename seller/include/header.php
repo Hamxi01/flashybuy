@@ -1,3 +1,9 @@
+<?php 
+    session_start();
+if(isset($_SESSION['name'])=="" || $_SESSION['type'] !="vendor") {
+ header("Location: login.php");
+}
+?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -20,8 +26,12 @@
         <link href="../admin/assets/css/pages.css" rel="stylesheet" type="text/css">
         <link href="../admin/assets/css/menu.css" rel="stylesheet" type="text/css">
         <link href="../admin/assets/css/responsive.css" rel="stylesheet" type="text/css">
+         <link href="../admin/assets/css/timepicker/bootstrap-timepicker.min.css" rel="stylesheet">
+        
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.6.1/css/buttons.dataTables.min.css">
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
         <script src="../admin/assets/js/jquery.min.js"></script>
-       
+        
 
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->

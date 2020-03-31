@@ -1,12 +1,12 @@
 <?php 
-session_start();
-$_SESSION['id'];
 include_once('../includes/db.php');
-    $obj = new connection();
-  $edit = mysqli_query($obj->connect(),"select * from vendor where id = ".$_SESSION['id']." ");  
-  $fetch = mysqli_fetch_array($edit);
     include('include/header.php');
     include('include/nav.php');
+$obj = new connection();
+$edit = mysqli_query($obj->connect(),"select * from vendor where id = ".$_SESSION['id']." ");  
+$fetch = mysqli_fetch_array($edit);
+
+    
 ?>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
 

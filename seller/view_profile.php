@@ -1,13 +1,11 @@
 <?php
-session_start();
-$_SESSION['id'];
+
 include('../includes/db.php');
     $obj = new connection();
-  $edit = mysqli_query($obj->connect(),"select * from vendor where id = ".$_SESSION['id']." ");  
-  $row = mysqli_fetch_array($edit);
-
 include('include/header.php') ;
 include('include/nav.php');
+  $edit = mysqli_query($obj->connect(),"select * from vendor where id = ".$_SESSION['id']." ");  
+  $row = mysqli_fetch_array($edit);
 ?>
 
  <div class="content-page">

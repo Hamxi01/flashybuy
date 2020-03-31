@@ -1,12 +1,11 @@
 <?php 
-if(!session_id()) session_start();
 
-$id = $_SESSION['id'];
 /*exit();*/
 include_once('../includes/db.php');
     $obj = new connection();
 include('include/header.php');
 include('include/nav.php');
+$id = $_SESSION['id'];
 ?>
  <div class="content-page">
                 <!-- Start content -->

@@ -1,4 +1,9 @@
-<?php session_start(); ?>
+<?php include_once('../includes/db.php');
+    $obj = new connection(); 
+    $uid =$_SESSION['id'];
+    $image = $obj->get_image($uid);
+    $row = mysqli_fetch_array($image);
+    ?>
  <div class="left side-menu">
                 <div class="sidebar-inner slimscrollleft">
 
@@ -42,7 +47,7 @@
                             } 
                             else
                             {
-                                echo "<img  src='profile/".$_SESSION['img']."' alt='user-img' class='img-circle'>";
+                                echo "<img  src='profile/$row[0]' alt='user-img' class='img-circle'>";
                             }
                             ?>
                             
@@ -54,7 +59,7 @@
                             </span>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a href="javascript:void(0)"><i class="md md-face-unlock"></i> Profile</a></li>
+                            <li><a href="view_profile.php"><i class="md md-face-unlock"></i> Profile</a></li>
                             <li><a href="javascript:void(0)"><i class="md md-settings"></i> Settings</a></li>
                             <li><a href="javascript:void(0)"><i class="md md-lock"></i> Lock screen</a></li>
                             <li><a href="javascript:void(0)"><i class="md md-settings-power"></i> Logout</a></li>

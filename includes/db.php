@@ -33,7 +33,9 @@ class connection
 			
 			if ($count>0 && $fetch[19]=="1" &&$fetch[21]=="0"&&$fetch[22]=="0" ) 
 			{
+
 				session_start();
+				$_SESSION['type']='vendor';
 				$_SESSION['id']=$fetch[0];
 				$_SESSION['name']=$fetch[1];
 				$_SESSION['img']=$fetch[20];
@@ -90,7 +92,19 @@ class connection
 				file_put_contents('./data.txt',json_encode($json_array));
 
 				
-			}
+		}
+		public function get_image($uid)
+		{
+			$image = mysqli_query($this->connect(),"select profile_image from vendor where id = $uid");
+			return $image;
+		}
+		public function view_log()
+		{
+			$query = mysqli_query($this->connect(),"select * from tbl_log");
+			return $query;
+			
+
+		}
 		
 	}
 
