@@ -78,6 +78,19 @@ class connection
 			return $select;
 		}
 
+		public function make_json($user_id)
+		{
+			$select = mysqli_query($this->connect(),"select * from tbl_log where user_id = $user_id");
+			$log_array = array();
+			$file_name = $user_id;
+			while ($data = mysqli_fetch_assoc($select)) 
+				{
+					$json_array[] = $data;
+				} 
+				file_put_contents('./data.txt',json_encode($json_array));
+
+				
+			}
 		
 	}
 

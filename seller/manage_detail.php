@@ -1,8 +1,9 @@
 <?php 
-session_start();
+if(!session_id()) session_start();
+
 $id = $_SESSION['id'];
 /*exit();*/
-include('../includes/db.php');
+include_once('../includes/db.php');
     $obj = new connection();
 include('include/header.php');
 include('include/nav.php');
@@ -71,7 +72,7 @@ include('include/nav.php');
                                                     </tr>
                                                     <tr>
                                                     <th>Action</th>
-                                    <td><button type="button" id="<?php $fetch[0] ?>" class="btn btn-warning edit"><i class="fa fa-edit"></i></button></td>
+                                    <td><button type="button" id="btn_edit" class="btn btn-warning" data-bank_id="<?php echo $fetch[0] ?>"><i class="fa fa-edit"></i></button></td>
                                                     </tr>
                                             </thead>
                                                 <?php }?>
@@ -102,12 +103,13 @@ include('include/nav.php');
         </button>
       </div>
       <div class="modal-body">
-        <form method="post" action="#">
+        <form method="post" action="php/update_bank_detail.php">
             <div class="row">
             <div class="col-md-12">
             <div class="form-group">
                 <label>Account Holder Name</label>
-                <input type="hidden" name="detail_id" id="detail_id">
+                <input type="hidden" name="detail_id" value="<?php echo $fetch[0] ?>" id="id">
+                <input type="hidden" name="user_id" id="user_id">
                 <input type="text" name="acount_holder" id="acount_holder" class="form-control">
             </div>
 
@@ -127,7 +129,7 @@ include('include/nav.php');
             </div>
                  <div class="modal-footer">
         
-        <button style="float: left;" type="button" class="btn btn-warning">Save changes</button>
+        <button style="float: left;" type="submit" name="btn_sub" class="btn btn-warning">Update Bank Details <i class="fa fa-bank"></i></button>
       </div>
             </div>
         </div>
@@ -177,12 +179,34 @@ include('include/nav.php');
 </div>
 
 
+<?php include('include/footer.php') ?>
 <script>
-    $(document).ready(function(){
-            $("#edit").click(function(){
-                $("#update_modal").modal("show");
-            });
-    });
+        $(document).ready(function(){
+                $("#btn_edit").click(function(){
+                        var b_id = $(this).data("bank_id");
+                        $.ajax({
+                                url:"php/edit_bank.php/"+b_id,
+                                method :"POST",
+                                data:{
+                                      b_id:b_id
+                                },
+                                success:function(responce)
+                                {
+                                   var result = $.parseJSON(responce);
+                                $("#acount_holder").val(result.acount_holder);
+                                $("#bank").val(result.bank);
+                                $("#branch_name").val(result.branch_name);
+                                $("#branch_code").val(result.branch_code);
+                                $("#id").val(result.id);
+                                $("#user_id").val(result.user_id);
+                                $("#update_modal").modal("show");     
+                                }
+
+
+                        });
+
+                });
+
+        });
 
 </script>
-<?php include('include/footer.php') ?>

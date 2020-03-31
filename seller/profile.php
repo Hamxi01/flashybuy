@@ -1,13 +1,15 @@
 <?php 
 session_start();
 $_SESSION['id'];
-include('../includes/db.php');
+include_once('../includes/db.php');
     $obj = new connection();
   $edit = mysqli_query($obj->connect(),"select * from vendor where id = ".$_SESSION['id']." ");  
   $fetch = mysqli_fetch_array($edit);
     include('include/header.php');
     include('include/nav.php');
 ?>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+
     <div class="content-page">
         <!-- Start content -->
         <div class="content">
@@ -135,7 +137,7 @@ include('../includes/db.php');
                                              <div class="row">
                                                 <div class="col-md-4">
                                                     <label>UPload Image</label>
-                                                    <input type="file" name="image" class="form-control">
+                                                    <input type="file" name="image" class="form-control" id="profile-img">
                                                     </div>
                                              </div>
 
@@ -144,12 +146,12 @@ include('../includes/db.php');
                                            <div class="col-md-4">
                                             <button type="submit" style="margin-top: 20px;" class="btn btn-success" name="btnsub"><i class="fa fa-user"></i> Update Profile</button>
                                            </div>
-                                            
+                                            <img src="" id="profile-img-tag" width="200px" class="img-responsive" />
                                         </div>
 
                                     </form>
                                 </div>
-
+                                
                             </div>
                         </div>
                     </div>
@@ -184,14 +186,6 @@ include('../includes/db.php');
 </div>
         </div>
 
-        <!-- end content -->
-
-        <!-- FOOTER -->
-        <footer class="footer text-right">
-            2017 © Minton.
-        </footer>
-        <!-- End FOOTER -->
-
     </div>
     <?php include('include/footer.php') ?>
             <?php if(isset($_GET['msg']))
@@ -199,3 +193,19 @@ include('../includes/db.php');
      echo "<script>$('#message_modal').modal('show')</script>";
 }
 ?>
+
+<script type="text/javascript">
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            
+            reader.onload = function (e) {
+                $('#profile-img-tag').attr('src', e.target.result);
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+    $("#profile-img").change(function(){
+        readURL(this);
+    });
+</script>

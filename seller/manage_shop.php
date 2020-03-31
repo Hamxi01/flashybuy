@@ -2,8 +2,8 @@
 session_start();
 $id = $_SESSION['id'];
 /*exit();*/
-include('../includes/db.php');
-    $obj = new connection();
+include_once('../includes/db.php');
+$obj = new connection();
 include('include/header.php');
 include('include/nav.php');
 ?>
@@ -84,7 +84,7 @@ include('include/nav.php');
                                                      <tr>
                                                     <tr>
                                                     <th>Action</th>
-                                    <td><button type="button" id="<?php $fetch[0] ?>" class="btn btn-warning edit"><i class="fa fa-edit"></i></button></td>
+                                    <td><button type="button" data-shop_id="<?php echo $fetch[0] ?>" id="btn_edit" class="btn btn-warning edit"><i class="fa fa-edit"></i></button></td>
                                                     </tr>
                                             </thead>
                                                 <?php }?>
@@ -145,12 +145,113 @@ include('include/nav.php');
 </div>
 
 
-<script>
-    $(document).ready(function(){
-            $("#edit").click(function(){
-                $("#update_modal").modal("show");
-            });
-    });
+
 
 </script>
 <?php include('include/footer.php') ?>
+
+<div class="modal fade" id="update_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Update Shop Details</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+            <div class="col-md-12">
+                <form method="post" action="php/update_details.php">
+                <div class="form-group">
+                    <input type="hidden" id="id" name="id" value="<?php echo $fetch[0] ?>">
+                    <label>Address</label>
+                    <input type="text" class="form-control" name="adress" id="address">
+                </div>
+
+                <div class="form-group">
+                    <label>Street</label>
+                    <input type="text" name="street" id="street" class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label>Rout</label>
+                    <input type="text" name="rout" id="rout" class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label>State</label>
+                    <input type="text" name="state" id="state" class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label>Subrub</label>
+                    <input type="text" name="subrub" id="subrub" class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label>Postal Code</label>
+                    <input type="text" name="postal_code" id="postal_code" class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label>Country</label>
+                    <input type="text" name="country" id="country" class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label>City</label>
+                    <input type="text" name="city" id="city" class="form-control">
+                </div>
+
+
+
+            </div>
+
+
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" name="btn_sub" class="btn btn-primary">Update Changes</button>
+      </div>
+  </form>
+    </div>
+  </div>
+</div>
+
+
+<script>
+        $(document).ready(function(){
+                $("#btn_edit").click(function(){
+                        var s_id = $(this).data("shop_id");
+                        $.ajax({
+                                url:"php/fetch_details.php/"+s_id,
+                                method : "POST",
+                                data:{
+                                    s_id:s_id
+                                },
+                                success:function(responce)
+                                {
+                                   var result = $.parseJSON(responce);
+                                $("#address").val(result.address);
+                                $("#street").val(result.street);
+                                $("#rout").val(result.rout);
+                                $("#state").val(result.state);
+                                $("#subrub").val(result.subrub);
+                                $("#postal_code").val(result.postal_code);
+                                $("#country").val(result.country);
+                                $("#city").val(result.city);
+                                $("#user_id").val(result.user_id);
+                                $("#id").val(result.id);
+                                $("#update_modal").modal("show");     
+                                }
+
+
+                        });
+
+                });
+
+        });
+
+</script>
