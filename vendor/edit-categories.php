@@ -31,7 +31,7 @@
 
 //  Get Category data bases on cat_id /////
 
-     $sql = mysqli_query($con, "SELECT * From categories WHERE cat_id=$cat_id");
+     $sql = mysqli_query($con, "SELECT * From categories WHERE cat_id=$cat_id AND delte = 0");
         $row = mysqli_num_rows($sql);
         while ($row = mysqli_fetch_array($sql)){
 

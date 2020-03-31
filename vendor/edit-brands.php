@@ -10,7 +10,7 @@
 
         $id            =    addslashes($_POST['id']);
         $name          =   addslashes( $_POST['name'] );    
-        $slug        = str_replace(" ","-", $name);
+        $slug          = str_replace(" ","-", $name);
 
         $query = "update brands SET name='".$name."', slug='".$slug."' Where id='".$id."'";       
         
@@ -29,7 +29,7 @@
 
 //  Get Category data bases on cat_id /////
 
-     $sql = mysqli_query($con, "SELECT * From brands WHERE id=$id");
+     $sql = mysqli_query($con, "SELECT * From brands WHERE id=$id AND delte = 0");
         $row = mysqli_num_rows($sql);
         while ($row = mysqli_fetch_array($sql)){
 

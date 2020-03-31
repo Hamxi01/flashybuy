@@ -6,7 +6,7 @@
 
         $cat_id = base64_decode($_GET['id']);
         
-        $sql = "DELETE from variations WHERE id = $cat_id";
+        $sql = "update variations SET delte = '1' WHERE id = $cat_id";
         if(mysqli_query($con,$sql)){
 
             $msg = "<span>Data Deleted successfully...!!</span>";
@@ -94,7 +94,7 @@ if (isset($msg)) { ?>
 <!-- Fetch Categories -->
 <?php
 
-    $sql = mysqli_query($con, "SELECT * From variations");
+    $sql = mysqli_query($con, "SELECT * From variations AND delte = 0");
     $i = 0;
     $row = mysqli_num_rows($sql);
     while ($row = mysqli_fetch_array($sql)){

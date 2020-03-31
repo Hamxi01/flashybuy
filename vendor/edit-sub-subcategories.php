@@ -29,7 +29,7 @@
      }
 //  Get Category data bases on cat_id /////
 
-     $sql = mysqli_query($con, "SELECT * From sub_sub_categories WHERE sub_sub_cat=$sub_cat_id");
+     $sql = mysqli_query($con, "SELECT * From sub_sub_categories WHERE sub_sub_cat=$sub_cat_id AND delte=0");
         $row = mysqli_num_rows($sql);
         while ($row = mysqli_fetch_array($sql)){
 
@@ -40,13 +40,13 @@
             $category_id          = $row['sub_category_id'];
             $variation_id         = $row['variation_id'];
         }
-$sql = mysqli_query($con, "SELECT * From sub_categories WHERE sub_cat_id=$category_id");
+$sql = mysqli_query($con, "SELECT * From sub_categories WHERE sub_cat_id=$category_id AND delte=0");
         $row = mysqli_num_rows($sql);
     while ($row = mysqli_fetch_array($sql)){
 
         $cat_name = $row['name'];
 }
-$sql = mysqli_query($con, "SELECT * From variations WHERE id=$variation_id");
+$sql = mysqli_query($con, "SELECT * From variations WHERE id=$variation_id AND delte=0");
         $row = mysqli_num_rows($sql);
     while ($row = mysqli_fetch_array($sql)){
 
@@ -125,7 +125,7 @@ if (isset($msg)) { ?>
                                             <select class="form-control select2" name="category_id">
                                                 <option value="<?=$category_id?>" selected><?=$cat_name?></option>
                                             <?php
-                                                $sql = mysqli_query($con, "SELECT * From sub_categories");
+                                                $sql = mysqli_query($con, "SELECT * From sub_categories where delte = 0");
                                                 $row = mysqli_num_rows($sql);
                                                 while ($row = mysqli_fetch_array($sql)){
                                                 echo "<option value='". $row['sub_cat_id'] ."'>" .$row['name'] ."</option>" ;
@@ -139,7 +139,7 @@ if (isset($msg)) { ?>
                                             <select class="form-control select2" name="variation_id">
                                                 <option value="<?=$variation_id?>" selected><?=$vari_name?></option>
                                             <?php
-                                                $sql = mysqli_query($con, "SELECT * From variations");
+                                                $sql = mysqli_query($con, "SELECT * From variations where delte = 0");
                                                 $row = mysqli_num_rows($sql);
                                                 while ($row = mysqli_fetch_array($sql)){
                                                 echo "<option value='". $row['id'] ."'>" .$row['variation_name'] ."</option>" ;

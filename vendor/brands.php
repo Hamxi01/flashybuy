@@ -6,7 +6,7 @@
 
         $id = base64_decode($_GET['id']);
         
-        $sql = "DELETE from brands WHERE id = $id";
+        $sql = "update brands SET delte = '1'  WHERE id = $id";
         if(mysqli_query($con,$sql)){
 
             $msg = "<span>Data Deleted successfully...!!</span>";
@@ -94,7 +94,7 @@ if (isset($msg)) { ?>
 <!-- Fetch Categories -->
 <?php
 
-    $sql = mysqli_query($con, "SELECT * From brands");
+    $sql = mysqli_query($con, "SELECT * From brands where delte = 0");
     $i = 0;
     $row = mysqli_num_rows($sql);
     while ($row = mysqli_fetch_array($sql)){

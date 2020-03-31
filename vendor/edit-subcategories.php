@@ -28,7 +28,7 @@
      }
 //  Get Category data bases on cat_id /////
 
-     $sql = mysqli_query($con, "SELECT * From sub_categories WHERE sub_cat_id=$sub_cat_id");
+     $sql = mysqli_query($con, "SELECT * From sub_categories WHERE sub_cat_id=$sub_cat_id AND delte = 0");
         $row = mysqli_num_rows($sql);
         while ($row = mysqli_fetch_array($sql)){
 
@@ -39,7 +39,7 @@
             $category_id          = $row['category_id'];
 
         }
-$sql = mysqli_query($con, "SELECT * From categories WHERE cat_id=$category_id");
+$sql = mysqli_query($con, "SELECT * From categories WHERE cat_id=$category_id AND delte = 0");
         $row = mysqli_num_rows($sql);
     while ($row = mysqli_fetch_array($sql)){
 
@@ -118,7 +118,7 @@ if (isset($msg)) { ?>
                                             <select class="form-control select2" name="category_id">
                                                 <option  selected value="<?=$category_id?>" ><?=$cat_name?></option>
                                             <?php
-                                                $sql = mysqli_query($con, "SELECT * From categories");
+                                                $sql = mysqli_query($con, "SELECT * From categories AND delte = 0");
                                                 $row = mysqli_num_rows($sql);
                                                 while ($row = mysqli_fetch_array($sql)){
                                                 echo "<option value='". $row['cat_id'] ."'>" .$row['name'] ."</option>" ;
