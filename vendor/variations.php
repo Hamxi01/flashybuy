@@ -94,7 +94,7 @@ if (isset($msg)) { ?>
 <!-- Fetch Categories -->
 <?php
 
-    $sql = mysqli_query($con, "SELECT * From variations AND delte = 0");
+    $sql = mysqli_query($con, "SELECT * From variations Where delte = 0");
     $i = 0;
     $row = mysqli_num_rows($sql);
     while ($row = mysqli_fetch_array($sql)){
