@@ -120,8 +120,6 @@ required: "The Last field is required!"
 'shp_name':{
 
 required: "The Shopname field is required!"
-
-
 },
 
 'email':{

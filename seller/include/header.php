@@ -21,6 +21,7 @@
         <link href="../admin/assets/css/menu.css" rel="stylesheet" type="text/css">
         <link href="../admin/assets/css/responsive.css" rel="stylesheet" type="text/css">
         <script src="../admin/assets/js/jquery.min.js"></script>
+       
 
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -44,7 +45,7 @@
                 <!-- LOGO -->
                 <div class="topbar-left">
                     <div class="text-center">
-                        <a href="index.html" class="logo"><i class="md md-equalizer"></i> <span>Minton</span> </a>
+                        <a href="index.html" class="logo"><i class="md md-equalizer"></i> <span>Flash Buy</span> </a>
                     </div>
                 </div>
 
