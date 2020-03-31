@@ -143,4 +143,9 @@ if (isset($msg)) { ?>
                 <?php 
                      include('includes/footer.php');
                 ?>
-                
+<script type="text/javascript">
+    $(document).ready(function() {
+
+        setTimeout(function(){ $(".msg").hide(); }, 5000);
+    });
+</script>                  

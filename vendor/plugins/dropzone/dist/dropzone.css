@@ -197,8 +197,8 @@
     position: relative;
     display: inline-block;
     vertical-align: top;
-    margin: 16px;
-    min-height: 100px; }
+    /*margin: 16px;*/
+    max-height: 100px; }
     .dropzone .dz-preview:hover {
       z-index: 1000; }
       .dropzone .dz-preview:hover .dz-details {
@@ -266,13 +266,14 @@
       -webkit-filter: blur(8px);
       filter: blur(8px); }
     .dropzone .dz-preview .dz-image {
-      border-radius: 20px;
-      overflow: hidden;
-      width: 175px;
-      height:  175px;
-      position: relative;
-      display: block;
-      z-index: 10; }
+          border-radius: 20px;
+    overflow: hidden;
+    width: 135px;
+    height: 135px;
+    position: relative;
+    bottom: 14px;
+    display: block;
+    z-index: 10}
       .dropzone .dz-preview .dz-image img {
         display: block; }
     .dropzone .dz-preview.dz-success .dz-success-mark {

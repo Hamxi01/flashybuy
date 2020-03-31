@@ -263,8 +263,10 @@
         <script src="assets/js/jquery.nicescroll.js"></script>
         <script src="assets/js/jquery.scrollTo.min.js"></script>
         <script src="plugins/switchery/switchery.min.js"></script>
-
         <script src="plugins/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js"></script>
+        <script type="text/javascript" src="plugins/multiselect/js/jquery.multi-select.js"></script>
+        <script type="text/javascript" src="plugins/jquery-quicksearch/jquery.quicksearch.js"></script>
+        <script src="plugins/select2/select2.min.js" type="text/javascript"></script>
 <!-- Dropzone js -->
         <script src="plugins/dropzone/dist/dropzone.js"></script>
         <!-- Parsleyjs -->

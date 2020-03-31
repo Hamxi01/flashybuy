@@ -1324,13 +1324,13 @@ table.dataTable td.focus {
 }
 /* Dropzone */
 .dropzone {
-  min-height: 230px;
+  max-height: 150px;
   border: 2px dashed rgba(0, 0, 0, 0.3);
   background: white;
   border-radius: 6px;
 }
 .dropzone .dz-message {
-  font-size: 30px;
+  font-size: 14px;
 }
 /* ===========
    Calendar
