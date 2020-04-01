@@ -1,4 +1,5 @@
 <?php
+
 function combinations($arrays) {
         $result = array(array());
         foreach ($arrays as $property => $property_values) {
