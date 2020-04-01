@@ -150,7 +150,7 @@ data-c_id='".$record[0]."' name='chk_status'>
 
                                     ?>
                                     <tr>
-                                      <td><input type='checkbox' value='<?php echo $record[0] ?>' name='ch[]' data-id="<?php echo $record[0] ?>" class='cb-element' id='check'></td>
+                                      <td><input type='checkbox' value='<?php echo $record[0] ?>' name="ch[]" class='cb-element' id='check'></td>
 
                                       <td><img src="admin/crousel/<?php echo $record[3]?>" height='50' width="250"></td>
 
@@ -160,8 +160,9 @@ data-c_id='".$record[0]."' name='chk_status'>
                                       <td>
                                   <a href="edit.php?<?php echo "id=$record[0]"?>" class='btn btn-primary'><i class="fa fa-edit"></i>
                                           </a>
-                                  <button type="button" id="del" class="btn btn-danger">
-                                    <i class="fa fa-trash"></i>
+                                 <button type="button" class="btn btn-danger delete_record" data-id="">
+                      <i class="fa fa-trash"></i>
+                    </button>
                                   </button>
                                       </td>
 
@@ -184,24 +185,32 @@ data-c_id='".$record[0]."' name='chk_status'>
                 </div>
                 <!-- end content -->
 <?php include('include/footer.php'); ?>
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Delete Alert</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+
+
+<div class="modal fade" id="delete_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+   aria-hidden="true">
+  <div class="modal-dialog modal-sm modal-notify modal-danger" role="document">
+    <!--Content-->
+    <div class="modal-content text-center">
+      <!--Header-->
+      <div class="modal-header d-flex justify-content-center">
+        <p class="heading">Delete Alert<p>
       </div>
+
+      <!--Body-->
       <div class="modal-body">
-        <h4 class="text-danger text-center">Are You sure Delete this item?</h4>
-        <center><h3 class="text-danger"><i class="fa fa-trash"></i></h3></center>
+
+          Are your really want to delete this record?
+
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-dismiss="modal">NO</button>
-        <button type="button" class="btn btn-danger">YES</button>
+
+      <!--Footer-->
+      <div class="modal-footer flex-center">
+        <a href="" id="yes" class="btn  btn-danger"><i class="fa fa-trash"></i>YES</a>
+        <a type="button" class="btn  btn-warning waves-effect" data-dismiss="modal"><i class="fa fa-close"></i>  YES</a>
       </div>
     </div>
+    <!--/.Content-->
   </div>
 </div>
 
@@ -224,34 +233,27 @@ data-c_id='".$record[0]."' name='chk_status'>
 
 </script>
 
- 
+<!-- Delete confirmation for single delete -->
+
 <script>
-      $(document).ready(function(){
-            $("#cmb_status").change(function(){
-                var id =[];
-                var status = $("cmb_status").val().trigger('change') == true ? 1 : 0;
-                alert('status');
-                $("#check").each(function(i){
-                  id[i] = $(this).val();
-                });
-                if (id.length==0){
-                  alert("please select one checkbox");
-                }
-                else
-                {
-                  $.ajax({
-                          url:'admin/multi_status.php',
-                          method:"POST",
-                          data:{id:id}
-                          success:function(){
-                             console.log(data.success);
-                          }
+    $(document).ready(function(){
+        $(".delete_record").click(function ()
+        {
+            var crousel_id = $(this).data('id');
+            var url = 'admin/delete.php/'+crousel_id;
 
-                  });
-                }
+            $("#yes").attr('href',url);
 
-      });
+            $("#delete_modal").modal("show");
+
+        })
+    })
 </script>
+
+<!-- Delete confirmation for single delete end -->
+
+
+ <!-- Toggle satus update Rameez script -->
 <script>
     $(document).ready(function(){
         $('#ck').change(function(){
@@ -262,7 +264,7 @@ data-c_id='".$record[0]."' name='chk_status'>
           $.ajax({
                   type : "POST",
                   datatype :"JSON",
-                  url  : "admin/multi_status_update.php",
+                  url  : "admin/status_update.php",
                   data :{'status':status , 'id':id},
                   success:function(data){
                     console.log(data.success);
@@ -271,5 +273,35 @@ data-c_id='".$record[0]."' name='chk_status'>
     });
       });
 </script>
+<!-- Toggle status update end  Rameez script-->
 
+<!-- Multi status update on combo box  -->
+
+<script>
+          
+        $('select').on('change', function (e) {
+          var check2 = document.getElementsByName('ch[]');
+          var vas2 = "";
+          for (var i=0, n=check2.length;i<n;i++) 
+          {
+              if (check2[i].checked) 
+              {
+                  vas2 += ","+check2[i].value;
+              }
+          }
+          if (vas2) vas2 = vas2.substring(1);
+          alert(this.value);
+
+         /* $.ajax({
+                  type : "POST",
+                  datatype :"JSON",
+                  url  : "admin/multi_status_update.php",
+                  data :{'id':vas2},
+                  success:function(data){
+                    console.log(data.success);
+                  }   
+          });*/
+    });
 </script>
+
+<!-- Multi status update on combo box end -->

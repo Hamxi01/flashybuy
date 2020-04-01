@@ -1,5 +1,4 @@
 <?php 
-
 	include('../../includes/db.php');
 	$db = new connection();
 if (isset($_POST['id'])) 
