@@ -4,7 +4,7 @@
         
 
         <!-- Plugins  -->
-        <!-- <script src="../admin/assets/js/jquery.min.js"></script> -->
+        <script src="../admin/assets/js/jquery.min.js"></script>
         <script src="../admin/assets/js/bootstrap.min.js"></script>
         <script src="../admin/assets/js/detect.js"></script>
         <script src="../admin/assets/js/fastclick.js"></script>

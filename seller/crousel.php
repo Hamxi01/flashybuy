@@ -143,7 +143,7 @@ input:checked + .slider:before {
 
                           </div>
                                 <div class="col-md-12">
-                                    <form class="form-horizontal" role="form">
+                                    <form class="form-horizontal" enctype="multipart/form-data" method="post" action="admin/crousel_upload.php" role="form">
                                         <div class="form-group">
                                             <label class="col-md-2 control-label">Title</label>
                                             <div class="col-md-10">
@@ -166,7 +166,7 @@ input:checked + .slider:before {
                                                 <div class="imagePreview"></div>
                                                 <label class="btn btn-primary">
                                                     Upload
-                                                    <input type="file" class="uploadFile img" value="Upload Photo" style="width: 0px;height: 0px;overflow: hidden;">
+                                                    <input type="file" name="img" class="uploadFile img" value="Upload Photo" style="width: 0px;height: 0px;overflow: hidden;">
                                                 </label>
                                             </div>
                                         </div>
@@ -241,6 +241,8 @@ input:checked + .slider:before {
                     <!-- end container -->
 
                 </div>
+                <input type="submit" name="btnsub" class="btn btn-primary" value="Create Crousel">
+              </form>
                 <!-- end content -->
 
                 <!-- FOOTER -->

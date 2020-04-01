@@ -112,6 +112,11 @@ class connection
 		{
 				
 		}
+		public function get_crousel()
+		{
+			$fetch = mysqli_query($this->connect(),"select * from tbl_slider");
+			return $fetch;
+		}
 		
 	}
 

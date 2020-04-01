@@ -1,5 +1,8 @@
-<?php include('include/header.php');
-	  include('include/nav.php')		
+<?php
+include_once('../includes/db.php');
+$obj = new connection();
+include('include/header.php');
+include('include/nav.php')		
  ?>
  <style>
  	 .switch {
@@ -68,7 +71,7 @@ input:checked + .slider:before {
                 <!-- Start content -->
                 <div class="content">
                     <div class="container">
-
+<form method="post" action="php/delete_multi.php">
                         <!-- Page-Title -->
                         <div class="row">
                             <div class="col-sm-12">
@@ -78,18 +81,23 @@ input:checked + .slider:before {
     <i class="fa fa-check"></i>
   </button>
   </div>
-
+ 
   <div class="btn-group dropright">
- <select class="form-control">
-   <option>Active</option>
-   <option>In-Active</option>
+ <select class="form-control" id="cmb_status" name="cmb_satus">
+   <option value="1">Active</option>
+   <option value="0">In-Active</option>
  </select>
   </div>
-
+ 
   <div class="btn-group dropright">
-  <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
- <i class="fa fa-trash"></i>
- </button>
+  
+      <button type="submit" name="btnsub" class="btn btn-danger">
+          <i class="fa fa-trash"></i>
+    </button>
+ <!--  <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
+ 
+ </button> -->
+
   </div>
 
   <div class="btn-group dropright" style="float: right">
@@ -115,61 +123,60 @@ input:checked + .slider:before {
                                     <th class="text-center">Aciton</th>
                                   </tr>
 
-                                	<tr>
-                                		<td><input type="checkbox" name="ch" class="cb-element" id="check"></td>
-                                		<td><img src="img/1.jpg" width="200" class="img-responsive"></td>
-                                		<td class="text-center">Bedroom set</td>
-                                		<td class="text-center">https://www.google.com</td>
-                                		<td class="text-center">
-                                     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
-                                        <i class="fa fa-trash"></i>
-                                      </button>
+                                   <?php
+                                   $rec = $obj->get_crousel();
+                                    
+                                    while($record = mysqli_fetch_array($rec))
+                                    {
+                                    $status = "";
+                                    if ($record[4]=="1") 
+                                    {
+                                      $status = "
+<label class='switch'><input type='checkbox' id='ck'  value='".$record[4]."' checked='' 
+data-c_id='".$record[0]."' name='chk_status'>
+                                              <span class='slider round'></span>
+                                              </label>
+                                              ";
+                                    }
+                                    else
+                                    {
+                                      $status = "
+                                      <label class='switch'>
+<input type='checkbox' value='".$record[4]."' name='chk_status' id='ck' data-c_id='".$record[0]." '>
+                                              <span class='slider round'></span>
+                                              </label>
+                                              ";
+                                    }
 
-                                      <button type="button" class="btn btn-warning">
-                                        <i class="fa fa-edit"></i>
-                                      </button>
+                                    ?>
+                                    <tr>
+                                      <td><input type='checkbox' value='<?php echo $record[0] ?>' name='ch[]' data-id="<?php echo $record[0] ?>" class='cb-element' id='check'></td>
 
-                                    </td>
-                                			<td>
-                                				<label class="switch">
-  										<input type="checkbox" checked="">
-  										<span class="slider round"></span>
-										</label>
-                                			</td>
+                                      <td><img src="admin/crousel/<?php echo $record[3]?>" height='50' width="250"></td>
 
-                                	</tr>
-
-                                  <tr>
-                                    <td><input type="checkbox" name="ch" class="cb-element" id="check"></td>
-                                    <td><img src="img/1.jpg" width="200" class="img-responsive"></td>
-                                    <td class="text-center">Bedroom set</td>
-                                    <td class="text-center">https://www.google.com</td>
-                                    <td class="text-center">
-                                     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
-                                        <i class="fa fa-trash"></i>
-                                      </button>
-
-                                      <button type="button" class="btn btn-warning">
-                                        <i class="fa fa-edit"></i>
-                                      </button>
-                                    </td>
+                                      <td><?php echo $record[1] ?></td>
+                                      <td><?php echo $record[2] ?></td>
+                                      <td><?php echo $status ?></td>
                                       <td>
-                                        <label class="switch">
-                      <input type="checkbox" checked="">
-                      <span class="slider round"></span>
-                    </label>
+                                  <a href="edit.php?<?php echo "id=$record[0]"?>" class='btn btn-primary'><i class="fa fa-edit"></i>
+                                          </a>
+                                  <button type="button" id="del" class="btn btn-danger">
+                                    <i class="fa fa-trash"></i>
+                                  </button>
                                       </td>
 
-                                  </tr>
+                                      <?php 
 
-                                	
-                                </table>
+                                      ?>
+                                    </tr>
+                                    <?php } ?>
+                               </table>
                                 	
                                 
                             </div>
                         </div>
                         <!-- end row -->
-
+</form>
 
                     </div>
                     <!-- end container -->
@@ -216,5 +223,53 @@ input:checked + .slider:before {
 });
 
 </script>
- 
 
+ 
+<script>
+      $(document).ready(function(){
+            $("#cmb_status").change(function(){
+                var id =[];
+                var status = $("cmb_status").val().trigger('change') == true ? 1 : 0;
+                alert('status');
+                $("#check").each(function(i){
+                  id[i] = $(this).val();
+                });
+                if (id.length==0){
+                  alert("please select one checkbox");
+                }
+                else
+                {
+                  $.ajax({
+                          url:'admin/multi_status.php',
+                          method:"POST",
+                          data:{id:id}
+                          success:function(){
+                             console.log(data.success);
+                          }
+
+                  });
+                }
+
+      });
+</script>
+<script>
+    $(document).ready(function(){
+        $('#ck').change(function(){
+          var status = $(this).prop('checked') == true ? 1 : 0; 
+          var id = $(this).data('c_id');
+          alert(status);
+          alert(id);
+          $.ajax({
+                  type : "POST",
+                  datatype :"JSON",
+                  url  : "admin/multi_status_update.php",
+                  data :{'status':status , 'id':id},
+                  success:function(data){
+                    console.log(data.success);
+                  }   
+          });
+    });
+      });
+</script>
+
+</script>
