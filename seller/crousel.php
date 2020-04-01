@@ -162,28 +162,19 @@ input:checked + .slider:before {
                                             <label class="col-md-2 control-label">
                                                 Upload Image
                                             </label>
-                                            <div class="col-sm-2 imgUp">
+                                            <div class="col-sm-4 imgUp">
                                                 <div class="imagePreview"></div>
                                                 <label class="btn btn-primary">
                                                     Upload
                                                     <input type="file" class="uploadFile img" value="Upload Photo" style="width: 0px;height: 0px;overflow: hidden;">
                                                 </label>
                                             </div>
-                                            <!-- col-2 -->
-                                           
                                         </div>
+                                </div>
 
-                                        <div class="form-group">
-                                        	<label class="col-md-2 control-label">Date Select</label>
-                                        	<div class="col-md-10">
-                                        		<div class="input-daterange input-group" id="datepicker">
-          <input type="text" class="input-sm form-control startDate" name="start" />
-          <span class="input-group-addon">to</span>
-          <input type="text" class="input-sm form-control endDate" name="end" />
-        </div>
-                                        </div>
-
-
+                                <div class="form-group">
+                                <label class="col-md-2 control-label">Select Date</label>
+                                <input type="text" class="form-control input-daterange-timepicker" name="daterange" value="01/01/2015 1:30 PM - 01/01/2015 2:00 PM"/>
 
                                 </div>
                             </div>
@@ -261,58 +252,6 @@ input:checked + .slider:before {
 
             <?php include('include/footer.php') ?>
 
-            <script>
-                		$(function() {
-
-  $('.input-daterange').datepicker({
-    endDate: "today",
-    todayBtn: "linked",
-    multidate: false,
-    autoclose: true,
-    format: "mm/yyyy", /// DISPLAYS only Months & Years
-    startView: "year", /// DISPLAYS only Months & Years
-    minViewMode: "months" /// DISPLAYS only Months & Years
-  });
-  $('#searchDateRange').on('click', function(e) {
-    e.preventDefault();
-    var startDay = $('#datepicker').find(".startDate").val().replace(/\//g, '').replace(/(\d\d)(\d\d\d\d)/g, '$2$1');
-    var endDay = $('#datepicker').find(".endDate").val().replace(/\//g, '').replace(/(\d\d)(\d\d\d\d)/g, '$2$1');
-    var $targets = $('#mixContainer').find('.mix');
-    var $show = $targets.filter(function() {
-      var date = $(this).attr('data-date');
-      return (date >= startDay) && (date <= endDay);
-    });
-    $('#mixContainer').mixItUp('filter', $show); 
-  }); 
-     
-    var oneYearPrior = new Date(); 
-    oneYearPrior.setDate(oneYearPrior.getDate() - 365);
-    $(".startDate").datepicker("setDate", oneYearPrior);
-    $(".startDate").datepicker('update');
-    $(".endDate").datepicker("setDate",  Date());
-    $(".endDate").datepicker('update');
-
-  $('#mixContainer').mixItUp({
-    animation: {
-      duration: 250,
-      effects: 'fade translateZ(-360px) stagger(34ms)',
-      easing: 'ease'
-    },
-    layout: {
-      containerClass: 'grid'
-    },
-    controls: {
-      enable: true
-    },
-    callbacks: {
-      onMixFail: function() {
-        alert('No items were found matching the selected filters.');
-      }
-    }
-  });
-});
-
-                </script>
 
 
                 <script>
@@ -341,4 +280,225 @@ input:checked + .slider:before {
                         });
                     });
                 </script>
-                
+                  <script>
+            jQuery(document).ready(function() {
+
+                //advance multiselect start
+                $('#my_multi_select3').multiSelect({
+                    selectableHeader: "<input type='text' class='form-control search-input' autocomplete='off' placeholder='search...'>",
+                    selectionHeader: "<input type='text' class='form-control search-input' autocomplete='off' placeholder='search...'>",
+                    afterInit: function (ms) {
+                        var that = this,
+                            $selectableSearch = that.$selectableUl.prev(),
+                            $selectionSearch = that.$selectionUl.prev(),
+                            selectableSearchString = '#' + that.$container.attr('id') + ' .ms-elem-selectable:not(.ms-selected)',
+                            selectionSearchString = '#' + that.$container.attr('id') + ' .ms-elem-selection.ms-selected';
+
+                        that.qs1 = $selectableSearch.quicksearch(selectableSearchString)
+                            .on('keydown', function (e) {
+                                if (e.which === 40) {
+                                    that.$selectableUl.focus();
+                                    return false;
+                                }
+                            });
+
+                        that.qs2 = $selectionSearch.quicksearch(selectionSearchString)
+                            .on('keydown', function (e) {
+                                if (e.which == 40) {
+                                    that.$selectionUl.focus();
+                                    return false;
+                                }
+                            });
+                    },
+                    afterSelect: function () {
+                        this.qs1.cache();
+                        this.qs2.cache();
+                    },
+                    afterDeselect: function () {
+                        this.qs1.cache();
+                        this.qs2.cache();
+                    }
+                });
+
+                // Select2
+                $(".select2").select2();
+
+                $(".select2-limiting").select2({
+          maximumSelectionLength: 2
+        });
+
+              });
+
+              //Bootstrap-TouchSpin
+              $(".vertical-spin").TouchSpin({
+                verticalbuttons: true,
+                    buttondown_class: "btn btn-primary",
+                    buttonup_class: "btn btn-primary",
+                verticalupclass: 'ion-plus-round',
+                verticaldownclass: 'ion-minus-round'
+            });
+            var vspinTrue = $(".vertical-spin").TouchSpin({
+                verticalbuttons: true
+            });
+            if (vspinTrue) {
+                $('.vertical-spin').prev('.bootstrap-touchspin-prefix').remove();
+            }
+
+            $("input[name='demo1']").TouchSpin({
+                min: 0,
+                max: 100,
+                step: 0.1,
+                decimals: 2,
+                boostat: 5,
+                maxboostedstep: 10,
+                    buttondown_class: "btn btn-primary",
+                    buttonup_class: "btn btn-primary",
+                postfix: '%'
+            });
+            $("input[name='demo2']").TouchSpin({
+                min: -1000000000,
+                max: 1000000000,
+                stepinterval: 50,
+                    buttondown_class: "btn btn-primary",
+                    buttonup_class: "btn btn-primary",
+                maxboostedstep: 10000000,
+                prefix: '$'
+            });
+            $("input[name='demo3']").TouchSpin({
+                    buttondown_class: "btn btn-primary",
+                    buttonup_class: "btn btn-primary"
+                });
+            $("input[name='demo3_21']").TouchSpin({
+                initval: 40,
+                    buttondown_class: "btn btn-primary",
+                    buttonup_class: "btn btn-primary"
+            });
+            $("input[name='demo3_22']").TouchSpin({
+                initval: 40,
+                    buttondown_class: "btn btn-primary",
+                    buttonup_class: "btn btn-primary"
+            });
+
+            $("input[name='demo5']").TouchSpin({
+                prefix: "pre",
+                postfix: "post",
+                    buttondown_class: "btn btn-primary",
+                    buttonup_class: "btn btn-primary"
+            });
+            $("input[name='demo0']").TouchSpin({
+                    buttondown_class: "btn btn-primary",
+                    buttonup_class: "btn btn-primary"
+                });
+
+                // Time Picker
+        jQuery('#timepicker').timepicker({
+          defaultTIme : false
+        });
+        jQuery('#timepicker2').timepicker({
+          showMeridian : false
+        });
+        jQuery('#timepicker3').timepicker({
+          minuteStep : 15
+        });
+
+        //colorpicker start
+
+                $('.colorpicker-default').colorpicker({
+                    format: 'hex'
+                });
+                $('.colorpicker-rgba').colorpicker();
+
+                // Date Picker
+                jQuery('#datepicker').datepicker();
+                jQuery('#datepicker-autoclose').datepicker({
+                  autoclose: true,
+                  todayHighlight: true
+                });
+                jQuery('#datepicker-inline').datepicker();
+                jQuery('#datepicker-multiple-date').datepicker({
+                    format: "mm/dd/yyyy",
+          clearBtn: true,
+          multidate: true,
+          multidateSeparator: ","
+                });
+                jQuery('#date-range').datepicker({
+                    toggleActive: true
+                });
+
+
+
+        //Date range picker
+        $('.input-daterange-datepicker').daterangepicker({
+          buttonClasses: ['btn', 'btn-sm'],
+                applyClass: 'btn-default',
+                cancelClass: 'btn-primary'
+        });
+            $('.input-daterange-timepicker').daterangepicker({
+                timePicker: true,
+                format: 'MM/DD/YYYY h:mm A',
+                timePickerIncrement: 30,
+                timePicker12Hour: true,
+                timePickerSeconds: false,
+                buttonClasses: ['btn', 'btn-sm'],
+                applyClass: 'btn-default',
+                cancelClass: 'btn-primary'
+            });
+            $('.input-limit-datepicker').daterangepicker({
+                format: 'MM/DD/YYYY',
+                minDate: '06/01/2016',
+                maxDate: '06/30/2016',
+                buttonClasses: ['btn', 'btn-sm'],
+                applyClass: 'btn-default',
+                cancelClass: 'btn-primary',
+                dateLimit: {
+                    days: 6
+                }
+            });
+
+            $('#reportrange span').html(moment().subtract(29, 'days').format('MMMM D, YYYY') + ' - ' + moment().format('MMMM D, YYYY'));
+
+            $('#reportrange').daterangepicker({
+                format: 'MM/DD/YYYY',
+                startDate: moment().subtract(29, 'days'),
+                endDate: moment(),
+                minDate: '01/01/2016',
+                maxDate: '12/31/2016',
+                dateLimit: {
+                    days: 60
+                },
+                showDropdowns: true,
+                showWeekNumbers: true,
+                timePicker: false,
+                timePickerIncrement: 1,
+                timePicker12Hour: true,
+                ranges: {
+                    'Today': [moment(), moment()],
+                    'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                    'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                    'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                    'This Month': [moment().startOf('month'), moment().endOf('month')],
+                    'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                },
+                opens: 'left',
+                drops: 'down',
+                buttonClasses: ['btn', 'btn-sm'],
+                applyClass: 'btn-success',
+                cancelClass: 'btn-default',
+                separator: ' to ',
+                locale: {
+                    applyLabel: 'Submit',
+                    cancelLabel: 'Cancel',
+                    fromLabel: 'From',
+                    toLabel: 'To',
+                    customRangeLabel: 'Custom',
+                    daysOfWeek: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
+                    monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+                    firstDay: 1
+                }
+            }, function (start, end, label) {
+                console.log(start.toISOString(), end.toISOString(), label);
+                $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+            });
+
+
+            </script>

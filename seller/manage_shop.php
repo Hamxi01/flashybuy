@@ -1,6 +1,4 @@
 <?php 
-
-
 include_once('../includes/db.php');
 $obj = new connection();
 include('include/header.php');
@@ -21,7 +19,7 @@ $id = $_SESSION['id'];
                                         <li><a href="#">Manage Shop Detail</a></li>
                                         <li class="active">Manage Detail</li>
                                     </ol>
-                                    <h4 class="page-title">Manage Shop Details</h4>
+                                    <h4 class="page-title">Manage Shop Details <i class="fa fa-bank"></i></h4>
                                 </div>
                             </div>
                         </div>

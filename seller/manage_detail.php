@@ -21,7 +21,7 @@ $id = $_SESSION['id'];
                                         <li><a href="#">Manage Bank Detail</a></li>
                                         <li class="active">Manage Detail</li>
                                     </ol>
-                                    <h4 class="page-title">Manage Bank Details</h4>
+                                    <h4 class="page-title">Manage Bank Details <i class="fa fa-bank"></i></h4>
                                 </div>
                             </div>
                         </div>

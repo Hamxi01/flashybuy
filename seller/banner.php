@@ -163,7 +163,7 @@ input:checked + .slider:before {
                                             <label class="col-md-2 control-label">
                                                 Upload Image
                                             </label>
-                                            <div class="col-sm-2 imgUp">
+                                            <div class="col-sm-4 imgUp">
                                                 <div class="imagePreview"></div>
                                                 <label class="btn btn-primary">
                                                     Upload
@@ -182,30 +182,28 @@ input:checked + .slider:before {
           <span class="input-group-addon">to</span>
           <input type="text" class="input-sm form-control endDate" name="end" />
         </div>
-                                        </div>
-
-
-
-                                </div>
-                            </div>
-                            <div class="row">
-                            	<div class="col-md-12">
-                            		<table class="table table-border">
-                            			<thead class="thead-dark">
-                            		<tr>	
-                            			<th>Sunday</th>
-                            			<th>Monday</th>
-                            			<th>Tuesday</th>
-                            			<th>Wednesday</th>
-                            			<th>thursday</th>
-                            			<th>Friday</th>
-                            			<th>Saturday</th>
-                            			</thead>
-                            		</tr>
-                            		<tr>
-                            		</tr>	
-                            		<tr>
-                            			<td><label class="switch">
+          </div>
+          </div>
+          </div>
+            <div class="row">
+              <div class="col-md-12">
+                <table class="table table-border">
+                  <thead class="thead-dark">
+                    <tr>	
+                      <th>Sunday</th>
+                      <th>Monday</th>
+                      <th>Tuesday</th>
+                      <th>Wednesday</th>
+                      <th>thursday</th>
+                      <th>Friday</th>
+                      <th>Saturday</th>
+                      </thead>
+                      </tr>
+                      <tr>
+                      </tr>	
+                      <tr>
+                      <td>
+                    <label class="switch">
   										<input type="checkbox" checked="">
   										<span class="slider round"></span>
 										</label></td>

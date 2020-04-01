@@ -41,6 +41,7 @@ class connection
 				$_SESSION['img']=$fetch[20];
 				header("Location:../dashboard.php");
 
+
 			}
 			else
 			{
