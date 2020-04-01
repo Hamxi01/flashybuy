@@ -149,7 +149,14 @@
                                   
                                 </ul>
                             </li> 
-
+                            <li>
+                                <a href="templates.php" class="waves-effect waves-primary"><i
+                                        class="md md-dashboard"></i><span> Emails </span></a>
+                            </li>
+                            <li>
+                                <a href="pages.php" class="waves-effect waves-primary"><i
+                                        class="md md-dashboard"></i><span> Pages </span></a>
+                            </li>
                             <!-- <li class="has_sub">
                                 <a href="javascript:void(0);" class="waves-effect waves-primary"><i class="md md-palette"></i> <span> UI Kit </span>
                                  <span class="menu-arrow"></span></a>

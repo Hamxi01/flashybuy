@@ -9,7 +9,7 @@
         <link rel="shortcut icon" href="assets/images/favicon_1.ico">
 
         <title>Admin</title>
-        
+        <link href="plugins/summernote/dist/summernote.css" rel="stylesheet" />
         <link href="plugins/multiselect/css/multi-select.css"  rel="stylesheet" type="text/css" />
         <link href="plugins/select2/select2.css" rel="stylesheet" type="text/css" />
         <link href="plugins/bootstrap-tagsinput/dist/bootstrap-tagsinput.css" rel="stylesheet" />
