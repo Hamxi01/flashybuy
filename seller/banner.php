@@ -125,10 +125,10 @@ input:checked + .slider:before {
                         <div class="page-title-box">
                             <ol class="breadcrumb pull-right">
                                 <li><a href="#">Flashy buy</a></li>
-                                <li><a href="#">Crousel Management</a></li>
-                                <li class="active">Crousel Upload</li>
+                                <li><a href="#">Banner Management</a></li>
+                                <li class="active">Banner Upload</li>
                             </ol>
-                            <h4 class="page-title">Upload Crousel</h4>
+                            <h4 class="page-title">Upload Banner</h4>
                         </div>
                     </div>
                 </div>
@@ -136,8 +136,9 @@ input:checked + .slider:before {
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="card-box">
-                           <div class="row">
-                            <div class="alert alert-success">
+                          
+                            <div class="row">
+                               <div class="alert alert-success">
                               <p class="text-center"><i class="fa fa-info-circle"></i> 
                                 <b>Banner size must 1090x245 pixel</b></p>
 
@@ -170,7 +171,7 @@ input:checked + .slider:before {
                                                 </label>
                                             </div>
                                             <!-- col-2 -->
-                                           
+                                            
                                         </div>
 
                                         <div class="form-group">

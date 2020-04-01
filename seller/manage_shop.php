@@ -66,20 +66,23 @@ $id = $_SESSION['id'];
                                                     <td><?php echo $fetch[3] ?></td>    
                                                     </tr>
                                                     <tr>
-                                                    <th>Subrub</th>
+                                                    <th>State</th>
                                                     <td><?php echo $fetch[4] ?></td>
                                                     </tr>
                                                      <tr>
-                                                    <th>Postal Code</th>
+                                                    <th>Subrub</th>
                                                     <td><?php echo $fetch[5] ?></td>
                                                     </tr>
                                                      <tr>
-                                                    <th>Country</th>
+                                                    <th>Postal Code</th>
                                                     <td><?php echo $fetch[6] ?></td>
                                                     </tr>
                                                      <tr>
-                                                    <th>City</th>
+                                                    <th>Country</th>
                                                     <td><?php echo $fetch[7] ?></td>
+                                                    </tr>
+                                                    <th>City</th>
+                                                    <td><?php echo $fetch[8] ?></td>
                                                     </tr>
                                                      <tr>
                                                     <tr>

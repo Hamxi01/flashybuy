@@ -80,8 +80,8 @@ input:checked + .slider:before {
   </div>
 
   <div class="btn-group dropright" style="float: right">
-  <a href="crousel.php"  class="box btn btn-primary">
-    Create Crousel
+  <a href="banner.php"  class="box btn btn-primary">
+    Create Banner
     <i class="fa fa-plus"></i>
   </a>
   </div>
@@ -214,5 +214,5 @@ input:checked + .slider:before {
   }
 });
 </script>
-
+ 
 

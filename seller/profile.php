@@ -171,7 +171,7 @@ $fetch = mysqli_fetch_array($edit);
       <!--Body-->
       <div class="modal-body">
 
-      <p>Record save successfully</p>
+      <p>Profile Update successfully</p>
 
       </div>
 
