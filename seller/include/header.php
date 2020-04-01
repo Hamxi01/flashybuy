@@ -16,8 +16,8 @@ if(isset($_SESSION['name'])=="" || $_SESSION['type'] !="vendor") {
 
         <title>Flash Buy</title>
 
-        <link href="../plugins/switchery/switchery.min.css" rel="stylesheet" />
-        <link href="../plugins/jquery-circliful/css/jquery.circliful.css" rel="stylesheet" type="text/css" />
+        <link href="../admin/assets/plugins/switchery/switchery.min.css" rel="stylesheet" />
+        <link href="../admin/assets/plugins/jquery-circliful/css/jquery.circliful.css" rel="stylesheet" type="text/css" />
 
         <link href="../admin/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
         <link href="../admin/assets/css/core.css" rel="stylesheet" type="text/css">
@@ -26,11 +26,7 @@ if(isset($_SESSION['name'])=="" || $_SESSION['type'] !="vendor") {
         <link href="../admin/assets/css/pages.css" rel="stylesheet" type="text/css">
         <link href="../admin/assets/css/menu.css" rel="stylesheet" type="text/css">
         <link href="../admin/assets/css/responsive.css" rel="stylesheet" type="text/css">
-         <link href="../admin/assets/css/timepicker/bootstrap-timepicker.min.css" rel="stylesheet">
-
-
-
-
+         <link href="../admin/assets/plugins/timepicker/bootstrap-timepicker.min.css" rel="stylesheet">
          <link href="../admin/assets/plugins/bootstrap-tagsinput/dist/bootstrap-tagsinput.css" rel="stylesheet" />
         <link href="../admin/assets/plugins/multiselect/css/multi-select.css"  rel="stylesheet" type="text/css" />
         <link href="../admin/assets/plugins/select2/select2.css" rel="stylesheet" type="text/css" />
@@ -39,10 +35,11 @@ if(isset($_SESSION['name'])=="" || $_SESSION['type'] !="vendor") {
         <link href="../admin/assets/plugins/timepicker/bootstrap-timepicker.min.css" rel="stylesheet">
         <link href="../admin/assets/plugins/mjolnic-bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css" rel="stylesheet">
         <link href="../admin/assets/plugins/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css" rel="stylesheet">
-        <link href="plugins/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
+        <link href="../admin/assets/plugins/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
 
 
         
+        <script src="../admin/assets/plugins/bootstrap-daterangepicker/daterangepicker.js"></script>
         <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.6.1/css/buttons.dataTables.min.css">
         <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
         <script src="../admin/assets/js/jquery.min.js"></script>

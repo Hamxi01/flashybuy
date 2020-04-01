@@ -4,7 +4,7 @@
         
 
         <!-- Plugins  -->
-        <script src="../admin/assets/js/jquery.min.js"></script>
+        <!-- <script src="../admin/assets/js/jquery.min.js"></script> -->
         <script src="../admin/assets/js/bootstrap.min.js"></script>
         <script src="../admin/assets/js/detect.js"></script>
         <script src="../admin/assets/js/fastclick.js"></script>
@@ -14,28 +14,30 @@
         <script src="../admin/assets/js/wow.min.js"></script>
         <script src="../admin/assets/js/jquery.nicescroll.js"></script>
         <script src="../admin/assets/js/jquery.scrollTo.min.js"></script>
-        <script src=".../admin/assets/plugins/switchery/switchery.min.js"></script>
-        <script src="../admin/assets/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+        <script src="../admin/assets/plugins/switchery/switchery.min.js"></script>
+       
         <script src="../admin/assets/plugins/bootstrap-daterangepicker/daterangepicker.js"></script>
-        <script src="../admin/assets/plugins/waypoints/imakewebthings-waypoints-34d9f6d/lib/jquery.waypoints.js"></script>
-        <script src="../../admin/assets/plugins/counterup/jquery.counterup.min.js"></script>
+     
+        <!-- <script src="../../admin/assets/plugins/counterup/jquery.counterup.min.js"></script> -->
         <script src="../admin/assets/plugins/jquery-circliful/js/jquery.circliful.min.js"></script>
         <script src="../admin/assets/plugins/jquery-sparkline/jquery.sparkline.min.js"></script>
         <script src="../admin/assets/plugins/skyicons/skycons.min.js" type="text/javascript"></script>
-        <script src="../admin/assets/plugins/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
-        <script src="../admin/assets/plugins/bootstrap-daterangepicker/daterangepicker.js"></script>
 
+         <script src="../admin/assets/plugins/timepicker/bootstrap-timepicker.min.js"></script>
+        <script src="../admin/assets/plugins/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>  
 
          <script src="../admin/assets/plugins/moment/moment.js"></script>
-        <script src="../admin/assets/plugins/timepicker/bootstrap-timepicker.min.js"></script>
         <script src="../admin/assets/plugins/mjolnic-bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js"></script>
 
         
         <!-- Page js  -->
-        <script src="../admin/assets/jpages/jquery.dashboard.js"></script>
+        <script src="../admin/assets/pages/jquery.dashboard.js"></script>
         <!-- Custom main Js -->
         <script src="../admin/assets/js/jquery.core.js"></script>
         <script src="../admin/assets/js/jquery.app.js"></script>
+
+
+        
         <!-- external datatable js by rameez -->
         <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
         <script src="https://cdn.datatables.net/buttons/1.6.1/js/dataTables.buttons.min.js"></script>

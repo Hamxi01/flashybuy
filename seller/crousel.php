@@ -173,10 +173,11 @@ input:checked + .slider:before {
                                 </div>
 
                                 <div class="form-group">
-                                <label class="col-md-2 control-label">Select Date</label>
-                                <input type="text" class="form-control input-daterange-timepicker" name="daterange" value="01/01/2015 1:30 PM - 01/01/2015 2:00 PM"/>
-
-                                </div>
+                                                        <label class="col-lg-4 control-label">Date Range With Time</label>
+                                                        <div class="col-lg-8">
+                                                            <input type="text" class="form-control input-daterange-timepicker" name="daterange" value="01/01/2015 1:30 PM - 01/01/2015 2:00 PM"/>
+                                                        </div>
+                                                    </div>
                             </div>
                             <div class="row">
                             	<div class="col-md-12">
@@ -250,178 +251,36 @@ input:checked + .slider:before {
 
             </div>
 
-            <?php include('include/footer.php') ?>
+    
+         <?php include('include/footer.php'); ?>
+           <script>
 
-
-
-                <script>
-                    $(".imgAdd").click(function() {
-                        $(this).closest(".row").find('.imgAdd').before('<div class="col-sm-2 imgUp"><div class="imagePreview"></div><label class="btn btn-primary">Upload<input type="file" class="uploadFile img" value="Upload Photo" style="width:0px;height:0px;overflow:hidden;"></label><i class="fa fa-times del"></i></div>');
-                    });
-                    $(document).on("click", "i.del", function() {
-                        $(this).parent().remove();
-                    });
-                    $(function() {
-                        $(document).on("change", ".uploadFile", function() {
-                            var uploadFile = $(this);
-                            var files = !!this.files ? this.files : [];
-                            if (!files.length || !window.FileReader) return; // no file selected, or no FileReader support
-
-                            if (/^image/.test(files[0].type)) { // only image file
-                                var reader = new FileReader(); // instance of the FileReader
-                                reader.readAsDataURL(files[0]); // read the local file
-
-                                reader.onloadend = function() { // set image data as background of div
-                                    //alert(uploadFile.closest(".upimage").find('.imagePreview').length);
-                                    uploadFile.closest(".imgUp").find('.imagePreview').css("background-image", "url(" + this.result + ")");
-                                }
-                            }
-
-                        });
-                    });
-                </script>
-                  <script>
-            jQuery(document).ready(function() {
-
-                //advance multiselect start
-                $('#my_multi_select3').multiSelect({
-                    selectableHeader: "<input type='text' class='form-control search-input' autocomplete='off' placeholder='search...'>",
-                    selectionHeader: "<input type='text' class='form-control search-input' autocomplete='off' placeholder='search...'>",
-                    afterInit: function (ms) {
-                        var that = this,
-                            $selectableSearch = that.$selectableUl.prev(),
-                            $selectionSearch = that.$selectionUl.prev(),
-                            selectableSearchString = '#' + that.$container.attr('id') + ' .ms-elem-selectable:not(.ms-selected)',
-                            selectionSearchString = '#' + that.$container.attr('id') + ' .ms-elem-selection.ms-selected';
-
-                        that.qs1 = $selectableSearch.quicksearch(selectableSearchString)
-                            .on('keydown', function (e) {
-                                if (e.which === 40) {
-                                    that.$selectableUl.focus();
-                                    return false;
-                                }
-                            });
-
-                        that.qs2 = $selectionSearch.quicksearch(selectionSearchString)
-                            .on('keydown', function (e) {
-                                if (e.which == 40) {
-                                    that.$selectionUl.focus();
-                                    return false;
-                                }
-                            });
-                    },
-                    afterSelect: function () {
-                        this.qs1.cache();
-                        this.qs2.cache();
-                    },
-                    afterDeselect: function () {
-                        this.qs1.cache();
-                        this.qs2.cache();
-                    }
-                });
-
-                // Select2
-                $(".select2").select2();
-
-                $(".select2-limiting").select2({
-          maximumSelectionLength: 2
-        });
-
-              });
-
-              //Bootstrap-TouchSpin
-              $(".vertical-spin").TouchSpin({
-                verticalbuttons: true,
-                    buttondown_class: "btn btn-primary",
-                    buttonup_class: "btn btn-primary",
-                verticalupclass: 'ion-plus-round',
-                verticaldownclass: 'ion-minus-round'
-            });
-            var vspinTrue = $(".vertical-spin").TouchSpin({
-                verticalbuttons: true
-            });
-            if (vspinTrue) {
-                $('.vertical-spin').prev('.bootstrap-touchspin-prefix').remove();
-            }
-
-            $("input[name='demo1']").TouchSpin({
-                min: 0,
-                max: 100,
-                step: 0.1,
-                decimals: 2,
-                boostat: 5,
-                maxboostedstep: 10,
-                    buttondown_class: "btn btn-primary",
-                    buttonup_class: "btn btn-primary",
-                postfix: '%'
-            });
-            $("input[name='demo2']").TouchSpin({
-                min: -1000000000,
-                max: 1000000000,
-                stepinterval: 50,
-                    buttondown_class: "btn btn-primary",
-                    buttonup_class: "btn btn-primary",
-                maxboostedstep: 10000000,
-                prefix: '$'
-            });
-            $("input[name='demo3']").TouchSpin({
-                    buttondown_class: "btn btn-primary",
-                    buttonup_class: "btn btn-primary"
-                });
-            $("input[name='demo3_21']").TouchSpin({
-                initval: 40,
-                    buttondown_class: "btn btn-primary",
-                    buttonup_class: "btn btn-primary"
-            });
-            $("input[name='demo3_22']").TouchSpin({
-                initval: 40,
-                    buttondown_class: "btn btn-primary",
-                    buttonup_class: "btn btn-primary"
-            });
-
-            $("input[name='demo5']").TouchSpin({
-                prefix: "pre",
-                postfix: "post",
-                    buttondown_class: "btn btn-primary",
-                    buttonup_class: "btn btn-primary"
-            });
-            $("input[name='demo0']").TouchSpin({
-                    buttondown_class: "btn btn-primary",
-                    buttonup_class: "btn btn-primary"
-                });
 
                 // Time Picker
-        jQuery('#timepicker').timepicker({
+        $('#timepicker').timepicker({
           defaultTIme : false
         });
-        jQuery('#timepicker2').timepicker({
+        $('#timepicker2').timepicker({
           showMeridian : false
         });
-        jQuery('#timepicker3').timepicker({
+        $('#timepicker3').timepicker({
           minuteStep : 15
         });
 
-        //colorpicker start
-
-                $('.colorpicker-default').colorpicker({
-                    format: 'hex'
-                });
-                $('.colorpicker-rgba').colorpicker();
-
                 // Date Picker
-                jQuery('#datepicker').datepicker();
-                jQuery('#datepicker-autoclose').datepicker({
+                $('#datepicker').datepicker();
+                $('#datepicker-autoclose').datepicker({
                   autoclose: true,
                   todayHighlight: true
                 });
-                jQuery('#datepicker-inline').datepicker();
-                jQuery('#datepicker-multiple-date').datepicker({
+                $('#datepicker-inline').datepicker();
+                $('#datepicker-multiple-date').datepicker({
                     format: "mm/dd/yyyy",
           clearBtn: true,
           multidate: true,
           multidateSeparator: ","
                 });
-                jQuery('#date-range').datepicker({
+                $('#date-range').datepicker({
                     toggleActive: true
                 });
 

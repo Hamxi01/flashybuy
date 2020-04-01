@@ -73,11 +73,25 @@ input:checked + .slider:before {
                         <div class="row">
                             <div class="col-sm-12">
                                 <div class="page-title-box">
- <div class="btn-group dropright">
+<div class="btn-group dropright">
   <button type="button" class="box btn btn-warning mb-3" id="box" value="check all">Select All
     <i class="fa fa-check"></i>
   </button>
   </div>
+
+  <div class="btn-group dropright">
+ <select class="form-control">
+   <option>Active</option>
+   <option>In-Active</option>
+ </select>
+  </div>
+
+  <div class="btn-group dropright">
+  <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
+ <i class="fa fa-trash"></i>
+ </button>
+  </div>
+
 
   <div class="btn-group dropright" style="float: right">
   <a href="banner.php"  class="box btn btn-primary">

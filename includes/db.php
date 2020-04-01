@@ -39,6 +39,10 @@ class connection
 				$_SESSION['id']=$fetch[0];
 				$_SESSION['name']=$fetch[1];
 				$_SESSION['img']=$fetch[20];
+				$id = $_SESSION['id'];	
+				$login = date("Y-m-d H:i:s");
+				$ip   = $_SERVER['REMOTE_ADDR'];
+				$insert = mysqli_query($this->connect(),"insert into login_log(user_id,login_time,ip) values('$id','$login','$ip')");	
 				header("Location:../dashboard.php");
 
 
@@ -103,8 +107,10 @@ class connection
 		{
 			$query = mysqli_query($this->connect(),"select * from tbl_log");
 			return $query;
-			
-
+		}
+		public function login_log($id,$login_time,$ip)
+		{
+				
 		}
 		
 	}

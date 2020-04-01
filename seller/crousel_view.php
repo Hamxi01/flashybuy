@@ -79,6 +79,19 @@ input:checked + .slider:before {
   </button>
   </div>
 
+  <div class="btn-group dropright">
+ <select class="form-control">
+   <option>Active</option>
+   <option>In-Active</option>
+ </select>
+  </div>
+
+  <div class="btn-group dropright">
+  <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
+ <i class="fa fa-trash"></i>
+ </button>
+  </div>
+
   <div class="btn-group dropright" style="float: right">
   <a href="crousel.php"  class="box btn btn-primary">
     Create Crousel
@@ -202,17 +215,6 @@ input:checked + .slider:before {
 
 });
 
-</script>
-
-<script>
-    
-      $("table tbody").sortable( {
-  update: function( event, ui ) {
-    $(this).children().each(function(index) {
-      $(this).find('td').last().html(index + 1)
-    });
-  }
-});
 </script>
  
 
