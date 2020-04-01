@@ -10,6 +10,9 @@
     padding: 8px;
     list-style: none;
 }
+.select2-container-multi .select2-search-choice-close{
+    display: none !important;
+}
 </style>
 
 
@@ -89,7 +92,7 @@ if (isset($_GET['msg'])) { ?>
 											<select class="form-control" name="brand">
                                                 <option selected disabled>Choose Brand</option>
                                             <?php
-                                                $sql = mysqli_query($con, "SELECT * From brands");
+                                                $sql = mysqli_query($con, "SELECT * From brands where delte = 0");
                                                 $row = mysqli_num_rows($sql);
                                                 while ($row = mysqli_fetch_array($sql)){
                                                     echo "<option value='". $row['id'] ."'>" .$row['name'] ."</option>" ;
@@ -101,7 +104,7 @@ if (isset($_GET['msg'])) { ?>
                                             <label>Does your product have variations?</label>
                                             <input type="checkbox"  data-plugin="switchery" id="variations" onchange="showVariations()" data-color="#00b19d" name="variation_approval" data-size="small" value="Y"/>                              
                                         </div>
-                                        <div class="row">
+                                        <div class="row" id="images">
                       
                                             <div class="col-md-3 portlets">
                                                 <!-- Your awesome content goes here -->
@@ -199,45 +202,46 @@ if (isset($_GET['msg'])) { ?>
                                             <div class="col-lg-4 col-sm-offset-4">
                                                 <label class="panel-title" style="background: #FAFAFA;padding: 10px;border: 1px solid black;">Variations</label><br><br>
                                             </div>
-                                            <div class="col-lg-12">
-                                                <div class="col-lg-4">
-                                                    <label>Product Variants (Options)</label>
-                                                </div>    
-                                                    <div class="col-lg-8">
-                                                        <select class="select2 select2-multiple" id="variations_name" multiple="multiple" multiple data-placeholder="Choose ...">
-                                                            <option></option>
-                                                        </select>
-                                                    </div><br><br>
+                                                <div class="col-lg-12">
+                                                    <div class="col-lg-4">
+                                                        <label>Product Variants (Options)</label>
+                                                    </div>    
+                                                        <div class="col-lg-8">
+                                                            <select class="select2" onchange="variationsName()" id="variations_name" multiple="multiple" multiple data-placeholder="Choose ...">
+                                                            </select>
+                                                        </div><br><br>
+                                                </div>
+                                                <div class="row" id="varition-options">
+                                                    
+                                                </div>
+                                                <table class="table table-bordered" id="variant_table" style="display: none;">
+                                                        <thead>
+                                                            <tr>
+                                                                <td class="text-center">
+                                                                    <label for="" class="control-label">Variant</label>
+                                                                </td>
+                                                                <td class="text-center">
+                                                                    <label for="" class="control-label">Variant Price</label>
+                                                                </td>
+                                                                <td class="text-center">
+                                                                    <label for="" class="control-label">SKU</label>
+                                                                </td>
+                                                                <td class="text-center">
+                                                                    <label for="" class="control-label">Quantity</label>
+                                                                </td>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody id="variant_combinations">
+                                                        </tbody>
+                                                </table>
                                             </div>
-                                            <div class="row" id="varition-options">
+                                            <div class="form-group">
+                                                <label>Description</label>
+                                                <textarea name="description" class="form-control"></textarea>
+                                            </div>
+                                            <div class="row" id="variation_image">
                                                 
                                             </div>
-                                            <table class="table table-bordered" id="variant_table" style="display: none;">
-        <thead>
-            <tr>
-                <td class="text-center">
-                    <label for="" class="control-label">Variant</label>
-                </td>
-                <td class="text-center">
-                    <label for="" class="control-label">Variant Price</label>
-                </td>
-                <td class="text-center">
-                    <label for="" class="control-label">SKU</label>
-                </td>
-                <td class="text-center">
-                    <label for="" class="control-label">Quantity</label>
-                </td>
-            </tr>
-        </thead>
-        <tbody id="variant_combinations">
-        </tbody>
-</table>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Description</label>
-                                            <textarea name="description"></textarea>
-                                        </div>
-                                        
                                         </div>
                                     
 										<div class="form-group text-right m-b-0">
@@ -273,7 +277,7 @@ if (isset($_GET['msg'])) { ?>
                                                          <ul>
                                                             <?php
 
-                                                                $sql = mysqli_query($con, "SELECT * From categories");
+                                                                $sql = mysqli_query($con, "SELECT * From categories where delte = 0");
                                                                 $row = mysqli_num_rows($sql);
                                                                 while ($row = mysqli_fetch_array($sql)){
                                                                     
@@ -342,6 +346,8 @@ if (isset($_GET['msg'])) { ?>
         function get_subsubcategories_by_subcategory(el, cat_id){
             list_item_highlight(el);
             subcategory_id = cat_id;
+            subsubcategory_name = "";
+            subsubcategory_id= null;
             sub_category_name = $(el).html();
             $('#subsubcategories').html(null);
             $.ajax({
@@ -362,7 +368,7 @@ if (isset($_GET['msg'])) { ?>
             fetch_Variations(subsubcategory_id);
         }
         function fetch_Variations(id){
-
+            $('#variations_name').html(null);
             $.ajax({
                 type: "POST",
                 url: 'action/getvariations.php',
@@ -370,6 +376,7 @@ if (isset($_GET['msg'])) { ?>
                 success:function(data){
                 
                         $('#variations_name').append(data);
+                        // console.log(data);
                     
                 }
             });
@@ -409,24 +416,31 @@ if (isset($_GET['msg'])) { ?>
     //Append attribute/////
 ////////////////////////////////
 var i = 0;
-$("select#variations_name").change(function(){
+function variationsName(){
 
-    var vari = $(this).children("option:selected").val();
-    
+    $('#varition-options').html(null);
+    $("#variation_image").html(null);
+    $("select#variations_name :selected").each(function() {
+        vari = $(this).val();
         if (vari != null) {
-                $("#varition-options").append('<div class="row '+vari+'"><div class="col-lg-3"><input type="text"  value="'+vari+'" class="form-control" disabled=""><input type="hidden" name="vari_type[]" value="'+i+'" class="form-control"></div><div class="col-lg-8"><input type="text" class="form-control tagsInput" onchange="update_sku()" id="'+vari+'" name="options_'+i+'[]" value=""></div><div class="col-lg-1"><button type="button" onclick="delete_row(this)" class="btn btn-link btn-icon text-danger"><i class="fa fa-trash-o"></i></button></div></div>');
+                $("#varition-options").append('<div class="row '+vari+'"><div class="col-lg-3"><input type="text"  value="'+vari+'" class="form-control" disabled=""><input type="hidden" name="vari[]" value="'+vari+'" class="form-control"><input type="hidden" name="vari_type[]" value="'+i+'" class="form-control"></div><div class="col-lg-8"><input type="text" class="form-control tagsInput" onchange="update_sku();imagediv()" id="'+vari+'" name="options_'+i+'[]" value=""></div><div class="col-lg-1"><button type="button" onclick="delete_row(this)" class="btn btn-link btn-icon text-danger"><i class="fa fa-trash-o"></i></button></div></div>');
                 i++;
                 $('.tagsInput').tagsinput('items');
                 
         }
-               
-});
+    });
+    
+        
+}               
+///////////////////////////
+//////////////////////////
 function delete_row(em){
             
      $(em).closest('.row').remove();
-     var  va =$('.bootstrap-tagsinput').val();
-     $("#variant_table").css("display","none"); 
+     var  va =$('.bootstrap-tagsinput').val(); 
+     $("#variant_table").css("display","none");
      update_sku();
+     imagediv();
 
 }
 function update_sku(){
@@ -436,54 +450,80 @@ function update_sku(){
                 url: 'action/combinations.php',
                 data: $('#product_form').serialize(),
                 success:function(data){
-                
-                console.log(data);
-                $("#variant_table").css("display","");
-                $('#variant_combinations').html(data);
-                    
+                    // console.log(data);
+                if (data != null) {
+
+                    $("#variant_table").css("display","");
+                    $('#variant_combinations').html(data);
                 }
+
+            }
     });
+     
 }
-    
-    //         $("select.variations").change(function(){
-    //             var vari = $(this).children("option:selected").val();
-    //             $("#varition-options").html(null);
-    //             $('#add_more').css("display","");
-    //             if(vari == "color-size"){
 
-    //                 $("#varition-options").append('<div class="col-lg-3"><input type="text" name="first_variation_value[]" class="form-control" placeholder="option eg:red,black etc."></div><div class="col-md-3"><input type="text" name="second_variation_value[]" class="form-control" placeholder="option eg:small,large etc."></div><div class="col-md-2"><input type="number" name="price[]" min="1" class="form-control" placeholder="Price"></div><div class="col-md-2"><input type="number" name="stock[]" min="1" class="form-control" placeholder="Quantity"></div><div class="col-md-2"><input type="number" name="mk_price[]" class="form-control" placeholder="market_price"></div><br><br><div class="col-lg-3"><input type="text" name="first_variation_value[]" class="form-control" placeholder="option eg:red,black etc."></div><div class="col-md-3"><input type="text" name="second_variation_value[]" class="form-control" placeholder="option eg:small,large etc."></div><div class="col-md-2"><input type="number" name="price[]" min="1" class="form-control" placeholder="Price"></div><div class="col-md-2"><input type="number" name="stock[]" min="1" class="form-control" placeholder="Quantity"></div><div class="col-md-2"><input type="number" name="mk_price[]" class="form-control" placeholder="market_price"></div><br><br>');
-    //             }
-    //             if(vari == "colors"){
+function imagediv(){
+var s = new Array();
+        $('#Color').on('itemAdded', function(event) {
 
-    //                 $("#varition-options").append('<div class="col-lg-3"><input type="text" name="first_variation_value[]" class="form-control" placeholder="option eg:red,black etc."></div><div class="col-md-2"><input type="number" name="price[]" min="1" class="form-control" placeholder="Price"></div><div class="col-md-2"><input type="number" name="stock[]" min="1" class="form-control" placeholder="Quantity"></div><div class="col-md-2"><input type="number" name="mk_price[]" class="form-control" placeholder="market_price"></div><br><br><div class="col-lg-3"><input type="text" name="first_variation_value[]" class="form-control" placeholder="option eg:red,black etc."></div><div class="col-md-2"><input type="number" name="price[]" min="1" class="form-control" placeholder="Price"></div><div class="col-md-2"><input type="number" name="stock[]" min="1" class="form-control" placeholder="Quantity"></div><div class="col-md-2"><input type="number" name="mk_price[]" class="form-control" placeholder="market_price"></div><br><br>');
-    //             }
-    //             if(vari == "size"){
+           s =  $("#Color").val();
+           $('#variation_image').html(null);
+           var data = $('#product_form').serializeArray();
+           data.push({name: 'color', value: s});
+           // console.log(data);
+           $.ajax({
+                type: "POST",
+                url: 'action/variant_image.php',
+                data: data,
+                success:function(data){
+                    // console.log(data);
+                     
+                    $("#variation_image").append(data);
+                    $("#images").css("display","none");
+                // if (data != null) {
 
-    //                 $("#varition-options").append('<div class="col-md-3"><input type="text" name="first_variation_value[]" class="form-control" placeholder="option eg:small,large etc."></div><div class="col-md-2"><input type="number" name="price[]" min="1" class="form-control" placeholder="Price"></div><div class="col-md-2"><input type="number" name="stock[]" min="1" class="form-control" placeholder="Quantity"></div><div class="col-md-2"><input type="number" name="mk_price[]" class="form-control" placeholder="market_price"></div><br><br><div class="col-md-3"><input type="text" name="first_variation_value[]" class="form-control" placeholder="option eg:small,large etc."></div><div class="col-md-2"><input type="number" name="price[]" min="1" class="form-control" placeholder="Price"></div><div class="col-md-2"><input type="number" name="stock[]" min="1" class="form-control" placeholder="Quantity"></div><div class="col-md-2"><input type="number" name="mk_price[]" class="form-control" placeholder="market_price"></div><br><br>');
+                    // $("#variant_table").css("display","");
+                    // $('#variant_combinations').html(data);
+                // }
 
-    //             }
+            }
+        });
+               // $.each( s, function( i, val ) {
+
+                // console.log(s);
+               // });
+        });
+        
+
+}
+// if ($("#varition-options").find("#Color")) {
+
+//         $('#Color').on('change', function(){ 
+//             var count = $("#Color").tagsinput('items').length;
+//             $('#variation_image').html(null);
+//             var v=0;
+//              $("#Color").each(function() {
                 
-    //         });
-       
-    // $("#add_more").click(function(){
-        
-    //         var vari = $("select.variations").children("option:selected").val();
+//                 v++;
+//                    $("#variation_image").append('<div class="col-md-3 portlets"><div class="m-b-30"> <div class="dropzone" id="dropzone1"> <div class="fallback"> <input name="variant_img[]" type="file" /> </div> </div> </div> </div>');
 
-    //         if(vari == "color-size"){
+//             });
+            
+//         });
+// }
+    
+    // if ($("#varition-options").find("#colors")) {
 
-    //             $("#varition-options").append('<div class="col-lg-3"><input type="text" name="first_variation_value[]" class="form-control" placeholder="option eg:red,black etc."></div> <div class="col-md-3"> <input type="text" name="second_variation_value[]" class="form-control" placeholder="option eg:small,large etc."> </div> <div class="col-md-2"> <input type="number" name="price[]" min="1" class="form-control" placeholder="Price"> </div> <div class="col-md-2"> <input type="number" name="stock[]" min="1" class="form-control" placeholder="Quantity"> </div> <div class="col-md-2"> <input type="number" name="mk_price[]" class="form-control" placeholder="market_price"> </div><br><br>');
-    //           }
-    //           if(vari == "colors"){
+    //     $('#varition_image').html(null);
+    //     $("select#colors :selected").each(function() {
 
-    //                 $("#varition-options").append('<div class="col-lg-3"><input type="text" name="first_variation_value[]" class="form-control" placeholder="option eg:red,black etc."></div><div class="col-md-2"><input type="number" name="price[]" min="1" class="form-control" placeholder="Price"></div><div class="col-md-2"><input type="number" name="stock[]" min="1" class="form-control" placeholder="Quantity"></div><div class="col-md-2"><input type="number" name="mk_price[]" class="form-control" placeholder="market_price"></div><br><br>');
-    //             }
-    //             if(vari == "size"){
+    //         $("#variation_image").append('<div class="col-md-3 portlets"><div class="m-b-30"> <div class="dropzone" id="dropzone1"> <div class="fallback"> <input name="variant_img[]" type="file" /> </div> </div> </div> </div>');
+    //     });
+    // }
+    
+    //    
 
-    //                 $("#varition-options").append('<div class="col-md-3"><input type="text" name="first_variation_value[]" class="form-control" placeholder="option eg:small,large etc."></div><div class="col-md-2"><input type="number" name="price[]" min="1" class="form-control" placeholder="Price"></div><div class="col-md-2"><input type="number" name="stock[]" min="1" class="form-control" placeholder="Quantity"></div><div class="col-md-2"><input type="number" name="mk_price[]" class="form-control" placeholder="market_price"></div><br><br>');
-    //             }
-           
-        
-    // });
+
     $(document).ready(function() {
 
         setTimeout(function(){ $(".msg").hide(); }, 5000);

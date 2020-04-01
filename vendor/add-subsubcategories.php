@@ -9,7 +9,12 @@
         $meta_title       =   addslashes( $_POST['meta_title'] );
         $meta_desc        =   addslashes( $_POST['meta_description'] );
         $subcategory_id   =   addslashes( $_POST['category_id'] );
-        $variation_id   =   addslashes( $_POST['variation_id'] );
+        foreach ($_POST['variation_id'] as $key => $value) {
+            
+            // $variation_id = $value;
+            $variation_id     =  implode(',' , $_POST['variation_id']);
+        }
+        
         $slug             = str_replace(" ","-", $name);
 
         $sql = "INSERT into sub_sub_categories (name, meta_title, meta_description,slug,sub_category_id,variation_id) VALUES ('$name', '$meta_title', '$meta_desc','$slug','$subcategory_id','$variation_id')";
@@ -54,7 +59,7 @@
 if (isset($error)) {?>
     <div class="row">
         <div class="col-lg-6 col-sm-offset-3">
-            <div class="alert alert-warning">    
+            <div class="alert alert-warning msg">    
     <?php echo $error; ?>
             </div>
         </div>
@@ -66,7 +71,7 @@ if (isset($error)) {?>
 if (isset($msg)) { ?>
 <div class="row">
     <div class="col-lg-6 col-sm-offset-3">
-        <div class="alert alert-success">    
+        <div class="alert alert-success msg">    
     <?php echo $msg; ?>
 
         </div>
@@ -106,8 +111,7 @@ if (isset($msg)) { ?>
                                         </div>
                                         <div class="form-group">
                                             <label>Choose variation type</label>
-                                            <select class="form-control select2" name="variation_id">
-                                                <option  selected disabled>Choose</option>
+                                            <select class="select2 select2-multiple" multiple multiple="multiple"  data-placeholder="Choose ..." name="variation_id[]">
                                             <?php
                                                 $sql = mysqli_query($con, "SELECT * From variations");
                                                 $row = mysqli_num_rows($sql);
@@ -158,4 +162,10 @@ if (isset($msg)) { ?>
                 <?php 
                      include('includes/footer.php');
                 ?>
-                
+<script type="text/javascript">
+    $(".select2").select2();
+    $(document).ready(function() {
+
+        setTimeout(function(){ $(".msg").hide(); }, 5000);
+    });
+</script>                
