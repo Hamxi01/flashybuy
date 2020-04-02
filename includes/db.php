@@ -114,8 +114,21 @@ class connection
 		}
 		public function get_crousel()
 		{
-			$fetch = mysqli_query($this->connect(),"select * from tbl_slider");
+			$fetch = mysqli_query($this->connect(),"select * from tbl_slider ORDER BY order_by");
 			return $fetch;
+		}
+
+
+		public function get_banner()
+		{
+			$fetch = mysqli_query($this->connect(),"select * from tbl_banner");
+			return $fetch;
+		}
+
+		public function get_crousel_by_id($id)
+		{
+			$crousel = mysqli_query($this->connect(),"select * from tbl_slider where id = $id");
+			return $crousel;
 		}
 		
 	}

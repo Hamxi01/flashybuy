@@ -48,7 +48,7 @@ $id = $_SESSION['id'];
                                     $rec = $obj->get_bank_detail($id);
                                      while($fetch = mysqli_fetch_row($rec)){ ?>
                                                     <tr>
-                                                    <th>S.No</th>
+                                                    <th>Account Number</th>
                                                     <th>1</th>
                                                     </tr>
                                                     
