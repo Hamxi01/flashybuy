@@ -17,7 +17,7 @@
                             </li>
 
                             <li class="has_sub">
-                                <a href="javascript:void(0);" class="waves-effect waves-primary"><i class="fa fa-user"></i> <span>Profile Management </span>
+                                <a href="javascript:void(0);" class="waves-effect waves-primary"><i class="fa fa-user"></i> <span>Seller Details </span>
                                  <span class="menu-arrow"></span></a>
                                 <ul class="list-unstyled">
                                     <li><a href="manage_detail.php">Bank Details</a></li>
