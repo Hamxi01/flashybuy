@@ -272,6 +272,10 @@
         <!-- Parsleyjs -->
         <script type="text/javascript" src="plugins/parsleyjs/dist/parsley.min.js"></script>
         <script src="plugins/summernote/dist/summernote.min.js"></script>
+        <!-- Sweet Alert -->
+        <script src="plugins/bootstrap-sweetalert/sweet-alert.min.js"></script>
+        <script src="assets/pages/jquery.sweet-alert.init.js"></script>
+        <!-- End sweet alert -->
         <script src="assets/js/jquery.core.js"></script>
         <script src="assets/js/jquery.app.js"></script>
 
