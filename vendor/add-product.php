@@ -75,7 +75,7 @@ if (isset($_GET['msg'])) { ?>
 	                                    Add Your Products Details
 	                                </p>
 
-									<form action="action/add_product.php" method="POST" data-parsley-validate novalidate id="product_form">
+									<form action="action/add_product.php" method="POST" data-parsley-validate novalidate id="product_form" enctype="multipart/form-data">
 										<div class="form-group">
 											<label for="userName">Product Name*</label>
 											<input type="text" name="name" parsley-trigger="change" required placeholder="Enter Product name" class="form-control" id="userName">
@@ -207,7 +207,7 @@ if (isset($_GET['msg'])) { ?>
                                                         <label>Product Variants (Options)</label>
                                                     </div>    
                                                         <div class="col-lg-8">
-                                                            <select class="select2" onchange="variationsName()" id="variations_name" multiple="multiple" multiple data-placeholder="Choose ...">
+                                                            <select class="select2" onchange="variationsName()" name="variationname[]" id="variations_name" multiple="multiple" multiple data-placeholder="Choose ...">
                                                             </select>
                                                         </div><br><br>
                                                 </div>

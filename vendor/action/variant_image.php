@@ -24,7 +24,7 @@
             
                             ?>
 
-                            <div class="col-md-3 portlets"><div class="m-b-30"> <div class="dropzone" id="dropzone1"> <div class="fallback"> <input name="variant_img[]" type="file" /> </div> </div> </div> </div>
+                            <div class="col-md-3 portlets"> <input name="variant_img[]" type="file" /></div>
                             <?php
                        }
                 }
