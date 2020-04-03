@@ -121,14 +121,20 @@ class connection
 
 		public function get_banner()
 		{
-			$fetch = mysqli_query($this->connect(),"select * from tbl_banner");
-			return $fetch;
+		$banner = mysqli_query($this->connect(),"select * from tbl_banner");
+			return $banner;
 		}
 
 		public function get_crousel_by_id($id)
 		{
 			$crousel = mysqli_query($this->connect(),"select * from tbl_slider where id = $id");
 			return $crousel;
+		}
+
+		public function get_banner_by_id($id)
+		{
+			$get_banner = mysqli_query($this->connect(),"select * from tbl_banner where id = $id");
+			return $get_banner;
 		}
 		
 	}
