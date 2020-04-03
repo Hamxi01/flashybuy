@@ -271,7 +271,7 @@
         <script src="plugins/dropzone/dist/dropzone.js"></script>
         <!-- Parsleyjs -->
         <script type="text/javascript" src="plugins/parsleyjs/dist/parsley.min.js"></script>
-
+        <script src="plugins/summernote/dist/summernote.min.js"></script>
         <script src="assets/js/jquery.core.js"></script>
         <script src="assets/js/jquery.app.js"></script>
 

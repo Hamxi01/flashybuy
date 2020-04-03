@@ -10,13 +10,19 @@
 
 			$row = mysqli_num_rows($sql);
 		    while ($row = mysqli_fetch_array($sql)){
-		        $id   = $row['variation_id'];   
+		        $id   = $row['variation_id'];
+		        $id   = explode(",",$id);
 		    }
-		    $sql =mysqli_query($con,"SELECT * from variations where id='$id'  AND delte = 0");
+		foreach ($id as $key => $value) {
+			
+			$sql =mysqli_query($con,"SELECT * from variations where id='$value'  AND delte = 0");
 		    $row = mysqli_num_rows($sql);
 		    while ($row = mysqli_fetch_array($sql)){
 		        $name   = $row['variation_name'];   
 		    }
 		    echo '<option value="'.$name.'">'.$name.'</option>';
+		}
+		    
+		    
 		}
 ?>

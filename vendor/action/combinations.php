@@ -8,11 +8,6 @@ if (isset($_POST['vari_type'])) {
 		$name = 'options_'.$no;
 		$my_str = implode('|', $_POST[$name]);
 		array_push($options, explode(',', $my_str));
-		// print_r($options);
-		// // print_r($my_str);
-
-		// 
-		
 	}
 	$combinations = combinations($options);
 	foreach ($combinations as $key => $combination) {
