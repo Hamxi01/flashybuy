@@ -8,32 +8,146 @@ $obj = new connection();
 $query = $obj->get_banner_by_id($id);
 $fetch = mysqli_fetch_array($query);
  ?>
+ <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
     <style>
-        .quote-imgs-thumbs {
-            background: #eee;
-            border: 1px solid #ccc;
-            border-radius: 0.25rem;
-            margin: 1.5rem 0;
-            width: 200px;
-            padding: 0.75rem;
-        }
-        
-        .quote-imgs-thumbs--hidden {
-            display: none;
-            width: 250px;
-        }
-        
-        .img-preview-thumb {
-            background: #fff;
-            border: 1px solid #777;
-            border-radius: 0.25rem;
-            box-shadow: 0.125rem 0.125rem 0.0625rem rgba(0, 0, 0, 0.12);
-            margin-right: 1rem;
-            max-width: 140px;
+     .box {
+  display: block;
+  min-width: 300px;
+  height: 300px;
+  margin: 10px;
+  background-color: white;
+  border-radius: 5px;
+ 
+  -webkit-transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  overflow: hidden;
+}
 
-            padding: 0.25rem;
-        }
-        
+.upload-options {
+  position: relative;
+  height: 75px;
+    width: 250px;
+  background-color: cadetblue;
+  cursor: pointer;
+  overflow: hidden;
+  text-align: center;
+  -webkit-transition: background-color ease-in-out 150ms;
+  transition: background-color ease-in-out 150ms;
+}
+.upload-options:hover {
+  background-color: #7fb1b3;
+}
+.upload-options input {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+.upload-options label {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 250px;
+  height: 100%;
+  font-weight: 200;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: pointer;
+  overflow: hidden;
+}
+.upload-options label::after {
+  content: 'add Banner';
+  font-family: 'Material Icons';
+  position: absolute;
+  font-size: 2.5rem;
+  color: #e6e6e6;
+  top: calc(50% - 2.5rem);
+  left: calc(50% - 1.25rem);
+  z-index: 0;
+}
+.upload-options label span {
+  display: inline-block;
+  width: 250px;
+  height: 100%;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  vertical-align: middle;
+  text-align: center;
+}
+.upload-options label span:hover i.material-icons {
+  color: lightgray;
+}
+
+.js--image-preview {
+  height: 225px;
+  width: 250px;
+  position: relative;
+  overflow: hidden;
+  background-image: url("");
+  background-color: white;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.js--image-preview::after {
+  content: "photo_size_select_actual";
+  font-family: 'Material Icons';
+  position: relative;
+  font-size: 4.5em;
+  color: #e6e6e6;
+  top: calc(50% - 3rem);
+  left: calc(50% - 2.25rem);
+  z-index: 0;
+}
+.js--image-preview.js--no-default::after {
+  display: none;
+}
+
+i.material-icons {
+  -webkit-transition: color 100ms ease-in-out;
+  transition: color 100ms ease-in-out;
+  font-size: 2.25em;
+  line-height: 55px;
+  color: white;
+  display: block;
+}
+
+.drop {
+  display: block;
+  position: absolute;
+  background: rgba(95, 158, 160, 0.2);
+  border-radius: 100%;
+  -webkit-transform: scale(0);
+          transform: scale(0);
+}
+
+.animate {
+  -webkit-animation: ripple 0.4s linear;
+          animation: ripple 0.4s linear;
+}
+
+@-webkit-keyframes ripple {
+  100% {
+    opacity: 0;
+    -webkit-transform: scale(2.5);
+            transform: scale(2.5);
+  }
+}
+
+@keyframes ripple {
+  100% {
+    opacity: 0;
+    -webkit-transform: scale(2.5);
+            transform: scale(2.5);
+  }
+}
         .switch {
             position: relative;
             display: inline-block;
@@ -142,35 +256,6 @@ $fetch = mysqli_fetch_array($query);
 
                                         </div>
 
-                                        <div class="form-group">
-                                            <label class="col-md-2 control-label">Primary Image</label>
-                                            <div class="col-md-10">
-                                                <input class="form-control" type="file" id="upload_imgs" value="admin/crousel/<?php echo $fetch[4] ?>" name="primary" />
-                                                </p>
-                                                <div class="quote-imgs-thumbs quote-imgs-thumbs--hidden" id="img_preview" aria-live="polite"></div>
-
-                                                <p>
-
-                                                </p>
-
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label class="col-md-2 control-label">Secondry Image</label>
-                                            <div class="col-md-10">
-                                                <input class="form-control" type="file" id="upload_imgs" value="admin/crousel/<?php echo $fetch[4] ?>" name="secondry" />
-                                                </p>
-                                                <div class="quote-imgs-thumbs quote-imgs-thumbs--hidden" id="img_preview" aria-live="polite"></div>
-
-                                                <p>
-
-                                                </p>
-
-                                            </div>
-                                        </div>
-
-
                                         <table class="table" cellpadding="5">
                                                 <tr>
                                                     <td><img src="admin/banner/<?php echo $fetch[3] ?>" height="250"> </td>
@@ -179,7 +264,37 @@ $fetch = mysqli_fetch_array($query);
                                                     <td><img src="admin/banner/<?php echo $fetch[3] ?>" height="250"> </td>
                                                     <td></td>
                                                 </tr>
-                                        </table>      
+                                        </table>   
+
+<br>
+   <h3 class="text-center"><div class="alert alert-success"> Update Banner Images</div></h3>  
+
+<div class="form-group">
+    <div class="col-md-10">
+     <div class="box">
+    <div class="js--image-preview"></div>
+    <div class="upload-options">
+    
+      <label>
+    
+        <input type="file" name="primary" class="image-upload" accept="image/*" />
+      </label>
+    </div>
+  </div>
+</div>
+</div>
+  <div class="box">
+    <div class="js--image-preview"></div>
+    <div class="upload-options">
+      <label>
+        <input type="file" name="secondry" class="image-upload" accept="image/*" />
+      </label>
+    </div>
+  </div>
+
+</div>
+
+   
                                         <!--  <div class="form-group">
                                                         <label class="col-lg-4 control-label">Date Range With Time</label>
                                                         <div class="col-lg-8">
@@ -307,38 +422,106 @@ $('#sunday').on('change', function(){
 });
 
 </script>
-                    <script>
-                        var imgUpload = document.getElementById('upload_imgs'),
-                            imgPreview = document.getElementById('img_preview'),
-                            imgUploadForm = document.getElementById('img-upload-form'),
-                            totalFiles, previewTitle, previewTitleText, img;
+ <script src='//production-assets.codepen.io/assets/common/stopExecutionOnTimeout-b2a7b3fe212eaa732349046d8416e00a9dec26eb7fd347590fbced3ab38af52e.js'></script>
+<script>
+   
+function initImageUpload(box) {
+  let uploadField = box.querySelector('.image-upload');
 
-                        imgUpload.addEventListener('change', previewImgs, false);
-                        imgUploadForm.addEventListener('submit', function(e) {
-                            e.preventDefault();
-                            alert('Images Uploaded! (not really, but it would if this was on your website)');
-                        }, false);
+  uploadField.addEventListener('change', getFile);
 
-                        function previewImgs(event) {
-                            totalFiles = imgUpload.files.length;
+  function getFile(e){
+    let file = e.currentTarget.files[0];
+    checkType(file);
+  }
+  
+  function previewImage(file){
+    let thumb = box.querySelector('.js--image-preview'),
+        reader = new FileReader();
 
-                            if (!!totalFiles) {
-                                imgPreview.classList.remove('quote-imgs-thumbs--hidden');
-                                previewTitle = document.createElement('p');
-                                previewTitle.style.fontWeight = 'bold';
-                                previewTitleText = document.createTextNode(totalFiles + ' Total Images Selected');
-                                previewTitle.appendChild(previewTitleText);
-                                imgPreview.appendChild(previewTitle);
-                            }
+    reader.onload = function() {
+      thumb.style.backgroundImage = 'url(' + reader.result + ')';
+    }
+    reader.readAsDataURL(file);
+    thumb.className += ' js--no-default';
+  }
 
-                            for (var i = 0; i < totalFiles; i++) {
-                                img = document.createElement('img');
-                                img.src = URL.createObjectURL(event.target.files[i]);
-                                img.classList.add('img-preview-thumb');
-                                imgPreview.appendChild(img);
-                            }
-                        }
-                    </script>
+  function checkType(file){
+    let imageType = /image.*/;
+    if (!file.type.match(imageType)) {
+      throw 'Datei ist kein Bild';
+    } else if (!file){
+      throw 'Kein Bild gewählt';
+    } else {
+      previewImage(file);
+    }
+  }
+  
+}
+
+// initialize box-scope
+var boxes = document.querySelectorAll('.box');
+
+for(let i = 0; i < boxes.length; i++) {if (window.CP.shouldStopExecution(1)){break;}
+  let box = boxes[i];
+  initDropEffect(box);
+  initImageUpload(box);
+}
+window.CP.exitedLoop(1);
+
+
+
+
+/// drop-effect
+function initDropEffect(box){
+  let area, drop, areaWidth, areaHeight, maxDistance, dropWidth, dropHeight, x, y;
+  
+  // get clickable area for drop effect
+  area = box.querySelector('.js--image-preview');
+  area.addEventListener('click', fireRipple);
+  
+  function fireRipple(e){
+    area = e.currentTarget
+    // create drop
+    if(!drop){
+      drop = document.createElement('span');
+      drop.className = 'drop';
+      this.appendChild(drop);
+    }
+    // reset animate class
+    drop.className = 'drop';
+    
+    // calculate dimensions of area (longest side)
+    areaWidth = getComputedStyle(this, null).getPropertyValue("width");
+    areaHeight = getComputedStyle(this, null).getPropertyValue("height");
+    maxDistance = Math.max(parseInt(areaWidth, 10), parseInt(areaHeight, 10));
+
+    // set drop dimensions to fill area
+    drop.style.width = maxDistance + 'px';
+    drop.style.height = maxDistance + 'px';
+    
+    // calculate dimensions of drop
+    dropWidth = getComputedStyle(this, null).getPropertyValue("width");
+    dropHeight = getComputedStyle(this, null).getPropertyValue("height");
+    
+    // calculate relative coordinates of click
+    // logic: click coordinates relative to page - parent's position relative to page - half of self height/width to make it controllable from the center
+    x = e.pageX - this.offsetLeft - (parseInt(dropWidth, 10)/2);
+    y = e.pageY - this.offsetTop - (parseInt(dropHeight, 10)/2) - 30;
+    
+    // position drop and animate
+    drop.style.top = y + 'px';
+    drop.style.left = x + 'px';
+    drop.className += ' animate';
+    e.stopPropagation();
+    
+  }
+}
+
+//# sourceURL=pen.js
+</script>
+
+
 
                   <!--   <script>
                         // Time Picker

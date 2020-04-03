@@ -5,128 +5,145 @@ include('include/nav.php');
 include_once('../includes/db.php');
 
  ?>
+  <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
     <style>
-       .container {
-  padding-top: 3%;
+     .box {
+  display: block;
+  min-width: 300px;
+  height: 300px;
+  margin: 10px;
+  background-color: white;
+  border-radius: 5px;
+ 
+  -webkit-transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  overflow: hidden;
 }
 
-.hide-element {
+.upload-options {
+  position: relative;
+  height: 75px;
+    width: 250px;
+  background-color: cadetblue;
+  cursor: pointer;
+  overflow: hidden;
+  text-align: center;
+  -webkit-transition: background-color ease-in-out 150ms;
+  transition: background-color ease-in-out 150ms;
+}
+.upload-options:hover {
+  background-color: #7fb1b3;
+}
+.upload-options input {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+.upload-options label {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 250px;
+  height: 100%;
+  font-weight: 200;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: pointer;
+  overflow: hidden;
+}
+.upload-options label::after {
+  content: 'add Banner';
+  font-family: 'Material Icons';
+  position: absolute;
+  font-size: 2.5rem;
+  color: #e6e6e6;
+  top: calc(50% - 2.5rem);
+  left: calc(50% - 1.25rem);
+  z-index: 0;
+}
+.upload-options label span {
+  display: inline-block;
+  width: 250px;
+  height: 100%;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  vertical-align: middle;
+  text-align: center;
+}
+.upload-options label span:hover i.material-icons {
+  color: lightgray;
+}
+
+.js--image-preview {
+  height: 225px;
+  width: 250px;
+  position: relative;
+  overflow: hidden;
+  background-image: url("");
+  background-color: white;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.js--image-preview::after {
+  content: "photo_size_select_actual";
+  font-family: 'Material Icons';
+  position: relative;
+  font-size: 4.5em;
+  color: #e6e6e6;
+  top: calc(50% - 3rem);
+  left: calc(50% - 2.25rem);
+  z-index: 0;
+}
+.js--image-preview.js--no-default::after {
   display: none;
 }
 
-.glyphicon-remove-circle {
-  float: right;
-  font-size: 2em;
-  cursor: pointer;
-}
-
-
-/*
-* http://www.abeautifulsite.net/whipping-file-inputs-into-shape-with-bootstrap-3/
-*/
-
-.btn-file {
-  position: relative;
-  overflow: hidden;
-  /*box-shadow: 10px 10px 5px #888888;*/
-}
-
-.btn-file input[type=file] {
-  position: absolute;
-  top: 0;
-  right: 0;
-  min-width: 100%;
-  min-height: 100%;
-  font-size: 100px;
-  text-align: right;
-  filter: alpha(opacity=0);
-  opacity: 0;
-  outline: none;
-  background: white;
-  cursor: inherit;
+i.material-icons {
+  -webkit-transition: color 100ms ease-in-out;
+  transition: color 100ms ease-in-out;
+  font-size: 2.25em;
+  line-height: 55px;
+  color: white;
   display: block;
 }
 
-
-#uploadDataInfo p {
-  margin-left: 2%;
-  margin-top: 3%;
-  font-size: 1.2em;
-}
-
-.media-left #edit {
-  z-index: 1000;
-  cursor: pointer;
-}
-
-.thumbnail #edit {
+.drop {
+  display: block;
   position: absolute;
-  display: inline;
-  z-index: 1000;
-  top: 1px;
-  right: 15px;
-  cursor: pointer;
+  background: rgba(95, 158, 160, 0.2);
+  border-radius: 100%;
+  -webkit-transform: scale(0);
+          transform: scale(0);
 }
 
-.thumbnail #delete {
-  position: absolute;
-  display: inline;
-  z-index: 1000;
-  margin-top: 4%;
-  top: 20px;
-  right: 15px;
-  cursor: pointer;
+.animate {
+  -webkit-animation: ripple 0.4s linear;
+          animation: ripple 0.4s linear;
 }
 
-.caption input[type="text"] {
-  /*width: 80%;*/
+@-webkit-keyframes ripple {
+  100% {
+    opacity: 0;
+    -webkit-transform: scale(2.5);
+            transform: scale(2.5);
+  }
 }
 
-.thumbnail .fa-check-circle {
-  color: #006dcc;
-  *color: #0044cc;
-}
-
-.thumbnail .fa-times-circle {
-  color: #E74C3C;
-}
-
-.modal-header .close {
-  float: right !important;
-  margin-right: -30px !important;
-  margin-top: -25px !important;
-  background-color: white !important;
-  border-radius: 15px !important;
-  width: 30px !important;
-  height: 30px !important;
-  opacity: 1 !important;
-}
-
-.modal-header {
-  padding: 0px;
-  min-height: 0px;
-}
-
-.modal-dialog {
-  top: 50px;
-}
-
-.media-left img {
-  cursor: pointer;
-}
-
-.label-tags {
-  font-size: 16px;
-  padding: 1%;
-  color: black;
-  background-color: white;
-  border: 1px solid blue;
-  border-radius: 4px;
-  margin: 3px;
-}
-
-.label-tags i {
-  cursor: pointer;
+@keyframes ripple {
+  100% {
+    opacity: 0;
+    -webkit-transform: scale(2.5);
+            transform: scale(2.5);
+  }
 }
         
         .switch {
@@ -235,206 +252,33 @@ include_once('../includes/db.php');
 
                                         </div>
 
-                                        <div class="form-group">
-                                            <label class="col-md-2 control-label">Primary Image</label>
-                                            <div class="col-md-10">
-<div id="individualImagePreview" class="modal fade" role="dialog">
-<div class="modal-dialog modal-lg">
+                                     <br>
+   <h3 class="text-center"><div class="alert alert-success"> Upload Primary & Secondry Banner Images</div></h3>  
 
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal"><i class="fa fa-times"></i></button>
-      </div>
-      <div class="modal-body">
-        <img src="" alt="default image"  class="img-responsive" id="individualPreview" />
-      </div>
-      <div class="modal-footer" id="displayTags">
-        <div class="pull-left">
-
-        </div>
-      </div>
-    </div>
-</div>
-</div>
-
-<div class="container">
-  
-  <div class="alert hide-element" role="alert" id="file-error-message">
-    <span class='glyphicon glyphicon-remove-circle'></span>
-    <p></p>
-  </div>
-    <span class="btn btn-primary btn-file">
-    Browse <input type="file" name="primary" accept="image/*" id="uploadImages"/></span>
-    <button type="button" data-toggle="modal" data-target="#myModal" 
-    class="btn btn-primary disabled" value="Preview" name="imagesUpload" id="imagesUpload">Preview</button>
-  
-
-  <div class="hide-element" id="previewImages">
-    <div class="media">
-      <div class="media-left">
-
-        <img class="media-object thumbnail" src="img/200x200.gif" alt="" id="0" title="" data-toggle="modal" data-target="#individualImagePreview" />
-      </div>
-      <div class="media-body">
-        <a role="button" class="btn btn-primary hide-element" id="undo0">Undo</a>
-        <a role="button" class="btn btn-danger pull-right" id="delete0">Delete</a>
-      </div>
-    </div>
-    <div class="media">
-      <div class="media-left">
-        <img class="media-object thumbnail" src="img/200x200.gif" alt="" id="1" title="" data-toggle="modal" data-target="#individualImagePreview" />
-      </div>
-      <div class="media-body">
-        <a role="button" class="btn btn-primary hide-element" id="undo1">Undo</a>
-        <a role="button" class="btn btn-danger pull-right" id="delete1">Delete</a>
-      </div>
-    </div>
-    <div class="media">
-      <div class="media-left">
-        <img class="media-object thumbnail" src="img/200x200.gif" alt="" id="2" title="" data-toggle="modal" data-target="#individualImagePreview" />
-      </div>
-      <div class="media-body">
-        <a role="button" class="btn btn-primary hide-element" id="undo2">Undo</a>
-        <a role="button" class="btn btn-danger pull-right" id="delete2">Delete</a>
-      </div>
-    </div>
-    <div class="media">
-      <div class="media-left">
-        <img class="media-object thumbnail" src="img/200x200.gif" alt="" id="3" data-toggle="modal" data-target="#individualImagePreview" />
-      </div>
-      <div class="media-body">
-        
-        <a role="button" class="btn btn-primary hide-element" id="undo3">Undo</a>
-        <a role="button" class="btn btn-danger pull-right" id="delete3">Delete</a>
-      </div>
-    </div>
-  </div>
-
-  <div id="myModal" class="modal fade" role="dialog">
-    <div class="modal-dialog modal-lg">
-
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal"><i class="fa fa-times"></i></button>
-        </div>
-        <div class="modal-body">
-          <div id="myCarousel" class="carousel slide">
-            <div class="carousel-inner" role="listbox" id="previewItems">
-            </div>
-            <!-- Left and right controls -->
-            <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
-              <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-              <span class="sr-only">Previous</span>
-            </a>
-            <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
-              <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-              <span class="sr-only">Next</span>
-            </a>
-          </div>
-        </div>
-        <div class="modal-footer hide-element">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
-      </div>
-
+<div class="form-group">
+    <div class="col-md-10">
+     <div class="box">
+    <div class="js--image-preview"></div>
+    <div class="upload-options">
+    
+      <label>
+    
+        <input type="file" name="primary" class="image-upload" accept="image/*" />
+      </label>
     </div>
   </div>
 </div>
-
-                                            </div>
-                                        </div>
-
-                                         <div class="form-group">
-                                            <label class="col-md-2 control-label">Secondry</label>
-                                            <div class="col-md-10">
-                                                <div class="container">
-  
-  <div class="alert hide-element" role="alert" id="file-error-message">
-    <span class='glyphicon glyphicon-remove-circle'></span>
-    <p></p>
-  </div>
-    <span class="btn btn-primary btn-file">
-    Browse <input type="file" multiple="multiple" accept="image/*" id="uploadImages"/></span>
-    <button type="button" data-toggle="modal" data-target="#myModal" 
-    class="btn btn-primary disabled" value="Preview" name="imagesUpload" id="imagesUpload">Preview</button>
-  
-
-  <div class="hide-element" id="previewImages">
-    <div class="media">
-      <div class="media-left">
-
-        <img class="media-object thumbnail" src="img/200x200.gif" alt="" id="0" title="" data-toggle="modal" data-target="#individualImagePreview" />
-      </div>
-      <div class="media-body">
-        <a role="button" class="btn btn-primary hide-element" id="undo0">Undo</a>
-        <a role="button" class="btn btn-danger pull-right" id="delete0">Delete</a>
-      </div>
-    </div>
-    <div class="media">
-      <div class="media-left">
-        <img class="media-object thumbnail" src="img/200x200.gif" alt="" id="1" title="" data-toggle="modal" data-target="#individualImagePreview" />
-      </div>
-      <div class="media-body">
-        <a role="button" class="btn btn-primary hide-element" id="undo1">Undo</a>
-        <a role="button" class="btn btn-danger pull-right" id="delete1">Delete</a>
-      </div>
-    </div>
-    <div class="media">
-      <div class="media-left">
-        <img class="media-object thumbnail" src="img/200x200.gif" alt="" id="2" title="" data-toggle="modal" data-target="#individualImagePreview" />
-      </div>
-      <div class="media-body">
-        <a role="button" class="btn btn-primary hide-element" id="undo2">Undo</a>
-        <a role="button" class="btn btn-danger pull-right" id="delete2">Delete</a>
-      </div>
-    </div>
-    <div class="media">
-      <div class="media-left">
-        <img class="media-object thumbnail" src="img/200x200.gif" alt="" id="3" data-toggle="modal" data-target="#individualImagePreview" />
-      </div>
-      <div class="media-body">
-        
-        <a role="button" class="btn btn-primary hide-element" id="undo3">Undo</a>
-        <a role="button" class="btn btn-danger pull-right" id="delete3">Delete</a>
-      </div>
-    </div>
-  </div>
-
-  <div id="myModal" class="modal fade" role="dialog">
-    <div class="modal-dialog modal-lg">
-
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal"><i class="fa fa-times"></i></button>
-        </div>
-        <div class="modal-body">
-          <div id="myCarousel" class="carousel slide">
-            <div class="carousel-inner" role="listbox" id="previewItems">
-            </div>
-            <!-- Left and right controls -->
-            <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
-              <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-              <span class="sr-only">Previous</span>
-            </a>
-            <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
-              <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-              <span class="sr-only">Next</span>
-            </a>
-          </div>
-        </div>
-        <div class="modal-footer hide-element">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
-      </div>
-
-    </div>
-  </div>
 </div>
-                                            </div>
-                                        </div>
+  <div class="box">
+    <div class="js--image-preview"></div>
+    <div class="upload-options">
+      <label>
+        <input type="file" name="secondry" class="image-upload" accept="image/*" />
+      </label>
+    </div>
+  </div>
+
+                                       
 
 
                                         <!--  <div class="form-group">
@@ -534,330 +378,104 @@ include_once('../includes/db.php');
 
                 <?php include('include/footer.php'); ?>
 
-  <script>
-   $(document).ready(function() {
-  $('[data-toggle="tooltip"]').tooltip({
-    html: true
-  });
-  $('.media').addClass('hide-element');
-  $('#imagesUploadForm').submit(function(evt) {
-    evt.preventDefault();
-  });
- 
-  $('#delete').click(function() {
-    console.log('click detected inside circl-o of delete');
-    $('#delete').toggleClass('fa-circle-o').toggleClass('fa-times-circle');
-  });
-  //namespace variable to determine whether to continue or not
-  var proceed = false;
-  //Ensure that FILE API is supported by the browser to proceed
-  if (window.File && window.FileReader && window.FileList && window.Blob) {
-    if (window.webkitURL || window.URL) {
-      $('#errorMessaage').removeClass('hide-element').addClass(
-        'alert-success').html('<span class="glyphicon glyphicon-ok"></span>\n\
-            <span class="sr-only">Success:</span>Great your browser is compatiblle for Files API. \n\
-Enjoy the demo');
-      proceed = true;
-    } else {
-      $('#errorMessaage').removeClass('hide-element').addClass(
-        'alert-warning').html('<span class="glyphicon glyphicon-exclamation-sign"></span>\n\
-            <span class="sr-only">Warning:</span>The browser does not support few APIs used in this demo.\n\
-But we will be back with a solution.');
+  <script src='//production-assets.codepen.io/assets/common/stopExecutionOnTimeout-b2a7b3fe212eaa732349046d8416e00a9dec26eb7fd347590fbced3ab38af52e.js'></script>
+<script>
+   
+function initImageUpload(box) {
+  let uploadField = box.querySelector('.image-upload');
+
+  uploadField.addEventListener('change', getFile);
+
+  function getFile(e){
+    let file = e.currentTarget.files[0];
+    checkType(file);
+  }
+  
+  function previewImage(file){
+    let thumb = box.querySelector('.js--image-preview'),
+        reader = new FileReader();
+
+    reader.onload = function() {
+      thumb.style.backgroundImage = 'url(' + reader.result + ')';
     }
-
-  } else {
-    $('#errorMessaage').removeClass('hide-element').addClass(
-      'alert-warning').html('<span class="glyphicon glyphicon-exclamation-sign"></span>\n\
-            <span class="sr-only">Warning:</span>Snap looks like you still live in stone age. \n\
-Wake up..Time to update the browser');
+    reader.readAsDataURL(file);
+    thumb.className += ' js--no-default';
   }
-  if (proceed) {
-    var input = "";
-    var formData = new FormData();
-    $('input[type=file]').on("change", function(e) {
-      var counter = 0;
-      var modalPreviewItems = "";
-      input = this.files;
-      $($(this)[0].files).each(function(i, file) {
-        formData.append("file[]", file);
-      });
-      $('#previewImages').removeClass('hide-element');
-      $('#imagesUpload').removeClass('disabled');
-      var successUpload = 0;
-      var failedUpload = 0;
-      var extraFiles = 0;
-      var size = input.length;
-      $(input).each(function() {
-        var reader = new FileReader();
-        var uploadImage = this;
-        console.log(this);
-        reader.readAsArrayBuffer(this);
-        reader.onload = function(e) {
-          var magicNumbers = validateImage.magicNumbersForExtension(e);
-          var fileSize = validateImage.isUploadedFileSizeValid(uploadImage);
-          var extension = validateImage.uploadFileExtension(uploadImage);
-          var isValidImage = validateImage.validateExtensionToMagicNumbers(magicNumbers);
-          var thumbnail = validateImage.generateThumbnail(uploadImage);
-          if (fileSize && isValidImage) {
-            $('#' + counter).parents('.media').removeClass('hide-element');
-            $('#' + counter).attr('src', thumbnail).height('200');
-            $('#uploadDataInfo').removeClass('hide-element').addClass('alert-success');
-            successUpload++;
-            modalPreviewItems += carouselInsideModal.createItemsForSlider(thumbnail, counter);
 
-          } else {
-            $('#uploadDataInfo').removeClass('hide-element alert-success').addClass('alert-warning');
-            failedUpload++;
-          }
-          counter++;
-          if (counter === size) {
-            $('#myCarousel').append(carouselInsideModal.createIndicators(successUpload, "myCarousel"));
-            $('#previewItems').append(modalPreviewItems);
-            $('#previewItems .item').first().addClass('active');
-            $('#carouselIndicators > li').first().addClass('active');
-            $('#myCarousel').carousel({
-              interval: 2000,
-              cycle: true
-            });
-            if (size > 4) {
-              $('#toManyFilesUploaded').html("Only files displayed below will be uploaded");
-              extraFiles = size - 4;
-            }
-
-            $('#filesCount').html(successUpload + " files are ready to upload");
-            if (failedUpload !== 0 || extraFiles !== 0) {
-              failedUpload === 0 ? "" : failedUpload;
-              extraFiles === 0 ? "" : extraFiles;
-              $('#filesUnsupported').html(failedUpload + extraFiles + " files were not selected for upload");
-            }
-
-          }
-        };
-      });
-
-    });
-    $(document).on('click', '.glyphicon-remove-circle', function() {
-      $('#file-error-message').addClass('hide-element');
-    });
-    $("body").on("click", ".media-object", function() {
-      var image = $(this).attr('src');
-      $("#individualPreview").attr('src', image);
-      var tags = [];
-      var displayTagsWithFormat = "";
-      ($(this).parents('.media').find('input[type="text"]')).each(function() {
-        if ($(this).attr('name') === 'tags') {
-          tags = $(this).val().split(",");
-          $.each(tags, function(index) {
-            displayTagsWithFormat += "<span class = 'label-tags label'>#" + tags[index] + "  <i class='fa fa-times'></i></span>";
-          });
-          $("#displayTags").html("<div class='pull-left'>" + displayTagsWithFormat + "</div>");
-          //console.log(tags);
-        }
-      });
-    });
-    var toBeDeleted = [];
-    var eachImageValues = [];
-    $('.media').each(function(index) {
-      var imagePresent = "";
-      $("body").on("click", "#delete" + index, function() {
-        imagePresent = $("#" + index).attr('src');
-        $("#undo" + index).removeClass('hide-element');
-        $("#" + index).attr('src', './img/200x200.gif');
-        $("#delete" + index).addClass('hide-element');
-        toBeDeleted.push(index);
-        //console.log(toBeDeleted);                      
-        $("#delete" + index).parent().find('input[type="text"]').each(function() {
-          var attribute = $(this).attr('name');
-          var attributeValue = $(this).val();
-          eachImageValues[attribute + index] = attributeValue;
-          //console.log(eachImageValues);
-
-        });
-        //console.log(toBeDeleted.length);
-        if (toBeDeleted.length === 4) {
-          $('#sendImagesToServer').prop('disabled', true).html('No Files to Upload');
-
-        } else {
-          $('#sendImagesToServer').prop('disabled', false).html('Update &amp; Preview');
-        }
-
-        $("#delete" + index).parent().find('input[type="text"]').prop('disabled', true).addClass('disabled');
-      });
-      $("body").on("click", "#undo" + index, function() {
-        $("#" + index).attr('src', imagePresent);
-        $("#undo" + index).addClass('hide-element');
-        $("#delete" + index).removeClass('hide-element');
-        var indexToDelete = toBeDeleted.indexOf(index);
-        if (indexToDelete > -1) {
-          toBeDeleted.splice(indexToDelete, 1);
-          // console.log(toBeDeleted);
-          $("#delete" + index).parent().find('input[type="text"]').prop('disabled', false).removeClass('disabled');
-        }
-        if (toBeDeleted.length === 4) {
-          $('#sendImagesToServer').prop('disabled', true).html('No Files to Upload');
-
-        } else {
-          $('#sendImagesToServer').prop('disabled', false).html('Update &amp; Preview');
-        }
-      });
-    });
-    $('body').on("click", "#sendImagesToServer", function() {
-      var counter = 0;
-      var imageData = "";
-      var consolidatedData = [];
-      $('.media').each(function() {
-        var description = "";
-        var caption = "";
-        var tags = "";
-        $('.media').find('input[type="text"]').each(function(index) {
-          if ((index === 0 || index <= 11) && counter <= 11) {
-            counter++;
-            var attributeName = "";
-            var attributeValue = "";
-
-            attributeName = $(this).attr('name');
-            attributeValue = $(this).val();
-            switch (attributeName) {
-              case "description":
-                description = attributeValue;
-                // console.log(description);
-                break;
-              case "caption":
-                caption = attributeValue;
-                // console.log(caption);
-                break;
-              case "tags":
-                tags = attributeValue;
-                // console.log(tags);
-                break;
-              default:
-                break;
-            }
-            if (counter % 3 === 0) {
-              imageData = new imageInformation(description, caption, tags);
-              consolidatedData.push(imageData);
-              //JSON.stringify(consolidatedData);                        
-              //console.log(toBeDeleted);
-            }
-          }
-        });
-      });
-      imageData = new deleteList(toBeDeleted);
-      consolidatedData.push(imageData);
-      var sendData = JSON.stringify(consolidatedData);
-      formData.append("important", sendData);
-      $.ajax({
-        type: 'POST',
-        url: 'upload.php',
-        xhr: function() {
-          var customXhr = $.ajaxSettings.xhr();
-          if (customXhr.upload) {
-            customXhr.upload.addEventListener('progress', progressHandlingFunction, false); // For handling the progress of the upload
-          }
-          return customXhr;
-        },
-        data: formData,
-        dataType: 'json',
-        cache: false,
-        contentType: false,
-        processData: false,
-        success: function(data) {
-          $('#ajaxLoad').addClass('hide-element');
-          $('#successResponse').html(data.message);
-          console.log(data.message + " inside success function");
-        },
-        error: function(data) {
-          $('#successResponse').html(data.responseJSON.message).addClass('label label-danger').css({
-            'font-size': '18px'
-          });
-          console.log(data.responseJSON.message + " inside error function");
-        }
-      });
-
-      function progressHandlingFunction(e) {
-        if (e.lengthComputable) {
-          $('#progressIndicator').css({
-            'width': e.loaded
-          });
-        }
-      };
-      //
-      //console.log(JSON.stringify(consolidatedData));
-    });
-
-    function imageInformation(description, caption, tags) {
-      this.description = description;
-      this.caption = caption;
-      this.tags = tags;
-    };
-
-    function deleteList(toBeDeleted) {
-      this.toBeDeleted = toBeDeleted;
-    };
-    var validateImage = {
-      magicNumbersForExtension: function(event) {
-        var headerArray = (new Uint8Array(event.target.result)).subarray(0, 4);
-        var magicNumber = "";
-        for (var counter = 0; counter < headerArray.length; counter++) {
-          magicNumber += headerArray[counter].toString(16);
-        }
-        return magicNumber;
-      },
-      isUploadedFileSizeValid: function(fileUploaded) {
-        var fileSize = fileUploaded.size;
-        var maximumSize = 2097125;
-        var isValid = "";
-        if (fileSize <= maximumSize) {
-          isValid = true;
-        } else {
-          isValid = false;
-        }
-        return isValid;
-      },
-      uploadFileExtension: function(fileUploaded) {
-        var fileExtension = "";
-        var imageType = "";
-        imageType = fileUploaded.type.toLowerCase();
-        fileExtension = imageType.substr((imageType.lastIndexOf('/') + 1));
-        return fileExtension;
-      },
-      validateExtensionToMagicNumbers: function(magicNumbers) {
-        var properExtension = "";
-        if (magicNumbers.toLowerCase() === "ffd8ffe0" || magicNumbers.toLowerCase() === "ffd8ffe1" ||
-          magicNumbers.toLowerCase() === "ffd8ffe8" ||
-          magicNumbers.toLocaleLowerCase() === "89504e47") {
-          properExtension = true;
-
-        } else {
-          properExtension = false;
-        }
-        return properExtension;
-      },
-      generateThumbnail: function(uploadImage) {
-        if (window.URL)
-          imageSrc = window.URL.createObjectURL(uploadImage);
-        else
-          imageSrc = window.webkitURL.createObjectURL(uploadImage);
-        return imageSrc;
-      }
-    };
-    var carouselInsideModal = {
-      createIndicators: function(carouselLength, dataTarget) {
-        var carouselIndicators = '<ol class = "carousel-indicators" id="carouselIndicators">';
-        for (var counter = 0; counter < carouselLength; counter++) {
-          carouselIndicators += '<li data-target = "#' + dataTarget + '"data-slide-to="' + counter + '"></li>';
-        }
-        carouselIndicators += "</ol>";
-        return carouselIndicators;
-      },
-      createItemsForSlider: function(imgSrc, counter) {
-        var item = '<div class = "item">' + '<img src="' + imgSrc + '" id="preview' + counter + '" /></div>';
-        return item;
-      }
-    };
+  function checkType(file){
+    let imageType = /image.*/;
+    if (!file.type.match(imageType)) {
+      throw 'Datei ist kein Bild';
+    } else if (!file){
+      throw 'Kein Bild gewählt';
+    } else {
+      previewImage(file);
+    }
   }
-});
-                    </script>
+  
+}
+
+// initialize box-scope
+var boxes = document.querySelectorAll('.box');
+
+for(let i = 0; i < boxes.length; i++) {if (window.CP.shouldStopExecution(1)){break;}
+  let box = boxes[i];
+  initDropEffect(box);
+  initImageUpload(box);
+}
+window.CP.exitedLoop(1);
+
+
+
+
+/// drop-effect
+function initDropEffect(box){
+  let area, drop, areaWidth, areaHeight, maxDistance, dropWidth, dropHeight, x, y;
+  
+  // get clickable area for drop effect
+  area = box.querySelector('.js--image-preview');
+  area.addEventListener('click', fireRipple);
+  
+  function fireRipple(e){
+    area = e.currentTarget
+    // create drop
+    if(!drop){
+      drop = document.createElement('span');
+      drop.className = 'drop';
+      this.appendChild(drop);
+    }
+    // reset animate class
+    drop.className = 'drop';
+    
+    // calculate dimensions of area (longest side)
+    areaWidth = getComputedStyle(this, null).getPropertyValue("width");
+    areaHeight = getComputedStyle(this, null).getPropertyValue("height");
+    maxDistance = Math.max(parseInt(areaWidth, 10), parseInt(areaHeight, 10));
+
+    // set drop dimensions to fill area
+    drop.style.width = maxDistance + 'px';
+    drop.style.height = maxDistance + 'px';
+    
+    // calculate dimensions of drop
+    dropWidth = getComputedStyle(this, null).getPropertyValue("width");
+    dropHeight = getComputedStyle(this, null).getPropertyValue("height");
+    
+    // calculate relative coordinates of click
+    // logic: click coordinates relative to page - parent's position relative to page - half of self height/width to make it controllable from the center
+    x = e.pageX - this.offsetLeft - (parseInt(dropWidth, 10)/2);
+    y = e.pageY - this.offsetTop - (parseInt(dropHeight, 10)/2) - 30;
+    
+    // position drop and animate
+    drop.style.top = y + 'px';
+    drop.style.left = x + 'px';
+    drop.className += ' animate';
+    e.stopPropagation();
+    
+  }
+}
+
+//# sourceURL=pen.js
+</script>
 
 
 
