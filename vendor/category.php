@@ -125,7 +125,7 @@
                                         </div>
                                         <div class="col-lg-4">
                                             <button type="button" class="btn btn-inverse" id="subsubcategories_add" style="display: none;" onclick="subsubcategoriesForm()">Add new</button>
-                                            <button type="button" class="btn btn-inverse" id="add_options" style="display: none;">Add Options</button>
+                                            <button type="button" class="btn btn-inverse" id="add_options" style="display: none;"><a id="variant_options" href="" style="text-decoration: none;color: #fff">Add Options</a></button>
                                         </div>
                                     </div><br>
                                     <div class="row" id="categories_div" style="display: none;">
@@ -387,9 +387,12 @@
         //////////////////////////////
         //---Confirm Subcategory----//
 
-        function confirm_subsubcategory(el,$sub_sub_id){
+        function confirm_subsubcategory(el,sub_sub_id){
+
             list_item_highlight(el);
             $("#add_options").css("display","");
+            $("#subsubcategories_div").css("display","none");
             $("#subsubcategories_add").css("display","none");
+            $("#variant_options").attr("href","variant_options.php?id="+sub_sub_id);
         }    
 </script>
