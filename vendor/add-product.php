@@ -423,7 +423,12 @@ function variationsName(){
     $("select#variations_name :selected").each(function() {
         vari = $(this).val();
         if (vari != null) {
+            if(vari == 'Color'){
                 $("#varition-options").append('<div class="row '+vari+'"><div class="col-lg-3"><input type="text"  value="'+vari+'" class="form-control" disabled=""><input type="hidden" name="vari[]" value="'+vari+'" class="form-control"><input type="hidden" name="vari_type[]" value="'+i+'" class="form-control"></div><div class="col-lg-8"><input type="text" class="form-control tagsInput" onchange="update_sku();imagediv()" id="'+vari+'" name="options_'+i+'[]" value=""></div><div class="col-lg-1"><button type="button" onclick="delete_row(this)" class="btn btn-link btn-icon text-danger"><i class="fa fa-trash-o"></i></button></div></div>');
+            }
+            else{
+                $("#varition-options").append('<div class="row '+vari+'"><div class="col-lg-3"><input type="text"  value="'+vari+'" class="form-control" disabled=""><input type="hidden" name="vari[]" value="'+vari+'" class="form-control"><input type="hidden" name="vari_type[]" value="'+i+'" class="form-control"></div><div class="col-lg-8"><input type="text" class="form-control tagsInput" onchange="update_sku();" id="'+vari+'" name="options_'+i+'[]" value=""></div><div class="col-lg-1"><button type="button" onclick="delete_row(this)" class="btn btn-link btn-icon text-danger"><i class="fa fa-trash-o"></i></button></div></div>');
+            }
                 i++;
                 $('.tagsInput').tagsinput('items');
                 
@@ -432,8 +437,7 @@ function variationsName(){
     
         
 }               
-///////////////////////////
-//////////////////////////
+
 function delete_row(em){
             
      $(em).closest('.row').remove();
