@@ -1,5 +1,5 @@
 <?php 
-session_start();
+
 	include('include/header.php');
 	include('include/nav.php');
 ?>
@@ -32,29 +32,24 @@ session_start();
                                             <div class="col-md-10">
                                                 <input type="hidden" name="txtid" value="<?php echo $_SESSION['id'] ?>">
                                                 <input type="text" class="form-control" placeholder="Account Holder" id="acount_holder" name="acount_holder">
-                                               <span><?php if (isset($code)&&$code==1){echo $errorMsg;}?></span>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label class="col-md-2 control-label" for="example-email">Bank</label>
                                             <div class="col-md-10">
                                                 <input type="text" id="bank" name="bank" class="form-control" placeholder="Bank">
-                                           <span><?php if (isset($code)&&$code==2){echo $errorMsg;}?></span>     
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label class="col-md-2 control-label">Branch Name</label>
                                             <div class="col-md-10">
                                                 <input type="text" placeholder="Branch Name" name="branch" id="branch" class="form-control">
-                                                <span><?php if (isset($code)&&$code==3){echo $errorMsg;}?></span>
                                             </div>
                                         </div>
-
                                         <div class="form-group">
                                             <label class="col-md-2 control-label">Branch Code</label>
                                             <div class="col-md-10">
                                          <input type="text" class="form-control" placeholder="placeholder" name="branch_code">
-                                         <span><?php if (isset($code)&&$code==4){echo $errorMsg;}?></span>
                                             </div>
                                         </div>
                                         <div class="form-group">

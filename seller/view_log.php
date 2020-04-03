@@ -23,6 +23,7 @@ $obj = new connection();
                 <th>User ID</th>
                 <th>Update At</th>
                 <th>Acount</th>
+                <th>View Details</th>
 
             </tr>
         </thead>
@@ -40,6 +41,9 @@ $obj = new connection();
         						<td class='text-center'>$row[5]</td>
         						<td class='text-center'>$row[6]</td>
         						<td class='text-center'>$row[7]</td>
+                                <td class='text-center'><button type='button' class='btn btn-primary' data-toggle='modal' data-target='#exampleModalLong'>
+ View Detail
+</button></</td>
         				</tr>";
         			}
         		?>
@@ -55,6 +59,7 @@ $obj = new connection();
                 <th>User ID</th>
                 <th>Update At</th>
                 <th>Acount</th>
+                <th>View Details</th>
             </tr>
         </tfoot>
     </table>
@@ -66,3 +71,76 @@ $obj = new connection();
                 
 
 <?php include('include/footer.php'); ?>
+<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content col-md-12">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Change Details</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Updated Details</p>
+       <table class="table table-bordered">
+            <tr>
+                <th>Account Holder</th>
+                <th>Bank</th>
+                <th>Barnch Name</th>
+                <th>Branch Code</th>
+                <th>User ID</th>
+                <th>Update At</th>
+                <th>Acount</th>
+                <th>View Details</th>
+            </tr>
+            <tbody>
+                 <tr>
+                <th>Account Holder</th>
+                <th>Bank</th>
+                <th>Barnch Name</th>
+                <th>Branch Code</th>
+                <th>User ID</th>
+                <th>Update At</th>
+                <th>Acount</th>
+                <th>View Details</th>
+            </tr>
+            </tbody>
+
+       </table>
+
+
+
+        <table class="table table-bordered">
+            <p>Previous Details</p>
+            <tr>
+                <th>Account Holder</th>
+                <th>Bank</th>
+                <th>Barnch Name</th>
+                <th>Branch Code</th>
+                <th>User ID</th>
+                <th>Update At</th>
+                <th>Acount</th>
+                <th>View Details</th>
+            </tr>
+            <tbody>
+                 <tr>
+                <th>Account Holder</th>
+                <th>Bank</th>
+                <th>Barnch Name</th>
+                <th>Branch Code</th>
+                <th>User ID</th>
+                <th>Update At</th>
+                <th>Acount</th>
+                <th>View Details</th>
+            </tr>
+            </tbody>
+
+       </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-success">Approve</button>
+      </div>
+    </div>
+  </div>
+</div>
