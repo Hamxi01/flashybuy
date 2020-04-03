@@ -89,7 +89,7 @@ if (isset($_GET['msg'])) { ?>
 										</div>
 										<div class="form-group">
 											<label for="pass1">Product Brand</label>
-											<select class="form-control" name="brand">
+											<select class="form-control" name="brand" required="">
                                                 <option selected disabled>Choose Brand</option>
                                             <?php
                                                 $sql = mysqli_query($con, "SELECT * From brands where delte = 0");
@@ -156,19 +156,19 @@ if (isset($_GET['msg'])) { ?>
                                             <div class="col-lg-4">
                                                 <div class="form-group">
                                                     <label>Market Price:</label>
-                                                    <input type="number" min="1" name="market_price" class="form-control">
+                                                    <input type="number" min="1" name="market_price" class="form-control" >
                                                 </div>
                                             </div>
                                             <div class="col-lg-4">
                                                 <div class="form-group">
                                                     <label>Selling Price:</label>
-                                                    <input type="number" min="1" name="selling_price" class="form-control">
+                                                    <input type="number" min="1" name="selling_price" class="form-control" >
                                                 </div>
                                             </div>
                                             <div class="col-lg-4">
                                                 <div class="form-group">
                                                     <label>Quantity:</label>
-                                                    <input type="number" min="1" name="quantity" class="form-control">
+                                                    <input type="number" min="1" name="quantity" class="form-control" >
                                                 </div>
                                             </div>
                                         </div>
@@ -176,19 +176,19 @@ if (isset($_GET['msg'])) { ?>
                                             <div class="col-lg-4">
                                                 <div class="form-group">
                                                     <label>Width:</label>
-                                                    <input type="number" min="1" name="width" class="form-control">
+                                                    <input type="number" min="1" name="width" class="form-control" >
                                                 </div>
                                             </div>
                                             <div class="col-lg-4">
                                                 <div class="form-group">
                                                     <label>Height:</label>
-                                                    <input type="number" min="1" name="height" class="form-control">
+                                                    <input type="number" min="1" name="height" class="form-control" >
                                                 </div>
                                             </div>
                                             <div class="col-lg-4">
                                                 <div class="form-group">
                                                     <label>Length:</label>
-                                                    <input type="number" min="1" name="length" class="form-control">
+                                                    <input type="number" min="1" name="length" class="form-control" >
                                                 </div>
                                             </div>
                                         </div>
