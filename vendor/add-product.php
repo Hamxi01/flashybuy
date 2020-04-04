@@ -394,6 +394,7 @@ if (isset($_GET['msg'])) { ?>
             subsubcategory_id = subsubcat_id;
             subsubcategory_name = $(el).html();
             fetch_Variations(subsubcategory_id);
+            fetch_variant_options(subsubcategory_id);
         }
         function fetch_Variations(id){
             $('#variations_name').html(null);
@@ -411,6 +412,31 @@ if (isset($_GET['msg'])) { ?>
 
 
         }
+////////////////////////
+
+///////////////////////////////////////
+////---- Variant Options ---------////
+////////////////////////////////////// 
+
+        function fetch_variant_options(id){
+            // $('#variations_name').html(null);
+            $.ajax({
+                type: "POST",
+                url: 'action/getvariantoptions.php',
+                data: {sub_sub_cat:id},
+                success:function(data){
+                
+                        $('#variations_name').append(data);
+                        // console.log(data);
+                    
+                }
+            });
+
+
+        }
+///////////////////////////////////////
+////---- Variant Options ---------////
+//////////////////////////////////////       
         function closeModal(){
             if(category_id > 0 && subcategory_id > 0 && subsubcategory_id > 0){
                 $('#category_id').val(category_id);
