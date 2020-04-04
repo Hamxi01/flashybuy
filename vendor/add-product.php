@@ -192,11 +192,39 @@ if (isset($_GET['msg'])) { ?>
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="row">
+                                        <div class="col-lg-4">
                                         <div class="form-group">
                                             <label>Courier Size</label>
                                             <select class="form-control" name="courier_size">
                                                 <option selected disabled="">Choose</option>
                                             </select>
+                                        </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                        <div class="form-group">
+                                            <label>Varienty</label>
+                                            <select class="form-control" name="warrenty">
+                                                <option value="">Choose</option>
+                                                <option value="0">No Warrenty</option>
+                                                <option value="1">1 days</option>
+                                                <option value="2">2 days</option>
+                                                <option value="3">3 days</option>
+                                            </select>
+                                        </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                        <div class="form-group">
+                                            <label>Video Url</label>
+                                            <input type="url" name="video" class="form-control" >
+                                        </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                        <div class="form-group">
+                                            <label>Product Manual</label>
+                                            <input type="file" name="manual" class="form-control" >
+                                        </div>
+                                        </div>
                                         </div>
                                         <div class="row" id="variations_value" style="display: none;">
                                             <div class="col-lg-4 col-sm-offset-4">
