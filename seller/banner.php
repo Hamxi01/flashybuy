@@ -9,12 +9,12 @@ include_once('../includes/db.php');
     <style>
      .box {
   display: block;
-  min-width: 300px;
+  min-width: 350px;
   height: 300px;
   margin: 10px;
   background-color: white;
   border-radius: 5px;
- 
+ margin-left: 40%;
   -webkit-transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   overflow: hidden;
@@ -59,13 +59,13 @@ include_once('../includes/db.php');
   overflow: hidden;
 }
 .upload-options label::after {
-  content: 'add Banner';
+  content: 'Add Banner';
   font-family: 'Material Icons';
   position: absolute;
-  font-size: 2.5rem;
+  font-size:20px;
   color: #e6e6e6;
-  top: calc(50% - 2.5rem);
-  left: calc(50% - 1.25rem);
+  top: calc(50% - 1.5rem);
+  left: calc(40% - 1.25rem);
   z-index: 0;
 }
 .upload-options label span {
@@ -219,10 +219,10 @@ i.material-icons {
                         <div class="page-title-box">
                             <ol class="breadcrumb pull-right">
                                 <li><a href="#">Flashy buy</a></li>
-                                <li><a href="#">Crousel Management</a></li>
-                                <li class="active">Crousel Upload</li>
+                                <li><a href="#">Banner Management</a></li>
+                                <li class="active">Banner Upload</li>
                             </ol>
-                            <h4 class="page-title">Upload Crousel</h4>
+                            <h4 class="page-title">Upload Banner</h4>
                         </div>
                     </div>
                 </div>
@@ -237,7 +237,7 @@ i.material-icons {
 
                                 </div>
                                 <div class="col-md-12">
-                                    <form class="form-horizontal" enctype="multipart/form-data" method="post" action="admin/upload_banner.php" role="form">
+                                    <form class="form-horizontal" enctype="multipart/form-data" method="post" action="admin/upload_banner.php" role="form" onSubmit="return validate();">
                                         <div class="form-group">
                                             <label class="col-md-2 control-label">Title</label>
                                             <div class="col-md-10">
@@ -257,26 +257,32 @@ i.material-icons {
 
 <div class="form-group">
     <div class="col-md-10">
+    
      <div class="box">
     <div class="js--image-preview"></div>
+   
     <div class="upload-options">
-    
+   
       <label>
     
-        <input type="file" name="primary" class="image-upload" accept="image/*" />
+        <input type="file" name="primary" id="primary" class="image-upload" accept="image/*" onchange="primaryImage()" />
       </label>
     </div>
   </div>
 </div>
 </div>
+<div class="form-group">
+    <div class="col-md-10">
   <div class="box">
     <div class="js--image-preview"></div>
     <div class="upload-options">
       <label>
-        <input type="file" name="secondry" class="image-upload" accept="image/*" />
+        <input type="file" name="secondry" id="secondry" class="image-upload" accept="image/*" onchange="secondry_image()" />
       </label>
     </div>
   </div>
+</div>
+</div>
 
                                        
 
@@ -512,108 +518,59 @@ $('#sunday').on('change', function(){
 });
 
 </script>
+<script>
+      $(document).ready(function(){
+        
+        $("#").keyup(function(){
 
 
 
-                   <!--  <script>
-                        // Time Picker
-                        $('#timepicker').timepicker({
-                            defaultTIme: false
-                        });
-                        $('#timepicker2').timepicker({
-                            showMeridian: false
-                        });
-                        $('#timepicker3').timepicker({
-                            minuteStep: 15
-                        });
+        });
 
-                        // Date Picker
-                        $('#datepicker').datepicker();
-                        $('#datepicker-autoclose').datepicker({
-                            autoclose: true,
-                            todayHighlight: true
-                        });
-                        $('#datepicker-inline').datepicker();
-                        $('#datepicker-multiple-date').datepicker({
-                            format: "mm/dd/yyyy",
-                            clearBtn: true,
-                            multidate: true,
-                            multidateSeparator: ","
-                        });
-                        $('#date-range').datepicker({
-                            toggleActive: true
-                        });
+        $("#").keyup(function(){
 
-                        //Date range picker
-                        $('.input-daterange-datepicker').daterangepicker({
-                            buttonClasses: ['btn', 'btn-sm'],
-                            applyClass: 'btn-default',
-                            cancelClass: 'btn-primary'
-                        });
-                        $('.input-daterange-timepicker').daterangepicker({
-                            timePicker: true,
-                            format: 'MM/DD/YYYY h:mm A',
-                            timePickerIncrement: 30,
-                            timePicker12Hour: true,
-                            timePickerSeconds: false,
-                            buttonClasses: ['btn', 'btn-sm'],
-                            applyClass: 'btn-default',
-                            cancelClass: 'btn-primary'
-                        });
-                        $('.input-limit-datepicker').daterangepicker({
-                            format: 'MM/DD/YYYY',
-                            minDate: '06/01/2016',
-                            maxDate: '06/30/2016',
-                            buttonClasses: ['btn', 'btn-sm'],
-                            applyClass: 'btn-default',
-                            cancelClass: 'btn-primary',
-                            dateLimit: {
-                                days: 6
-                            }
-                        });
 
-                        $('#reportrange span').html(moment().subtract(29, 'days').format('MMMM D, YYYY') + ' - ' + moment().format('MMMM D, YYYY'));
 
-                        $('#reportrange').daterangepicker({
-                            format: 'MM/DD/YYYY',
-                            startDate: moment().subtract(29, 'days'),
-                            endDate: moment(),
-                            minDate: '01/01/2016',
-                            maxDate: '12/31/2016',
-                            dateLimit: {
-                                days: 60
-                            },
-                            showDropdowns: true,
-                            showWeekNumbers: true,
-                            timePicker: false,
-                            timePickerIncrement: 1,
-                            timePicker12Hour: true,
-                            ranges: {
-                                'Today': [moment(), moment()],
-                                'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-                                'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-                                'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-                                'This Month': [moment().startOf('month'), moment().endOf('month')],
-                                'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-                            },
-                            opens: 'left',
-                            drops: 'down',
-                            buttonClasses: ['btn', 'btn-sm'],
-                            applyClass: 'btn-success',
-                            cancelClass: 'btn-default',
-                            separator: ' to ',
-                            locale: {
-                                applyLabel: 'Submit',
-                                cancelLabel: 'Cancel',
-                                fromLabel: 'From',
-                                toLabel: 'To',
-                                customRangeLabel: 'Custom',
-                                daysOfWeek: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
-                                monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-                                firstDay: 1
-                            }
-                        }, function(start, end, label) {
-                            console.log(start.toISOString(), end.toISOString(), label);
-                            $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
-                        });
-                    </script> -->
+        });
+
+        $("#").keyup(function(){
+
+
+
+        });
+      })
+
+</script>
+
+
+<script type="text/javascript">
+    function primaryImage(){
+        var fileName = document.getElementById("primary").value;
+        var idxDot = fileName.lastIndexOf(".") + 1;
+        var extFile = fileName.substr(idxDot, fileName.length).toLowerCase();
+        if (extFile=="jpg" || extFile=="jpeg" || extFile=="png"){
+            //TO DO
+        }else{
+            alert("Only jpg/jpeg and png files are allowed!");
+            document.getElementById("upload_imgs").value='';
+        }   
+    }
+</script>     
+
+
+<script type="text/javascript">
+    function secondry_image(){
+        var fileName = document.getElementById("secondry").value;
+        var idxDot = fileName.lastIndexOf(".") + 1;
+        var extFile = fileName.substr(idxDot, fileName.length).toLowerCase();
+        if (extFile=="jpg" || extFile=="jpeg" || extFile=="png"){
+            //TO DO
+        }else{
+            alert("Only jpg/jpeg and png files are allowed!");
+            document.getElementById("upload_imgs").value='';
+        }   
+    }
+</script>     
+
+
+                

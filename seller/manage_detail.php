@@ -21,7 +21,11 @@ $id = $_SESSION['id'];
                                         <li><a href="#">Manage Bank Detail</a></li>
                                         <li class="active">Manage Detail</li>
                                     </ol>
-                                    <h4 class="page-title">Manage Bank Details <i class="fa fa-bank"></i></h4>
+                                    <h4 class="page-title">Manage Bank Details <i class="fa fa-bank"></i>
+
+
+                                    </h4>
+                                    
                                 </div>
                             </div>
                         </div>
@@ -29,8 +33,8 @@ $id = $_SESSION['id'];
 							<div class="col-lg-12">
 								<div class="card-box">
                                     <h4 class="m-t-0 header-title"><b>
-                                    	<?php $count = $obj->check_record($id);
-                                    	 	if ($count==true) 
+                                    	<?php
+                                    	 	if ($obj->check_record($id)==true) 
                                     	 	{
                                     			echo ""; 		
                                     	 	}
@@ -58,16 +62,21 @@ $id = $_SESSION['id'];
                                                     </tr>
 
                                                     <tr>
+                                                        <th>Account</th>
+                                                        <td><?php echo $fetch[2] ?></td>
+                                                    </tr>
+
+                                                    <tr>
                                                     <th>Bank</th>
-                                                    <td><?php echo $fetch[2] ?></td>
+                                                    <td><?php echo $fetch[3] ?></td>
                                                     </tr>
                                                     <tr>
                                                     <th>Branch Name</th>
-                                                    <td><?php echo $fetch[3] ?></td>    
+                                                    <td><?php echo $fetch[4] ?></td>    
                                                     </tr>
                                                     <tr>
                                                     <th>Branch Code</th>
-                                                    <td><?php echo $fetch[4] ?></td>
+                                                    <td><?php echo $fetch[5] ?></td>
                                                     </tr>
                                                     <tr>
                                                     <th>Action</th>
@@ -110,6 +119,11 @@ $id = $_SESSION['id'];
                 <input type="hidden" name="detail_id" value="<?php echo $fetch[0] ?>" id="id">
                 <input type="hidden" name="user_id" id="user_id">
                 <input type="text" name="acount_holder" id="acount_holder" class="form-control">
+            </div>
+
+             <div class="form-group">
+                <label>Account Number</label>
+                <input type="text" name="ac_no" id="ac_no" class="form-control">
             </div>
 
              <div class="form-group">
@@ -192,6 +206,7 @@ $id = $_SESSION['id'];
                                 success:function(responce)
                                 {
                                    var result = $.parseJSON(responce);
+                                $("#ac_no").val(result.account_number);
                                 $("#acount_holder").val(result.acount_holder);
                                 $("#bank").val(result.bank);
                                 $("#branch_name").val(result.branch_name);

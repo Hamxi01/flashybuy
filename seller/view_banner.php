@@ -111,8 +111,8 @@ table {
   </div>
 
   <div class="btn-group dropright" style="float: right">
-  <a href="crousel.php"  class="box btn btn-primary">
-    Create Crousel
+  <a href="banenr.php"  class="box btn btn-primary">
+    Create Banner
     <i class="fa fa-plus"></i>
   </a>
   </div>
@@ -149,11 +149,11 @@ table {
                             {
 					        $status = "";
                                    
-                            if ($record[12]=="1") 
+                            if ($record[5]=="1") 
                             {
                             $status = "
 <label class='switch'><input type='checkbox' class='ck'
-value='".$record[12]."' checked='' 
+value='".$record[5]."' checked='' 
 data-c_id='".$record[0]."'name='chk_status'>
                                               <span class='slider round'></span>
                                               </label>
@@ -163,7 +163,7 @@ data-c_id='".$record[0]."'name='chk_status'>
                                     {
                                       $status = "
                                       <label class='switch'>
-<input type='checkbox' value='".$record[12]."' name='chk_status' class='ck' data-c_id='".$record[0]." '>
+<input type='checkbox' value='".$record[5]."' name='chk_status' class='ck' data-c_id='".$record[0]." '>
                                               <span class='slider round'></span>
                                               </label>
                                               ";
@@ -244,9 +244,9 @@ data-c_id='".$record[0]."'name='chk_status'>
                                     <tr id="<?php echo $record[0]?>">
                                       <td><input type='checkbox' value='<?php echo $record[0] ?>' name="ch[]" class='cb-element' id='check'></td>
 
-                                      <td style="width:250px;"><img src="admin/banner/<?php echo $record[3]?>" height='50' width="250"></td>
+                                      <td style="width:250px;"><img src="admin/banner/<?php echo $record[3]?>" class="img-responsive" height='50'></td>
 
-                                       <td style="width:250px;"><img src="admin/banner/<?php echo $record[4]?>" height='50' width="250"></td>
+                                       <td style="width:250px;"><img src="admin/banner/<?php echo $record[4]?>" class="img-responsive" height='50'></td>
 
                                       <td><?php echo $record[1] ?></td>
                                       <td><?php echo $record[2] ?></td>
@@ -423,7 +423,4 @@ data-c_id='".$record[0]."'name='chk_status'>
 
         });
 </script>
-
-
-
 <!-- Multi status update on combo box end -->

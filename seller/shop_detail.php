@@ -1,5 +1,5 @@
 <?php 
-session_start();
+
     include('include/header.php');
     include('include/nav.php');
 ?>
@@ -21,120 +21,224 @@ session_start();
                     </div>
                 </div>
 
+               
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="card-box">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <form class="form-horizontal" id="details" name="details" method="post" role="form" action="php/shop_detail.php">
 
-                                        <div class="row">
-                                            <div class="col-md-4">
+                            <div class="row">
+                               
+                                <div class="col-md-12">
+                                 
+                                    <form class="form-horizontal" id="details" name="details" id="details" method="post" role="form" action="php/shop_detail.php">
+                                        <div class="form-group">
+                                            <div class="col-md-6 col-md-offset-3">
+                                               
                                                 <label>Address</label>
                                                 <textarea name="address" class="form-control" placeholder="Enter Your Address" style="resize:none;" id="address"></textarea>
                                             </div>
-
-                                            
-
-                                            <div class="col-md-4">
+                                            </div>
+                                           <div class="form-group">
+                                            <div class="col-md-6 col-md-offset-3">
+                                               
                                                 <label>Street</label>
                                                 <input type="text" name="street" id="street" class="form-control" placeholder="Enter Your Street">
                                             </div>
-
-                                            <div class="col-md-4">
+                                            </div>
+                                        <div class="form-group">
+                                            <div class="col-md-6 col-md-offset-3">
+                                              
                                                 <label>Rout</label>
                                                 <input type="text" name="rout" id="rout" class="form-control" placeholder="Enter Your rout">
                                             </div>
-
-                                           
-                                        </div>
-
+                                            </div>
+                                         <div class="form-group">
                                          <div class="row">
-                                            <div class="col-md-4">
+                                          
+                                            <div class="col-md-6 col-md-offset-3">
                                                 <label>State</label>
                                                 <input type="text" name="state" class="form-control" placeholder="Enter Your State" style="resize:none;" id="state">
                                             </div>
-
-                                            
-
-                                            <div class="col-md-4">
-                                                <label>Subrub </label>
-                                                <input type="text" name="Subrub" id="Subrub" class="form-control" placeholder="Enter Your Subrub ">
                                             </div>
 
-                                            <div class="col-md-4">
+                                            </div>
+
+                                             <div class="form-group">
+                                            <div class="col-md-6 col-md-offset-3">
+                                               
+                                                <label>Subrub </label>
+                                                <input type="text" name="Subrub" id="subrub" class="form-control" placeholder="Enter Your Subrub ">
+                                            </div>
+                                            </div>
+
+                                             <div class="form-group">
+                                            <div class="col-md-6 col-md-offset-3">
+                                               
                                                 <label>Postal Code</label>
-                                                <input type="text" name="postal_code" placeholder="Enter Your Postal Code" id="Postal Code" class="form-control">
+                                                <input type="text" name="postal_code" placeholder="Enter Your Postal Code" id="postal_code" class="form-control">
+                                            </div>
                                             </div> 
-                                            
-                                        </div>
 
-                                      
-                                            
-
-                                            <div class="col-md-4">
+                                             <div class="form-group">
+                                            <div class="col-md-6 col-md-offset-3">
+                                              
                                                 <label>Country </label>
                                                 <input type="text" name="country" id="country" class="form-control" placeholder="Enter Your Country">
                                             </div>
+                                            </div>
 
-                                             <div class="col-md-4">
+
+                                             <div class="form-group">
+                                             <div class="col-md-6 col-md-offset-3">
+                                               
                                                 <label>City</label>
-                                                <input type="text" name="city" placeholder="Enter Your City" class="form-control">
+                                                <input type="text" name="city" placeholder="Enter Your City" id="city" class="form-control">
+                                            </div>
                                             </div> 
+
                                             <input type="hidden" name="user_id" value="<?php echo $_SESSION['id'] ?>">
                                             
-                                           <div class="col-md-4">
-                                            <button type="submit" style="margin-top: 20px;" class="btn btn-success" name="btnsub"><i class="fa fa-plus"></i> Shop Detail</button>
+                                           <div class="col-md-6 col-md-offset-3">
+                                            <button type="submit" style="margin-top: 20px;" class="btn btn-success" id="btnsub" name="btnsub"><i class="fa fa-plus"></i> Shop Detail</button>
                                            </div>
-                                            
-                                        </div>
-
                                     </form>
                                 </div>
-
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <!-- end container -->
-<div class="modal fade" id="message_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-  aria-hidden="true">
-  <div class="modal-dialog modal-sm modal-notify modal-danger" role="document">
-    <!--Content-->
-    <div class="modal-content text-center">
-      <!--Header-->
-      <div class="modal-header d-flex justify-content-center">
-        <p class="heading">Success Message</p>
-      </div>
-
-      <!--Body-->
-      <div class="modal-body">
-
-      <p>Record save successfully</p>
-
-      </div>
-
-      <!--Footer-->
-      <div class="modal-footer flex-center">
-        
-        <a type="button" class="btn  btn-success waves-effect" data-dismiss="modal">Ok</a>
-      </div>
-    </div>
-    <!--/.Content-->
-  </div>
-</div>
-        </div>
-
+                <div id="result" class="alert alert-danger col-md-6 col-md-offset-3" style="display: none;"></div>
         <!-- end content -->
 
         <!-- FOOTER -->
-        <footer class="footer text-right">
-            2017 © Minton.
-        </footer>
+      
         <!-- End FOOTER -->
 
     </div>
+    <script>
+         $(document).ready(function(){
+                $("#address").keyup(function(){
+                    var reg_address =/^[a-zA-Z ]+$/;
+                    if (reg_address.test($("#address").val()))
+                    {
+                    $("#address").closest('.form-group').removeClass('has-error');
+                    $("#address").closest('.form-group').addClass('has-success');
+                    }
+                    else
+                    {
+                     $("#address").closest('.form-group').addClass('has-error');   
+                    }
+                    
+                });       
+    
+                $("#street").keyup(function(){
+                    var reg_street =/^[a-zA-Z ]+$/;
+                    if (reg_street.test($("#street").val()))
+                    {
+                    $("#street").closest('.form-group').removeClass('has-error');
+                  $("#street").closest('.form-group').addClass('has-success');
+                    }
+                    else
+                    {
+                     $("#street").closest('.form-group').addClass('has-error');   
+                    }
+                    
+                });
+
+                $("#subrub").keyup(function(){
+                    var reg_subrub =/^[a-zA-Z ]+$/;
+                    if (reg_subrub.test($("#subrub").val()))
+                    {
+                    $("#subrub").closest('.form-group').removeClass('has-error');
+                  $("#subrub").closest('.form-group').addClass('has-success');
+                    }
+                    else
+                    {
+                     $("#subrub").closest('.form-group').addClass('has-error');   
+                    }
+                    
+                });
+
+                $("#rout").keyup(function(){
+                    var reg_rout =/^[a-zA-Z ]+$/;
+                    if (reg_rout.test($("#rout").val()))
+                    {
+                    $("#rout").closest('.form-group').removeClass('has-error');
+                    $("#rout").closest('.form-group').addClass('has-success');
+                    }
+                    else
+                    {
+                     $("#rout").closest('.form-group').addClass('has-error');   
+                    }
+                    
+                });
+ 
+                $("#postal_code").keyup(function(){
+                    var reg_postal =/^[0-9]+$/;
+                    if (reg_postal.test($("#postal_code").val()))
+                    {
+                    $("#postal_code").closest('.form-group').removeClass('has-error');
+                    $("#postal_code").closest('.form-group').addClass('has-success');
+                    }
+                    else
+                    {
+                     $("#postal_code").closest('.form-group').addClass('has-error');   
+                    }
+                    
+                });
+                 
+                $("#country").keyup(function(){
+                    var country_reg =/^[a-zA-Z ]+$/;
+                    if (country_reg.test($("#country").val()))
+                    {
+                    $("#country").closest('.form-group').removeClass('has-error');
+                    $("#country").closest('.form-group').addClass('has-success');
+                    }
+                    else
+                    {
+                     $("#country").closest('.form-group').addClass('has-error');   
+                    }
+                    
+                });
+
+
+                    $("#city").keyup(function(){
+                    var city_reg =/^[a-zA-Z ]+$/;
+                    if (city_reg.test($("#city").val()))
+                    {
+                    $("#city").closest('.form-group').removeClass('has-error');
+                    $("#city").closest('.form-group').addClass('has-success');
+                    }
+                    else
+                    {
+                     $("#city").closest('.form-group').addClass('has-error');   
+                    }
+                    
+                });
+
+
+
+
+                $("#btnsub").click(function(event){
+                        event.preventDefault();
+                        var formdata  = $("#details").serialize();
+                        console.log(formdata);
+                        $.ajax({
+                            url : 'php/shop_detail.php',
+                            method: 'post',
+                            data : formdata + '&action=btnsub'
+                        }).done(function(result){
+                                 $(".alert").show();
+                                $("#result").html(result);
+                                
+                        });
+                });
+             
+ });
+
+
+
+</script>
     <?php include('include/footer.php') ?>
             <?php if(isset($_GET['msg']))
 {

@@ -16,7 +16,7 @@
 		$sunday 		= $_POST['ch_sunday'];
 
 		$target_primary = "banner/".$primary;
-		$target_secondry = "banner/".$primary;
+		$target_secondry = "banner/".$secondry;
 $upload_primary = move_uploaded_file($_FILES['primary']['tmp_name'], $target_primary);
 $upload_secondry = move_uploaded_file($_FILES['secondry']['tmp_name'], $target_secondry);
 if ($upload_primary) 
