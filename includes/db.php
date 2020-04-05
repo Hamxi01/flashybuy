@@ -79,6 +79,23 @@ class connection
 				return false;
 			}
 		}
+
+
+		public function check_shop($id)
+		{
+			$check = mysqli_query($this->connect(),"select * from shop_detail where user_id=$id");
+			$count = mysqli_num_rows($check);
+			if ($count>0) 
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+
+
 		public function select_vendor($id)
 		{
 			$select = mysqli_query($this->connect(),"select * from vendor where id = $id");
@@ -114,15 +131,15 @@ class connection
 		}
 		public function get_crousel()
 		{
-			$fetch = mysqli_query($this->connect(),"select * from tbl_slider ORDER BY order_by");
+			$fetch = mysqli_query($this->connect(),"select * from tbl_slider ");
 			return $fetch;
 		}
 
 
 		public function get_banner()
 		{
-			$fetch = mysqli_query($this->connect(),"select * from tbl_banner");
-			return $fetch;
+		$banner = mysqli_query($this->connect(),"select * from tbl_banner");
+			return $banner;
 		}
 
 		public function get_crousel_by_id($id)
@@ -130,6 +147,47 @@ class connection
 			$crousel = mysqli_query($this->connect(),"select * from tbl_slider where id = $id");
 			return $crousel;
 		}
+
+		public function get_banner_by_id($id)
+		{
+			$get_banner = mysqli_query($this->connect(),"select * from tbl_banner where id = $id");
+			return $get_banner;
+		}
+		public function save_bank($acount_holder,$account_number,$bank,$branch_name,$branch_code,$user_id)
+		{
+			$insert = mysqli_query($this->connect(),"insert into bank_details (acount_holder,account_number,bank,branch_name,branch_code,user_id) values('$acount_holder','$account_number','$bank','$branch_name','$branch_code','$user_id')");
+			if ($insert >0) 
+			{
+					return true;
+			}
+		}
+
+		public function save_shop_details($address,$street,$rout,$state,$subrub,$postal_code,$country,$city,$user_id)
+		{
+			$insert = mysqli_query($this->connect(),"insert into shop_detail 
+				(address,street,rout,state,subrub,postal_code,country,city,user_id) values('$address','$street','$rout','$state','$subrub','$postal_code','$country','$city','$user_id')");
+			if ($insert >0) 
+			{
+					return true;
+			}
+		}
+		public function user_signup($name , $email , $password, $ip)
+		{
+			$insert = mysqli_query($this->connect(),"insert into signup(name,email,password,ip) values('$name','$email','$password','$ip')");
+			if ($insert>0) 
+				{
+					return true;
+				}	
+				else
+				{
+					return false;
+				}
+		}
+		/*public function signup_user($)
+		{
+
+		}*/
+
 		
 	}
 

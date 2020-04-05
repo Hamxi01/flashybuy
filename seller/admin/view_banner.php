@@ -251,7 +251,7 @@ data-c_id='".$record[0]."'name='chk_status'>
                                     <tr id="<?php echo $record[0]?>">
                                       <td><input type='checkbox' value='<?php echo $record[0] ?>' name="ch[]" class='cb-element' id='check'></td>
 
-                                      <td><img src="admin/crousel/<?php echo $record[4]?>" height='50' width="250"></td>
+                                      <td><img src="admin/crousel/<?php echo $record[4]?>" height='50' class="img-thumbnail" width="250"></td>
 
                                       <td><?php echo $record[1] ?></td>
                                       <td><?php echo $record[2] ?></td>

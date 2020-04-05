@@ -111,8 +111,8 @@ table {
   </div>
 
   <div class="btn-group dropright" style="float: right">
-  <a href="crousel.php"  class="box btn btn-primary">
-    Create Crousel
+  <a href="banenr.php"  class="box btn btn-primary">
+    Create Banner
     <i class="fa fa-plus"></i>
   </a>
   </div>
@@ -126,7 +126,9 @@ table {
                                 <table class="table table-bordered table-responsive" id="tblLocations" style="overflow-x:auto;">
                                 	<tr>
                                 		<th style="width: 50px;" class="text-center">Select</th>
-                                		<th style="width: 200px;" class="text-center">Image</th>
+                                		<th style="width: 150px;" class="text-center">Primary</th>
+
+                                		<th style="width: 150px;" class="text-center">Secondry</th>
                                 		<th class="text-center">Title</th>
                                 		<th class="text-center">Url</th>
                                     <th class="text-center">Status</th>
@@ -141,16 +143,17 @@ table {
                                   </tr>
                                 <tbody class="row_position">
                                    <?php
-                                   $rec = $obj->get_crousel();
+                                   $rec = $obj->get_banner();
                                     
-                                    while($record = mysqli_fetch_array($rec))
-                                    {
-                                    $status = "";
+                            while($record = mysqli_fetch_array($rec))
+                            {
+					        $status = "";
                                    
-                                    if ($record[5]=="1") 
-                                    {
-                                      $status = "
-<label class='switch'><input type='checkbox' class='ck'  value='".$record[5]."' checked='' 
+                            if ($record[5]=="1") 
+                            {
+                            $status = "
+<label class='switch'><input type='checkbox' class='ck'
+value='".$record[5]."' checked='' 
 data-c_id='".$record[0]."'name='chk_status'>
                                               <span class='slider round'></span>
                                               </label>
@@ -173,7 +176,7 @@ data-c_id='".$record[0]."'name='chk_status'>
                                     $thurs ="";
                                     $fri ="";
                                     $sat ="";
-                                    if ($record[6]=="1") 
+                                    if ($record[5]=="1") 
                                     {
                                       $sunday="Y";
                                     }
@@ -191,7 +194,7 @@ data-c_id='".$record[0]."'name='chk_status'>
                                       $mon ="N";
                                     }
 
-                                    if ($record[8]=="1") 
+                                    if ($record[7]=="1") 
                                     {
                                       $tue="Y";
                                     }
@@ -200,7 +203,7 @@ data-c_id='".$record[0]."'name='chk_status'>
                                       $tue ="N";
                                     }
 
-                                    if ($record[9]=="1") 
+                                    if ($record[8]=="1") 
                                     {
                                       $wed="Y";
                                     }
@@ -209,7 +212,7 @@ data-c_id='".$record[0]."'name='chk_status'>
                                       $wed ="N";
                                     }
 
-                                    if ($record[10]=="1") 
+                                    if ($record[9]=="1") 
                                     {
                                       $thurs="Y";
                                     }
@@ -218,7 +221,7 @@ data-c_id='".$record[0]."'name='chk_status'>
                                       $thurs ="N";
                                     }
 
-                                    if ($record[11]=="1") 
+                                    if ($record[10]=="1") 
                                     {
                                       $fri="Y";
                                     }
@@ -227,7 +230,7 @@ data-c_id='".$record[0]."'name='chk_status'>
                                       $fri ="N";
                                     }
 
-                                    if ($record[12]=="1") 
+                                    if ($record[11]=="1") 
                                     {
                                       $sat="Y";
                                     }
@@ -236,22 +239,14 @@ data-c_id='".$record[0]."'name='chk_status'>
                                       $sat ="N";
                                     }
 
-                                     if ($record[13]=="1") 
-                                    {
-                                      $sun="Y";
-                                    }
-                                     else
-                                    {
-                                      $sun ="N";
-                                    }
-                                    
-
                                     ?>
                                     
                                     <tr id="<?php echo $record[0]?>">
                                       <td><input type='checkbox' value='<?php echo $record[0] ?>' name="ch[]" class='cb-element' id='check'></td>
 
-                                      <td><img src="admin/crousel/<?php echo $record[4]?>" height='50' width="250"></td>
+                                      <td style="width:250px;"><img src="admin/banner/<?php echo $record[3]?>" class="img-responsive" height='50'></td>
+
+                                       <td style="width:250px;"><img src="admin/banner/<?php echo $record[4]?>" class="img-responsive" height='50'></td>
 
                                       <td><?php echo $record[1] ?></td>
                                       <td><?php echo $record[2] ?></td>
@@ -264,7 +259,7 @@ data-c_id='".$record[0]."'name='chk_status'>
                                       <td style="width: 10px;"><?php echo $fri ?></td>
                                       <td style="width: 10px;"><?php echo $sat ?></td>
                                       <td>
-<a href="update_crousel.php?<?php echo "id=". base64_encode($record[0])?>" class='btn btn-primary'><i class="fa fa-edit"></i>
+<a href="update_banner.php?<?php echo "id=". base64_encode($record[0])?>" class='btn btn-primary'><i class="fa fa-edit"></i>
                                           </a>
    <button class="btn btn-danger btn-sm remove" data-rec_id="<?php echo $record[0] ?>">Delete</button>
                                   
@@ -362,7 +357,7 @@ data-c_id='".$record[0]."'name='chk_status'>
         if(confirm('Are you sure to remove this record ?'))
         {
             $.ajax({
-               url: 'admin/delete.php',
+               url: 'admin/bnner_delete.php',
                type: 'GET',
                data: {id: id},
                error: function() {
@@ -396,7 +391,7 @@ data-c_id='".$record[0]."'name='chk_status'>
           $.ajax({
                   type : "POST",
                   datatype :"JSON",
-                  url  : "admin/status_update.php",
+                  url  : "admin/banner_status.php",
                   data :{'status':status , 'id':id},
                   success:function(data){
                     console.log(data.success);
@@ -428,7 +423,4 @@ data-c_id='".$record[0]."'name='chk_status'>
 
         });
 </script>
-
-
-
 <!-- Multi status update on combo box end -->

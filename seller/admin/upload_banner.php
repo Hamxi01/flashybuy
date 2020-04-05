@@ -16,14 +16,15 @@
 		$sunday 		= $_POST['ch_sunday'];
 
 		$target_primary = "banner/".$primary;
+		$target_secondry = "banner/".$secondry;
 $upload_primary = move_uploaded_file($_FILES['primary']['tmp_name'], $target_primary);
-/*$upload_secondry = move_uploaded_file($_FILES['secondry']['tmp_name'], $target_secondry);*/
+$upload_secondry = move_uploaded_file($_FILES['secondry']['tmp_name'], $target_secondry);
 if ($upload_primary) 
 		{
 			$query = $db->db_insert("insert into tbl_banner 
-(title,url,primary_image,monday,tuesday,wednesday,thursday,friday,saturday,sunday) 
+(title,url,primary_image,secondry_image,sunday,monday,tuesday,wednesday,thursday,friday,saturday) 
 			values
-('$title','$url','$primary','$monday','$tuesday','$wednesday','$thursday','$friday','$saturday','$sunday')");
+('$title','$url','$primary','$secondry','$sunday','$monday','$tuesday','$wednesday','$thursday','$friday','$saturday')");
 			if ($query) 
 			{
 				header("Location:../banner.php");

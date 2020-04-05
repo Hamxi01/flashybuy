@@ -1,35 +1,30 @@
 <?php
-
-include('include/header.php');
+ include('include/header.php');
 include('include/nav.php'); 
 include_once('../includes/db.php');
 
  ?>
     <style>
-        .quote-imgs-thumbs {
-            background: #eee;
-            border: 1px solid #ccc;
-            border-radius: 0.25rem;
-            margin: 1.5rem 0;
-            width: 200px;
-            padding: 0.75rem;
-        }
-        
-        .quote-imgs-thumbs--hidden {
-            display: none;
-            width: 250px;
-        }
-        
-        .img-preview-thumb {
-            background: #fff;
-            border: 1px solid #777;
-            border-radius: 0.25rem;
-            box-shadow: 0.125rem 0.125rem 0.0625rem rgba(0, 0, 0, 0.12);
-            margin-right: 1rem;
-            max-width: 140px;
+      #img_contain{
 
-            padding: 0.25rem;
-        }
+  margin-top:10px;
+  width:250px;
+   margin-left: 20%;
+}
+#file-input{
+  margin-left:7px;
+  padding:10px;
+  
+}
+#image-preview{
+  height:250px;
+  width:auto;
+  display:block;
+  margin-left: auto;
+  margin-right: auto;
+  padding:5px;
+  
+}
         
         .switch {
             position: relative;
@@ -118,29 +113,38 @@ include_once('../includes/db.php');
                             <div class="row">
                                 <div class="alert alert-success">
                                     <p class="text-center"><i class="fa fa-info-circle"></i>
-                                        <b>Banner size must 1090x245 pixel</b></p>
+                                        <b>Crousel Image size must 1090x245 pixel</b></p>
 
                                 </div>
+                                <?php 
+                                if (isset($_GET['img'])) 
+                                {
+                    echo "<div class='alert alert-danger'>Crousel Image size must 1230 X 425 pixel</div>";
+                                }
+                                ?>
                                 <div class="col-md-12">
-                                    <form class="form-horizontal" enctype="multipart/form-data" method="post" action="admin/crousel_upload.php" role="form">
+                                    <form class="form-horizontal" enctype="multipart/form-data" method="post" action="admin/crousel_upload.php" role="form" id="crousel">
                                         <div class="form-group">
                                             <label class="col-md-2 control-label">Title</label>
                                             <div class="col-md-10">
-                                                <textarea class="form-control" name="title" placeholder="Enter Title" style="resize: none;"></textarea>
+                                                <textarea class="form-control" id="title" name="title" placeholder="Enter Title" style="resize: none;"></textarea>
+                        <span class="text-danger" id="title_error"></span>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label class="col-md-2 control-label">Url</label>
                                             <div class="col-md-10">
-                                                <input type="text" name="url" placeholder="Enter Url" class="form-control">
+                                                <input type="text" name="url" id="url" placeholder="Enter Url" class="form-control">
                                             </div>
+                        <span class="text-danger" id="url_error"></span>
 
                                         </div>
 
                                         <div class="form-group">
-                                            <label class="col-md-2 control-label">Upload Image</label>
+                                            <label class="col-md-2 control-label">Upload Image
+                                            </label>
                                             <div class="col-md-10">
-                                                <input class="form-control" type="file" id="upload_imgs" name="img" />
+                        <input type='file' id="file-input" class="form-control img_upload" name="img" onchange="validateFileType()" />
                                                 </p>
                                                 <div class="quote-imgs-thumbs quote-imgs-thumbs--hidden" id="img_preview" aria-live="polite"></div>
 
@@ -150,6 +154,9 @@ include_once('../includes/db.php');
 
                                             </div>
                                         </div>
+                                        <div id='img_contain'>
+      <img id="image-preview" align='middle'src="http://www.clker.com/cliparts/c/W/h/n/P/W/generic-image-file-icon-hi.png" alt="your image" title=''/>
+    </div>
 
                                         <!--  <div class="form-group">
                                                         <label class="col-lg-4 control-label">Date Range With Time</label>
@@ -157,7 +164,7 @@ include_once('../includes/db.php');
                                                             <input type="text" class="form-control input-daterange-timepicker" name="daterange" value="01/01/2015 1:30 PM - 01/01/2015 2:00 PM"/>
                                                         </div>
                                                     </div> -->
-                                </div>
+                              
                                 <div class="row">
                                     <div class="col-md-12">
                                         <table class="table table-border">
@@ -247,7 +254,13 @@ include_once('../includes/db.php');
                 </div>
 
                 <?php include('include/footer.php'); ?>
-
+<script>
+    window.setTimeout(function() {
+    $(".alert-danger").fadeTo(500, 0).slideUp(500, function(){
+        $(this).remove(); 
+    });
+}, 2000);
+</script>
 <script>
 $('#monday').on('change', function(){
    this.value = this.checked ? 1 : 0;
@@ -278,140 +291,51 @@ $('#sunday').on('change', function(){
 });
 
 </script>
-                    <script>
-                        var imgUpload = document.getElementById('upload_imgs'),
-                            imgPreview = document.getElementById('img_preview'),
-                            imgUploadForm = document.getElementById('img-upload-form'),
-                            totalFiles, previewTitle, previewTitleText, img;
+                  
+<script>
+         $(document).ready(function () {
+         $('img').each(
+             function(){  
+          var height = $(this).height();
+          var width = $(this).width();
+          $("#" + ($(this).attr('id')+"_dimension")).html('Height ' + height  + ' Width ' +  width);
+         })
+          });
+      </script>
 
-                        imgUpload.addEventListener('change', previewImgs, false);
-                        imgUploadForm.addEventListener('submit', function(e) {
-                            e.preventDefault();
-                            alert('Images Uploaded! (not really, but it would if this was on your website)');
-                        }, false);
 
-                        function previewImgs(event) {
-                            totalFiles = imgUpload.files.length;
+<script>
+        function readURL(input) {
+  if (input.files && input.files[0]) {
+    var reader = new FileReader();
+    reader.onload = function(e) {
+      $('#image-preview').attr('src', e.target.result);
+      $('#image-preview').hide();
+      $('#image-preview').fadeIn(650);
+    }
+    reader.readAsDataURL(input.files[0]);
+  }
+}
 
-                            if (!!totalFiles) {
-                                imgPreview.classList.remove('quote-imgs-thumbs--hidden');
-                                previewTitle = document.createElement('p');
-                                previewTitle.style.fontWeight = 'bold';
-                                previewTitleText = document.createTextNode(totalFiles + ' Total Images Selected');
-                                previewTitle.appendChild(previewTitleText);
-                                imgPreview.appendChild(previewTitle);
-                            }
+$("#file-input").change(function() {
+  readURL(this);
+});
 
-                            for (var i = 0; i < totalFiles; i++) {
-                                img = document.createElement('img');
-                                img.src = URL.createObjectURL(event.target.files[i]);
-                                img.classList.add('img-preview-thumb');
-                                imgPreview.appendChild(img);
-                            }
-                        }
-                    </script>
 
-                    <script>
-                        // Time Picker
-                        $('#timepicker').timepicker({
-                            defaultTIme: false
-                        });
-                        $('#timepicker2').timepicker({
-                            showMeridian: false
-                        });
-                        $('#timepicker3').timepicker({
-                            minuteStep: 15
-                        });
+</script>
 
-                        // Date Picker
-                        $('#datepicker').datepicker();
-                        $('#datepicker-autoclose').datepicker({
-                            autoclose: true,
-                            todayHighlight: true
-                        });
-                        $('#datepicker-inline').datepicker();
-                        $('#datepicker-multiple-date').datepicker({
-                            format: "mm/dd/yyyy",
-                            clearBtn: true,
-                            multidate: true,
-                            multidateSeparator: ","
-                        });
-                        $('#date-range').datepicker({
-                            toggleActive: true
-                        });
 
-                        //Date range picker
-                        $('.input-daterange-datepicker').daterangepicker({
-                            buttonClasses: ['btn', 'btn-sm'],
-                            applyClass: 'btn-default',
-                            cancelClass: 'btn-primary'
-                        });
-                        $('.input-daterange-timepicker').daterangepicker({
-                            timePicker: true,
-                            format: 'MM/DD/YYYY h:mm A',
-                            timePickerIncrement: 30,
-                            timePicker12Hour: true,
-                            timePickerSeconds: false,
-                            buttonClasses: ['btn', 'btn-sm'],
-                            applyClass: 'btn-default',
-                            cancelClass: 'btn-primary'
-                        });
-                        $('.input-limit-datepicker').daterangepicker({
-                            format: 'MM/DD/YYYY',
-                            minDate: '06/01/2016',
-                            maxDate: '06/30/2016',
-                            buttonClasses: ['btn', 'btn-sm'],
-                            applyClass: 'btn-default',
-                            cancelClass: 'btn-primary',
-                            dateLimit: {
-                                days: 6
-                            }
-                        });
 
-                        $('#reportrange span').html(moment().subtract(29, 'days').format('MMMM D, YYYY') + ' - ' + moment().format('MMMM D, YYYY'));
-
-                        $('#reportrange').daterangepicker({
-                            format: 'MM/DD/YYYY',
-                            startDate: moment().subtract(29, 'days'),
-                            endDate: moment(),
-                            minDate: '01/01/2016',
-                            maxDate: '12/31/2016',
-                            dateLimit: {
-                                days: 60
-                            },
-                            showDropdowns: true,
-                            showWeekNumbers: true,
-                            timePicker: false,
-                            timePickerIncrement: 1,
-                            timePicker12Hour: true,
-                            ranges: {
-                                'Today': [moment(), moment()],
-                                'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-                                'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-                                'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-                                'This Month': [moment().startOf('month'), moment().endOf('month')],
-                                'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-                            },
-                            opens: 'left',
-                            drops: 'down',
-                            buttonClasses: ['btn', 'btn-sm'],
-                            applyClass: 'btn-success',
-                            cancelClass: 'btn-default',
-                            separator: ' to ',
-                            locale: {
-                                applyLabel: 'Submit',
-                                cancelLabel: 'Cancel',
-                                fromLabel: 'From',
-                                toLabel: 'To',
-                                customRangeLabel: 'Custom',
-                                daysOfWeek: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
-                                monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-                                firstDay: 1
-                            }
-                        }, function(start, end, label) {
-                            console.log(start.toISOString(), end.toISOString(), label);
-                            $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
-                        });
-                    </script>
-
-                    
+<script type="text/javascript">
+    function validateFileType(){
+        var fileName = document.getElementById("file-input").value;
+        var idxDot = fileName.lastIndexOf(".") + 1;
+        var extFile = fileName.substr(idxDot, fileName.length).toLowerCase();
+        if (extFile=="jpg" || extFile=="jpeg" || extFile=="png"){
+            //TO DO
+        }else{
+            alert("Only jpg/jpeg and png files are allowed!");
+            document.getElementById("file-input").value='';
+        }   
+    }
+</script>                 

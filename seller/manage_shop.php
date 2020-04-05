@@ -26,17 +26,16 @@ $id = $_SESSION['id'];
                         <div class="row">
 							<div class="col-lg-12">
 								<div class="card-box">
-                                    <h4 class="m-t-0 header-title"><b>
-                                    	<?php $count = $obj->check_record($id);
-                                    	 	if ($count==true) 
-                                    	 	{
-                                    			echo ""; 		
-                                    	 	}
-                                    	 	else
-                                    	 	{
-                                    	 		echo "<a href='bank_detail.php' class='btn btn-success'>ADD<i class='fa fa-plus'></i></a></b></h4>";
-                                    	 	}
-                                    	 ?>
+                                   <?php
+                                            if ($obj->check_shop($id)==true) 
+                                            {
+                                                echo "";        
+                                            }
+                                            else
+                                            {
+                                                echo "<a href='shop_detail.php' class='btn btn-success'>ADD<i class='fa fa-plus'></i></a></b></h4>";
+                                            }
+                                         ?>
                                     <div class="table-responsive">
                                         <table class="table m-0">
                                             <thead>

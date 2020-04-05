@@ -9,30 +9,27 @@ $query = $obj->get_crousel_by_id($id);
 $fetch = mysqli_fetch_array($query);
  ?>
     <style>
-        .quote-imgs-thumbs {
-            background: #eee;
-            border: 1px solid #ccc;
-            border-radius: 0.25rem;
-            margin: 1.5rem 0;
-            width: 200px;
-            padding: 0.75rem;
-        }
-        
-        .quote-imgs-thumbs--hidden {
-            display: none;
-            width: 250px;
-        }
-        
-        .img-preview-thumb {
-            background: #fff;
-            border: 1px solid #777;
-            border-radius: 0.25rem;
-            box-shadow: 0.125rem 0.125rem 0.0625rem rgba(0, 0, 0, 0.12);
-            margin-right: 1rem;
-            max-width: 140px;
+        #img_contain{
 
-            padding: 0.25rem;
-        }
+  margin-top:10px;
+  width:250px;
+   margin-left: 20%;
+}
+#file-input{
+  margin-left:7px;
+  padding:10px;
+  
+}
+#image-preview{
+  height:250px;
+  width:auto;
+  display:block;
+  margin-left: auto;
+  margin-right: auto;
+  padding:5px;
+  
+}
+
         
         .switch {
             position: relative;
@@ -141,11 +138,12 @@ $fetch = mysqli_fetch_array($query);
                                             </div>
 
                                         </div>
-
+                                       
                                         <div class="form-group">
-                                            <label class="col-md-2 control-label">Upload Image</label>
+                                            <label class="col-md-2 control-label">Upload Image
+                                            </label>
                                             <div class="col-md-10">
-                                                <input class="form-control" type="file" id="upload_imgs" value="admin/crousel/<?php echo $fetch[4] ?>" name="img" />
+                                                <input type='file' id="file-input" class="form-control" name="img" onchange="validateFileType()" />
                                                 </p>
                                                 <div class="quote-imgs-thumbs quote-imgs-thumbs--hidden" id="img_preview" aria-live="polite"></div>
 
@@ -155,6 +153,10 @@ $fetch = mysqli_fetch_array($query);
 
                                             </div>
                                         </div>
+                                        <div id='img_contain'>
+      <img id="image-preview" align='middle'src="http://www.clker.com/cliparts/c/W/h/n/P/W/generic-image-file-icon-hi.png" alt="your image" title=''/>
+    </div>
+>
 
 
                                         <div class="form-group">
@@ -295,140 +297,35 @@ $('#sunday').on('change', function(){
 });
 
 </script>
-                    <script>
-                        var imgUpload = document.getElementById('upload_imgs'),
-                            imgPreview = document.getElementById('img_preview'),
-                            imgUploadForm = document.getElementById('img-upload-form'),
-                            totalFiles, previewTitle, previewTitleText, img;
+<script>
+        function readURL(input) {
+  if (input.files && input.files[0]) {
+    var reader = new FileReader();
+    reader.onload = function(e) {
+      $('#image-preview').attr('src', e.target.result);
+      $('#image-preview').hide();
+      $('#image-preview').fadeIn(650);
+    }
+    reader.readAsDataURL(input.files[0]);
+  }
+}
 
-                        imgUpload.addEventListener('change', previewImgs, false);
-                        imgUploadForm.addEventListener('submit', function(e) {
-                            e.preventDefault();
-                            alert('Images Uploaded! (not really, but it would if this was on your website)');
-                        }, false);
+$("#file-input").change(function() {
+  readURL(this);
+});
 
-                        function previewImgs(event) {
-                            totalFiles = imgUpload.files.length;
 
-                            if (!!totalFiles) {
-                                imgPreview.classList.remove('quote-imgs-thumbs--hidden');
-                                previewTitle = document.createElement('p');
-                                previewTitle.style.fontWeight = 'bold';
-                                previewTitleText = document.createTextNode(totalFiles + ' Total Images Selected');
-                                previewTitle.appendChild(previewTitleText);
-                                imgPreview.appendChild(previewTitle);
-                            }
-
-                            for (var i = 0; i < totalFiles; i++) {
-                                img = document.createElement('img');
-                                img.src = URL.createObjectURL(event.target.files[i]);
-                                img.classList.add('img-preview-thumb');
-                                imgPreview.appendChild(img);
-                            }
-                        }
-                    </script>
-
-                  <!--   <script>
-                        // Time Picker
-                        $('#timepicker').timepicker({
-                            defaultTIme: false
-                        });
-                        $('#timepicker2').timepicker({
-                            showMeridian: false
-                        });
-                        $('#timepicker3').timepicker({
-                            minuteStep: 15
-                        });
-
-                        // Date Picker
-                        $('#datepicker').datepicker();
-                        $('#datepicker-autoclose').datepicker({
-                            autoclose: true,
-                            todayHighlight: true
-                        });
-                        $('#datepicker-inline').datepicker();
-                        $('#datepicker-multiple-date').datepicker({
-                            format: "mm/dd/yyyy",
-                            clearBtn: true,
-                            multidate: true,
-                            multidateSeparator: ","
-                        });
-                        $('#date-range').datepicker({
-                            toggleActive: true
-                        });
-
-                        //Date range picker
-                        $('.input-daterange-datepicker').daterangepicker({
-                            buttonClasses: ['btn', 'btn-sm'],
-                            applyClass: 'btn-default',
-                            cancelClass: 'btn-primary'
-                        });
-                        $('.input-daterange-timepicker').daterangepicker({
-                            timePicker: true,
-                            format: 'MM/DD/YYYY h:mm A',
-                            timePickerIncrement: 30,
-                            timePicker12Hour: true,
-                            timePickerSeconds: false,
-                            buttonClasses: ['btn', 'btn-sm'],
-                            applyClass: 'btn-default',
-                            cancelClass: 'btn-primary'
-                        });
-                        $('.input-limit-datepicker').daterangepicker({
-                            format: 'MM/DD/YYYY',
-                            minDate: '06/01/2016',
-                            maxDate: '06/30/2016',
-                            buttonClasses: ['btn', 'btn-sm'],
-                            applyClass: 'btn-default',
-                            cancelClass: 'btn-primary',
-                            dateLimit: {
-                                days: 6
-                            }
-                        });
-
-                        $('#reportrange span').html(moment().subtract(29, 'days').format('MMMM D, YYYY') + ' - ' + moment().format('MMMM D, YYYY'));
-
-                        $('#reportrange').daterangepicker({
-                            format: 'MM/DD/YYYY',
-                            startDate: moment().subtract(29, 'days'),
-                            endDate: moment(),
-                            minDate: '01/01/2016',
-                            maxDate: '12/31/2016',
-                            dateLimit: {
-                                days: 60
-                            },
-                            showDropdowns: true,
-                            showWeekNumbers: true,
-                            timePicker: false,
-                            timePickerIncrement: 1,
-                            timePicker12Hour: true,
-                            ranges: {
-                                'Today': [moment(), moment()],
-                                'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-                                'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-                                'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-                                'This Month': [moment().startOf('month'), moment().endOf('month')],
-                                'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-                            },
-                            opens: 'left',
-                            drops: 'down',
-                            buttonClasses: ['btn', 'btn-sm'],
-                            applyClass: 'btn-success',
-                            cancelClass: 'btn-default',
-                            separator: ' to ',
-                            locale: {
-                                applyLabel: 'Submit',
-                                cancelLabel: 'Cancel',
-                                fromLabel: 'From',
-                                toLabel: 'To',
-                                customRangeLabel: 'Custom',
-                                daysOfWeek: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
-                                monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-                                firstDay: 1
-                            }
-                        }, function(start, end, label) {
-                            console.log(start.toISOString(), end.toISOString(), label);
-                            $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
-                        });
-                    </script> -->
-
-                    
+</script>
+<script type="text/javascript">
+    function validateFileType(){
+        var fileName = document.getElementById("file-input").value;
+        var idxDot = fileName.lastIndexOf(".") + 1;
+        var extFile = fileName.substr(idxDot, fileName.length).toLowerCase();
+        if (extFile=="jpg" || extFile=="jpeg" || extFile=="png"){
+            //TO DO
+        }else{
+            alert("Only jpg/jpeg and png files are allowed!");
+            document.getElementById("file-input").value='';
+        }   
+    }
+</script>                 

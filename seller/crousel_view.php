@@ -122,21 +122,13 @@ table {
 
 
                         <div class="row">
-                            <div class="col-sm-12">
-                                <table class="table table-bordered table-responsive" id="tblLocations" style="overflow-x:auto;">
+                            <div class="col-md-12" style="width: 100%">
+                                <table class="table table-bordered " id="tblLocations" style="overflow-x:auto;">
                                 	<tr>
-                                		<th style="width: 50px;" class="text-center">Select</th>
-                                		<th style="width: 200px;" class="text-center">Image</th>
+                                		<th class="text-center">Select</th>
+                                		<th class="text-center" >Image</th>
                                 		<th class="text-center">Title</th>
-                                		<th class="text-center">Url</th>
                                     <th class="text-center">Status</th>
-                                    <th class="text-center">Sunday</th>
-                                    <th class="text-center" style="width: 10px;">Monday</th>
-                                    <th class="text-center" style="width: 10px;">Tuesday</th>
-                                    <th class="text-center" style="width: 10px;">Wednesday</th>
-                                    <th class="text-center" style="width: 10px;">Thursday</th>
-                                    <th class="text-center" style="width: 10px;">Friday</th>
-                                		<th class="text-center" style="width: 10px;">Saturday</th>
                                     <th class="text-center">Aciton</th>
                                   </tr>
                                 <tbody class="row_position">
@@ -166,103 +158,16 @@ data-c_id='".$record[0]."'name='chk_status'>
                                               ";
                                     }
 
-                                    $sunday ="";
-                                    $mon ="";
-                                    $tue ="";
-                                    $wed ="";
-                                    $thurs ="";
-                                    $fri ="";
-                                    $sat ="";
-                                    if ($record[6]=="1") 
-                                    {
-                                      $sunday="Y";
-                                    }
-                                    else
-                                    {
-                                      $sunday ="N";
-                                    }
-
-                                    if ($record[6]=="1") 
-                                    {
-                                      $mon="Y";
-                                    }
-                                     else
-                                    {
-                                      $mon ="N";
-                                    }
-
-                                    if ($record[8]=="1") 
-                                    {
-                                      $tue="Y";
-                                    }
-                                     else
-                                    {
-                                      $tue ="N";
-                                    }
-
-                                    if ($record[9]=="1") 
-                                    {
-                                      $wed="Y";
-                                    }
-                                     else
-                                    {
-                                      $wed ="N";
-                                    }
-
-                                    if ($record[10]=="1") 
-                                    {
-                                      $thurs="Y";
-                                    }
-                                     else
-                                    {
-                                      $thurs ="N";
-                                    }
-
-                                    if ($record[11]=="1") 
-                                    {
-                                      $fri="Y";
-                                    }
-                                     else
-                                    {
-                                      $fri ="N";
-                                    }
-
-                                    if ($record[12]=="1") 
-                                    {
-                                      $sat="Y";
-                                    }
-                                     else
-                                    {
-                                      $sat ="N";
-                                    }
-
-                                     if ($record[13]=="1") 
-                                    {
-                                      $sun="Y";
-                                    }
-                                     else
-                                    {
-                                      $sun ="N";
-                                    }
-                                    
-
                                     ?>
                                     
                                     <tr id="<?php echo $record[0]?>">
                                       <td><input type='checkbox' value='<?php echo $record[0] ?>' name="ch[]" class='cb-element' id='check'></td>
 
-                                      <td><img src="admin/crousel/<?php echo $record[4]?>" height='50' width="250"></td>
+                                      <td><img src="admin/crousel/<?php echo $record[4]?>" height='250' width="350"></td>
 
                                       <td><?php echo $record[1] ?></td>
-                                      <td><?php echo $record[2] ?></td>
                                       <td><?php echo $status ?></td>
-                                      <td style="width: 10px;"><?php echo $sunday ?></td>
-                                      <td style="width: 10px;"><?php echo $mon ?></td>
-                                      <td style="width: 10px;"><?php echo $tue ?></td>
-                                      <td style="width: 10px;"><?php echo $wed ?></td>
-                                      <td style="width: 10px;"><?php echo $thurs ?></td>
-                                      <td style="width: 10px;"><?php echo $fri ?></td>
-                                      <td style="width: 10px;"><?php echo $sat ?></td>
+                                      
                                       <td>
 <a href="update_crousel.php?<?php echo "id=". base64_encode($record[0])?>" class='btn btn-primary'><i class="fa fa-edit"></i>
                                           </a>

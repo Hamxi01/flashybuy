@@ -23,8 +23,35 @@
                        foreach ($options as $key => $value) {
             
                             ?>
-
-                            <div class="col-md-3 portlets"> <input name="variant_img[]" type="file" /></div>
+                           
+<div class="row">
+<div class="col-lg-3">
+                            <div style="   min-height: 150px;
+    border: 2px dashed rgba(0, 0, 0, 0.3);
+    background: white;
+    border-radius: 6px;"> <input name="variant_img[]" type="file" /></div>
+                            </div>
+                            <div class="col-lg-3">
+                            <div style="   min-height: 150px;
+    border: 2px dashed rgba(0, 0, 0, 0.3);
+    background: white;
+    border-radius: 6px;"> <input name="variant_img[]" type="file" /></div>
+                            </div>
+                            <div class="col-lg-3">
+                            <div style="   min-height: 150px;
+    border: 2px dashed rgba(0, 0, 0, 0.3);
+    background: white;
+    border-radius: 6px;"> <input name="variant_img[]" type="file" /></div>
+                            </div>
+                            <div class="col-lg-3">
+                            <div style="   min-height: 150px;
+    border: 2px dashed rgba(0, 0, 0, 0.3);
+    background: white;
+    border-radius: 6px;"> <input name="variant_img[]" type="file" /></div>
+                            </div>
+                            </div>
+                            <br>
+                            <br>
                             <?php
                        }
                 }

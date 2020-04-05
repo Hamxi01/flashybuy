@@ -28,8 +28,15 @@
                                 </ul>
                             </li>
 
-                            
-                           
+                              <li class="has_sub">
+                                <a href="javascript:void(0);" class="waves-effect waves-primary"><i class="fa fa-user"></i> <span>Admin </span>
+                                 <span class="menu-arrow"></span></a>
+                                <ul class="list-unstyled">
+                                    <li><a href="crousel.php">Crousel</a></li>
+                                    <li><a href="banner.php">Banner</a></li>
+                                    <li><a href="profile.php">Log</a></li>
+                                </ul>
+                            </li>                            
 
                         </ul>
                         <div class="clearfix"></div>
