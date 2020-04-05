@@ -140,19 +140,32 @@
                                         class="md md-dashboard"></i><span> Dashboard </span></a>
                             </li>
                             <li class="has_sub">
-                                <a href="javascript:void(0);" class="waves-effect waves-primary"><i class="md md-palette"></i> <span> Categories </span>
+                                <a href="javascript:void(0);" class="waves-effect waves-primary"><i class="md md-palette"></i> <span> Admin </span>
                                  <span class="menu-arrow"></span></a>
                                 <ul class="list-unstyled">
                                     <li><a href="categories.php">Categories</a></li>
+                                    <li><a href="category.php">Admin Category Page</a></li>
+                                    <li><a href="categories.php">Categories</a></li>
                                     <li><a href="subcategories.php">Sub Categories</a></li>
                                     <li><a href="sub-subcategories.php">Sub Sub Categories</a></li>
-                                  
+                                    <li><a href="brands.php">Brands</a></li>
+                                    <li><a href="variations.php">Variations</a></li>
+                                    <li><a href="add-product.php">Add Product</a></li>
+                                    <li><a href="product.php">Product</a></li>
+                                </ul>
+                            </li>
+                            <li class="has_sub">
+                                <a href="javascript:void(0);" class="waves-effect waves-primary"><i class="md md-palette"></i> <span> Vendor </span>
+                                 <span class="menu-arrow"></span></a>
+                                <ul class="list-unstyled">
+                                    <li><a href="add-product.php">Add Product</a></li>
+                                    <li><a href="product.php">Product</a></li>
                                 </ul>
                             </li> 
-                            <li>
+                            <!-- <li>
                                 <a href="templates.php" class="waves-effect waves-primary"><i
-                                        class="md md-dashboard"></i><span> Emails </span></a>
-                            </li>
+                                        class="md md-dashboard"></i><span> Vendor </span></a>
+                            </li> -->
                             <li>
                                 <a href="pages.php" class="waves-effect waves-primary"><i
                                         class="md md-dashboard"></i><span> Pages </span></a>

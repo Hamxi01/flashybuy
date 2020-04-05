@@ -3,7 +3,6 @@ include('../../includes/db.php');
 $options = array();
 if (isset($_POST['add-product'])) {
 
-	
 	$name                            =     $_POST['name'];
 	$category_id                     =     $_POST['category_id'];
 	$subcategory_id                  =     $_POST['subcategory_id'];

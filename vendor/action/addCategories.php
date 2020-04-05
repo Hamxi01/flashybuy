@@ -21,25 +21,23 @@ if (isset($_FILES['file']["name"])) {
     $pic1 = time().rand();
     $pic1we=$pic1.".".$pic1extension;
     $location = "../../upload/category/".$pic1we;
-    move_uploaded_file($_FILES["file"]["tmp_name"], $location);
-// if(){
+    
+if(move_uploaded_file($_FILES["file"]["tmp_name"], $location)){
 
-//         try {
-//             $image = new ImageResize($target_file);
-//             $image->quality_jpg = 85;
-//             $image->resizeToWidth(150);
-//             $image->resizeToHeight(150);
-//             $new_name = '800_' . $pic1 . '.jpg';
-//             $new_path = '../../upload/category/' . $new_name;
-//             $image->save($new_path, IMAGETYPE_JPEG); 
-//         } 
+        try {
+            $image = new ImageResize($location);
+            $image->quality_jpg = 85;
+            $image->resizeToWidth(150);
+            $image->resizeToHeight(150);
+            $new_name = '800_' . $pic1 . '.jpg';
+            $new_path = '../../upload/category/' . $new_name;
+            $image->save($new_path, IMAGETYPE_JPEG); 
+        } 
+        catch (ImageResizeException $e) {
+            return null;
+        }
 
-
-//         catch (ImageResizeException $e) {
-//             return null;
-//         }
-
-// }
+}
 }
 
 
