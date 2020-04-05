@@ -19,8 +19,10 @@ if (isset($_POST['type'])) {
             array_push($form, $item);
         }
         $data = json_encode($form);
-        $sql   = "INSERT into variant_options (subsubcategory_id,options) VALUES ('$subsubcategory_id','$data')";
-        if (mysqli_query($con,$sql)) {
+        $stmt = $con->prepare("INSERT INTO variant_options (subsubcategory_id,options) VALUES (?, ?)");
+        $stmt->bind_param("ss",$subsubcategory_id,$data);
+        
+        if ($stmt->execute()) {
              
              $msg = "<span>Options Added successfully...!!</span>";
          }

@@ -12,7 +12,7 @@ $data;
         $id   = $row['sub_sub_cat'];
         $name = $row['name'];
 
-        echo '<li onclick="confirm_subsubcategory(this, '.$id.')">'.$name.' <span class="fa fa-angle-right icon"></span></li>';
+        echo '<li onclick="confirm_subsubcategory(this, '.$id.')">'.$name.'</li>';
         
     }
     

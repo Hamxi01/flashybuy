@@ -12,7 +12,7 @@ $data;
         $id   = $row['sub_cat_id'];
         $name = $row['name'];
 
-        echo '<li onclick="get_subsubcategories_by_subcategory(this, '.$id.')">'.$name.' <span class="fa fa-angle-right icon"></span></li>';
+        echo '<li onclick="get_subsubcategories_by_subcategory(this, '.$id.')">'.$name.'</li>';
         
     }
     

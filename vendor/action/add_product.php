@@ -23,10 +23,55 @@ if (isset($_POST['add-product'])) {
 
 	if ( mysqli_query($con,$sql)){
 
+		$id = mysqli_insert_id($con);
+
+			$custom_option        =     $_POST['custom_options'];
+			if ($custom_option=="Y") {
+					
+					$sql = "SELECT * from variant_options where subsubcategory_id = '$subsubcategory_id'";
+					$res = mysqli_query($con,$sql);
+					while ($row = mysqli_fetch_array($res)) {
+						
+						$options = $row['options'];
+					}
+					$data = array();
+		        	$i = 0;
+					foreach (json_decode($options) as $key => $element){
+
+
+						$item = array();
+			            if ($element->type == 'text') {
+			                $item['type'] = 'text';
+			                $item['label'] = $element->label;
+			                $item['value'] = $_POST['element_'.$i];
+			            }
+			            elseif ($element->type == 'select' || $element->type == 'radio') {
+			                $item['type'] = 'select';
+			                $item['label'] = $element->label;
+			                $item['value'] = $_POST['element_'.$i];
+			            }
+			            elseif ($element->type == 'multi_select') {
+			                $item['type'] = 'multi_select';
+			                $item['label'] = $element->label;
+			                $item['value'] = json_encode($_POST['element_'.$i]);
+			            }
+			            // elseif ($element->type == 'file') {
+			            //     $item['type'] = 'file';
+			            //     $item['label'] = $element->label;
+			            //     $item['value'] = $$_POST['element_'.$i]->store('uploads/verification_form');
+			            // }
+			            array_push($data, $item);
+			            $i++;
+					}
+
+				$data = json_encode($data);
+		        $stmt = $con->prepare("INSERT INTO product_specification (product_id,options) VALUES (?, ?)");
+		        $stmt->bind_param("ss",$id,$data);
+		        $stmt->execute();		
+			}
+
 		$variations_approval  =     $_POST['variation_approval'];
 		if($variations_approval=="N"){
-
-			$id = mysqli_insert_id($con);
 
 			foreach ($_POST['qty'] as $key => $value) {
 
@@ -41,7 +86,7 @@ if (isset($_POST['add-product'])) {
 						if (count($sku)==1) {
 						
 							$first_variation_value = $sku[0];
-							$sql = "INSERT into product_variations(product_id,price,quantity,sku,first_variation_name,first_variation_value,first_variation_img) VALUES('".$id."','".$_POST['price'][$key]."','".$_POST['qty'][$key]."','".$_POST['sku'][$key]."','".$first_variation_name."','".$first_variation_value."','".$_FILES['variant_img']['name'][$key]."')";
+							$sql = "INSERT into product_variations(product_id,price,quantity,sku,first_variation_name,first_variation_value) VALUES('".$id."','".$_POST['price'][$key]."','".$_POST['qty'][$key]."','".$_POST['sku'][$key]."','".$first_variation_name."','".$first_variation_value."')";
 							
 							if (mysqli_query($con,$sql)) {
 

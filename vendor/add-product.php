@@ -241,6 +241,10 @@ if (isset($_GET['msg'])) { ?>
                                             </div>
                                             <div class="row" id="variation_image">
                                                 
+                                            </div><br>
+                                            <input type="hidden" name="custom_options" id="custom_options" value="">
+                                            <div id="variant_options">
+                                                
                                             </div>
                                         </div>
                                     
@@ -395,11 +399,11 @@ if (isset($_GET['msg'])) { ?>
             $.ajax({
                 type: "POST",
                 url: 'action/getvariantoptions.php',
-                data: {sub_sub_cat:id},
+                data: {subsubcategoryid:id},
                 success:function(data){
-                
-                        $('#variations_name').append(data);
                         // console.log(data);
+                        $('#variant_options').append(data);
+                        $('#custom_options').val('Y');
                     
                 }
             });
@@ -415,6 +419,7 @@ if (isset($_GET['msg'])) { ?>
                 $('#subcategory_id').val(subcategory_id);
                 $('#subsubcategory_id').val(subsubcategory_id);
                 $('#categories_name').val(category_name+'>'+sub_category_name+'>'+subsubcategory_name);
+                $('#categories_name').prop('readonly', true);
                 $('.bs-example-modal-lg').modal('hide');
             }
             else{
@@ -510,48 +515,13 @@ var s = new Array();
                      
                     $("#variation_image").append(data);
                     $("#images").css("display","none");
-                // if (data != null) {
-
-                    // $("#variant_table").css("display","");
-                    // $('#variant_combinations').html(data);
-                // }
 
             }
         });
-               // $.each( s, function( i, val ) {
-
-                // console.log(s);
-               // });
         });
         
 
-}
-// if ($("#varition-options").find("#Color")) {
-
-//         $('#Color').on('change', function(){ 
-//             var count = $("#Color").tagsinput('items').length;
-//             $('#variation_image').html(null);
-//             var v=0;
-//              $("#Color").each(function() {
-                
-//                 v++;
-//                    $("#variation_image").append('<div class="col-md-3 portlets"><div class="m-b-30"> <div class="dropzone" id="dropzone1"> <div class="fallback"> <input name="variant_img[]" type="file" /> </div> </div> </div> </div>');
-
-//             });
-            
-//         });
-// }
-    
-    // if ($("#varition-options").find("#colors")) {
-
-    //     $('#varition_image').html(null);
-    //     $("select#colors :selected").each(function() {
-
-    //         $("#variation_image").append('<div class="col-md-3 portlets"><div class="m-b-30"> <div class="dropzone" id="dropzone1"> <div class="fallback"> <input name="variant_img[]" type="file" /> </div> </div> </div> </div>');
-    //     });
-    // }
-    
-    //    
+} 
 
 
     $(document).ready(function() {

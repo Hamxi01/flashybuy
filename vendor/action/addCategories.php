@@ -1,8 +1,11 @@
 <?php 
 include('../../includes/db.php');
+include("../../thirdparty/image-resize/ImageResize.php");
+include ("../../thirdparty/image-resize/ImageResizeException.php");
+use \Gumlet\ImageResize;
+use \Gumlet\ImageResizeException;
 
-
-if (isset($_POST['category_name'])) {
+if (isset($_POST['addcategory'])) {
 
 		$category_name          = $_POST['category_name'];
 		$categoryslug           = str_replace(" ","-", $category_name);
@@ -11,7 +14,36 @@ if (isset($_POST['category_name'])) {
 		$subsubcategory_name    = $_POST['subsubcategory_name'];
 		$subsubcategoryslug     = str_replace(" ","-", $subsubcategory_name);
 
-		$sqlCategory = "INSERT into categories (name,slug) VALUES ('$category_name','$categoryslug')";
+if (isset($_FILES['file']["name"])) {
+    $filename = $_FILES["file"]["name"];
+    $extension = @end(explode('.', $filename)); // explode the image name to get the extension
+    $pic1extension = strtolower($extension);
+    $pic1 = time().rand();
+    $pic1we=$pic1.".".$pic1extension;
+    $location = "../../upload/category/".$pic1we;
+    move_uploaded_file($_FILES["file"]["tmp_name"], $location);
+// if(){
+
+//         try {
+//             $image = new ImageResize($target_file);
+//             $image->quality_jpg = 85;
+//             $image->resizeToWidth(150);
+//             $image->resizeToHeight(150);
+//             $new_name = '800_' . $pic1 . '.jpg';
+//             $new_path = '../../upload/category/' . $new_name;
+//             $image->save($new_path, IMAGETYPE_JPEG); 
+//         } 
+
+
+//         catch (ImageResizeException $e) {
+//             return null;
+//         }
+
+// }
+}
+
+
+		$sqlCategory = "INSERT into categories (name,slug,banner) VALUES ('$category_name','$categoryslug','$location')";
         if ( mysqli_query($con,$sqlCategory)){
 
         	$cat_id = mysqli_insert_id($con);
@@ -25,16 +57,8 @@ if (isset($_POST['category_name'])) {
         		$sqlSubSubCategory = "INSERT into sub_sub_categories (name,slug,sub_category_id) VALUES ('$subsubcategory_name','$subsubcategoryslug','$sub_cat_id')";
 
         		if (mysqli_query($con,$sqlSubSubCategory)) {
-        			
-        			$sql = mysqli_query($con, "SELECT * From categories where delte = 0");
-                    $row = mysqli_num_rows($sql);
-                    while ($row = mysqli_fetch_array($sql)){
 
-                    	$id   = $row['cat_id'];
-        				$name = $row['name'];
-
-        				 echo '<li onclick="get_subcategories_by_category(this, '.$id.')">'.$name.' <span class="fa fa-angle-right icon"></span></li>';
-                    }
+                        header("location:../category.php");
         		}
 
         	}		

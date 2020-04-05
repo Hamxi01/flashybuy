@@ -57,6 +57,10 @@
     .icon{
             float: right
     }
+    #img_notify{
+
+        font-size: 10px;
+    }
 </style>
 
 
@@ -129,21 +133,25 @@
                                         </div>
                                     </div><br>
                                     <div class="row" id="categories_div" style="display: none;">
-                                        <form id="categories_form">
+                                        <form id="categories_form" method="POST" action="action/addCategories.php" enctype="multipart/form-data">
                                             <div class="col-lg-3">
                                                 <input type="text" name="category_name" required="" placeholder="Enter Category name" class="form-control">
                                             </div>
-                                            <div class="col-lg-1"></div>
                                             <div class="col-lg-3">
                                                 <input type="text" name="subcategory_name" required="" placeholder="Enter subcategory name" class="form-control">
                                             </div>
-                                            <div class="col-lg-1"></div>
                                             <div class="col-lg-3">
                                                 <input type="text" name="subsubcategory_name" required="" placeholder="Enter Sub-subcategory name" class="form-control">
                                             </div>
-
+                                            <div class="col-lg-2">
+                                                <div class="fileupload btn btn-inverse waves-effect waves-light">
+                                                    <span><i class="ion-upload m-r-5"></i>Category image</span>
+                                                    <input type="file" name="file" class="upload">
+                                                </div>
+                                                <span class="text-danger" id="img_notify">* image size will be 170x170px</span>
+                                            </div>
                                             <div class="col-lg-1">
-                                                <button type="button" class="btn btn-inverse" onclick="saveCategories()">save</button>
+                                                <button type="submit" class="btn btn-inverse" name="addcategory">save</button>
                                             </div>
                                         </form>
                                     </div>
@@ -279,36 +287,40 @@
             $("#categories_div").css("display","");
             $("#categories_add").css("display","none");
         }
-        function saveCategories(){
+        // function saveCategories(){
 
-           var categories          = $("input[name='category_name']").val();
-           var subcategories       = $("input[name='subcategory_name']").val();
-           var subsubcategories    = $("input[name='subsubcategory_name']").val();
+        //    var categories          = $("input[name='category_name']").val();
+        //    var subcategories       = $("input[name='subcategory_name']").val();
+        //    var subsubcategories    = $("input[name='subsubcategory_name']").val();
 
-           if (categories != "" && subcategories != "" && subsubcategories != "") {
+        //    if (categories != "" && subcategories != "" && subsubcategories != "") {
 
-                // var data = $("#categories_form").serializeArray();
-                $.ajax({
-                        type: "POST",
-                        url: 'action/addCategories.php',
-                        data: $('#categories_form').serialize(),
-                        success:function(data){
-                            
-                            $('#categories').html(null);
-                            swal("Congrats! Categories added succesfully")
-                            $('#categories').append(data);
-                            
-
-                        }
-                });
-           }
-           else{
+        //         // var data = $("#categories_form").serializeArray();
                 
-                swal("Please! Fill all categories Fields") 
-           }
+        //         $.ajax({
+        //                 type: "POST",
+        //                 url: 'action/addCategories.php',
+        //                 data: new FormData('form#categories_form'),
+        //                 contentType: false,       
+        //                 cache: false,             
+        //                 processData:false,
+        //                 success:function(data){
+        //                     console.log(data);
+        //                     // $('#categories').html(null);
+        //                     // swal("Congrats! Categories added succesfully")
+        //                     // $('#categories').append(data);
+                            
+
+        //                 }
+        //         });
+        //    }
+        //    else{
+                
+        //         swal("Please! Fill all categories Fields") 
+        //    }
 
             
-        }
+        // }
         //////////////////////////////////////////////
         ////// -----add new SubCategories ------////////
         ///--------------------------------------///
