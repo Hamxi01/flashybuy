@@ -192,11 +192,39 @@ if (isset($_GET['msg'])) { ?>
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="row">
+                                        <div class="col-lg-4">
                                         <div class="form-group">
                                             <label>Courier Size</label>
                                             <select class="form-control" name="courier_size">
                                                 <option selected disabled="">Choose</option>
                                             </select>
+                                        </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                        <div class="form-group">
+                                            <label>Varienty</label>
+                                            <select class="form-control" name="warrenty">
+                                                <option value="">Choose</option>
+                                                <option value="0">No Warrenty</option>
+                                                <option value="1">1 days</option>
+                                                <option value="2">2 days</option>
+                                                <option value="3">3 days</option>
+                                            </select>
+                                        </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                        <div class="form-group">
+                                            <label>Video Url</label>
+                                            <input type="url" name="video" class="form-control" >
+                                        </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                        <div class="form-group">
+                                            <label>Product Manual</label>
+                                            <input type="file" name="manual" class="form-control" >
+                                        </div>
+                                        </div>
                                         </div>
                                         <div class="row" id="variations_value" style="display: none;">
                                             <div class="col-lg-4 col-sm-offset-4">
@@ -366,6 +394,7 @@ if (isset($_GET['msg'])) { ?>
             subsubcategory_id = subsubcat_id;
             subsubcategory_name = $(el).html();
             fetch_Variations(subsubcategory_id);
+            fetch_variant_options(subsubcategory_id);
         }
         function fetch_Variations(id){
             $('#variations_name').html(null);
@@ -383,6 +412,31 @@ if (isset($_GET['msg'])) { ?>
 
 
         }
+////////////////////////
+
+///////////////////////////////////////
+////---- Variant Options ---------////
+////////////////////////////////////// 
+
+        function fetch_variant_options(id){
+            // $('#variations_name').html(null);
+            $.ajax({
+                type: "POST",
+                url: 'action/getvariantoptions.php',
+                data: {sub_sub_cat:id},
+                success:function(data){
+                
+                        $('#variations_name').append(data);
+                        // console.log(data);
+                    
+                }
+            });
+
+
+        }
+///////////////////////////////////////
+////---- Variant Options ---------////
+//////////////////////////////////////       
         function closeModal(){
             if(category_id > 0 && subcategory_id > 0 && subsubcategory_id > 0){
                 $('#category_id').val(category_id);
