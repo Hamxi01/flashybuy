@@ -13,6 +13,10 @@ if (isset($_POST['addcategory'])) {
 		$subcategoryslug        = str_replace(" ","-", $subcategory_name);
 		$subsubcategory_name    = $_POST['subsubcategory_name'];
 		$subsubcategoryslug     = str_replace(" ","-", $subsubcategory_name);
+        foreach ($_POST['variation_id'] as $key => $value) {
+            
+            $variation_id     =  implode(',' , $_POST['variation_id']);
+        }
 
 if (isset($_FILES['file']["name"])) {
     $filename = $_FILES["file"]["name"];
@@ -27,8 +31,8 @@ if(move_uploaded_file($_FILES["file"]["tmp_name"], $location)){
         try {
             $image = new ImageResize($location);
             $image->quality_jpg = 85;
-            $image->resizeToWidth(150);
-            $image->resizeToHeight(150);
+            $image->resizeToWidth(170);
+            $image->resizeToHeight(170);
             $new_name = '800_' . $pic1 . '.jpg';
             $new_path = '../../upload/category/' . $new_name;
             $image->save($new_path, IMAGETYPE_JPEG); 
@@ -39,9 +43,7 @@ if(move_uploaded_file($_FILES["file"]["tmp_name"], $location)){
 
 }
 }
-
-
-		$sqlCategory = "INSERT into categories (name,slug,banner) VALUES ('$category_name','$categoryslug','$location')";
+		$sqlCategory = "INSERT into categories (name,slug,banner) VALUES ('$category_name','$categoryslug','$new_path')";
         if ( mysqli_query($con,$sqlCategory)){
 
         	$cat_id = mysqli_insert_id($con);
@@ -52,12 +54,16 @@ if(move_uploaded_file($_FILES["file"]["tmp_name"], $location)){
 
         		$sub_cat_id = mysqli_insert_id($con);
 
-        		$sqlSubSubCategory = "INSERT into sub_sub_categories (name,slug,sub_category_id) VALUES ('$subsubcategory_name','$subsubcategoryslug','$sub_cat_id')";
+        		$sqlSubSubCategory = "INSERT into sub_sub_categories (name,slug,sub_category_id,variation_id) VALUES ('$subsubcategory_name','$subsubcategoryslug','$sub_cat_id','$variation_id')";
 
         		if (mysqli_query($con,$sqlSubSubCategory)) {
 
-                        header("location:../category.php");
+                        header("location:../category.php?msg=success");
         		}
+                else{
+
+                    header("location:../category.php?msg=error");
+                }
 
         	}		
         }

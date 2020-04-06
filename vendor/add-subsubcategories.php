@@ -11,7 +11,6 @@
         $subcategory_id   =   addslashes( $_POST['category_id'] );
         foreach ($_POST['variation_id'] as $key => $value) {
             
-            // $variation_id = $value;
             $variation_id     =  implode(',' , $_POST['variation_id']);
         }
         
@@ -54,7 +53,7 @@
                                 </div>
                             </div>
                         </div>
- <!-- Start Showing success or warning Msg -->
+<!-- Start Showing success or warning Msg -->
 <?php
 if (isset($error)) {?>
     <div class="row">

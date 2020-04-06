@@ -10,7 +10,10 @@ if (isset($_POST['category_name'])) {
 		$subcategoryslug        = str_replace(" ","-", $subcategory_name);
 		$subsubcategory_name    = $_POST['subsubcategory_name'];
 		$subsubcategoryslug     = str_replace(" ","-", $subsubcategory_name);
-
+        foreach ($_POST['variation_id'] as $key => $value) {
+            
+            $variation_id     =  implode(',' , $_POST['variation_id']);
+        }
 		
 
         	$sqlSubCategory = "INSERT into sub_categories (name,slug,category_id) VALUES ('$subcategory_name','$subcategoryslug','$category_name')";
@@ -19,7 +22,7 @@ if (isset($_POST['category_name'])) {
 
         		$sub_cat_id = mysqli_insert_id($con);
 
-        		$sqlSubSubCategory = "INSERT into sub_sub_categories (name,slug,sub_category_id) VALUES ('$subsubcategory_name','$subsubcategoryslug','$sub_cat_id')";
+        		$sqlSubSubCategory = "INSERT into sub_sub_categories (name,slug,sub_category_id,variation_id) VALUES ('$subsubcategory_name','$subsubcategoryslug','$sub_cat_id','$variation_id')";
 
         		if (mysqli_query($con,$sqlSubSubCategory)) {
         			

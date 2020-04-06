@@ -61,6 +61,10 @@
 
         font-size: 10px;
     }
+    .app-search .form-control,.app-search .form-control:focus{
+        border: 1px solid rgba(10, 10, 10, 0.2);
+        background: rgba(10, 10, 10, 0.75);
+    }
 </style>
 
 
@@ -85,7 +89,35 @@
                                 </div>
                             </div>
                         </div>
+<!-- Start Showing success or warning Msg -->
 
+<?php
+if (isset($_GET['error'])) {?>
+    <div class="row">
+        <div class="col-lg-6 col-sm-offset-3">
+            <div class="alert alert-warning msg">    
+    <?php echo "Something went wrong!"; ?>
+            </div>
+        </div>
+    </div>
+<?php
+}
+?>
+<?php
+if (isset($_GET['msg'])) { ?>
+<div class="row">
+    <div class="col-lg-6 col-sm-offset-3">
+        <div class="alert alert-success msg">    
+    <?php echo "<span>Data Inserted successfully...!!</span>"; ?>
+
+        </div>
+    </div>
+</div>
+<?php 
+}
+?>
+
+<!-- End Message Alert -->
 
                         <div class="row">
 							<div class="col-sm-12">
@@ -94,6 +126,9 @@
 
 									<div class="row">
                                         <div class="col-lg-4">
+                                            <form role="search" class="app-search" novalidate="">
+                                                <input type="text" placeholder="Search..." id="categorysearch" oninput="categorySearch()" class="form-control app-search-input" data-parsley-id="4">
+                                            </form>
                                             <ul id="categories">
                                              <?php
 
@@ -109,12 +144,18 @@
                                             
                                         </div>
                                         <div class="col-lg-4 subcategories">
+                                            <form role="search" class="app-search" novalidate="" style="display: none">
+                                                <input type="text" placeholder="Search..." id="subcategorysearch" oninput="subcategorySearch()" class="form-control app-search-input" data-parsley-id="4">
+                                            </form>
                                                 <ul id="subcategories">
                                               
                                                 </ul>
 
                                         </div>
                                         <div class="col-lg-4 subsubcategories">
+                                            <form role="search" class="app-search" novalidate="" style="display: none">
+                                                <input type="text" placeholder="Search..." id="subsubcategorysearch" oninput="subsubcategorySearch()" class="form-control app-search-input" data-parsley-id="4">
+                                            </form>
                                                 <ul id="subsubcategories">
                                                               
                                                 </ul>
@@ -143,30 +184,52 @@
                                             <div class="col-lg-3">
                                                 <input type="text" name="subsubcategory_name" required="" placeholder="Enter Sub-subcategory name" class="form-control">
                                             </div>
-                                            <div class="col-lg-2">
-                                                <div class="fileupload btn btn-inverse waves-effect waves-light">
-                                                    <span><i class="ion-upload m-r-5"></i>Category image</span>
-                                                    <input type="file" name="file" class="upload">
+                                                <div class="col-lg-3">
+                                                    <select class="select2 select2-multiple" multiple multiple="multiple"  data-placeholder="Choose variation Type" name="variation_id[]">
+                                                        <?php
+                                                            $sql = mysqli_query($con, "SELECT * From variations");
+                                                            $row = mysqli_num_rows($sql);
+                                                            while ($row = mysqli_fetch_array($sql)){
+                                                            echo "<option value='". $row['id'] ."'>" .$row['variation_name'] ."</option>" ;
+                                                        }
+                                                        ?>
+                                            
+                                                    </select>
+                                                </div><br>    
+                                                <div class="col-lg-3">
+                                                    <div class="fileupload btn btn-inverse waves-effect waves-light">
+                                                        <span><i class="ion-upload m-r-5"></i>Category image</span>
+                                                        <input type="file" name="file" class="upload">
+                                                    </div><br>
+                                                    <span class="text-danger" id="img_notify">* image size will be 170x170px</span>
                                                 </div>
-                                                <span class="text-danger" id="img_notify">* image size will be 170x170px</span>
-                                            </div>
-                                            <div class="col-lg-1">
-                                                <button type="submit" class="btn btn-inverse" name="addcategory">save</button>
-                                            </div>
+                                                <div class="col-lg-1">
+                                                    <button type="submit" class="btn btn-inverse" name="addcategory">save</button>
+                                                </div>
                                         </form>
                                     </div>
                                     <div class="row" id="subcategories_div" style="display: none;">
                                         <form id="subcategories_form">
                                             <div class="col-lg-3">
+                                                <input type="text" name="subcategory_name" id="subcategory_name" required="" placeholder="Enter subcategory name" class="form-control">
                                                 <input type="hidden" name="category_name" id="category_name"  required="" placeholder="Enter Category name" class="form-control">
                                             </div>
                                             <div class="col-lg-1"></div>
                                             <div class="col-lg-3">
-                                                <input type="text" name="subcategory_name" id="subcategory_name" required="" placeholder="Enter subcategory name" class="form-control">
+                                                <input type="text" name="subsubcategory_name" id="subsubcategory_name" required="" placeholder="Enter Sub-subcategory name" class="form-control">
                                             </div>
                                             <div class="col-lg-1"></div>
                                             <div class="col-lg-3">
-                                                <input type="text" name="subsubcategory_name" id="subsubcategory_name" required="" placeholder="Enter Sub-subcategory name" class="form-control">
+                                                <select class="select2 select2-multiple" multiple multiple="multiple" id="variation_id"  data-placeholder="Choose variation Type" name="variation_id[]">
+                                                        <?php
+                                                            $sql = mysqli_query($con, "SELECT * From variations");
+                                                            $row = mysqli_num_rows($sql);
+                                                            while ($row = mysqli_fetch_array($sql)){
+                                                            echo "<option value='". $row['id'] ."'>" .$row['variation_name'] ."</option>" ;
+                                                        }
+                                                        ?>
+                                            
+                                                </select>
                                             </div>
 
                                             <div class="col-lg-1">
@@ -181,11 +244,22 @@
                                             </div>
                                             <div class="col-lg-1"></div>
                                             <div class="col-lg-3">
+                                                <input type="text" name="subsubcategory_name"  required="" placeholder="Enter Sub-subcategory name" class="form-control subsubcategory_name">
                                                 <input type="hidden" name="subcategory_name"  required="" placeholder="Enter subcategory name" class="form-control subcategory_name">
                                             </div>
                                             <div class="col-lg-1"></div>
                                             <div class="col-lg-3">
-                                                <input type="text" name="subsubcategory_name"  required="" placeholder="Enter Sub-subcategory name" class="form-control subsubcategory_name">
+                                                
+                                                <select class="select2 select2-multiple" multiple multiple="multiple" id="variation_id"  data-placeholder="Choose variation Type" name="variation_id[]">
+                                                        <?php
+                                                            $sql = mysqli_query($con, "SELECT * From variations");
+                                                            $row = mysqli_num_rows($sql);
+                                                            while ($row = mysqli_fetch_array($sql)){
+                                                            echo "<option value='". $row['id'] ."'>" .$row['variation_name'] ."</option>" ;
+                                                        }
+                                                        ?>
+                                            
+                                                </select>
                                             </div>
 
                                             <div class="col-lg-1">
@@ -209,6 +283,12 @@
 
 <?php include('includes/footer.php'); ?>
 <script type="text/javascript">
+    $(".select2").select2();
+
+    $(document).ready(function() {
+
+        setTimeout(function(){ $(".msg").hide(); }, 5000);
+    });
     var category_name = "";
         var subcategory_name = "";
         var subsubcategory_name = "";
@@ -224,6 +304,7 @@
                 $(el).addClass('selected');
             }
         function get_subcategories_by_category(el, cat_id){
+
             list_item_highlight(el);
             category_id = cat_id;
             $("#category_name").val(category_id);
@@ -231,6 +312,7 @@
             $("#add_options").css("display","none");
             $("#subsubcategories_add").css("display","none");
             $("#subsubcategories_div").css("display","none");
+            $(".subsubcategories .app-search").css("display","none");
             category_name = $(el).html();
             $('#subcategories').html(null);
             $('#subsubcategories').html(null);
@@ -244,8 +326,10 @@
                         $("#categories_div").css("display","none");
                         $("#categories_add").css("display","none");
                         $("#subcategories_add").css("display","");
+                        $(".subcategories .app-search").css("display","");
                 }
             });
+
         }
         function get_subsubcategories_by_subcategory(el, cat_id){
             list_item_highlight(el);
@@ -255,6 +339,7 @@
             $("#add_options").css("display","none");
             $("#subcategories_div").css("display","none");
             $("#subsubcategories_div").css("display","none");
+
             subsubcategory_name = "";
             subsubcategory_id= null;
             sub_category_name = $(el).html();
@@ -269,6 +354,7 @@
                         $("#subcategories_div").css("display","none");
                         $("#subcategories_add").css("display","none");
                         $("#subsubcategories_add").css("display","");
+                        $(".subsubcategories .app-search").css("display","");
                     
                 }
             });
@@ -287,40 +373,6 @@
             $("#categories_div").css("display","");
             $("#categories_add").css("display","none");
         }
-        // function saveCategories(){
-
-        //    var categories          = $("input[name='category_name']").val();
-        //    var subcategories       = $("input[name='subcategory_name']").val();
-        //    var subsubcategories    = $("input[name='subsubcategory_name']").val();
-
-        //    if (categories != "" && subcategories != "" && subsubcategories != "") {
-
-        //         // var data = $("#categories_form").serializeArray();
-                
-        //         $.ajax({
-        //                 type: "POST",
-        //                 url: 'action/addCategories.php',
-        //                 data: new FormData('form#categories_form'),
-        //                 contentType: false,       
-        //                 cache: false,             
-        //                 processData:false,
-        //                 success:function(data){
-        //                     console.log(data);
-        //                     // $('#categories').html(null);
-        //                     // swal("Congrats! Categories added succesfully")
-        //                     // $('#categories').append(data);
-                            
-
-        //                 }
-        //         });
-        //    }
-        //    else{
-                
-        //         swal("Please! Fill all categories Fields") 
-        //    }
-
-            
-        // }
         //////////////////////////////////////////////
         ////// -----add new SubCategories ------////////
         ///--------------------------------------///
@@ -406,5 +458,93 @@
             $("#subsubcategories_div").css("display","none");
             $("#subsubcategories_add").css("display","none");
             $("#variant_options").attr("href","variant_options.php?id="+sub_sub_id);
-        }    
+        }
+
+
+        //////////////////////////////////////////////////////
+        //-----------  Category Search     ----------------//
+        ////////////////////////////////////////////////////
+
+        function categorySearch(){
+
+           var keyword = $("#categorysearch").val();
+
+                $.ajax({
+                        type: "POST",
+                        url: 'action/categorySearch.php',
+                        data: {keyword:keyword},
+                        success:function(data){
+                            
+                            $('#categories').html(null);
+                            // swal("Congrats! SubCategories added succesfully")
+                            $('#categories').append(data);
+                            // console.log(data);
+
+                        }
+                });
+           
+        }
+
+
+        //////////////////////////////////////////////////////
+        //-------- End Category Search     ----------------//
+        //////////////////////////////////////////////////// 
+
+        //////////////////////////////////////////////////////
+        //-----------  SubCategory Search     -------------//
+        ////////////////////////////////////////////////////
+
+        function subcategorySearch(){
+
+           var keyword = $("#subcategorysearch").val();
+
+                $.ajax({
+                        type: "POST",
+                        url: 'action/subCategorySearch.php',
+                        data: {keyword:keyword,id:category_id},
+                        success:function(data){
+                            
+                            $('#subcategories').html(null);
+                            // swal("Congrats! SubCategories added succesfully")
+                            $('#subcategories').append(data);
+                            // console.log(data);
+
+                        }
+                });
+           
+        }
+
+
+        //////////////////////////////////////////////////////
+        //-------- End subCategory Search    --------------//
+        //////////////////////////////////////////////////// 
+
+        //////////////////////////////////////////////////////
+        //-----------  subSubCategory Search  -------------//
+        ////////////////////////////////////////////////////
+
+        function subsubcategorySearch(){
+
+           var keyword = $("#subsubcategorysearch").val();
+
+                $.ajax({
+                        type: "POST",
+                        url: 'action/subSubCategorySearch.php',
+                        data: {keyword:keyword,id:subcategory_id},
+                        success:function(data){
+                            
+                            $('#subsubcategories').html(null);
+                            // swal("Congrats! SubCategories added succesfully")
+                            $('#subsubcategories').append(data);
+                            // console.log(data);
+
+                        }
+                });
+           
+        }
+
+
+        //////////////////////////////////////////////////////
+        //-------- End subsubCategory Search --------------//
+        ////////////////////////////////////////////////////   
 </script>

@@ -13,6 +13,10 @@
 .select2-container-multi .select2-search-choice-close{
     display: none !important;
 }
+.app-search .form-control,.app-search .form-control:focus{
+        border: 1px solid rgba(10, 10, 10, 0.2);
+        background: rgba(10, 10, 10, 0.75);
+    }
 </style>
 
 
@@ -105,11 +109,34 @@ if (isset($_GET['msg'])) { ?>
                                             <input type="checkbox"  data-plugin="switchery" id="variations" onchange="showVariations()" data-color="#00b19d" name="variation_approval" data-size="small" value="Y"/>                              
                                         </div>
                                         <div class="row" id="images">
-                      
-                                            <div class="col-md-3 portlets">
+                                            <div class="col-lg-3">
+                                                <div class="fileupload btn btn-primary waves-effect waves-light">
+                                                    <span><i class="ion-upload m-r-5"></i>Image1</span>
+                                                    <input type="file" name="file1" class="upload">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <div class="fileupload btn btn-primary waves-effect waves-light">
+                                                    <span><i class="ion-upload m-r-5"></i>Image2</span>
+                                                    <input type="file" name="file2" class="upload">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <div class="fileupload btn btn-primary waves-effect waves-light">
+                                                    <span><i class="ion-upload m-r-5"></i>Image3</span>
+                                                    <input type="file" name="file3" class="upload">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <div class="fileupload btn btn-primary waves-effect waves-light">
+                                                    <span><i class="ion-upload m-r-5"></i>Image4</span>
+                                                    <input type="file" name="file4" class="upload">
+                                                </div>
+                                            </div>
+                                            <!-- <div class="col-md-3 portlets"> -->
                                                 <!-- Your awesome content goes here -->
 
-                                                <div class="m-b-30">
+                                                <!-- <div class="m-b-30">
                                                     <div class="dropzone" id="dropzone1">
                                                       <div class="fallback">
                                                         <input name="file1" type="file" />
@@ -117,10 +144,10 @@ if (isset($_GET['msg'])) { ?>
 
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-md-3 portlets">
+                                            </div> -->
+                                            <!-- <div class="col-md-3 portlets"> -->
                                                 <!-- Your awesome content goes here -->
-                                                <div class="m-b-30">
+                                                <!-- <div class="m-b-30">
                                                     <div class="dropzone" id="dropzone2">
                                                       <div class="fallback">
                                                         <input name="file2" type="file" />
@@ -128,10 +155,10 @@ if (isset($_GET['msg'])) { ?>
 
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-md-3 portlets">
+                                            </div> -->
+                                            <!-- <div class="col-md-3 portlets"> -->
                                                 <!-- Your awesome content goes here -->
-                                                <div class="m-b-30">
+                                                <!-- <div class="m-b-30">
                                                     <div class="dropzone" id="dropzone3">
                                                       <div class="fallback">
                                                         <input name="file3" type="file"/>
@@ -139,10 +166,10 @@ if (isset($_GET['msg'])) { ?>
 
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-md-3 portlets">
+                                            </div> -->
+                                            <!-- <div class="col-md-3 portlets"> -->
                                                 <!-- Your awesome content goes here -->
-                                                <div class="m-b-30">
+                                                <!-- <div class="m-b-30">
                                                     <div class="dropzone" id="dropzone4">
                                                       <div class="fallback">
                                                         <input name="file4" type="file" />
@@ -150,8 +177,8 @@ if (isset($_GET['msg'])) { ?>
 
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div>
+                                            </div> -->
+                                        </div><br>
                                         <div class="row" id="price_section">
                                             <div class="col-lg-4">
                                                 <div class="form-group">
@@ -306,7 +333,10 @@ if (isset($_GET['msg'])) { ?>
                                                 <div class="modal-body">
                                                   <div class="row">
                                                       <div class="col-lg-4">
-                                                         <ul>
+                                                        <form role="search" class="app-search" novalidate="">
+                                                            <input type="text" placeholder="Search..." id="categorysearch" oninput="categorySearch()" class="form-control app-search-input" data-parsley-id="4">
+                                                        </form>
+                                                         <ul id="categories">
                                                             <?php
 
                                                                 $sql = mysqli_query($con, "SELECT * From categories where delte = 0");
@@ -319,12 +349,18 @@ if (isset($_GET['msg'])) { ?>
 
                                                          </ul>
                                                       </div>
-                                                      <div class="col-lg-4">
+                                                      <div class="col-lg-4 subcategories">
+                                                        <form role="search" class="app-search" novalidate="" style="display: none">
+                                                            <input type="text" placeholder="Search..." id="subcategorysearch" oninput="subcategorySearch()" class="form-control app-search-input" data-parsley-id="4">
+                                                        </form>
                                                           <ul id="subcategories">
                                                               
                                                           </ul>
                                                       </div>
-                                                      <div class="col-lg-4">
+                                                      <div class="col-lg-4 subsubcategories">
+                                                            <form role="search" class="app-search" novalidate="" style="display: none">
+                                                                <input type="text" placeholder="Search..." id="subsubcategorysearch" oninput="subsubcategorySearch()" class="form-control app-search-input" data-parsley-id="4">
+                                                            </form>                                                        
                                                           <ul id="subsubcategories">
                                                               
                                                           </ul>
@@ -372,6 +408,7 @@ if (isset($_GET['msg'])) { ?>
                 success:function(data){
 
                         $('#subcategories').append(data);
+                        $(".subcategories .app-search").css("display","");
                 }
             });
         }
@@ -389,7 +426,7 @@ if (isset($_GET['msg'])) { ?>
                 success:function(data){
                 
                         $('#subsubcategories').append(data);
-                    
+                        $(".subsubcategories .app-search").css("display","");
                 }
             });
         }
@@ -550,6 +587,93 @@ var s = new Array();
         
 
 } 
+
+        //////////////////////////////////////////////////////
+        //-----------  Category Search     ----------------//
+        ////////////////////////////////////////////////////
+
+        function categorySearch(){
+
+           var keyword = $("#categorysearch").val();
+
+                $.ajax({
+                        type: "POST",
+                        url: 'action/categorySearch.php',
+                        data: {keyword:keyword},
+                        success:function(data){
+                            
+                            $('#categories').html(null);
+                            // swal("Congrats! SubCategories added succesfully")
+                            $('#categories').append(data);
+                            // console.log(data);
+
+                        }
+                });
+           
+        }
+
+
+        //////////////////////////////////////////////////////
+        //-------- End Category Search     ----------------//
+        ////////////////////////////////////////////////////
+
+        //////////////////////////////////////////////////////
+        //-----------  SubCategory Search     -------------//
+        ////////////////////////////////////////////////////
+
+        function subcategorySearch(){
+
+           var keyword = $("#subcategorysearch").val();
+
+                $.ajax({
+                        type: "POST",
+                        url: 'action/subCategorySearch.php',
+                        data: {keyword:keyword,id:category_id},
+                        success:function(data){
+                            
+                            $('#subcategories').html(null);
+                            // swal("Congrats! SubCategories added succesfully")
+                            $('#subcategories').append(data);
+                            // console.log(data);
+
+                        }
+                });
+           
+        }
+
+
+        //////////////////////////////////////////////////////
+        //-------- End subCategory Search    --------------//
+        //////////////////////////////////////////////////// 
+
+        //////////////////////////////////////////////////////
+        //-----------  subSubCategory Search  -------------//
+        ////////////////////////////////////////////////////
+
+        function subsubcategorySearch(){
+
+           var keyword = $("#subsubcategorysearch").val();
+
+                $.ajax({
+                        type: "POST",
+                        url: 'action/subSubCategorySearch.php',
+                        data: {keyword:keyword,id:subcategory_id},
+                        success:function(data){
+                            
+                            $('#subsubcategories').html(null);
+                            // swal("Congrats! SubCategories added succesfully")
+                            $('#subsubcategories').append(data);
+                            // console.log(data);
+
+                        }
+                });
+           
+        }
+
+
+        //////////////////////////////////////////////////////
+        //-------- End subsubCategory Search --------------//
+        //////////////////////////////////////////////////// 
 
 
     $(document).ready(function() {

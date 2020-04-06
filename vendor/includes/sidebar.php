@@ -39,10 +39,6 @@
                                 </li>
                             </ul>
 
-                            <form role="search" class="navbar-left app-search pull-left hidden-xs">
-			                     <input type="text" placeholder="Search..." class="form-control app-search-input">
-			                     <a href=""><i class="fa fa-search"></i></a>
-			                </form>
 
                             <ul class="nav navbar-nav navbar-right pull-right">
 
@@ -150,8 +146,6 @@
                                     <li><a href="sub-subcategories.php">Sub Sub Categories</a></li>
                                     <li><a href="brands.php">Brands</a></li>
                                     <li><a href="variations.php">Variations</a></li>
-                                    <li><a href="add-product.php">Add Product</a></li>
-                                    <li><a href="product.php">Product</a></li>
                                 </ul>
                             </li>
                             <li class="has_sub">
