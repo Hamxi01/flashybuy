@@ -72,7 +72,7 @@
         										?>
 													<tr>
 														<th><?php echo $i++; ?></th>
-														<td><img src="<?php echo "200_".$res['image1'];?>"> <?php echo $res['name'];?></td>
+														<td><img src="<?php echo $res['image1'];?>"> <?php echo $res['name'];?></td>
 														<td>12</td>
 														<td>582.93</td>
 														<td>3</td>
