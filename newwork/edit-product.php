@@ -201,6 +201,24 @@ if (isset($_GET['id']) && isset($_GET['sku'])) {
                                   Oh no! SubCategories is invalid.
                                 </div>
                             </div>
+                          <div class="form-group row">
+                            <div class="col-md-4">
+                                <div class="pretty p-switch">
+                                  <input type="checkbox" value="Y" name="exclusive" <?php if($exclusive == 'Y'){ ?> checked <?php }?>/>
+                                  <div class="state p-warning">
+                                    <label>Exclusive</label>
+                                  </div>
+                                </div>
+                            </div> 
+                            <div class="col-md-5">
+                                <div class="pretty p-switch">
+                                  <input type="checkbox" value="Y" id="variant_permission" />
+                                  <div class="state p-warning">
+                                      <label>Do you want to add variations?</label>
+                                  </div>
+                                </div>
+                            </div>   
+                          </div>
                             <div class="form-group row">
                             <div class="col-md-4">
                               <div class="form-group">
@@ -266,24 +284,6 @@ if (isset($_GET['id']) && isset($_GET['sku'])) {
                                   <input type="number" name="" required="" class="form-control" value="<?=$length?>">
                                 </div>
                               </div> 
-                          </div>
-                          <div class="form-group row">
-                            <div class="col-md-4">
-                                <div class="pretty p-switch">
-                                  <input type="checkbox" value="Y" name="exclusive" <?php if($exclusive == 'Y'){ ?> checked <?php }?>/>
-                                  <div class="state p-warning">
-                                    <label>Exclusive</label>
-                                  </div>
-                                </div>
-                            </div> 
-                            <div class="col-md-5">
-                                <div class="pretty p-switch">
-                                  <input type="checkbox" value="Y" id="variant_permission" />
-                                  <div class="state p-warning">
-                                      <label>Do you want to add variations?</label>
-                                  </div>
-                                </div>
-                            </div>   
                           </div>
                         </div>
                         <div class="card-footer text-right">
