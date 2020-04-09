@@ -33,7 +33,6 @@ class connection
 			
 			if ($count>0 && $fetch[19]=="1" &&$fetch[21]=="0"&&$fetch[22]=="0" ) 
 			{
-
 				session_start();
 				$_SESSION['type']='vendor';
 				$_SESSION['id']=$fetch[0];
@@ -44,8 +43,6 @@ class connection
 				$ip   = $_SERVER['REMOTE_ADDR'];
 				$insert = mysqli_query($this->connect(),"insert into login_log(user_id,login_time,ip) values('$id','$login','$ip')");	
 				header("Location:../dashboard.php");
-
-
 			}
 			else
 			{
@@ -79,6 +76,11 @@ class connection
 				return false;
 			}
 		}
+		public function get_vendor($id)
+		{
+			$select = mysqli_query($this->connect(),"select * from vendor where id = $id");
+			return $select;
+		}
 
 
 		public function check_shop($id)
@@ -101,6 +103,7 @@ class connection
 			$select = mysqli_query($this->connect(),"select * from vendor where id = $id");
 			return $select;
 		}
+
 
 		public function make_json($user_id)
 		{
@@ -135,7 +138,11 @@ class connection
 			return $fetch;
 		}
 
-
+		public function edit_shop($id)
+		{
+			$select = mysqli_query($this->connect(),"select * from shop_detail where id = $id");
+			return $select;
+		}
 		public function get_banner()
 		{
 		$banner = mysqli_query($this->connect(),"select * from tbl_banner");
@@ -183,10 +190,17 @@ class connection
 					return false;
 				}
 		}
-		/*public function signup_user($)
+		
+		public function select_seller()
 		{
-
-		}*/
+			$select = mysqli_query($this->connect(),"select * from vendor");
+			return $select;
+		}
+		public function allow_update_shop($id)
+		{
+			$shop_detail = mysqli_query($this->connect(),"select id, update_allow from shop_detail where user_id = $id");
+			return $shop_detail;
+		}
 
 		
 	}
