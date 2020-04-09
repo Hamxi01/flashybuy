@@ -12,7 +12,7 @@
                             <div class="col-sm-12">
                                 <div class="page-title-box">
                                     <ol class="breadcrumb pull-right">
-                                        <li><a href="#">Minton</a></li>
+                                        <li><a href="#">Miton</a></li>
                                         <li><a href="#">Extras</a></li>
                                         <li class="active">Profile</li>
                                     </ol>
