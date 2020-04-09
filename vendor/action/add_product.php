@@ -262,12 +262,12 @@ if (isset($_FILES['file4']["name"])) {
 					    $pic8extension = strtolower($extension);
 					    $pic8 = time().rand();
 					    $pic8we=$pic8.".".$pic8extension;
-					    $location = "../../upload/product/".$pic8we;
+					    $location8 = "../../upload/product/".$pic8we;
 
-					    if(move_uploaded_file($_FILES["variant_img1"]["tmp_name"][$index], $location)){
+					    if(move_uploaded_file($_FILES["variant_img1"]["tmp_name"][$index], $location8)){
 
 						        try {
-									    $image = new ImageResize($location);
+									    $image = new ImageResize($location8);
 									    $image->quality_jpg = 85;
 									    $image->resizeToWidth(800);
 									    $image->resizeToHeight(800);
@@ -279,7 +279,7 @@ if (isset($_FILES['file4']["name"])) {
 									    return null;
 									}
 								try {
-									    $image = new ImageResize($location);
+									    $image = new ImageResize($location8);
 									    $image->quality_jpg = 85;
 									    $image->resizeToWidth(300);
 									    $image->resizeToHeight(300);
@@ -291,7 +291,7 @@ if (isset($_FILES['file4']["name"])) {
 									    return null;
 									}
 								try {
-									    $image = new ImageResize($location);
+									    $image = new ImageResize($location8);
 									    $image->quality_jpg = 85;
 									    $image->resizeToWidth(200);
 									    $image->resizeToHeight(150);
@@ -322,12 +322,12 @@ if (isset($_FILES['file4']["name"])) {
 					    $pic7extension = strtolower($extension);
 					    $pic7 = time().rand();
 					    $pic7we=$pic7.".".$pic7extension;
-					    $locatio2 = "../../upload/product/".$pic7we;
+					    $locatio7 = "../../upload/product/".$pic7we;
 
-					    if(move_uploaded_file($_FILES["variant_img2"]["tmp_name"][$index], $location2)){
+					    if(move_uploaded_file($_FILES["variant_img2"]["tmp_name"][$index], $location7)){
 
 						        try {
-									    $image = new ImageResize($location2);
+									    $image = new ImageResize($location7);
 									    $image->quality_jpg = 85;
 									    $image->resizeToWidth(800);
 									    $image->resizeToHeight(800);
@@ -339,7 +339,7 @@ if (isset($_FILES['file4']["name"])) {
 									    return null;
 									}
 								try {
-									    $image = new ImageResize($location2);
+									    $image = new ImageResize($location7);
 									    $image->quality_jpg = 85;
 									    $image->resizeToWidth(300);
 									    $image->resizeToHeight(300);
@@ -351,7 +351,7 @@ if (isset($_FILES['file4']["name"])) {
 									    return null;
 									}
 								try {
-									    $image = new ImageResize($location2);
+									    $image = new ImageResize($location7);
 									    $image->quality_jpg = 85;
 									    $image->resizeToWidth(200);
 									    $image->resizeToHeight(150);
@@ -383,12 +383,12 @@ if (isset($_FILES['file4']["name"])) {
 					    $pic6extension = strtolower($extension);
 					    $pic6 = time().rand();
 					    $pic6we=$pic6.".".$pic6extension;
-					    $location3 = "../../upload/product/".$pic6we;
+					    $location6 = "../../upload/product/".$pic6we;
 
-					    if(move_uploaded_file($_FILES["variant_img3"]["tmp_name"][$index], $location3)){
+					    if(move_uploaded_file($_FILES["variant_img3"]["tmp_name"][$index], $location6)){
 
 						        try {
-									    $image = new ImageResize($location3);
+									    $image = new ImageResize($location6);
 									    $image->quality_jpg = 85;
 									    $image->resizeToWidth(800);
 									    $image->resizeToHeight(800);
@@ -400,7 +400,7 @@ if (isset($_FILES['file4']["name"])) {
 									    return null;
 									}
 								try {
-									    $image = new ImageResize($location3);
+									    $image = new ImageResize($location6);
 									    $image->quality_jpg = 85;
 									    $image->resizeToWidth(300);
 									    $image->resizeToHeight(300);
@@ -412,7 +412,7 @@ if (isset($_FILES['file4']["name"])) {
 									    return null;
 									}
 								try {
-									    $image = new ImageResize($location3);
+									    $image = new ImageResize($location6);
 									    $image->quality_jpg = 85;
 									    $image->resizeToWidth(200);
 									    $image->resizeToHeight(150);
@@ -444,12 +444,12 @@ if (isset($_FILES['file4']["name"])) {
 					    $pic5extension = strtolower($extension);
 					    $pic5 = time().rand();
 					    $pic5we=$pic5.".".$pic5extension;
-					    $location4 = "../../upload/product/".$pic5we;
+					    $location5 = "../../upload/product/".$pic5we;
 
-					    if(move_uploaded_file($_FILES["variant_img4"]["tmp_name"][$index], $location4)){
+					    if(move_uploaded_file($_FILES["variant_img4"]["tmp_name"][$index], $location5)){
 
 						        try {
-									    $image = new ImageResize($location4);
+									    $image = new ImageResize($location5);
 									    $image->quality_jpg = 85;
 									    $image->resizeToWidth(800);
 									    $image->resizeToHeight(800);
@@ -461,7 +461,7 @@ if (isset($_FILES['file4']["name"])) {
 									    return null;
 									}
 								try {
-									    $image = new ImageResize($location4);
+									    $image = new ImageResize($location5);
 									    $image->quality_jpg = 85;
 									    $image->resizeToWidth(300);
 									    $image->resizeToHeight(300);
@@ -473,7 +473,7 @@ if (isset($_FILES['file4']["name"])) {
 									    return null;
 									}
 								try {
-									    $image = new ImageResize($location4);
+									    $image = new ImageResize($location5);
 									    $image->quality_jpg = 85;
 									    $image->resizeToWidth(200);
 									    $image->resizeToHeight(150);
