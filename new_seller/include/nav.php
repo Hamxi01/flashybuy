@@ -20,6 +20,16 @@
                 <li><a class="nav-link" href="calendar.html">Calendar</a></li>
               </ul>
             </li>
+
+              <li class="dropdown">
+              <a href="#" class="menu-toggle nav-link has-dropdown"><i data-feather="command"></i><span>Admin</span></a>
+              <ul class="dropdown-menu">
+                <li><a class="nav-link" href="Permissions.php">Permissions</a></li>
+                <li><a class="nav-link" href="blog.html">View Update Request</a></li>
+              </ul>
+            </li>
+
+
           </ul>
         </aside>
       </div>

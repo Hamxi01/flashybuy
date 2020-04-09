@@ -121,8 +121,10 @@ $id =$_SESSION['id'];
                      			<?php echo $row[1] ?>
                      		</div>
                      		<div class="col-md-4">
+                          <?php if ($row[14]==1){?>
                      		<a href="edit_address.php?<?php echo "id= ".base64_encode($row[0])." "; ?>" class="btn btn-outline-dark"><i class="fa fa-edit"></i> Edit</a>
                      		</div>
+                      <?php } else {echo "<p>If you want to update your account contact seller owner</p>";} ?>
                      	</div>
 
                      	<div class="row jumbotron">

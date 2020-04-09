@@ -104,6 +104,7 @@ class connection
 			return $select;
 		}
 
+
 		public function make_json($user_id)
 		{
 			$select = mysqli_query($this->connect(),"select * from tbl_log where user_id = $user_id");
@@ -189,10 +190,17 @@ class connection
 					return false;
 				}
 		}
-		/*public function signup_user($)
+		
+		public function select_seller()
 		{
-
-		}*/
+			$select = mysqli_query($this->connect(),"select * from vendor");
+			return $select;
+		}
+		public function allow_update_shop($id)
+		{
+			$shop_detail = mysqli_query($this->connect(),"select id, update_allow from shop_detail where user_id = $id");
+			return $shop_detail;
+		}
 
 		
 	}

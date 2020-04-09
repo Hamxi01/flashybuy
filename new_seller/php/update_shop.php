@@ -13,7 +13,7 @@ if(isset($_POST['btn_update']))
 	$country 	= $_POST['country'];
 	$city 		= $_POST['city'];
 $update = mysqli_query($obj->connect(),"update shop_detail set address=
-	'$adress',street='$street',rout='$rout',state='$state',subrub ='$subrub' , postal_code='$postal',country='$country',city='$city'where id =$id");
+	'$adress',street='$street',rout='$rout',state='$state',subrub ='$subrub' , postal_code='$postal',country='$country',city='$city',update_allow=0 where id =$id");
 if ($update>0) 
 	{
 		header("Location:../my_account.php?msg=success");
