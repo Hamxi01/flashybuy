@@ -1,18 +1,17 @@
+<?php
+session_start(); 
+include('../includes/db.php');
+$obj = new connection();
+?>
 <!DOCTYPE html>
 <html lang="en">
-
-
-<!-- index.html  21 Nov 2019 03:44:50 GMT -->
 <head>
   <meta charset="UTF-8">
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
   <title>Flashy Buy::Seller Pannel</title>
-  <!-- General CSS Files -->
   <link rel="stylesheet" href="assets/css/app.min.css">
-  <!-- Template CSS -->
   <link rel="stylesheet" href="assets/css/style.css">
   <link rel="stylesheet" href="assets/css/components.css">
-  <!-- Custom style CSS -->
   <link rel="stylesheet" href="assets/css/custom.css">
   <link rel='shortcut icon' type='image/x-icon' href='assets/img/favicon.ico' />
 </head>
@@ -157,16 +156,14 @@
               class="nav-link dropdown-toggle nav-link-lg nav-link-user"> <img alt="image" src="assets/img/user.png"
                 class="user-img-radious-style"> <span class="d-sm-none d-lg-inline-block"></span></a>
             <div class="dropdown-menu dropdown-menu-right pullDown">
-              <div class="dropdown-title">Hello Sarah Smith</div>
-              <a href="profile.html" class="dropdown-item has-icon"> <i class="far
-										fa-user"></i> Profile
-              </a> <a href="timeline.html" class="dropdown-item has-icon"> <i class="fas fa-bolt"></i>
-                Activities
-              </a> <a href="#" class="dropdown-item has-icon"> <i class="fas fa-cog"></i>
+              <div class="dropdown-title">Hello <?php echo $_SESSION['name']; ?></div>
+
+    
+              </a> <a href="my_account.php" class="dropdown-item has-icon"> <i class="fas fa-cog"></i>
                 Settings
               </a>
               <div class="dropdown-divider"></div>
-              <a href="auth-login.html" class="dropdown-item has-icon text-danger"> <i class="fas fa-sign-out-alt"></i>
+              <a href="php/logout.php" class="dropdown-item has-icon text-danger"> <i class="fas fa-sign-out-alt"></i>
                 Logout
               </a>
             </div>

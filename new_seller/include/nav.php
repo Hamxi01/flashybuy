@@ -10,33 +10,14 @@
             <li class="dropdown active">
               <a href="index.html" class="nav-link"><i data-feather="monitor"></i><span>Dashboard</span></a>
             </li>
+          
             <li class="dropdown">
-              <a href="#" class="menu-toggle nav-link has-dropdown"><i
-                  data-feather="briefcase"></i><span>Bank Management</span></a>
+              <a href="#" class="menu-toggle nav-link has-dropdown"><i data-feather="command"></i><span>Seller</span></a>
               <ul class="dropdown-menu">
-                <li><a class="nav-link" href="widget-chart.html">Manage Account</a></li>
-              </ul>
-            </li>
-            <li class="menu-header">Shop Management</li>
-            <li class="dropdown">
-              <a href="#" class="menu-toggle nav-link has-dropdown"><i data-feather="copy"></i><span>Shop Management</span></a>
-              <ul class="dropdown-menu">
-                <li><a class="nav-link" href="alert.html">Manage Shop</a></li>
-              </ul>
-            </li>
-            <li class="menu-header">Profile</li>
-            <li class="dropdown">
-              <a href="#" class="menu-toggle nav-link has-dropdown"><i data-feather="layout"></i><span>Manage Profile</span></a>
-              <ul class="dropdown-menu">
-                <li><a class="nav-link" href="basic-form.html">View Profile</a></li>
-              </ul>
-            </li>
-            <li class="dropdown">
-              <a href="#" class="menu-toggle nav-link has-dropdown"><i data-feather="grid"></i><span>Front End Management</span></a>
-              <ul class="dropdown-menu">
-                <li><a class="nav-link" href="basic-table.html">Crousel</a></li>
-                <li><a class="nav-link" href="advance-table.html">Banner</a></li>
-                <li><a class="nav-link" href="datatables.html">Social Media Integration</a></li>
+                <li><a class="nav-link" href="chat.html">Seller Details</a></li>
+                
+                <li><a class="nav-link" href="blog.html">Blog</a></li>
+                <li><a class="nav-link" href="calendar.html">Calendar</a></li>
               </ul>
             </li>
           </ul>
