@@ -140,22 +140,20 @@ if (isset($_GET['id']) && isset($_GET['sku'])) {
                                 Oh no! Sub-subCategories is invalid.
                               </div>
                           </div>
-                            <!-- <div class="form-group row">
+                            <div class="form-group row">
                               <div class="col-md-12">
                                 <label class="col-form-label">Description</label>
                                   
-                                    <textarea class="summernote" required=""></textarea>
+                                    <textarea class="form-control" required=""></textarea>
                                   
-                                  <div class="invalid-feedback">
-                                    Please write Description?
-                                  </div>
+                                  
                               </div>
-                            </div> -->
+                            </div>
 
                             <div class="form-group row">
                               <div class="col-md-4">
                                 <div class="form-group">
-                                    <label>Brands</label><button type="button" class="btn btn-primary btn-sm text-right" data-toggle="modal" data-target="#brandsModel" style="margin-left: 10px;margin-bottom: 3px;position: relative;left: 89px">Add new Brand</button>
+                                    <label>Brands</label><button type="button" class="btn btn-warning btn-sm text-right" data-toggle="modal" data-target="#brandsModel" style="margin-left: 10px;margin-bottom: 3px;position: relative;left: 89px">Add new Brand</button>
                                     <select class="form-control select2" required="">
                                         <?php 
 
@@ -184,7 +182,7 @@ if (isset($_GET['id']) && isset($_GET['sku'])) {
                                 </div>
                                 <div class="col-md-8">
                                   <div class="form-group">
-                                    <label>Add Keywords</label><button type="button" class="btn btn-primary btn-sm text-right" data-toggle="modal" data-target="#keywordModel" style="margin-left: 10px;margin-bottom: 3px;position: relative;left: 309px">Add new Keyword</button>
+                                    <label>Add Keywords</label><button type="button" class="btn btn-warning btn-sm text-right" data-toggle="modal" data-target="#keywordModel" style="margin-left: 10px;margin-bottom: 3px;position: relative;left: 309px">Add new Keyword</button>
                                     <select class="form-control select2" required="" multiple="">
                                       <?php 
 
@@ -203,6 +201,24 @@ if (isset($_GET['id']) && isset($_GET['sku'])) {
                                   Oh no! SubCategories is invalid.
                                 </div>
                             </div>
+                          <div class="form-group row">
+                            <div class="col-md-4">
+                                <div class="pretty p-switch">
+                                  <input type="checkbox" value="Y" name="exclusive" <?php if($exclusive == 'Y'){ ?> checked <?php }?>/>
+                                  <div class="state p-warning">
+                                    <label>Exclusive</label>
+                                  </div>
+                                </div>
+                            </div> 
+                            <div class="col-md-5">
+                                <div class="pretty p-switch">
+                                  <input type="checkbox" value="Y" id="variant_permission" />
+                                  <div class="state p-warning">
+                                      <label>Do you want to add variations?</label>
+                                  </div>
+                                </div>
+                            </div>   
+                          </div>
                             <div class="form-group row">
                             <div class="col-md-4">
                               <div class="form-group">
@@ -220,26 +236,6 @@ if (isset($_GET['id']) && isset($_GET['sku'])) {
                                 <div class="form-group">
                                   <label>Quantity</label>
                                   <input type="number" name="" required="" class="form-control" value="<?=$stock?>">
-                                </div>
-                              </div> 
-                          </div>
-                          <div class="form-group row">
-                            <div class="col-md-4">
-                              <div class="form-group">
-                                  <label>Width</label>
-                                  <input type="number" name="" required="" class="form-control" value="<?=$width?>">
-                                </div>
-                              </div>
-                              <div class="col-md-4">
-                                <div class="form-group">
-                                  <label>Height</label>
-                                  <input type="number" name="" required="" class="form-control" value="<?=$height?>">
-                                </div>
-                              </div>
-                              <div class="col-md-4">
-                                <div class="form-group">
-                                  <label>Length</label>
-                                  <input type="number" name="" required="" class="form-control" value="<?=$length?>">
                                 </div>
                               </div> 
                           </div>
@@ -271,25 +267,27 @@ if (isset($_GET['id']) && isset($_GET['sku'])) {
                           </div>
                           <div class="form-group row">
                             <div class="col-md-4">
-                                <div class="pretty p-switch">
-                                  <input type="checkbox" value="Y" name="exclusive" <?php if($exclusive == 'Y'){ ?> checked <?php }?>/>
-                                  <div class="state p-primary">
-                                    <label>Exclusive</label>
-                                  </div>
+                              <div class="form-group">
+                                  <label>Width</label>
+                                  <input type="number" name="" required="" class="form-control" value="<?=$width?>">
                                 </div>
-                            </div> 
-                            <div class="col-md-5">
-                                <div class="pretty p-switch">
-                                  <input type="checkbox" value="Y" id="variant_permission" />
-                                  <div class="state p-primary">
-                                      <label>Do you want to add variations?</label>
-                                  </div>
+                              </div>
+                              <div class="col-md-4">
+                                <div class="form-group">
+                                  <label>Height</label>
+                                  <input type="number" name="" required="" class="form-control" value="<?=$height?>">
                                 </div>
-                            </div>   
+                              </div>
+                              <div class="col-md-4">
+                                <div class="form-group">
+                                  <label>Length</label>
+                                  <input type="number" name="" required="" class="form-control" value="<?=$length?>">
+                                </div>
+                              </div> 
                           </div>
                         </div>
                         <div class="card-footer text-right">
-                          <button class="btn btn-primary">Submit</button>
+                          <button class="btn btn-warning">Submit</button>
                         </div>
                       </form>  
                     </div>
@@ -373,7 +371,7 @@ if (isset($_GET['id']) && isset($_GET['sku'])) {
       });
     }
 
-    //////---------------Save keyword Function -----------///////////
+    //////--------------- Save keyword Function -----------///////////
 
     function saveKeywords(){
 
