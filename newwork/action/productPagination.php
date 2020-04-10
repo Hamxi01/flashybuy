@@ -27,6 +27,7 @@ $start_from = ($page-1) * $limit;
                     PV.first_variation_name,
                     PV.second_variation_value,
                     PV.price,
+                    PV.variation_id,
                     PV.quantity as stock,
                     PV.sku as variant_Sku
                   FROM
@@ -38,6 +39,7 @@ $start_from = ($page-1) * $limit;
  $i=1; 
  while($res = mysqli_fetch_array($query)) {
 
+  $variation_id  = base64_encode($res['variation_id']);
   $id = base64_encode($res['product_id']);
   if ($res['quantity'] == null) {
     
@@ -96,12 +98,14 @@ $start_from = ($page-1) * $limit;
                                       </a>
                                 <?php } ?>
                                 <?php if (!empty($res['variant_Sku'])) { ?>
-                                    <a href="edit-product.php?id=<?=$id?>&variant_sku=<?=$res['variant_Sku']?>" class="dropdown-item has-icon"><i class="far fa-edit"></i>Assign Vendor</a>
+                                    <a href="#" data-toggle="modal"
+                                        data-target="#vendorModel" class="dropdown-item has-icon" onclick="variantProductAssign('<?=$id?>','<?=$variation_id?>')"><i class="far fa-edit"></i>Assign Vendor</a>
                                 <?php }else{ ?>
-                                    <a href="edit-product.php?id=<?=$id?>&sku=<?=$res['sku']?>" class="dropdown-item has-icon"><i class="far fa-edit"></i>Assign Vendor</a>
+                                    <a href="#" data-toggle="modal"
+                                        data-target="#vendorModel" class="dropdown-item has-icon" onclick="productAssign('<?=$id?>')"><i class="far fa-edit"></i>Assign Vendor</a>
                                 <?php } ?>     
                                 <?php if (!empty($res['variant_Sku'])) { ?>
-                                    <a href="edit-product.php?id=<?=$id?>&variant_sku=<?=$res['variant_Sku']?>" class="dropdown-item has-icon"><i class="far fa-edit"></i>Edit</a>
+                                    <a href="edit-product.php?id=<?=$id?>&variant_id=<?=$variation_id?>" class="dropdown-item has-icon"><i class="far fa-edit"></i>Edit</a>
                                 <?php }else{ ?>
                                     <a href="edit-product.php?id=<?=$id?>&sku=<?=$res['sku']?>" class="dropdown-item has-icon"><i class="far fa-edit"></i>Edit</a>
                                 <?php } ?>        
