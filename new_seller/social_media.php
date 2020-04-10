@@ -12,11 +12,12 @@ include('include/nav.php');
                   <div class="card-header">
                     <h4>Social Media Management</h4>
                   </div>
+                  <form method="post" action="php/social_media.php" enctype="multipart/form-data">
                   <div class="card-body">
                     <div class="form-group row mb-4">
                       <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Title</label>
                       <div class="col-sm-12 col-md-7">
-                        <input type="text" id="title" placeholder="Enter Title" class="form-control">
+                        <input type="text" id="title" placeholder="Enter Title" name="title" class="form-control">
                       </div>  
                     </div>
 
@@ -56,6 +57,7 @@ include('include/nav.php');
               </div>
             </div>
           </div>
+        </form>
         </section>
         <div class="settingSidebar">
           <a href="javascript:void(0)" class="settingPanelToggle"> <i class="fa fa-spin fa-cog"></i>
@@ -150,36 +152,4 @@ include('include/nav.php');
         </div>
       </div>
       <?php include('include/footer.php'); ?>
-       <script>  
- $(document).ready(function(){  
-      function autoSave()  
-      {  
-           var post_title = $('#title').val();  
-           var post_description = $('#url').val();  
-           var post_id = $('#image-upload').val();  
-           if(post_title != '' && post_description != '')  
-           {  
-                $.ajax({  
-                     url:"save_post.php",  
-                     method:"POST",  
-                     data:{postTitle:post_title, postDescription:post_description, postId:post_id},  
-                     dataType:"text",  
-                     success:function(data)  
-                     {  
-                          if(data != '')  
-                          {  
-                               $('#post_id').val(data);  
-                          }  
-                          $('#autoSave').text("Post save as draft");  
-                          setInterval(function(){  
-                               $('#autoSave').text('');  
-                          }, 5000);  
-                     }  
-                });  
-           }            
-      }  
-      setInterval(function(){   
-           autoSave();   
-           }, 10000);  
- });  
- </script>
+      
