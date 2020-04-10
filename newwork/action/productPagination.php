@@ -39,8 +39,20 @@ $start_from = ($page-1) * $limit;
  $i=1; 
  while($res = mysqli_fetch_array($query)) {
 
+  $v_id          = $res['variation_id'];
   $variation_id  = base64_encode($res['variation_id']);
-  $id = base64_encode($res['product_id']);
+  $id            = base64_encode($res['product_id']);
+  $p_id          = $res['product_id'];
+
+  // $countQuery = "SELECT  COUNT(*) AS total FROM vendor_product AS VP INNER JOIN vendor AS V ON V.id = VP.ven_id INNER Join product_variations AS PV ON PV.variation_id = VP.variation_id where VP.prod_id = '$p_id'";
+  // $res    = mysqli_query( $con , $countQuery );
+  // $query  = mysqli_fetch_array($res);
+  // $vCount = $query["total"];
+
+  // $pvQuery = "SELECT  COUNT(*) AS total FROM vendor_product AS VP INNER JOIN vendor AS V ON V.id = VP.ven_id  where VP.prod_id = '$p_id'";
+  // $res     = mysqli_query( $con , $pvQuery );
+  // $pquery  = mysqli_fetch_array($res);
+  // $pvCount = $pquery["total"];
   if ($res['quantity'] == null) {
     
       $stock = $res['stock'];
@@ -64,17 +76,24 @@ $start_from = ($page-1) * $limit;
     $approve = "approved";    
   }
 
+
+
   ?>
                       
                         <tr>
                           <td><?= $i++?></td>
                           <td><img alt="image" src="../upload/product/200_<?php echo $res['image1'];?>" width="35"
-                              data-toggle="tooltip" title="<?=$res['name']?>">  <span style="margin-left: 5px"> <?=$res['name']?> </span> </td>
+                              data-toggle="tooltip" title="<?=$res['name']?>">  <span style="margin-left: 5px"> <?=$res['name']?> <?=$res['variant_Sku']?></span> </td>
 
                           <td class="align-middle"><?=$stock?></td>
                           <td><b>R</b><?=$price?></td>
                           <td><?=$res['variant_Sku']?></td>
-                          <td>2</td>
+
+                          <!-- Count Vendor -->
+                            <td>2</td>
+                          
+                          <!-- end Count Vendor -->
+
                           <td>
                             <?php if($res['approved'] == "N"){?>
                               <div class="badge badge-danger">pending</div>
@@ -98,6 +117,10 @@ $start_from = ($page-1) * $limit;
                                       </a>
                                 <?php } ?>
                                 <?php if (!empty($res['variant_Sku'])) { ?>
+                                        <a href="#" data-toggle="modal"
+                                        data-target="#variationModel" class="dropdown-item has-icon" onclick="variationData('<?=$id?>','<?=$variation_id?>')"><i class="far fa-edit"></i>Add new Variation</a>
+                                <?php } ?>
+                                <?php if (!empty($res['variant_Sku'])) { ?>
                                     <a href="#" data-toggle="modal"
                                         data-target="#vendorModel" class="dropdown-item has-icon" onclick="variantProductAssign('<?=$id?>','<?=$variation_id?>')"><i class="far fa-edit"></i>Assign Vendor</a>
                                 <?php }else{ ?>
@@ -105,7 +128,7 @@ $start_from = ($page-1) * $limit;
                                         data-target="#vendorModel" class="dropdown-item has-icon" onclick="productAssign('<?=$id?>')"><i class="far fa-edit"></i>Assign Vendor</a>
                                 <?php } ?>     
                                 <?php if (!empty($res['variant_Sku'])) { ?>
-                                    <a href="edit-product.php?id=<?=$id?>&variant_id=<?=$variation_id?>" class="dropdown-item has-icon"><i class="far fa-edit"></i>Edit</a>
+                                    <a href="edit-variantProduct.php?id=<?=$id?>&variant_id=<?=$variation_id?>" class="dropdown-item has-icon"><i class="far fa-edit"></i>Edit</a>
                                 <?php }else{ ?>
                                     <a href="edit-product.php?id=<?=$id?>&sku=<?=$res['sku']?>" class="dropdown-item has-icon"><i class="far fa-edit"></i>Edit</a>
                                 <?php } ?>        

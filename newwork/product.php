@@ -115,6 +115,25 @@
             </div>
           </div>
         </div>
+        <!-- Variation insertion Model -->
+        <div class="modal fade" id="variationModel" tabindex="-1" role="dialog" aria-labelledby="formModal"
+          aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <!-- <h5 class="modal-title" id="formModal">Add new variation in this Product</h5> -->
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form id="variation-form">
+                  
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
       <?php include('includes/footer.php'); ?>
       <script>
 $(document).ready(function() {
@@ -205,5 +224,40 @@ function assignVendor(){
 function productAssign(product_id){
 
       $("#product_id").val(product_id);
+}
+//////////////////////////////////////////////////////////////
+///-------- Variation Modal Function ------- ////////////////
+////////////////////////////////////////////////////////////
+ function variationData(product_id,variation_id){
+
+      // $("#product_id").val(product_id);
+      $.ajax({
+        type:"post",
+        url:"action/getoldVariations.php",
+        data:{variation_id:variation_id},
+        success:function(data){
+            // $("#vendorModel").modal('hide');
+            //   alert("Product Assign Successfully");
+            $("#variation-form").html(null);
+            $("#variation-form").append(data);
+        }
+      });
+}
+//////////////////////////////////////////////////////////////
+///-------- Save Variation  Function ------- ////////////////
+////////////////////////////////////////////////////////////
+ function saveVariant(){
+
+      // $("#product_id").val(product_id);
+      $.ajax({
+        type:"post",
+        url:"action/saveVariations.php",
+        data:$('#variation-form').serialize(),
+        success:function(data){
+            $("#variationModel").modal('hide');
+            alert("Variation Add Successfully");
+
+        }
+      });
 }
 </script>
