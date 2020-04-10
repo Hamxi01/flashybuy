@@ -1,0 +1,1 @@
+<h1>Activate your account</h1>

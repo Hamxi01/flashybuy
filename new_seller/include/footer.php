@@ -24,6 +24,13 @@
   <!-- Page Specific JS File -->
   <script src="assets/js/page/datatables.js"></script> 
 
+   <script src="assets/bundles/summernote/summernote-bs4.js"></script>
+  <script src="assets/bundles/jquery-selectric/jquery.selectric.min.js"></script>
+  <script src="assets/bundles/upload-preview/assets/js/jquery.uploadPreview.min.js"></script>
+  <script src="assets/bundles/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js"></script>
+  <!-- Page Specific JS File -->
+  <script src="assets/js/page/create-post.js"></script>
+
 
 
 </body>

@@ -178,7 +178,7 @@ class connection
 					return true;
 			}
 		}
-		public function user_signup($name , $email , $password, $ip)
+		/*public function user_signup($name , $email , $password, $ip)
 		{
 			$insert = mysqli_query($this->connect(),"insert into signup(name,email,password,ip) values('$name','$email','$password','$ip')");
 			if ($insert>0) 
@@ -189,7 +189,7 @@ class connection
 				{
 					return false;
 				}
-		}
+		}*/
 		
 		public function select_seller()
 		{
@@ -202,6 +202,99 @@ class connection
 			return $shop_detail;
 		}
 
+		
+	public function user_signup($name , $email , $password, $ip,$token)
+		{
+			$insert = mysqli_query($this->connect(),"insert into signup(name,email,password,ip,token) values('$name','$email','$password','$ip','$token')");
+			if ($insert>0) 
+				{
+					return true;
+				}	
+				else
+				{
+					return false;
+				}
+		}
+		public function user_login($email,$pass)
+		{
+				$email = stripcslashes($email);
+				$pass  = stripcslashes($pass);
+				$email = mysqli_real_escape_string($this->connect(),$email);
+				$pass =  mysqli_real_escape_string($this->connect(),$pass);
+
+				$query = mysqli_query($this->connect(),"select * from signup where email = '$email'  and password= '$pass'");
+				$fetch = mysqli_fetch_array($query);
+				$count = mysqli_num_rows($query);
+				if ($count>0) 
+				{
+					if ($fetch['10']==1) 
+					{
+						session_start();
+						$_SESSION['username']=$fetch['1'];
+						$_SESSION['user_id']=$fetch['0'];
+				echo "<script>window.location='../my_account.php?msg=success'</script>";
+					}
+					else
+					{
+						echo "<script>window.location='../pending_account.php?msg=pending'</script>";
+					}
+
+				}
+				else
+				{
+					echo "<script>window.location='../login.php?error=invalid'</script>";
+				}
+
+		}
+		public function reset_pass($id)
+		{
+			$reset = mysqli_query($this->connect(),"select * from password_reset_temp where id = $id");
+			return $reset;
+		}
+
+		public function social_media($social_title,$social_url,$icon_image,$font_awsome)
+		{
+			$insert = mysqli_query($this->connect(),"insert into tbl_socialmedia(social_title,social_url,icon_image,font_awsome_class)values('$social_title','$social_url','$icon_image','$font_awsome')");	
+			if ($insert>0) 
+			{
+			 return true;
+			}
+			else
+			{
+			 return false;	
+			}
+		}
+		public function fetch_social()
+		{
+			$select = mysqli_query($this->connect(),"select * from tbl_socialmedia");
+			return $select;
+		}
+		public function edit_social($id)
+		{
+			$record = mysqli_query($this->connect(),"select * from tbl_socialmedia where id = $id");
+			return $record;
+		}
+
+		public function update_social_media($id,$social_media,$social_url,
+			$image)
+			{
+	$query = mysqli_query($this->connect(),"update tbl_socialmedia 
+	set social_title = '$social_media', social_url = '$social_url',icon_image = '$image' where id = $id
+				");	
+		if ($query>0) 
+		{
+			return $true;
+		}
+		else
+		{
+			return false;
+		}
+}
+public function user_profile($id)
+{
+	$select = mysqli_query($this->connect(),"select * from signup where id = $id");
+	return $select;
+}
 		
 	}
 

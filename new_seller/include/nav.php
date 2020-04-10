@@ -30,6 +30,17 @@
             </li>
 
 
+             <li class="dropdown">
+              <a href="#" class="menu-toggle nav-link has-dropdown"><i data-feather="command"></i><span>Front End</span></a>
+              <ul class="dropdown-menu">
+                <li><a class="nav-link" href="Permissions.php">Crousel</a></li>
+                <li><a class="nav-link" href="blog.html">Banner</a></li>
+                <li><a class="nav-link" href="blog.html">Social Media</a></li>
+                <li><a class="nav-link" href="blog.html">Footer</a></li>
+              </ul>
+            </li>
+
+
           </ul>
         </aside>
       </div>

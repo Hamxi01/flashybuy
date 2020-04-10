@@ -12,7 +12,7 @@
       </div>
       <div class="ps-my-account">
         <div class="container">
-          <form class="ps-form--account ps-tab-root" name="signup" id="signup" action="php/signup.php" method="post">
+          <form class="ps-form--account ps-tab-root" name="signup" id="login" action="php/signup.php" method="post">
             <ul class="ps-tab-list">
               <li class="active"><a href="#">Register</a></li>
             </ul>
@@ -27,15 +27,21 @@
                     <input class="form-control" id="email" name="email" type="email" placeholder="enter Email Address">
                   </div>
 
-                  <div
-                   class="form-group">
-                    <input class="form-control" id="password" name="password" type="password" placeholder="enter Email Address">
-                  </div>
-
+                <div class="form-group">
+                <input id="pswd" placeholder="Password" class="form-control" type="password" name="pswd">
+                       <div id="pswd_info" style="display: none;">
+    <h4>Password must contain:</h4>
+    <ul>
+      <li id="letter" class="valid">At least <strong>one letter</strong></li>
+      <li id="capital" class="invalid">At least <strong>one capital letter</strong></li>
+      <li id="number" class="invalid">At least <strong>one number</strong></li>
+      <li id="length" class="invalid">At least <strong>8 characters</strong></li>
+    </ul>
+  </div>
                   <div class="form-group submtit">
-                    <button type="submit" name="btnsub" id="btnsub" class="ps-btn ps-btn--fullwidth">Login</button>
+                    <button type="submit" name="btnsub" id="btnsub" class="ps-btn ps-btn--fullwidth">Signup</button>
                   </div>
-                </div>
+            
                 <div class="alert alert-primary" style="display: none;" id="result"></div>
                 <div class="ps-form__footer">
                   <p>Connect with:</p>
@@ -55,68 +61,48 @@
 
     <?php include('include/footer.php'); ?>
  
-  <script>
-         $(document).ready(function(){
-                $("#acount_holder").keyup(function(){
-                    var reg_name =/^[a-zA-Z ]+$/;
-                    if (reg_name.test($("#name").val()))
-                    {
-                    $("#name").closest('.form-group').removeClass('has-error');
-                    $("#name").closest('.form-group').addClass('has-success');
-                    }
-                    else
-                    {
-                     $("#name").closest('.form-group').addClass('has-error');   
-                    }
-                    
-                });       
-    
-               
-                $("#email").keyup(function(){
-                    var email =/^[+a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i;
-                    if (email.test($("#email").val()))
-                    {
-                    $("#email").closest('.form-group').removeClass('has-error');
-                    $("#email").closest('.form-group').addClass('has-success');
-                    }
-                    else
-                    {
-                     $("#email").closest('.form-group').addClass('has-error');   
-                    }
-                    
-                });
+ <script>
+     $(document).ready(function() {
 
+  //you have to use keyup, because keydown will not catch the currently entered value
+  $('input[type=password]').keyup(function() {
 
-                $("#password").keyup(function(){
-                    var reg_ac_no =/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
-                    if (reg_ac_no.test($("#password").val()))
-                    {
-                    $("#password").closest('.form-group').removeClass('has-error');
-                    $("#password").closest('.form-group').addClass('has-success');
-                    }
-                    else
-                    {
-                     $("#password").closest('.form-group').addClass('has-error');   
-                    }
-                    
-                });
-                $("#btnsub").click(function(event){
-                        event.preventDefault();
-                        var formdata  = $("#signup").serialize();
-                        console.log(formdata);
-                        $.ajax({
-                            url : 'php/signup.php',
-                            method: 'post',
-                            data : formdata + '&action=btnsub'
-                        }).done(function(result){
-                                 $(".alert").show();
-                                $("#result").html(result);
-                                
-                        });
-                });
-             
- });
+    // set password variable
+    var pswd = $(this).val();
 
+    //validate the length
+    if (pswd.length < 8) {
+      $('#length').removeClass('valid').addClass('invalid');
+    } else {
+      $('#length').removeClass('invalid').addClass('valid');
+    }
 
+    //validate letter
+    if (pswd.match(/[A-z]/)) {
+      $('#letter').removeClass('invalid').addClass('valid');
+    } else {
+      $('#letter').removeClass('valid').addClass('invalid');
+    }
 
-</script>
+    //validate uppercase letter
+    if (pswd.match(/[A-Z]/)) {
+      $('#capital').removeClass('invalid').addClass('valid');
+    } else {
+      $('#capital').removeClass('valid').addClass('invalid');
+    }
+
+    //validate number
+    if (pswd.match(/\d/)) {
+      $('#number').removeClass('invalid').addClass('valid');
+    } else {
+      $('#number').removeClass('valid').addClass('invalid');
+    }
+
+  }).focus(function() {
+    $('#pswd_info').show();
+  }).blur(function() {
+    $('#pswd_info').hide();
+  });
+
+});
+ </script>

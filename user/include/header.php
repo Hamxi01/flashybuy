@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -14,7 +15,12 @@
     <link rel="stylesheet" href="../plugins/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="../fonts/Linearicons/Linearicons/Font/demo-files/demo.css">
     <link rel="stylesheet" href="../plugins/bootstrap4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="plugins/bootstrap/css/bootstrap.min.css">
+
+
     <link rel="stylesheet" href="../plugins/owl-carousel/assets/owl.carousel.css">
+ <link rel="stylesheet" href="../plugins/nouislider/nouislider.min.css">
+    
     <link rel="stylesheet" href="../plugins/slick/slick/slick.css">
     <link rel="stylesheet" href="../plugins/lightGallery-master/dist/css/lightgallery.min.css">
     <link rel="stylesheet" href="../plugins/jquery-bar-rating/dist/themes/fontawesome-stars.css">
@@ -593,10 +599,24 @@
                 </div>
               </div>
             </div>
-            <div class="ps-block--user-header">
-              <div class="ps-block__left"><i class="icon-user"></i></div>
-              <div class="ps-block__right"><a href="my-account.html">Login</a><a href="my-account.html">Register</a></div>
-            </div>
+            <?php if(isset($_SESSION['username']))
+              { 
+              echo "<div class='ps-block--user-header'>
+                <div class='ps-block__left'><i class='icon-user'></i></div>
+                <div class='ps-block__right'><a href='../login.php'>
+                  ".$_SESSION['username']."
+                </a><a href='php/logout.php'>Logout</a></div>
+              </div>";
+            } 
+
+            else
+            { 
+            echo'<div class="ps-block--user-header">
+                <div class="ps-block__left"><i class="icon-user"></i></div>
+                <div class="ps-block__right"><a href="login.php">Login</a>
+                  <a href="php/signup.php">Register</a></div>
+              </div>';
+            } ?>
           </div>
         </div>
       </div>

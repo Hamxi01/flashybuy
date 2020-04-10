@@ -1,5 +1,9 @@
 <?php 
 	include('include/header.php');
+  if (isset($_SESSION['name'])) 
+  {
+    echo "<script>window.location='Home.php'</script>";
+  }
 ?>
 <div class="ps-page--my-account">
       <div class="ps-breadcrumb">
@@ -12,7 +16,7 @@
       </div>
       <div class="ps-my-account">
         <div class="container">
-          <form class="ps-form--account ps-tab-root" action="link.html" method="get">
+          <form class="ps-form--account ps-tab-root" action="php/login.php" method="post">
             <ul class="ps-tab-list">
               <li class="active"><a href="#sign-in">Login</a></li>
             </ul>
@@ -21,10 +25,10 @@
                 <div class="ps-form__content">
                   <h5>Log In Your Account</h5>
                   <div class="form-group">
-                    <input class="form-control" name="email" type="text" placeholder="Username or email address">
+                    <input class="form-control" id="email" name="email" type="text" placeholder="Username or email address">
                   </div>
                   <div class="form-group form-forgot">
-                    <input class="form-control" name="password" type="text" placeholder="Password"><a href="">Forgot?</a>
+                    <input class="form-control" id="password" name="password" type="password" placeholder="Password"><a href="forget_password.php">Forgot?</a>
                   </div>
                   <div class="form-group">
                                 <div class="ps-checkbox">
@@ -33,7 +37,7 @@
                                 </div>
                   </div>
                   <div class="form-group submtit">
-                    <button class="ps-btn ps-btn--fullwidth">Login</button>
+                    <button type="submit" name="btnsub" id="btnsub" class="ps-btn ps-btn--fullwidth">Login</button>
                   </div>
                 </div>
                 <div class="ps-form__footer">
