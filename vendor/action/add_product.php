@@ -232,7 +232,8 @@ if (isset($_FILES['file4']["name"])) {
 	}
 }
 
-	$sql = "INSERT into products (name,cat_id,sub_cat_id,sub_sub_cat_id,sku,brand,market_price,selling_price,quantity,width,height,length,description,image1,image2,image3,image4) VALUES ('$name', '$category_id', '$subcategory_id','$subsubcategory_id','$sku','$brand','$market_price','$selling_price','$quantity','$width','$height','$length','$description','$location','$location2','$location3','$location4')";
+
+	$sql = "INSERT into products (name,cat_id,sub_cat_id,sub_sub_cat_id,sku,brand,market_price,selling_price,quantity,width,height,length,description,image1,image2,image3,image4) VALUES ('$name', '$category_id', '$subcategory_id','$subsubcategory_id','$sku','$brand','$market_price','$selling_price','$quantity','$width','$height','$length','$description','$pic1we','$pic2we','$pic3we','$pic4we')";
 
 
 
@@ -258,19 +259,19 @@ if (isset($_FILES['file4']["name"])) {
 
 						$filename = $_FILES['variant_img1']['name'][$index];
 					    $extension = @end(explode('.', $filename)); // explode the image name to get the extension
-					    $pic1extension = strtolower($extension);
-					    $pic1 = time().rand();
-					    $pic1we=$pic1.".".$pic1extension;
-					    $location = "../../upload/product/".$pic1we;
+					    $pic8extension = strtolower($extension);
+					    $pic8 = time().rand();
+					    $pic8we=$pic8.".".$pic8extension;
+					    $location8 = "../../upload/product/".$pic8we;
 
-					    if(move_uploaded_file($_FILES["variant_img1"]["tmp_name"][$index], $location)){
+					    if(move_uploaded_file($_FILES["variant_img1"]["tmp_name"][$index], $location8)){
 
 						        try {
-									    $image = new ImageResize($location);
+									    $image = new ImageResize($location8);
 									    $image->quality_jpg = 85;
 									    $image->resizeToWidth(800);
 									    $image->resizeToHeight(800);
-									    $new_name = '800_' . $pic1 . '.jpg';
+									    $new_name = '800_' . $pic8 . '.jpg';
 									    $new_path = '../../upload/product/' . $new_name;
 									    $image->save($new_path, IMAGETYPE_JPEG);
 						  
@@ -278,11 +279,11 @@ if (isset($_FILES['file4']["name"])) {
 									    return null;
 									}
 								try {
-									    $image = new ImageResize($location);
+									    $image = new ImageResize($location8);
 									    $image->quality_jpg = 85;
 									    $image->resizeToWidth(300);
 									    $image->resizeToHeight(300);
-									    $new_name = '300_' . $pic1 . '.jpg';
+									    $new_name = '300_' . $pic8 . '.jpg';
 									    $new_path = '../../upload/product/' . $new_name;
 									    $image->save($new_path, IMAGETYPE_JPEG);
 									  
@@ -290,11 +291,11 @@ if (isset($_FILES['file4']["name"])) {
 									    return null;
 									}
 								try {
-									    $image = new ImageResize($location);
+									    $image = new ImageResize($location8);
 									    $image->quality_jpg = 85;
 									    $image->resizeToWidth(200);
 									    $image->resizeToHeight(150);
-									    $new_name = '200_' . $pic1 . '.jpg';
+									    $new_name = '200_' . $pic8 . '.jpg';
 									    $new_path = '../../upload/product/' . $new_name;
 									    $image->save($new_path, IMAGETYPE_JPEG);
 									  
@@ -318,19 +319,19 @@ if (isset($_FILES['file4']["name"])) {
 
 						$filename = $_FILES['variant_img2']['name'][$index];
 					    $extension = @end(explode('.', $filename)); // explode the image name to get the extension
-					    $pic2extension = strtolower($extension);
-					    $pic2 = time().rand();
-					    $pic2we=$pic2.".".$pic2extension;
-					    $locatio2 = "../../upload/product/".$pic2we;
+					    $pic7extension = strtolower($extension);
+					    $pic7 = time().rand();
+					    $pic7we=$pic7.".".$pic7extension;
+					    $locatio7 = "../../upload/product/".$pic7we;
 
-					    if(move_uploaded_file($_FILES["variant_img2"]["tmp_name"][$index], $location2)){
+					    if(move_uploaded_file($_FILES["variant_img2"]["tmp_name"][$index], $location7)){
 
 						        try {
-									    $image = new ImageResize($location2);
+									    $image = new ImageResize($location7);
 									    $image->quality_jpg = 85;
 									    $image->resizeToWidth(800);
 									    $image->resizeToHeight(800);
-									    $new_name = '800_' . $pic2 . '.jpg';
+									    $new_name = '800_' . $pic7 . '.jpg';
 									    $new_path = '../../upload/product/' . $new_name;
 									    $image->save($new_path, IMAGETYPE_JPEG);
 						  
@@ -338,11 +339,11 @@ if (isset($_FILES['file4']["name"])) {
 									    return null;
 									}
 								try {
-									    $image = new ImageResize($location2);
+									    $image = new ImageResize($location7);
 									    $image->quality_jpg = 85;
 									    $image->resizeToWidth(300);
 									    $image->resizeToHeight(300);
-									    $new_name = '300_' . $pic2 . '.jpg';
+									    $new_name = '300_' . $pic7 . '.jpg';
 									    $new_path = '../../upload/product/' . $new_name;
 									    $image->save($new_path, IMAGETYPE_JPEG);
 									  
@@ -350,11 +351,11 @@ if (isset($_FILES['file4']["name"])) {
 									    return null;
 									}
 								try {
-									    $image = new ImageResize($location2);
+									    $image = new ImageResize($location7);
 									    $image->quality_jpg = 85;
 									    $image->resizeToWidth(200);
 									    $image->resizeToHeight(150);
-									    $new_name = '200_' . $pic2 . '.jpg';
+									    $new_name = '200_' . $pic7 . '.jpg';
 									    $new_path = '../../upload/product/' . $new_name;
 									    $image->save($new_path, IMAGETYPE_JPEG);
 									  
@@ -379,19 +380,19 @@ if (isset($_FILES['file4']["name"])) {
 
 						$filename = $_FILES['variant_img3']['name'][$index];
 					    $extension = @end(explode('.', $filename)); // explode the image name to get the extension
-					    $pic3extension = strtolower($extension);
-					    $pic3 = time().rand();
-					    $pic3we=$pic3.".".$pic3extension;
-					    $location3 = "../../upload/product/".$pic3we;
+					    $pic6extension = strtolower($extension);
+					    $pic6 = time().rand();
+					    $pic6we=$pic6.".".$pic6extension;
+					    $location6 = "../../upload/product/".$pic6we;
 
-					    if(move_uploaded_file($_FILES["variant_img3"]["tmp_name"][$index], $location3)){
+					    if(move_uploaded_file($_FILES["variant_img3"]["tmp_name"][$index], $location6)){
 
 						        try {
-									    $image = new ImageResize($location3);
+									    $image = new ImageResize($location6);
 									    $image->quality_jpg = 85;
 									    $image->resizeToWidth(800);
 									    $image->resizeToHeight(800);
-									    $new_name = '800_' . $pic3 . '.jpg';
+									    $new_name = '800_' . $pic6 . '.jpg';
 									    $new_path = '../../upload/product/' . $new_name;
 									    $image->save($new_path, IMAGETYPE_JPEG);
 						  
@@ -399,11 +400,11 @@ if (isset($_FILES['file4']["name"])) {
 									    return null;
 									}
 								try {
-									    $image = new ImageResize($location3);
+									    $image = new ImageResize($location6);
 									    $image->quality_jpg = 85;
 									    $image->resizeToWidth(300);
 									    $image->resizeToHeight(300);
-									    $new_name = '300_' . $pic3 . '.jpg';
+									    $new_name = '300_' . $pic6 . '.jpg';
 									    $new_path = '../../upload/product/' . $new_name;
 									    $image->save($new_path, IMAGETYPE_JPEG);
 									  
@@ -411,11 +412,11 @@ if (isset($_FILES['file4']["name"])) {
 									    return null;
 									}
 								try {
-									    $image = new ImageResize($location3);
+									    $image = new ImageResize($location6);
 									    $image->quality_jpg = 85;
 									    $image->resizeToWidth(200);
 									    $image->resizeToHeight(150);
-									    $new_name = '200_' . $pic3 . '.jpg';
+									    $new_name = '200_' . $pic6 . '.jpg';
 									    $new_path = '../../upload/product/' . $new_name;
 									    $image->save($new_path, IMAGETYPE_JPEG);
 									  
@@ -440,19 +441,19 @@ if (isset($_FILES['file4']["name"])) {
 
 						$filename = $_FILES['variant_img4']['name'][$index];
 					    $extension = @end(explode('.', $filename)); // explode the image name to get the extension
-					    $pic4extension = strtolower($extension);
-					    $pic4 = time().rand();
-					    $pic4we=$pic4.".".$pic4extension;
-					    $location4 = "../../upload/product/".$pic4we;
+					    $pic5extension = strtolower($extension);
+					    $pic5 = time().rand();
+					    $pic5we=$pic5.".".$pic5extension;
+					    $location5 = "../../upload/product/".$pic5we;
 
-					    if(move_uploaded_file($_FILES["variant_img4"]["tmp_name"][$index], $location4)){
+					    if(move_uploaded_file($_FILES["variant_img4"]["tmp_name"][$index], $location5)){
 
 						        try {
-									    $image = new ImageResize($location4);
+									    $image = new ImageResize($location5);
 									    $image->quality_jpg = 85;
 									    $image->resizeToWidth(800);
 									    $image->resizeToHeight(800);
-									    $new_name = '800_' . $pic4 . '.jpg';
+									    $new_name = '800_' . $pic5 . '.jpg';
 									    $new_path = '../../upload/product/' . $new_name;
 									    $image->save($new_path, IMAGETYPE_JPEG);
 						  
@@ -460,11 +461,11 @@ if (isset($_FILES['file4']["name"])) {
 									    return null;
 									}
 								try {
-									    $image = new ImageResize($location4);
+									    $image = new ImageResize($location5);
 									    $image->quality_jpg = 85;
 									    $image->resizeToWidth(300);
 									    $image->resizeToHeight(300);
-									    $new_name = '300_' . $pic4 . '.jpg';
+									    $new_name = '300_' . $pic5 . '.jpg';
 									    $new_path = '../../upload/product/' . $new_name;
 									    $image->save($new_path, IMAGETYPE_JPEG);
 									  
@@ -472,11 +473,11 @@ if (isset($_FILES['file4']["name"])) {
 									    return null;
 									}
 								try {
-									    $image = new ImageResize($location4);
+									    $image = new ImageResize($location5);
 									    $image->quality_jpg = 85;
 									    $image->resizeToWidth(200);
 									    $image->resizeToHeight(150);
-									    $new_name = '200_' . $pic4 . '.jpg';
+									    $new_name = '200_' . $pic5 . '.jpg';
 									    $new_path = '../../upload/product/' . $new_name;
 									    $image->save($new_path, IMAGETYPE_JPEG);
 									  
@@ -486,7 +487,7 @@ if (isset($_FILES['file4']["name"])) {
 
 						}
 
-						$sql = "INSERT into product_variant_images(product_id,variation_value,image1,image2,image3,image4) VALUES('$id','$variantvalue','$location','$location2','$location3','$location4')";
+						$sql = "INSERT into product_variant_images(product_id,variation_value,image1,image2,image3,image4) VALUES('$id','$variantvalue','$pic5we','$pic6we','$pic7we','$pic8we')";
 						if (mysqli_query($con,$sql)) {
 							
 							echo "Success";
