@@ -260,7 +260,7 @@ if (isset($_FILES['file4']["name"]) && !empty($_FILES['file4']["name"])) {
 }
 
 
-     $query = "update products SET name='".$name."',cat_id='".$category_id."',sub_cat_id='".$subcategory_id."',sub_sub_cat_id='".$subsubcategory_id."',brand='".$brand."',quantity='".$quantity."',market_price='".$market_price."',selling_price='".$selling_price."',length='".$length."',width='".$width."',height='".$height."',keyword='".$keyword."',sku='".$sku."' Where product_id='".$product_id."'";
+     $query = "update products SET name='".$name."',cat_id='".$category_id."',sub_cat_id='".$subcategory_id."',sub_sub_cat_id='".$subsubcategory_id."',brand='".$brand."',quantity='".$quantity."',market_price='".$market_price."',selling_price='".$selling_price."',length='".$length."',width='".$width."',height='".$height."',keyword='".$keyword."',sku='".$sku."',image1='".$pic1."',image2='".$pic2."',image3='".$pic3."',image4='".$pic4."' Where product_id='".$product_id."'";
 
      if (mysqli_query($con,$query)){
 
