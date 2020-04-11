@@ -35,7 +35,7 @@ list($width, $height, $type, $attr) = getimagesize($tmpName);
 		$query = $db->db_insert("insert into tbl_slider (title,url,image,sunday,monday,tuesday,wednesday,thursday,friday,saturday)values('$title','$url','$image','$sunday','$monday','$tuesday','$wednesday','$thursday','$friday','$saturday')");
 		if ($query) 
 		{
-			header("Location:../crousel.php?msg=success");
+			header("Location:../view_crousel.php?msg=success");
 		}
 		else
 		{

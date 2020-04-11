@@ -34,6 +34,7 @@ include('include/nav.php');
 
                           <?php
                           $status = "";
+                          $count =1;
                           $record =mysqli_query($obj->connect(),"select * from tbl_socialmedia");
                           while($row = mysqli_fetch_array($record)){ 
                             
@@ -47,7 +48,7 @@ include('include/nav.php');
                             }
                             ?>
                           <tr class="<?php echo $row[0] ?>">
-                            <td><?php echo $row[0]?></td>
+                            <td><?php echo $count++ ?></td>
                             <td><?php echo $row[1]?></td>
                             <td><?php echo $row[2]?></td>
                             <td>
@@ -64,7 +65,12 @@ include('include/nav.php');
                            
                         </form>
                             </td>
-                            <td><a href="edit_socialmedia.php?id=<?php echo base64_encode($row[0]) ?>" class="btn btn-outline-dark"><i class="fa fa-edit"></i></a></td>
+                            <td><a href="edit_socialmedia.php?id=<?php echo base64_encode($row[0]) ?>" class="btn btn-outline-dark"><i class="fa fa-edit"></i></a>
+
+
+                              <a href="php/delete_social.php?id=<?php echo base64_encode($row[0]) ?>" class="btn btn-outline-danger"><i class="fa fa-trash"></i></a>
+
+                            </td>
                           </tr>
                         <?php } ?>
                         
