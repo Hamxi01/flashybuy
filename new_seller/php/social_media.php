@@ -6,6 +6,7 @@
 		$title = $_POST["title"];
 		$url = 	 $_POST["url"];
   		$img =   $_FILES['image']['name'];
+
   	$upload = move_uploaded_file($_FILES['image']['tmp_name'],"social_media/".$img);
   		if ($upload>0) 
   		{
