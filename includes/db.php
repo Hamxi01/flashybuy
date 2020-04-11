@@ -46,7 +46,7 @@ class connection
 			}
 			else
 			{
-				header("Location:../login.php?msg=error");
+				header("Location:../index.php?msg=error");
 
 			}
 

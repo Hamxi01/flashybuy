@@ -1,10 +1,13 @@
 <?php 
+session_start();
 include('../../includes/db.php');
 $obj = new connection();
-if(isset($_POST['btnsub'])) 
+if (isset($_POST['btnsub'])) 
 {
-	$email 		= $_POST['email'];
-	$password   = md5($_POST['password']);
-	$obj->login($email,$password);
+	$email = $_POST['email'];
+	$pass = md5($_POST['pwd']);
+	$obj->login($email,$pass);
 }
+
+
 ?>

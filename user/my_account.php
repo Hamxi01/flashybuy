@@ -1,4 +1,12 @@
-<?php include('include/header.php') ?>
+<?php
+include('include/header.php') ;
+include('../includes/db.php');
+$id =$_SESSION['user_id'];
+$obj = new connection();
+$query = mysqli_query($obj->connect(),"select * from customers where id = id");
+$fetch = mysqli_fetch_array($query); 
+?>
+
     <div class="ps-panel--sidebar" id="cart-mobile">
         <div class="ps-panel__header">
             <h3>Shopping Cart</h3>
@@ -325,7 +333,7 @@
         <section class="ps-section--account">
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-4">
+                <div class="col-lg-4">
                         <div class="ps-section__left">
                             <aside class="ps-widget--account-dashboard">
                                 <div class="ps-widget__header"><img src="img/users/3.jpg" alt="">
@@ -357,25 +365,19 @@
                                 <div class="ps-form__content">
                                     <div class="form-group">
                                         <label>Name</label>
-                                        <input class="form-control" type="text" placeholder="Please enter your name...">
+                                        <input class="form-control" type="text" value="<?php echo $fetch[1] ?>" >
                                     </div>
                                     <div class="row">
                                         <div class="col-sm-6">
                                             <div class="form-group">
                                                 <label>Phone Number</label>
-                                                <input class="form-control" type="text" placeholder="Please enter phone number...">
+                                                <input class="form-control" type="text" value="<?php echo $fetch[4] ?>">
                                             </div>
                                         </div>
                                         <div class="col-sm-6">
                                             <div class="form-group">
                                                 <label>Email</label>
-                                                <input class="form-control" type="text" placeholder="Please enter your email...">
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <div class="form-group">
-                                                <label>Birthday</label>
-                                                <input class="form-control" type="text" placeholder="Please enter your birthday...">
+                                                <input class="form-control" type="text" value="<?php echo $fetch[2] ?>" >
                                             </div>
                                         </div>
                                         <div class="col-sm-6">
@@ -399,6 +401,7 @@
                 </div>
             </div>
         </section>
+
 <?php
 include('include/footer.php');
 ?>

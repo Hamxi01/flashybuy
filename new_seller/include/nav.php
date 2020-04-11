@@ -26,6 +26,7 @@
               <ul class="dropdown-menu">
                 <li><a class="nav-link" href="Permissions.php">Permissions</a></li>
                 <li><a class="nav-link" href="blog.html">View Update Request</a></li>
+                <li><a class="nav-link" href="blog.html">Seller Verification Form</a></li>
               </ul>
             </li>
 
@@ -36,6 +37,8 @@
                 <li><a class="nav-link" href="view_crousel.php">Main Banners</a></li>
                 <li><a class="nav-link" href="banner.php">Banner</a></li>
                 <li><a class="nav-link" href="view_social.php">Social Media</a></li>
+                <li><a class="nav-link" href="view_record.php">Signup Form Content</a></li>
+                
                 <li><a class="nav-link" href="manage_footer.php">Footer</a></li>
               </ul>
             </li>
