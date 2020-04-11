@@ -43,7 +43,9 @@ $start_from = ($page-1) * $limit;
   $variation_id  = base64_encode($res['variation_id']);
   $id            = base64_encode($res['product_id']);
   $p_id          = $res['product_id'];
-
+  $v_sku          = $res['variant_Sku'];
+  $v_sku         = explode("-", $v_sku);
+  $color         = $v_sku[0];
   // $countQuery = "SELECT  COUNT(*) AS total FROM vendor_product AS VP INNER JOIN vendor AS V ON V.id = VP.ven_id INNER Join product_variations AS PV ON PV.variation_id = VP.variation_id where VP.prod_id = '$p_id'";
   // $res    = mysqli_query( $con , $countQuery );
   // $query  = mysqli_fetch_array($res);
@@ -53,7 +55,7 @@ $start_from = ($page-1) * $limit;
   // $res     = mysqli_query( $con , $pvQuery );
   // $pquery  = mysqli_fetch_array($res);
   // $pvCount = $pquery["total"];
-  if ($res['quantity'] == null) {
+  if ($res['quantity'] == 0) {
     
       $stock = $res['stock'];
   }else{
@@ -61,7 +63,7 @@ $start_from = ($page-1) * $limit;
     $stock   = $res['quantity'];
   }
 
-  if ($res['selling_price'] == null) {
+  if ($res['selling_price'] == 0) {
     
       $price = $res['price'];
   }else{
@@ -75,14 +77,29 @@ $start_from = ($page-1) * $limit;
 
     $approve = "approved";    
   }
+  if (empty($res['image1'])) {
+    
+     $image = null;
+     $sqll   = "SELECT image1 from product_variant_images WHERE product_id = '$p_id' AND variation_value='$color'";
+     $quer = mysqli_query($con,$sqll);
+     while($result = mysqli_fetch_array($quer)){
+       
+       $image = $result['image1'];
+     }
+    
+  }else{
 
+    $image = $res['image1'];
+       
+     
+  }
 
 
   ?>
                       
                         <tr>
                           <td><?= $i++?></td>
-                          <td><img alt="image" src="../upload/product/200_<?php echo $res['image1'];?>" width="35"
+                          <td><img alt="image" src="../upload/product/200_<?php echo $image;?>" width="35"
                               data-toggle="tooltip" title="<?=$res['name']?>">  <span style="margin-left: 5px"> <?=$res['name']?> <?=$res['variant_Sku']?></span> </td>
 
                           <td class="align-middle"><?=$stock?></td>

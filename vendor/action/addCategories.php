@@ -33,7 +33,7 @@ if(move_uploaded_file($_FILES["file"]["tmp_name"], $location)){
             $image->quality_jpg = 85;
             $image->resizeToWidth(170);
             $image->resizeToHeight(170);
-            $new_name = '800_' . $pic1 . '.jpg';
+            $new_name = '170_' . $pic1 . '.jpg';
             $new_path = '../../upload/category/' . $new_name;
             $image->save($new_path, IMAGETYPE_JPEG); 
         } 
@@ -43,7 +43,7 @@ if(move_uploaded_file($_FILES["file"]["tmp_name"], $location)){
 
 }
 }
-		$sqlCategory = "INSERT into categories (name,slug,banner) VALUES ('$category_name','$categoryslug','$new_path')";
+		$sqlCategory = "INSERT into categories (name,slug,banner) VALUES ('$category_name','$categoryslug','$pic1we')";
         if ( mysqli_query($con,$sqlCategory)){
 
         	$cat_id = mysqli_insert_id($con);

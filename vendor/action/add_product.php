@@ -27,7 +27,7 @@ if (isset($_POST['add-product'])) {
 
 
 // upload and crop image1 //
-if (isset($_FILES['file1']["name"])) {
+if (isset($_FILES['file1']["name"]) && !empty($_FILES['file1']["name"])) {
 
     $filename = $_FILES["file1"]["name"];
     $extension = @end(explode('.', $filename)); // explode the image name to get the extension
@@ -79,7 +79,7 @@ if (isset($_FILES['file1']["name"])) {
 }
 
 // upload and crop image2 //
-if (isset($_FILES['file2']["name"])) {
+if (isset($_FILES['file2']["name"]) && !empty($_FILES['file2']["name"])) {
 
     $filename = $_FILES["file2"]["name"];
     $extension = @end(explode('.', $filename)); // explode the image name to get the extension
@@ -130,7 +130,7 @@ if (isset($_FILES['file2']["name"])) {
 	}
 }
 // upload and crop image3 //
-if (isset($_FILES['file3']["name"])) {
+if (isset($_FILES['file3']["name"]) && !empty($_FILES['file3']["name"])) {
 
     $filename = $_FILES["file3"]["name"];
     $extension = @end(explode('.', $filename)); // explode the image name to get the extension
@@ -181,7 +181,7 @@ if (isset($_FILES['file3']["name"])) {
 	}
 }
 // upload and crop image1 //
-if (isset($_FILES['file4']["name"])) {
+if (isset($_FILES['file4']["name"]) && !empty($_FILES['file4']["name"])) {
 
     $filename = $_FILES["file4"]["name"];
     $extension = @end(explode('.', $filename)); // explode the image name to get the extension
@@ -250,12 +250,12 @@ if (isset($_FILES['file4']["name"])) {
 			
 			if ($value == "Color") {
 				
-				
+			if(isset($_FILES['variant_img1']['name']) && !empty($_FILES['variant_img1']["name"])){	
 				foreach ($_FILES['variant_img1']['name'] as $index => $value) {
 
-						// $skuu         = $_POST['sku'][$index];
-						// $skuu         = explode("-", $skuu);
-						// $variantvalue = $skuu[0];
+						$skuu         = $_POST['sku'][$index];
+						$skuu         = explode("-", $skuu);
+						$variantvalue = $skuu[0];
 
 						$filename = $_FILES['variant_img1']['name'][$index];
 					    $extension = @end(explode('.', $filename)); // explode the image name to get the extension
@@ -304,13 +304,16 @@ if (isset($_FILES['file4']["name"])) {
 									}
 
 						}
-
-						// $sql = "INSERT into product_variant_images(product_id,variation_value,image1) VALUES('1','$variantvalue','$location')";
-						// if (mysqli_query($con,$sql)) {
+						$sql = "INSERT into product_variant_images(product_id,variation_value,image1) VALUES('$id','$variantvalue','$pic8we')";
+						if (mysqli_query($con,$sql)) {
 							
-						// 	echo "Success";
-						// }
-				}
+							echo "Success";
+						}
+				}		
+
+						
+			}
+			if(isset($_FILES['variant_img2']['name']) && !empty($_FILES['variant_img2']["name"])){
 				foreach ($_FILES['variant_img2']['name'] as $index => $value) {
 
 						$skuu         = $_POST['sku'][$index];
@@ -365,18 +368,19 @@ if (isset($_FILES['file4']["name"])) {
 
 						}
 
-						// $sql = "INSERT into product_variant_images(product_id,variation_value,image1) VALUES('1','$variantvalue','$location')";
-						// if (mysqli_query($con,$sql)) {
+						$sql = "update product_variant_images SET image2 ='".$pic7we."' Where product_id ='".$id."'";
+						if (mysqli_query($con,$sql)) {
 							
-						// 	echo "Success";
-						// }
+							echo "Success";
+						}
 				}
-
+			}
+			if(isset($_FILES['variant_img3']['name']) && !empty($_FILES['variant_img3']["name"])){
 				foreach ($_FILES['variant_img3']['name'] as $index => $value) {
 
-						// $skuu         = $_POST['sku'][$index];
-						// $skuu         = explode("-", $skuu);
-						// $variantvalue = $skuu[0];
+						$skuu         = $_POST['sku'][$index];
+						$skuu         = explode("-", $skuu);
+						$variantvalue = $skuu[0];
 
 						$filename = $_FILES['variant_img3']['name'][$index];
 					    $extension = @end(explode('.', $filename)); // explode the image name to get the extension
@@ -426,13 +430,14 @@ if (isset($_FILES['file4']["name"])) {
 
 						}
 
-						// $sql = "INSERT into product_variant_images(product_id,variation_value,image1) VALUES('1','$variantvalue','$location')";
-						// if (mysqli_query($con,$sql)) {
+						$sql = "update product_variant_images SET image3 ='".$pic6we."' Where product_id ='".$id."'";
+						if (mysqli_query($con,$sql)) {
 							
-						// 	echo "Success";
-						// }
+							echo "Success";
+						}
 				}
-
+			}
+			  if(isset($_FILES['variant_img4']['name']) && !empty($_FILES['variant_img4']["name"])){
 				foreach ($_FILES['variant_img4']['name'] as $index => $value) {
 
 						$skuu         = $_POST['sku'][$index];
@@ -487,12 +492,13 @@ if (isset($_FILES['file4']["name"])) {
 
 						}
 
-						$sql = "INSERT into product_variant_images(product_id,variation_value,image1,image2,image3,image4) VALUES('$id','$variantvalue','$pic5we','$pic6we','$pic7we','$pic8we')";
+						$sql = "update product_variant_images SET image4 ='".$pic5we."' Where product_id ='".$id."'";
 						if (mysqli_query($con,$sql)) {
 							
 							echo "Success";
 						}
 				}
+			  }	
 
 			}
 
@@ -512,7 +518,9 @@ if (isset($_FILES['file4']["name"])) {
 					}
 					$data = array();
 		        	$i = 0;
-					foreach (json_decode($options) as $key => $element){
+		        if (!empty($options) {
+		        		
+		        		foreach (json_decode($options) as $key => $element){
 
 
 						$item = array();
@@ -535,10 +543,11 @@ if (isset($_FILES['file4']["name"])) {
 			            $i++;
 					}
 
-				$data = json_encode($data);
-		        $stmt = $con->prepare("INSERT INTO product_specification (product_id,options) VALUES (?, ?)");
-		        $stmt->bind_param("ss",$id,$data);
-		        $stmt->execute();		
+					$data = json_encode($data);
+		        	$stmt = $con->prepare("INSERT INTO product_specification (product_id,options) VALUES (?, ?)");
+		        	$stmt->bind_param("ss",$id,$data);
+		        	$stmt->execute();
+		        }		
 			}
 // ///////////////////// End Custom option  ////////////////////
 

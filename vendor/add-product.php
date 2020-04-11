@@ -183,19 +183,19 @@ if (isset($_GET['msg'])) { ?>
                                             <div class="col-lg-4">
                                                 <div class="form-group">
                                                     <label>Market Price:</label>
-                                                    <input type="number" min="1" name="market_price" class="form-control" >
+                                                    <input type="number"  name="market_price" class="form-control" >
                                                 </div>
                                             </div>
                                             <div class="col-lg-4">
                                                 <div class="form-group">
                                                     <label>Selling Price:</label>
-                                                    <input type="number" min="1" name="selling_price" class="form-control" >
+                                                    <input type="number"  name="selling_price" class="form-control" >
                                                 </div>
                                             </div>
                                             <div class="col-lg-4">
                                                 <div class="form-group">
                                                     <label>Quantity:</label>
-                                                    <input type="number" min="1" name="quantity" class="form-control" >
+                                                    <input type="number"  name="quantity" class="form-control" >
                                                 </div>
                                             </div>
                                         </div>

@@ -15,20 +15,30 @@ if (isset($_POST['keyword'])) {
                     PV.first_variation_name,
                     PV.second_variation_value,
                     PV.price,
+                    PV.variation_id,
                     PV.quantity as stock,
                     PV.sku as variant_Sku
                   FROM
                     products AS P
                     LEFT JOIN product_variations AS PV ON PV.product_id = P.product_id
                     where P.name like '%$keyword%'
+                    OR P.product_id like '%$keyword%'
                   ORDER BY
                     P.product_id DESC LIMIT $limit";
         $query = mysqli_query($con,$sql);
         $i=1;
         while ($res = mysqli_fetch_array($query)) {
 
+          $v_id          = $res['variation_id'];
+          $variation_id  = base64_encode($res['variation_id']);
+          $id            = base64_encode($res['product_id']);
+          $p_id          = $res['product_id'];
+          $v_sku          = $res['variant_Sku'];
+          $v_sku         = explode("-", $v_sku);
+          $color         = $v_sku[0]; 
+
 			  $id = base64_encode($res['product_id']);
-			  if ($res['quantity'] == null) {
+			  if ($res['quantity'] == 0) {
 			    
 			      $stock = $res['stock'];
 			  }else{
@@ -36,7 +46,7 @@ if (isset($_POST['keyword'])) {
 			    $stock   = $res['quantity'];
 			  }
 
-			  if ($res['selling_price'] == null) {
+			  if ($res['selling_price'] == 0) {
 			    
 			      $price = $res['price'];
 			  }else{
@@ -50,12 +60,28 @@ if (isset($_POST['keyword'])) {
 
 			    $approve = "approved";    
 			  }
+          if (empty($res['image1'])) {
+    
+             $image = null;
+             $sqll   = "SELECT image1 from product_variant_images WHERE product_id = '$p_id' AND variation_value='$color'";
+             $quer = mysqli_query($con,$sqll);
+             while($result = mysqli_fetch_array($quer)){
+               
+               $image = $result['image1'];
+             }
+            
+          }else{
+
+            $image = $res['image1'];
+               
+             
+          }
 
         	?>
         		<tr>
                           <td><?= $i++?></td>
-                          <td><img alt="image" src="../upload/product/200_<?php echo $res['image1'];?>" width="35"
-                              data-toggle="tooltip" title="<?=$res['name']?>">  <span style="margin-left: 5px"> <?=$res['name']?> </span> </td>
+                          <td><img alt="image" src="../upload/product/200_<?php echo $image;?>" width="35"
+                              data-toggle="tooltip" title="<?=$res['name']?>">  <span style="margin-left: 5px"> <?=$res['name']?> <?=$res['variant_Sku']?></span> </td>
 
                           <td class="align-middle"><?=$stock?></td>
                           <td><b>R</b><?=$price?></td>
@@ -82,9 +108,20 @@ if (isset($_POST['keyword'])) {
                                         data-target=".bd-example-modal-lg" onclick="prodImgPreview('<?=$id?>')"><i class="fas fa-eye"></i> 
                                           View
                                       </a>
-                                <?php } ?>    
+                                <?php } ?>
                                 <?php if (!empty($res['variant_Sku'])) { ?>
-                                    <a href="edit-product.php?id=<?=$id?>&variant_sku=<?=$res['variant_Sku']?>" class="dropdown-item has-icon"><i class="far fa-edit"></i>Edit</a>
+                                        <a href="#" data-toggle="modal"
+                                        data-target="#variationModel" class="dropdown-item has-icon" onclick="variationData('<?=$id?>','<?=$variation_id?>')"><i class="far fa-edit"></i>Add new Variation</a>
+                                <?php } ?>
+                                <?php if (!empty($res['variant_Sku'])) { ?>
+                                    <a href="#" data-toggle="modal"
+                                        data-target="#vendorModel" class="dropdown-item has-icon" onclick="variantProductAssign('<?=$id?>','<?=$variation_id?>')"><i class="far fa-edit"></i>Assign Vendor</a>
+                                <?php }else{ ?>
+                                    <a href="#" data-toggle="modal"
+                                        data-target="#vendorModel" class="dropdown-item has-icon" onclick="productAssign('<?=$id?>')"><i class="far fa-edit"></i>Assign Vendor</a>
+                                <?php } ?>     
+                                <?php if (!empty($res['variant_Sku'])) { ?>
+                                    <a href="edit-variantProduct.php?id=<?=$id?>&variant_id=<?=$variation_id?>" class="dropdown-item has-icon"><i class="far fa-edit"></i>Edit</a>
                                 <?php }else{ ?>
                                     <a href="edit-product.php?id=<?=$id?>&sku=<?=$res['sku']?>" class="dropdown-item has-icon"><i class="far fa-edit"></i>Edit</a>
                                 <?php } ?>        
@@ -106,6 +143,7 @@ if (isset($_POST['keyword'])) {
                     PV.first_variation_name,
                     PV.second_variation_value,
                     PV.price,
+                    PV.variation_id,
                     PV.quantity as stock,
                     PV.sku as variant_Sku
                   FROM
@@ -117,8 +155,16 @@ if (isset($_POST['keyword'])) {
         $i=1;
         while ($res = mysqli_fetch_array($query)) {
 
+          $v_id          = $res['variation_id'];
+          $variation_id  = base64_encode($res['variation_id']);
+          $id            = base64_encode($res['product_id']);
+          $p_id          = $res['product_id'];
+          $v_sku          = $res['variant_Sku'];
+          $v_sku         = explode("-", $v_sku);
+          $color         = $v_sku[0];
+
 			  $id = base64_encode($res['product_id']);
-			  if ($res['quantity'] == null) {
+			  if ($res['quantity'] == 0) {
 			    
 			      $stock = $res['stock'];
 			  }else{
@@ -126,7 +172,7 @@ if (isset($_POST['keyword'])) {
 			    $stock   = $res['quantity'];
 			  }
 
-			  if ($res['selling_price'] == null) {
+			  if ($res['selling_price'] == 0) {
 			    
 			      $price = $res['price'];
 			  }else{
@@ -140,12 +186,27 @@ if (isset($_POST['keyword'])) {
 
 			    $approve = "approved";    
 			  }
+        if (empty($res['image1'])) {
+    
+             $image = null;
+             $sqll   = "SELECT image1 from product_variant_images WHERE product_id = '$p_id' AND variation_value='$color'";
+             $quer = mysqli_query($con,$sqll);
+             while($result = mysqli_fetch_array($quer)){
+               
+               $image = $result['image1'];
+             }
+            
+          }else{
 
+            $image = $res['image1'];
+               
+             
+          }
         	?>
         		<tr>
                           <td><?= $i++?></td>
-                          <td><img alt="image" src="../upload/product/200_<?php echo $res['image1'];?>" width="35"
-                              data-toggle="tooltip" title="<?=$res['name']?>">  <span style="margin-left: 5px"> <?=$res['name']?> </span> </td>
+                          <td><img alt="image" src="../upload/product/200_<?php echo $image;?>" width="35"
+                              data-toggle="tooltip" title="<?=$res['name']?>">  <span style="margin-left: 5px"> <?=$res['name']?> <?=$res['variant_Sku']?></span> </td>
 
                           <td class="align-middle"><?=$stock?></td>
                           <td><b>R</b><?=$price?></td>
@@ -172,9 +233,20 @@ if (isset($_POST['keyword'])) {
                                         data-target=".bd-example-modal-lg" onclick="prodImgPreview('<?=$id?>')"><i class="fas fa-eye"></i> 
                                           View
                                       </a>
-                                <?php } ?>    
+                                <?php } ?>
                                 <?php if (!empty($res['variant_Sku'])) { ?>
-                                    <a href="edit-product.php?id=<?=$id?>&variant_sku=<?=$res['variant_Sku']?>" class="dropdown-item has-icon"><i class="far fa-edit"></i>Edit</a>
+                                        <a href="#" data-toggle="modal"
+                                        data-target="#variationModel" class="dropdown-item has-icon" onclick="variationData('<?=$id?>','<?=$variation_id?>')"><i class="far fa-edit"></i>Add new Variation</a>
+                                <?php } ?>
+                                <?php if (!empty($res['variant_Sku'])) { ?>
+                                    <a href="#" data-toggle="modal"
+                                        data-target="#vendorModel" class="dropdown-item has-icon" onclick="variantProductAssign('<?=$id?>','<?=$variation_id?>')"><i class="far fa-edit"></i>Assign Vendor</a>
+                                <?php }else{ ?>
+                                    <a href="#" data-toggle="modal"
+                                        data-target="#vendorModel" class="dropdown-item has-icon" onclick="productAssign('<?=$id?>')"><i class="far fa-edit"></i>Assign Vendor</a>
+                                <?php } ?>     
+                                <?php if (!empty($res['variant_Sku'])) { ?>
+                                    <a href="edit-variantProduct.php?id=<?=$id?>&variant_id=<?=$variation_id?>" class="dropdown-item has-icon"><i class="far fa-edit"></i>Edit</a>
                                 <?php }else{ ?>
                                     <a href="edit-product.php?id=<?=$id?>&sku=<?=$res['sku']?>" class="dropdown-item has-icon"><i class="far fa-edit"></i>Edit</a>
                                 <?php } ?>        
