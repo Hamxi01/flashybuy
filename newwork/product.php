@@ -16,165 +16,6 @@
       <div class="main-content">
         <section class="section">
           <div class="section-body">
-            <!-- <div class="row">
-              <div class="col-12 col-md-6 col-lg-6">
-                <div class="card">
-                  <div class="card-header">
-                    <h4>Simple Table</h4>
-                  </div>
-                  <div class="card-body">
-                    <div class="table-responsive">
-                      <table class="table table-bordered table-md">
-                        <tr>
-                          <th>#</th>
-                          <th>Name</th>
-                          <th>Created At</th>
-                          <th>Status</th>
-                          <th>Action</th>
-                        </tr>
-                        <tr>
-                          <td>1</td>
-                          <td>Irwansyah Saputra</td>
-                          <td>2017-01-09</td>
-                          <td>
-                            <div class="badge badge-success">Active</div>
-                          </td>
-                          <td><a href="#" class="btn btn-primary">Detail</a></td>
-                        </tr>
-                        <tr>
-                          <td>2</td>
-                          <td>Hasan Basri</td>
-                          <td>2017-01-09</td>
-                          <td>
-                            <div class="badge badge-success">Active</div>
-                          </td>
-                          <td><a href="#" class="btn btn-primary">Detail</a></td>
-                        </tr>
-                        <tr>
-                          <td>3</td>
-                          <td>Kusnadi</td>
-                          <td>2017-01-11</td>
-                          <td>
-                            <div class="badge badge-danger">Not Active</div>
-                          </td>
-                          <td><a href="#" class="btn btn-primary">Detail</a></td>
-                        </tr>
-                        <tr>
-                          <td>4</td>
-                          <td>Rizal Fakhri</td>
-                          <td>2017-01-11</td>
-                          <td>
-                            <div class="badge badge-success">Active</div>
-                          </td>
-                          <td><a href="#" class="btn btn-primary">Detail</a></td>
-                        </tr>
-                      </table>
-                    </div>
-                  </div>
-                  <div class="card-footer text-right">
-                    <nav class="d-inline-block">
-                      <ul class="pagination mb-0">
-                        <li class="page-item disabled">
-                          <a class="page-link" href="#" tabindex="-1"><i class="fas fa-chevron-left"></i></a>
-                        </li>
-                        <li class="page-item active"><a class="page-link" href="#">1 <span
-                              class="sr-only">(current)</span></a></li>
-                        <li class="page-item">
-                          <a class="page-link" href="#">2</a>
-                        </li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item">
-                          <a class="page-link" href="#"><i class="fas fa-chevron-right"></i></a>
-                        </li>
-                      </ul>
-                    </nav>
-                  </div>
-                </div>
-              </div>
-              <div class="col-12 col-md-6 col-lg-6">
-                <div class="card">
-                  <div class="card-header">
-                    <h4>Full Width</h4>
-                  </div>
-                  <div class="card-body p-0">
-                    <div class="table-responsive">
-                      <table class="table table-striped table-md">
-                        <tr>
-                          <th>#</th>
-                          <th>Name</th>
-                          <th>Created At</th>
-                          <th>Status</th>
-                          <th>Action</th>
-                        </tr>
-                        <tr>
-                          <td>1</td>
-                          <td>Irwansyah Saputra</td>
-                          <td>2017-01-09</td>
-                          <td>
-                            <div class="badge badge-success">Active</div>
-                          </td>
-                          <td><a href="#" class="btn btn-primary">Detail</a></td>
-                        </tr>
-                        <tr>
-                          <td>2</td>
-                          <td>Hasan Basri</td>
-                          <td>2017-01-09</td>
-                          <td>
-                            <div class="badge badge-success">Active</div>
-                          </td>
-                          <td><a href="#" class="btn btn-primary">Detail</a></td>
-                        </tr>
-                        <tr>
-                          <td>3</td>
-                          <td>Kusnadi</td>
-                          <td>2017-01-11</td>
-                          <td>
-                            <div class="badge badge-danger">Not Active</div>
-                          </td>
-                          <td><a href="#" class="btn btn-primary">Detail</a></td>
-                        </tr>
-                        <tr>
-                          <td>4</td>
-                          <td>Rizal Fakhri</td>
-                          <td>2017-01-11</td>
-                          <td>
-                            <div class="badge badge-success">Active</div>
-                          </td>
-                          <td><a href="#" class="btn btn-primary">Detail</a></td>
-                        </tr>
-                        <tr>
-                          <td>5</td>
-                          <td>Isnap Kiswandi</td>
-                          <td>2017-01-17</td>
-                          <td>
-                            <div class="badge badge-success">Active</div>
-                          </td>
-                          <td><a href="#" class="btn btn-primary">Detail</a></td>
-                        </tr>
-                      </table>
-                    </div>
-                  </div>
-                  <div class="card-footer text-right">
-                    <nav class="d-inline-block">
-                      <ul class="pagination mb-0">
-                        <li class="page-item disabled">
-                          <a class="page-link" href="#" tabindex="-1"><i class="fas fa-chevron-left"></i></a>
-                        </li>
-                        <li class="page-item active"><a class="page-link" href="#">1 <span
-                              class="sr-only">(current)</span></a></li>
-                        <li class="page-item">
-                          <a class="page-link" href="#">2</a>
-                        </li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item">
-                          <a class="page-link" href="#"><i class="fas fa-chevron-right"></i></a>
-                        </li>
-                      </ul>
-                    </nav>
-                  </div>
-                </div>
-              </div>
-            </div> -->
             <div class="row">
               <div class="col-12">
                 <div class="card">
@@ -221,6 +62,56 @@
           <div class="modal-dialog modal-lg">
             <div class="modal-content">
               
+            </div>
+          </div>
+        </div>
+        <!-- Vendor assign Model -->
+        <div class="modal fade" id="vendorModel" tabindex="-1" role="dialog" aria-labelledby="formModal"
+          aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="formModal">Asign to vendor</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form id="vendor-form">
+                    <div class="form-group">
+                      <label>choose vendor name</label>
+                        <select class="form-control select2" required="" name="vendor">
+
+                            <option>choose vendor name</option>
+
+                            <?php 
+
+                                          $sql = mysqli_query($con, "SELECT * From vendor");
+                                          
+                                          while ($res = mysqli_fetch_array($sql)) {?>
+
+                            <option value="<?=$res['id']?>"><?=$res['name']?></option>
+                                            
+                                        <?php  }?>
+                        </select>
+                    </div>    
+                      <div class="form-group">
+                        <label>Quantity</label>
+                        <input type="number" name="stock" id="stock" class="form-control">
+                      </div>
+                      <div class="form-group" id="marketPrice">
+                        <label>Market Price</label>
+                        <input type="number" name="market_price" id="mk_price" class="form-control">
+                      </div>
+                      <div class="form-group">
+                        <label>Selling Price</label>
+                        <input type="number" name="selling_price" id="selling_price" class="form-control">
+                      </div>
+                      <input type="hidden" name="variation_id" id="variation_id">
+                      <input type="hidden" name="product_id" id="product_id">    
+                  <button type="button" onclick="assignVendor()" class="btn btn-primary m-t-15 waves-effect">Save</button>
+                </form>
+              </div>
             </div>
           </div>
         </div>
@@ -286,5 +177,33 @@ function productSearch(){
         $('#searchResult').append(data);
       }
     });
+}
+///////--------------variantProduct value pass to modal////////
+
+function variantProductAssign(product_id,variation_id){
+
+      $("#product_id").val(product_id);
+      $("#variation_id").val(variation_id);
+}
+////////-------- varaint assign to vendor-----/////
+
+function assignVendor(){
+ 
+      $.ajax({
+        type:"post",
+        url:"action/assignVariations.php",
+        data:$('#vendor-form').serialize(),
+        success:function(data){
+            $("#vendorModel").modal('hide');
+              alert("Product Assign Successfully");
+        }
+      });
+
+}
+///////--------------variantProduct value pass to modal////////
+
+function productAssign(product_id){
+
+      $("#product_id").val(product_id);
 }
 </script>

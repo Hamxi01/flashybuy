@@ -222,7 +222,7 @@ class connection
 				$email = mysqli_real_escape_string($this->connect(),$email);
 				$pass =  mysqli_real_escape_string($this->connect(),$pass);
 
-				$query = mysqli_query($this->connect(),"select * from signup where email = '$email'  and password= '$pass'");
+				$query = mysqli_query($this->connect(),"select * from customers where email = '$email'  and password= '$pass'");
 				$fetch = mysqli_fetch_array($query);
 				$count = mysqli_num_rows($query);
 				if ($count>0) 

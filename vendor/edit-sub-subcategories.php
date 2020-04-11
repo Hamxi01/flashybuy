@@ -15,7 +15,7 @@
         $slug        =   str_replace(" ","-", $name);
 
         $query = "update sub_sub_categories SET name='".$name."', meta_title='".$meta_title."', meta_description='".$meta_desc."',slug='".$slug."',sub_category_id='".$category_id."',variation_id='".$variation_id."' Where sub_sub_cat='".$id."'";       
-        echo $query;
+        
         if (mysqli_query($con,$query)){
 
             echo "<script>window.location.assign('sub-subcategories.php');</script>";
