@@ -28,20 +28,21 @@ while($result = mysqli_fetch_array($query)){
   }
     if ($result['selling_price'] == 0) {
     $price = null;
-      $sql = "SELECT * from product_variations where product_id = '$product_id'";
+      $sql = "SELECT min(price) ,max(price) from product_variations where product_id = '$product_id'";
       $pq  = mysqli_query($con,$sql);
-      while($pres = mysqli_fetch_array($quer)){
+      while($pres = mysqli_fetch_array($pq)){
        
-       $price = $pres['price'];
+       $price = $pres[0].'-R'.$pres[1];
+       
      }
-  }else{
+  }
+  else{
 
     $price   = $result['selling_price'];
   }
-
 ?>                         
                         <div class="ps-product">
-                            <div class="ps-product__thumbnail"><a href="product.php"><img src="upload/product/300_<?=$image?>" alt=""></a>
+                            <div class="ps-product__thumbnail"><a href="product.php?id=<?=base64_encode($product_id)?>&name=<?=str_replace(' ','-',$name)?>"><img src="upload/product/300_<?=$image?>" alt=""></a>
                                 <div class="ps-product__badge">-16%</div>
                                 <ul class="ps-product__actions">
                                     <li><a href="#" data-toggle="tooltip" data-placement="top" title="Read More"><i class="icon-bag2"></i></a></li>
@@ -51,7 +52,7 @@ while($result = mysqli_fetch_array($query)){
                                 </ul>
                             </div>
                             <div class="ps-product__container"><a class="ps-product__vendor" href="#">Go Pro</a>
-                                <div class="ps-product__content"><a class="ps-product__title" href="product.php"><?=$name?></a>
+                                <div class="ps-product__content"><a class="ps-product__title" href="product.php?id=<?=base64_encode($product_id)?>&name=<?=str_replace(' ','-',$name)?>"><?=$name?></a>
                                     <!-- <div class="ps-product__rating">
                                         <select class="ps-rating" data-read-only="true">
                                             <option value="1">1</option>
@@ -63,7 +64,7 @@ while($result = mysqli_fetch_array($query)){
                                     </div> -->
                                     <p class="ps-product__price sale">R<?=$price?></del></p>
                                 </div>
-                                <div class="ps-product__content hover"><a class="ps-product__title" href="product.php"><?=$name?></a>
+                                <div class="ps-product__content hover"><a class="ps-product__title" href="product.php?id=<?=base64_encode($product_id)?>&name=<?=str_replace(' ','-',$name)?>"><?=$name?></a>
                                     <p class="ps-product__price sale">R<?=$price?></p>
                                 </div>
                             </div>

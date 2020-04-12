@@ -1,4 +1,101 @@
-<?php include('includes/head.php'); ?>
+<?php 
+        include('includes/db.php');
+        include('includes/head.php');
+if (isset($_GET['id'])) {
+
+
+   $product_id = base64_decode($_GET['id']);
+   $pMain  = "SELECT
+        P.*,
+        PV.first_variation_value,
+        PV.first_variation_name,
+        PV.second_variation_name,
+        PV.second_variation_value,
+        min(PV.price) as min_price,
+        max(PV.price) as max_price,
+        PV.price,
+        PV.quantity as stock,
+        PV.sku,
+        PVS.variation_value,
+        PVS.image1 as variant_img1,
+        PVS.image2 as variant_img2,
+        PVS.image3 as variant_img3,
+        PVS.image4 as variant_img4 
+    FROM
+        products AS P 
+    LEFT JOIN
+        product_variations AS PV 
+            ON PV.product_id = P.product_id 
+    LEFT JOIN
+        product_variant_images AS PVS 
+            ON PV.product_id = PVS.product_id 
+    WHERE
+        P.product_id = $product_id";
+   $pQuery = mysqli_query($con,$pMain);
+   while ( $result = mysqli_fetch_array($pQuery)) {
+        
+        $name = $result['name'];
+        if (empty($result['selling_price'])) {
+            
+            $price = $result['min_price'].'-R'.$result['max_price'];
+        }else{
+
+            $price = $result['selling_price'];
+        }
+        $quantity = $result['quantity'];
+
+        if (empty($result['image1'])) {
+            
+            $image1 = $result['variant_img1'];
+            $image2 = $result['variant_img2'];
+        }else{
+
+            $image1 = $result['image1'];
+            $image2 = $result['image2'];
+        }
+        $first_variation_name  = $result['first_variation_name'];
+        $second_variation_name = $result['second_variation_name'];
+    } 
+}
+?>
+<style type="text/css">
+    .product-variation{
+        cursor: pointer;
+        min-width: 5rem;
+        min-height: 2.125rem;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        padding: .25rem .75rem;
+        margin: 0 8px 8px 0;
+        color: rgba(0,0,0,.8);
+        font-size: 12px;
+        text-align: left;
+        border-radius: 2px;
+        border: 1px solid rgba(0,0,0,.09);
+        position: relative;
+        background: #fff;
+        outline: 0;
+        word-break: break-word;
+        display: -webkit-inline-box;
+        display: -webkit-inline-flex;
+        display: -moz-inline-box;
+        display: -ms-inline-flexbox;
+        display: inline-flex;
+        -webkit-box-align: center;
+        -webkit-align-items: center;
+        -moz-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+        -webkit-box-pack: center;
+        -webkit-justify-content: center;
+        -moz-box-pack: center;
+        -ms-flex-pack: center;
+        justify-content: center;}
+    .product-variation:hover {
+    color: #d0011b;
+    border-color: #d0011b;
+}
+</style>
     <nav class="navigation--mobile-product"><a class="ps-btn ps-btn--black" href="shopping-cart.html">Add tos cart</a><a class="ps-btn" href="checkout.html">Buy Now</a></nav>
     <div class="ps-breadcrumb">
         <div class="ps-container">
@@ -20,18 +117,18 @@
                                 <figure>
                                     <div class="ps-wrapper">
                                         <div class="ps-product__gallery" data-arrow="true">
-                                            <div class="item"><a href="img/products/detail/image-swatches/1.jpg"><img src="img/products/detail/image-swatches/1.jpg" alt=""></a></div>
-                                            <div class="item"><a href="img/products/detail/image-swatches/2.jpg"><img src="img/products/detail/image-swatches/2.jpg" alt=""></a></div>
+                                            <div class="item"><a href="upload/product/<?=$image1?>"><img src="upload/product/<?=$image1?>" alt=""></a></div>
+                                            <div class="item"><a href="upload/product/<?=$image2?>"><img src="upload/product/<?=$image2?>" alt=""></a></div>
                                         </div>
                                     </div>
                                 </figure>
                                 <div class="ps-product__variants" data-item="4" data-md="4" data-sm="4" data-arrow="false">
-                                    <div class="item"><img src="img/products/detail/image-swatches/1.jpg" alt=""></div>
-                                    <div class="item"><img src="img/products/detail/image-swatches/2.jpg" alt=""></div>
+                                    <div class="item"><img src="upload/product/<?=$image1?>" alt=""></div>
+                                    <div class="item"><img src="upload/product/<?=$image2?>" alt=""></div>
                                 </div>
                             </div>
                             <div class="ps-product__info">
-                                <h1>Sleeve Linen Blend Caro Pane Shirt</h1>
+                                <h1><?=$name?></h1>
                                 <div class="ps-product__meta">
                                     <p>Brand:<a href="shop-default.html">Adidas</a></p>
                                     <div class="ps-product__rating">
@@ -44,7 +141,7 @@
                                         </select><span>(1 review)</span>
                                     </div>
                                 </div>
-                                <h4 class="ps-product__price">$36.78 – $56.99</h4>
+                                <h4 class="ps-product__price">R<?=$price?></h4>
                                 <div class="ps-product__desc">
                                     <p>Sold By:<a href="shop-default.html"><strong> Global Store</strong></a></p>
                                     <ul class="ps-list--dot">
@@ -56,18 +153,43 @@
                                     </ul>
                                 </div>
                                 <div class="ps-product__variations">
+                                    <?php if(!empty($first_variation_name)){?>
                                     <figure>
-                                        <figcaption>Color: <strong> Choose an option</strong></figcaption>
-                                        <div class="ps-variant ps-variant--image"><span class="ps-variant__tooltip">Blue</span><img src="img/products/detail/variants/small-1.jpg" alt=""></div>
-                                        <div class="ps-variant ps-variant--image"><span class="ps-variant__tooltip"> Dark</span><img src="img/products/detail/variants/small-2.jpg" alt=""></div>
-                                        <div class="ps-variant ps-variant--image"><span class="ps-variant__tooltip"> pink</span><img src="img/products/detail/variants/small-3.jpg" alt=""></div>
+                                        <figcaption><?=$first_variation_name?>: <strong> Choose an option</strong></figcaption>
+                                        <?php if ($quantity==0) {
+                                                
+                                                $variants = "SELECT DISTINCT first_variation_value from product_variations where product_id = '$product_id'";
+                                                $query    = mysqli_query($con,$variants);
+                                                while ($variations = mysqli_fetch_array($query)) {
+                                                    
+                                               
+                                          ?>
+                                            
+                                        
+                                        <button class="btn product-variation"><?=$variations['first_variation_value']?></button>
+                                    <?php } }?>
+                                        <!-- <div class="ps-variant ps-variant--image"><span class="ps-variant__tooltip"> Dark</span><img src="img/products/detail/variants/small-2.jpg" alt=""></div>
+                                        <div class="ps-variant ps-variant--image"><span class="ps-variant__tooltip"> pink</span><img src="img/products/detail/variants/small-3.jpg" alt=""></div> -->
                                     </figure>
+                                <?php } ?>
+                                <?php if(!empty($second_variation_name)){?>
                                     <figure>
-                                        <figcaption>Size <strong> Choose an option</strong></figcaption>
-                                        <div class="ps-variant ps-variant--size"><span class="ps-variant__tooltip">S</span><span class="ps-variant__size">S</span></div>
-                                        <div class="ps-variant ps-variant--size"><span class="ps-variant__tooltip"> M</span><span class="ps-variant__size">M</span></div>
-                                        <div class="ps-variant ps-variant--size"><span class="ps-variant__tooltip"> L</span><span class="ps-variant__size">L</span></div>
+                                        <figcaption><?=$second_variation_name?>: <strong> Choose an option</strong></figcaption>
+                                        <?php if ($quantity==0) {
+                                                
+                                                $variants = "SELECT DISTINCT second_variation_value from product_variations where product_id = '$product_id'";
+                                                $query    = mysqli_query($con,$variants);
+                                                while ($variations = mysqli_fetch_array($query)) {
+                                                    
+                                               
+                                          ?>
+                                        <button class="btn product-variation"><?=$variations['second_variation_value']?></button>
+                                        <?php } }?>
+                                            
+                                        <!-- <div class="ps-variant ps-variant--size"><span class="ps-variant__tooltip"> M</span><span class="ps-variant__size">M</span></div>
+                                        <div class="ps-variant ps-variant--size"><span class="ps-variant__tooltip"> L</span><span class="ps-variant__size">L</span></div> -->
                                     </figure>
+                                <?php } ?>
                                 </div>
                                 <div class="ps-product__shopping">
                                     <figure>
