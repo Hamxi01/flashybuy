@@ -29,18 +29,17 @@
             <div class="card card-primary" style="position: relative;top: 50px">
               <div class="card-header">
                 <div class="sidebar-brand">
-                  <a href="index.php"> <img alt="image" src="assets/img/logo.png" class="header-logo" style="position: relative;left: 90px;" />
-                  </a>
+                  <img alt="image" src="assets/img/logo.png" class="header-logo" style="position: relative;left: 90px;" />
                 </div><br>
               </div>
               <div class="card-header">
                   <h4 style="position: relative;left: 115px;">Login</h4>
                 </div>
               <div class="card-body">
-                <form method="POST" action="#" class="needs-validation" novalidate="">
+                <form method="POST" action="action/login_session.php" class="needs-validation" novalidate="">
                   <div class="form-group">
                     <label for="email">Username</label>
-                    <input id="email" type="email" class="form-control" name="name" tabindex="1" required autofocus>
+                    <input id="email" type="text" class="form-control" name="name" tabindex="1" required autofocus>
                     <div class="invalid-feedback">
                       Please fill in your username
                     </div>
@@ -66,7 +65,7 @@
                     </div>
                   </div> -->
                   <div class="form-group">
-                    <button type="submit" class="btn btn-warning btn-lg btn-block" tabindex="4">
+                    <button type="submit" name="admin-login" class="btn btn-warning btn-lg btn-block" tabindex="4">
                       Login
                     </button>
                   </div>
