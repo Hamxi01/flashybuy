@@ -518,7 +518,7 @@ if (isset($_FILES['file4']["name"]) && !empty($_FILES['file4']["name"])) {
 					}
 					$data = array();
 		        	$i = 0;
-		        if (!empty($options) {
+		        if (!empty($options)) {
 		        		
 		        		foreach (json_decode($options) as $key => $element){
 
