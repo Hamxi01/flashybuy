@@ -15,11 +15,10 @@ if (isset($_POST['admin-login'])) {
         session_start();
         $_SESSION['username'] = $_POST['name'];
         header('Location:../index.php');
-      echo 'success';
     }
     else{
 
-      echo "EROOR";
+      header("Location:../login.php?msg=error");
     }
           
 }        

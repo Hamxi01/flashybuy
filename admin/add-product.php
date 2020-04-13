@@ -153,7 +153,7 @@ if (isset($_GET['msg'])) { ?>
                             <div class="form-group row">
                               <div class="col-md-4">
                                   <div class="pretty p-switch">
-                                    <input type="checkbox" value="Y"  id="variations" onchange="showVariations()"/>
+                                    <input type="checkbox" value="Y" name="variation_approval"  id="variations" onchange="showVariations()"/>
                                     <div class="state p-warning">
                                         <label><b>Do you have product variations?</b></label>
                                     </div>
@@ -165,19 +165,19 @@ if (isset($_GET['msg'])) { ?>
                             <div class="col-md-4">
                               <div class="form-group">
                                   <label>Market Price</label>
-                                  <input type="number" name="market_price" required="" class="form-control" value="">
+                                  <input type="number" name="market_price"  class="form-control" value="">
                                 </div>
                               </div>
                               <div class="col-md-4">
                                 <div class="form-group">
                                   <label>Selling Price</label>
-                                  <input type="number" name="selling_price" required="" class="form-control" value="">
+                                  <input type="number" name="selling_price"  class="form-control" value="">
                                 </div>
                               </div>
                               <div class="col-md-4">
                                 <div class="form-group">
                                   <label>Quantity</label>
-                                  <input type="number" name="quantity" required="" class="form-control" value="">
+                                  <input type="number" name="quantity"  class="form-control" value="">
                                 </div>
                               </div> 
                           </div>

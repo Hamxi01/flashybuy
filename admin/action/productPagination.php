@@ -7,8 +7,8 @@
                             <th>Total Stock</th>
                             <th>Base Price</th>
                             <th>Variation</th>
-                            <!-- <th>Today Deals</th> -->
-                            <th>Assigned Vendor</th>
+                            <th>Vendor</th>
+                            <th>Vendor Details</th>
                             <th>Status</th>
                             <th>Action</th>
                         </tr>
@@ -46,15 +46,7 @@ $start_from = ($page-1) * $limit;
   $v_sku          = $res['variant_Sku'];
   $v_sku         = explode("-", $v_sku);
   $color         = $v_sku[0];
-  // $countQuery = "SELECT  COUNT(*) AS total FROM vendor_product AS VP INNER JOIN vendor AS V ON V.id = VP.ven_id INNER Join product_variations AS PV ON PV.variation_id = VP.variation_id where VP.prod_id = '$p_id'";
-  // $res    = mysqli_query( $con , $countQuery );
-  // $query  = mysqli_fetch_array($res);
-  // $vCount = $query["total"];
 
-  // $pvQuery = "SELECT  COUNT(*) AS total FROM vendor_product AS VP INNER JOIN vendor AS V ON V.id = VP.ven_id  where VP.prod_id = '$p_id'";
-  // $res     = mysqli_query( $con , $pvQuery );
-  // $pquery  = mysqli_fetch_array($res);
-  // $pvCount = $pquery["total"];
   if ($res['quantity'] == 0) {
     
       $stock = $res['stock'];
@@ -93,7 +85,16 @@ $start_from = ($page-1) * $limit;
        
      
   }
+    $countQuery = "SELECT  COUNT(*) AS total FROM vendor_product AS VP INNER JOIN vendor AS V ON V.id = VP.ven_id INNER Join product_variations AS PV ON PV.variation_id = VP.variation_id where PV.variation_id = '$v_id'";
+  $resquery  = mysqli_query( $con , $countQuery );
+  $resArray  = mysqli_fetch_array($resquery);
+  $vCount    = $resArray["total"];
+  
 
+  $pvQuery  = "SELECT  COUNT(*) AS total FROM vendor_product AS VP INNER JOIN vendor AS V ON V.id = VP.ven_id  where VP.prod_id = '$p_id'";
+  $resQuery = mysqli_query( $con , $pvQuery );
+  $pquery   = mysqli_fetch_array($resQuery);
+  $pvCount  = $pquery["total"];
 
   ?>
                       
@@ -107,10 +108,13 @@ $start_from = ($page-1) * $limit;
                           <td><?=$res['variant_Sku']?></td>
 
                           <!-- Count Vendor -->
-                            <td>2</td>
-                          
+                          <?php if (!empty($res['variant_Sku'])){ ?>
+                            <td><?=$vCount?></td>
+                          <?php }else{ ?>
+                            <td><?=$pvCount?></td>
+                          <?php } ?>
                           <!-- end Count Vendor -->
-
+                          <td><button class="btn btn-sm btn-warning"><a href="product-vendor-detail.php?id=<?=$id?>&show-vendors-detail" style="color: #fff;text-decoration: none;">Details</a></button></td>
                           <td>
                             <?php if($res['approved'] == "N"){?>
                               <div class="badge badge-danger">pending</div>

@@ -242,6 +242,7 @@ if (isset($_FILES['file4']["name"]) && !empty($_FILES['file4']["name"])) {
 		$id = mysqli_insert_id($con);
 
 			$custom_option        =     $_POST['custom_options'];
+
 ////////////////// insert Varition images ////////////////
 
 	if ($custom_option=="Y") {
@@ -325,7 +326,7 @@ if (isset($_FILES['file4']["name"]) && !empty($_FILES['file4']["name"])) {
 					    $pic7extension = strtolower($extension);
 					    $pic7 = time().rand();
 					    $pic7we=$pic7.".".$pic7extension;
-					    $locatio7 = "../../upload/product/".$pic7we;
+					    $location7 = "../../upload/product/".$pic7we;
 
 					    if(move_uploaded_file($_FILES["variant_img2"]["tmp_name"][$index], $location7)){
 
