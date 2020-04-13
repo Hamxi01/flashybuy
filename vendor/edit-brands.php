@@ -9,10 +9,9 @@
      if(isset($_POST['form_category'])){
 
         $id            =    addslashes($_POST['id']);
-        $name          =   addslashes( $_POST['name'] );    
-        $slug          = str_replace(" ","-", $name);
+        $name          =   addslashes( $_POST['name'] ); 
 
-        $query = "update brands SET name='".$name."', slug='".$slug."' Where id='".$id."'";       
+        $query = "update brands SET name='".$name."' Where id='".$id."'";       
         
         if (mysqli_query($con,$query)){
 
@@ -27,7 +26,7 @@
      }
 
 
-//  Get Category data bases on cat_id /////
+//  Get brands data bases on id /////
 
      $sql = mysqli_query($con, "SELECT * From brands WHERE id=$id AND delte = 0");
         $row = mysqli_num_rows($sql);

@@ -114,6 +114,9 @@
   <script src="assets/bundles/jquery-selectric/jquery.selectric.min.js"></script>
   <!-- Page Specific JS File -->
   <script src="assets/js/page/owl-carousel.js"></script>
+  <script src="assets/bundles/sweetalert/sweetalert.min.js"></script>
+  <!-- Page Specific JS File -->
+  <script src="assets/js/page/sweetalert.js"></script>
   <!-- Template JS File -->
   <script src="assets/js/scripts.js"></script>
   <!-- Custom JS File -->

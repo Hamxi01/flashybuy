@@ -8,6 +8,7 @@
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
   <title>Otika - Admin Dashboard Template</title>
   <!-- General CSS Files -->
+  <link rel="stylesheet" href="assets/css/app.min.css">
   <link rel="stylesheet" href="assets/bundles/summernote/summernote-bs4.css">
   <link rel="stylesheet" href="assets/bundles/codemirror/lib/codemirror.css">
   <link rel="stylesheet" href="assets/bundles/codemirror/theme/duotone-dark.css">
@@ -15,7 +16,6 @@
   <link rel="stylesheet" href="assets/bundles/jquery-selectric/selectric.css">
   <link rel="stylesheet" href="assets/bundles/pretty-checkbox/pretty-checkbox.min.css">
   <link rel="stylesheet" href="assets/bundles/bootstrap-tagsinput/dist/bootstrap-tagsinput.css">
-  <link rel="stylesheet" href="assets/css/app.min.css">
   <link rel="stylesheet" href="assets/bundles/owlcarousel2/dist/assets/owl.carousel.min.css">
   <link rel="stylesheet" href="assets/bundles/owlcarousel2/dist/assets/owl.theme.default.min.css">
   <!-- Template CSS -->
