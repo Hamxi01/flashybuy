@@ -449,10 +449,10 @@ if (isset($_FILES['file4']["name"]) && !empty($_FILES['file4']["name"])) {
                                 <select class="form-control select2" required="" onchange="variationsName()" name="variationname[]" id="variations_name" placeholder="choose" multiple="">
                                 </select>  
                             </div>
-                          </div><br>
+                          </div>
                           <div class="form-group row" id="varition-options">
                                                     
-                          </div><br>
+                          </div>
                           <div class="form-group row">
                             <table class="table table-bordered" id="variant_table" style="display: none;">
                               <thead>
@@ -474,6 +474,13 @@ if (isset($_FILES['file4']["name"]) && !empty($_FILES['file4']["name"])) {
                               <tbody id="variant_combinations">
                               </tbody>
                           </table>
+                          </div>
+                          <div class="form-group row" id="variation_image">
+                                                
+                          </div><br>
+                              <input type="hidden" name="custom_options" id="custom_options" value="">
+                          <div class="form-group" id="variant_options">
+                              
                           </div>
                         </div>
                         <div class="card-footer text-right">
