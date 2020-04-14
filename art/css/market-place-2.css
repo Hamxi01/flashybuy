@@ -79,7 +79,7 @@
   background-color: #fff;
 }
 
-.header--market-place-2 .header__content .menu--product-categories .menu--dropdown > li:hover a {
+.header--market-place-2 .header__content .menu--product-categories .menu--dropdown > li:hover > a {
   color: #fcb800;
 }
 
