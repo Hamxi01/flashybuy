@@ -21,6 +21,7 @@
     <link rel="stylesheet" href="assets/plugins/jquery-ui/jquery-ui.min.css">
     <link rel="stylesheet" href="assets/plugins/select2/dist/css/select2.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 </head>
 <body>
 <header class="header header--product" data-sticky="true">

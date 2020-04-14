@@ -7,7 +7,7 @@ if (isset($_POST['btnsub']))
 	 	 $count = mysqli_num_rows($querycheck);
 	 	if($count>0)
 	 	{
-            header('Location: ' . $_SERVER['HTTP_REFERER'].'?msg=error"');
+            header('Location: ' . $_SERVER['HTTP_REFERER'].'?msg=errors');
 	 	}
 	 	else
 	 	{
@@ -25,15 +25,14 @@ if (isset($_POST['btnsub']))
 	$monthly_rev 	= $_POST['r_amount'];
 	$bus_number 	= $_POST['b_number'];
 	$add_comment 	= $_POST['extra_comment'];
-$query =  mysqli_query($con,"insert into vendor (name,lastname,shop_name,email,mobile,phone,company,cat_name,website,social,vat,vat_number,monthly_revenue,business_reg,adiotional_coment) 
-values('$name','$lastname','$shop_name','$email','$mobile','$phone','$company','$cat','$website','$social_media','$vat','$vat_number','$monthly_rev','$bus_number','$add_comment')");
+$query =  mysqli_query($con,"insert into vendor (name,lastname,shop_name,email,mobile,phone,company,cat_name,website,social,vat,vat_number,monthly_revenue,business_reg,adiotional_coment) values('$name','$lastname','$shop_name','$email','$mobile','$phone','$company','$cat','$website','$social_media','$vat','$vat_number','$monthly_rev','$bus_number','$add_comment')");
 if ($query==true) 
 {
-    header('Location: ' . $_SERVER['HTTP_REFERER'].'?msg=success"');
+    header('Location: ' . $_SERVER['HTTP_REFERER'].'?msg=success');
 }
 else
 {
-	header('Location: ' . $_SERVER['HTTP_REFERER'].'?msg=error"');
+	header('Location: ' . $_SERVER['HTTP_REFERER'].'?msg=error');
 }
 }
 }

@@ -275,7 +275,7 @@ $.ajax({
 ?>
         
 	<script>
-	$("input[type='radio']").change(function(){
+	$("#radio11").change(function(){
 
    if($(this).val()=="YES")
    {

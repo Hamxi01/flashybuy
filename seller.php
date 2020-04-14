@@ -15,7 +15,7 @@ include('includes/db.php');
                 <div class="ps-section__wrapper">
                     <div class="ps-section__left">
                         <form class="ps-form--account ps-tab-root" method="post"
-                         action="php/login.php" >
+                         action="actions/sellerlogin.php" >
                             <ul class="ps-tab-list">
                                 <li class="active"><a href="#sign-in">Login</a></li>
                                 <li><a href="" onclick="location.href='sell.php';">Register</a></li>

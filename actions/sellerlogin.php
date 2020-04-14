@@ -1,7 +1,6 @@
 <?php 
 session_start();
-include('../../includes/db.php');
-$obj = new connection();
+include('../includes/db.php');
 if (isset($_POST['btnsub'])) 
 {
 	$email = $_POST['email'];
@@ -18,14 +17,14 @@ if (isset($_POST['btnsub']))
 		$_SESSION['name']=$fetch[1];
 		$_SESSION['img']=$fetch[20];
 		$id = $_SESSION['id'];	
-		$login = date("Y-m-d H:i:s");
+		$time = date("Y-m-d H:i:s");
 		$ip   = $_SERVER['REMOTE_ADDR'];
-		$insert = mysqli_query($this->connect(),"insert into login_log(user_id,login_time,ip) values('$id','$login','$ip')");	
-		header("Location: ../new_seller/dashboard.php");
+		$insert = mysqli_query($con,"insert into login_log(user_id,login_time,ip) values('$id','$time','$ip')");	
+		header("Location: ../seller/dashboard.php");
 	}
 	else
 	{
-		header("Location:../index.php?msg=error");
+		header('Location: ' . $_SERVER['HTTP_REFERER'].'?msg=error');
 
 	}
 }
