@@ -45,23 +45,29 @@
 
             $pvsql   = "SELECT variation_id FROM vendor_product where prod_id='$product_id'";
             $pvquery = mysqli_query($con,$pvsql);
-            while ($pvres = mysqli_fetch_array($pvquery)) {
+            $pvrows = mysqli_num_rows($pvquery);
+            if($pvrows>0){
+              while ($pvres = mysqli_fetch_array($pvquery)) {
 
-                $variation_id = $pvres['variation_id'];
-                if (empty($variation_id)) {
-                    
-                    $sku     = $pres['sku'];
-                }
-                else{
-                      $vsql   = "SELECT sku FROM product_variations where product_id='$product_id' AND variation_id = '$variation_id'";
-                      $vquery = mysqli_query($con,$vsql);
-                      while ($vres = mysqli_fetch_array($vquery)) {
+                  $variation_id = $pvres['variation_id'];
+                  if (empty($variation_id)) {
+                      
+                      $sku     = $pres['sku'];
+                  }
+                  else{
+                        $vsql   = "SELECT sku FROM product_variations where product_id='$product_id' AND variation_id = '$variation_id'";
+                        $vquery = mysqli_query($con,$vsql);
+                        while ($vres = mysqli_fetch_array($vquery)) {
 
-                        $sku = $vres['sku'];
-                      }
+                          $sku = $vres['sku'];
+                        }
 
-                }
-            }
+                  }
+              }
+            }else{
+
+              $sku     = $pres['sku'];
+            } 
         }
   }
 ?>
@@ -192,8 +198,12 @@
                               </select>
                             </td>
                             <td><?=$comment?></td>
-                            <td><button class="btn btn-sm btn-warning">Edit</button></td>
+                            <td>
+                              <button class="btn btn-sm btn-warning" data-toggle="modal" data-target="#myModal<?php echo $vendor_id?>" aria-labelledby="formModal"
+          aria-hidden="true">Edit</button>
+                            </td>
                           </tr>
+                          
   <?php } ?>                        
                         </tbody>  
                       </table>
@@ -233,6 +243,95 @@
             </div>
           </div>
         </div>
+<?php 
+
+  if (empty($variation_id)) {
+    
+      $vendVariSql  =  "SELECT
+                        VP.id,  
+                        VP.comments,
+                        VP.quantity as vendor_stock, 
+                        VP.price,
+                        VP.mk_price,
+                        VP.active,
+                        V.id as vend_id,
+                        V.name,
+                        V.email 
+                          From vendor_product as VP
+                          INNER JOIN vendor as V on V.id = VP.ven_id
+                          where VP.prod_id ='$product_id'
+                          GROUP BY VP.ven_id";
+  }
+  else{
+
+      $vendVariSql  =  "SELECT
+                        VP.id,
+                        VP.comments,
+                        VP.quantity as vendor_stock, 
+                        VP.price,
+                        VP.mk_price,
+                        VP.active,
+                        V.id as vend_id,
+                        V.name,
+                        V.email 
+                          From vendor_product as VP
+                          INNER JOIN vendor as V on V.id = VP.ven_id
+                          where VP.prod_id ='$product_id'
+                          AND VP.variation_id='$variation_id'
+                          GROUP BY VP.ven_id";
+  }
+
+    $vendVariQuery = mysqli_query($con,$vendVariSql);
+    while ( $vendVariResult= mysqli_fetch_array($vendVariQuery)) {
+
+      $v_p_id    = $vendVariResult['id'];
+      $vendor_id = $vendVariResult['vend_id'];
+      $name      = $vendVariResult['name'];
+      $email     = $vendVariResult['email'];
+      $quantity  = $vendVariResult['vendor_stock'];
+      $mk_price  = $vendVariResult['mk_price'];
+      $price     = $vendVariResult['price'];
+      $active    = $vendVariResult['active'];
+      $comment   = $vendVariResult['comments'];
+    ?>        
+        <!-- Edit Model -->
+        <div class="modal fade" id="myModal<?php echo $vendor_id?>" role="dialog">
+            <div class="modal-dialog">
+            
+              <!-- Modal content-->
+              <div class="modal-content">
+                  <div class="modal-header">
+                    <h4 class="modal-title">Update Prices</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  </div>
+                <div class="modal-body">
+                 
+                  
+                  <form action="action/vendorProductEdit.php" method="post">
+                    <div class="form-group">
+                      <input type="hidden" name="product_id" value="<?=$id?>">
+                      <input type="hidden" name="v_p_id"  value="<?=$v_p_id?>"/>
+                      <label for="ac">Actual Price:</label>
+                      <input type="text" class="form-control" id="price" name="price" value="<?=$price?>">
+                    </div>
+                    <div class="form-group">
+                      <label for="ac">Market Price:</label>
+                      <input type="text" class="form-control" id="mk_price" name="mk_price" value="<?=$mk_price?>">
+                    </div>
+                    <div class="form-group">
+                      <label for="ac">Quantity:</label>
+                      <input type="text" class="form-control" id="qa" name="quantity" value="<?=$quantity?>">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="submit" class="btn btn-warning" name="update-vendor-product">Update</button>
+                  <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+                </form>
+              </div>
+            </div>
+        </div>
+<?php } ?>        
       <?php include('includes/footer.php'); ?>
       <script type="text/javascript">
         function showcommetsModal(v_p_id){
