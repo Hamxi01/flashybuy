@@ -72,7 +72,7 @@ input:checked + .slider:before {
               <div class="col-12">
                 <div class="card">
                   <div class="card-header">
-                    <a href="crousel.php" class="btn btn-primary"><i class="fa fa-plus">Create Record</i></a>
+                    <a href="crousel.php" class="btn btn-primary"><i class="fa fa-plus">Create Crousel</i></a>
                     
                   </div>
                   
@@ -83,7 +83,7 @@ input:checked + .slider:before {
 
                         <thead>
                           <tr>
-                            <th class="text-center">S.No</th>
+                            <th class="text-center">Order</th>
                             <th class="text-center">TItle</th>
                             <th class="text-center">Image</th>
                             <th class="text-center">Status</th>
@@ -92,6 +92,7 @@ input:checked + .slider:before {
                         </thead>
                         <?php 
                          $status = "";
+                         $i=1;
                         $record =mysqli_query($con,"select * from tbl_slider");
                         while($fetch = mysqli_fetch_array($record)){
 
@@ -118,16 +119,18 @@ data-c_id='".$fetch[0]."'name='chk_status'>
                         ?>
                         <tbody>
                             <tr>
-                              <td class="text-center"><?php echo $fetch[0] ?></td>
+                              <td class="text-center"><?php echo $fetch[3]?></td>
                               <td class="text-center"><?php echo $fetch[1] ?></td>
                               <td class="text-center"><img src="../img/crousel/<?php echo $fetch[4] ?>" height="150" width="350"></td>
                              <td><?=$status?></td>
                               <td class="text-center"><a href="edit_crousel.php?id=<?php echo $fetch[0] ?>" class="btn btn-outline-dark"><i class="fa fa-edit"></i></a>|
-                               <a href="php/delete_crousel.php?id=<?php echo $fetch[0] ?>"class="btn btn-outline-danger"> <i class="fa fa-trash"></i>
+                               <a href="actions/delete_crousel.php?id=<?php echo $fetch[0] ?>"class="btn btn-outline-danger"> <i class="fa fa-trash"></i>
                             </td>
 
                             </tr>
-                            <?php } ?>
+                            <?php 
+                        $i=$i+1;
+                        } ?>
                         
                         </tbody>
                        

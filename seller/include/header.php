@@ -7,7 +7,7 @@ include('../includes/db.php');
 <head>
   <meta charset="UTF-8">
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
-  <title>Flashy Buy Seller Panel</title>
+  <title>Flashy Buy Seller Pannel</title>
   <link rel="stylesheet" href="assets/css/app.min.css">
   <link rel="stylesheet" href="assets/css/style.css">
   <link rel="stylesheet" href="assets/css/components.css">
@@ -19,6 +19,8 @@ include('../includes/db.php');
     <link rel="stylesheet" href="assets/bundles/summernote/summernote-bs4.css">
   <link rel="stylesheet" href="assets/bundles/jquery-selectric/selectric.css">
   <link rel="stylesheet" href="assets/bundles/bootstrap-tagsinput/dist/bootstrap-tagsinput.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 </head>
 
 <body>

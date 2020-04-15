@@ -1,7 +1,8 @@
 <?php
 include('include/header.php'); 
 include('include/nav.php');
-?>
+?>  <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
+<link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
 <style>
   .switch {
   position: relative;
@@ -97,7 +98,7 @@ input:checked + .slider:before {
                     <div class="form-group row mb-4">
                       <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Thumbnail</label>
                       <div class="col-sm-12 col-md-7">
-                        <div id="image-preview" class="image-preview" style="width:450px;" >
+                       <div id="image-preview" class="image-preview" style="width: 200px;">
                           <label for="image-upload" id="image-label">Choose File</label>
                           <input type="file" name="image" id="image-upload" />
                         </div>
@@ -124,9 +125,14 @@ input:checked + .slider:before {
                         </select>
                       </div>
                     </div>
-
+                    <div class="form-group row mb-4">
+                    <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Start Date:</label>
+                     <input class="form-control" name="start"   id="startDate" width="276" />
+                    <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3"> End Date:</label> 
+                    <input class="form-control" name="end" id="endDate" width="276" />
+    </div>
                      <div class="form-group row mb-4">
-                      <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Select Days</label>
+                     
                    <table class="table table-border">
                                             <thead class="thead-dark">
                                                 <tr>
@@ -209,13 +215,28 @@ input:checked + .slider:before {
             </div>
           </div>
         </section>
-       
+     
       </div>
       </script>
-      <script
-  src="https://code.jquery.com/jquery-3.4.1.js"
-  integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
-  crossorigin="anonymous"></script>
+ 
+  <script>
+        var today = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
+        $('#startDate').datepicker({
+            uiLibrary: 'bootstrap4',
+            iconsLibrary: 'fontawesome',
+            minDate: today,
+            maxDate: function () {
+                return $('#endDate').val();
+            }
+        });
+        $('#endDate').datepicker({
+            uiLibrary: 'bootstrap4',
+            iconsLibrary: 'fontawesome',
+            minDate: function () {
+                return $('#startDate').val();
+            }
+        });
+    </script>
 <script>
 $('#monday').on('change', function(){
    this.value = this.checked ? 1 : 0;

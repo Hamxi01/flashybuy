@@ -5,6 +5,8 @@
    $query = mysqli_query($con,"select * from tbl_slider where id = $id");
    $row = mysqli_fetch_array($query);
    ?>
+     <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
+    <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
 <style>
    .switch {
    position: relative;
@@ -67,7 +69,7 @@
          <div class="row">
             <div class="col-12">
                <div class="card">
-                  <form method="post" action="php/update_crousel.php" enctype="multipart/form-data">
+                  <form method="post" action="actions/update_crousel.php" enctype="multipart/form-data">
                   <div class="card-header">
                      <h4>Crousel Management</h4>
                   </div>
@@ -88,8 +90,12 @@
                      <div class="form-group row mb-4">
                         <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Thumbnail</label>
                         <div class="col-sm-6 col-md-4">
-                           <div id="image-preview" class="image-preview" style="width:450px;">
-                              <img src="php/crousel/<?php echo $row[4] ?>" width="450" height="200">
+                           
+                           <div id="image-preview" class="image-preview" style="height: auto;width: 200px;">
+                            
+
+                              <input type="file" name="file" id="profile-img">
+<img src="../img/crousel/<?php echo $row[4] ?>"  id="profile-img-tag" width="200px" />
                            </div>
                         </div>
                      </div>
@@ -97,13 +103,29 @@
                         <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Status</label>
                         <div class="col-sm-6 col-md-4">
                            <select class="form-control selectric">
-                              <option>Active</option>
-                              <option>In-Active</option>
+                              <option <?php if($row[5] == 1){
+                                 echo 'selected';
+                                 }?> value="1">Active</option>
+                              <option <?php if($row[5] == 0){
+                                 echo 'selected';
+                                 }?> value="0">In-Active</option>
                            </select>
                         </div>
                      </div>
+
+
                      <div class="form-group row mb-4">
-                        <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Select Days</label>
+                    <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Start Date:</label>
+                     <input class="form-control" name="start"  value="<?php 
+                     $datestart=date_create($row[14]);
+                     echo $datestart=date_format($datestart,"m/d/Y"); ?>" id="startDate" width="276" />
+                    <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3"> End Date:</label> 
+                    <input class="form-control" name="end" value="<?php 
+                     $dateend=date_create($row[15]);
+                     echo $dateend=date_format($dateend,"m/d/Y"); ?>"  id="endDate" width="276" />
+    </div>
+                     <div class="form-group row mb-4">
+                        
                         <table class="table table-border">
                            <thead class="thead-dark">
                               <tr>
@@ -177,37 +199,6 @@
          </div>
       </div>
 
-
-
-
-
-<div class="row">
-            <div class="col-12">
-               <div class="card">
-                  <div class="card-header">
-                     <h4>Crousel Management</h4>
-                  </div>
-                  <div class="card-body">
-                  <form method="post" action="php/crousel_image.php" enctype="multipart/form-data">
-                   <div class="form-group row mb-4">
-                      <input type="hidden" name="crousel_id" value="<?php echo $row[0] ?>">
-                      <div class="col-sm-12 col-md-7">
-                       <input type='file' name="image" onchange="readURL(this);" />
-<img id="blah" width="350" alt="your image" />
-                      </div>
-                    </div>
-                     
-                  <div class="form-group row mb-4">
-                     <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3"></label>
-                     <div class="col-sm-12 col-md-7">
-                        <button type="submit" name="btnsub" class="btn btn-primary">Update Image</button>
-                     </div>
-                   </div>
-                 </form>
-                  </div>
-               </div>
-            </div>
-         </div>
       </div>
 
 
@@ -219,12 +210,23 @@
 </section>
 
 </div>
-</script>
-<script
-   src="https://code.jquery.com/jquery-3.4.1.js"
-   integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
-   crossorigin="anonymous"></script>
 <script>
+        var today = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
+        $('#startDate').datepicker({
+            uiLibrary: 'bootstrap4',
+            iconsLibrary: 'fontawesome',
+            minDate: today,
+            maxDate: function () {
+                return $('#endDate').val();
+            }
+        });
+        $('#endDate').datepicker({
+            uiLibrary: 'bootstrap4',
+            iconsLibrary: 'fontawesome',
+            minDate: function () {
+                return $('#startDate').val();
+            }
+        });
    $('#monday').on('change', function(){
       this.value = this.checked ? 1 : 0;
    });
@@ -254,18 +256,19 @@
    });
    
 </script>
-<script>
-       function readURL(input) {
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
-
-                reader.onload = function (e) {
-                    $('#blah')
-                        .attr('src', e.target.result);
-                };
-
-                reader.readAsDataURL(input.files[0]);
+<script type="text/javascript">
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            
+            reader.onload = function (e) {
+                $('#profile-img-tag').attr('src', e.target.result);
             }
+            reader.readAsDataURL(input.files[0]);
         }
+    }
+    $("#profile-img").change(function(){
+        readURL(this);
+    });
 </script>
 <?php include('include/footer.php'); ?>
