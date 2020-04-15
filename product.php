@@ -91,11 +91,20 @@ if (isset($_GET['id'])) {
         -moz-box-pack: center;
         -ms-flex-pack: center;
         justify-content: center;}
-    .product-variation:hover {
-    color: #d0011b;
-    border-color: #d0011b;
-}
-</style>
+    
+    .Active {
+        color: #fff;
+        padding: 5px 5px;
+        border-color:white;
+        background: #ee4d2d;
+    }
+    .Active1 {
+        color: #fff;
+        padding: 5px 5px;
+        border-color:white;
+        background: #ee4d2d;
+    }
+</style>    
     <nav class="navigation--mobile-product"><a class="ps-btn ps-btn--black" href="shopping-cart.html">Add tos cart</a><a class="ps-btn" href="checkout.html">Buy Now</a></nav>
     <div class="ps-breadcrumb">
         <div class="ps-container">
@@ -166,7 +175,7 @@ if (isset($_GET['id'])) {
                                           ?>
                                             
                                         
-                                        <button class="btn product-variation"><?=$variations['first_variation_value']?></button>
+                                        <button class="product-variation option"><?=$variations['first_variation_value']?></button>
                                     <?php } }?>
                                         <!-- <div class="ps-variant ps-variant--image"><span class="ps-variant__tooltip"> Dark</span><img src="img/products/detail/variants/small-2.jpg" alt=""></div>
                                         <div class="ps-variant ps-variant--image"><span class="ps-variant__tooltip"> pink</span><img src="img/products/detail/variants/small-3.jpg" alt=""></div> -->
@@ -183,7 +192,7 @@ if (isset($_GET['id'])) {
                                                     
                                                
                                           ?>
-                                        <button class="btn product-variation"><?=$variations['second_variation_value']?></button>
+                                        <button class="product-variation option1"><?=$variations['second_variation_value']?></button>
                                         <?php } }?>
                                             
                                         <!-- <div class="ps-variant ps-variant--size"><span class="ps-variant__tooltip"> M</span><span class="ps-variant__size">M</span></div>
@@ -882,3 +891,41 @@ if (isset($_GET['id'])) {
         </div>
     </div>
     <?php include('includes/footer.php'); ?>
+    <script type="text/javascript">
+        
+var variation1;
+       var variation2;
+       $(document).delegate(".option","click",function(e){
+        e.preventDefault();
+        if($('.Active').length){
+           $('.Active').not($(this)).removeClass('Active').addClass('option');
+        }      
+           $(this).removeClass('option').addClass('Active');
+
+           variation1     = $('.Active').text();
+           alert(variation1);
+           // var token      = $('input[name=_token').val();
+           // var product_id = $('input[name=id').val();
+           // $('input[name="product_first_variation"]').val($(this).val()); 
+           // if($(".option1").length){
+           //  if($(".Active1").length){
+           //       getsecondVariation(variation1,variation2,token,product_id); 
+           //   }
+           // }else{
+           //      getfirstVariation(variation1,token,product_id);
+           // }
+       });
+       $('.option1').click(function(){
+            if($('.Active1').length){
+                $('.Active1').not($(this)).removeClass('Active1').addClass('option1');
+            }      
+            $(this).removeClass('option1').addClass('Active1');
+       // var product_id = $('input[name=id').val();
+       // variation2     = $('.btn-warning.Active1').val();
+       // var token      = $('input[name=_token').val();
+       // $('input[name="product_second_variation"]').val($(this).val()); 
+       // if($('.Active').length){
+       //      getsecondVariation(variation1,variation2,token,product_id);
+       //  }  
+        });
+    </script>

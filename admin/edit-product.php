@@ -3,7 +3,10 @@
 include('../includes/db.php');
 include('includes/header.php');
 include('includes/sidebar.php');
-
+include("../thirdparty/image-resize/ImageResize.php");
+include ("../thirdparty/image-resize/ImageResizeException.php");
+use \Gumlet\ImageResize;
+use \Gumlet\ImageResizeException;
 // if (isset($_GET['id']) && isset($_GET['variant_id'])) {
   
 //   echo $_GET['id'];
@@ -28,10 +31,15 @@ if (isset($_GET['id']) && isset($_GET['sku'])) {
         $height                = $result['height'];
         $length                = $result['length'];
         $exclusive             = $result['exclusive'];
+        $approved              = $result['approved'];
         $image1                = $result['image1'];
         $image2                = $result['image2'];
         $image3                = $result['image3'];
         $image4                = $result['image4'];
+        $description           = $result['description'];
+        $keyword               = $result['keyword'];
+        $ven_id                = $result['ven_id'];
+        $keyword               = explode(',',$keyword);
   }
 }
 if (isset($_POST['update-product'])) {
@@ -42,15 +50,30 @@ if (isset($_POST['update-product'])) {
   $subcategory_id                  =     $_POST['sub_cat_id'];
   $subsubcategory_id               =     $_POST['sub_sub_cat_id'];
   $brand                           =     $_POST['brand'];
-  $keyword                         =     $_POST['keyword'];
+  foreach ($_POST['keyword'] as $key => $value) {
+            
+    $keyword     =  implode(',' , $_POST['keyword']);
+
+  }
   $market_price                    =     $_POST['market_price'];  
   $selling_price                   =     $_POST['selling_price'];
   $quantity                        =     $_POST['quantity'];
   $width                           =     $_POST['width'];
   $height                          =     $_POST['height'];
   $length                          =     $_POST['length'];
+  $approved                        =     $_POST['approved'];
+  if ($approved != 'Y') {
+      
+      $approved = 'N';
+  }
+  $exclusive                       =     $_POST['exclusive'];
+  if ($exclusive != 'Y') {
+      
+      $exclusive = 'N';
+  }
   // $courier_size                 =     $_POST['courier_size'];
   $description                     =     $_POST['description'];
+  
   $sku                             =     str_replace(" ","-", $name);
 
 // upload and crop image1 //
@@ -61,7 +84,7 @@ if (isset($_FILES['file1']["name"]) && !empty($_FILES['file1']["name"])) {
     $pic1extension = strtolower($extension);
     $pic1 = time().rand();
     $pic1we=$pic1.".".$pic1extension;
-    $location = "../../upload/product/".$pic1we;
+    $location = "../upload/product/".$pic1we;
     
   if(move_uploaded_file($_FILES["file1"]["tmp_name"], $location)){
 
@@ -71,7 +94,7 @@ if (isset($_FILES['file1']["name"]) && !empty($_FILES['file1']["name"])) {
             $image->resizeToWidth(800);
             $image->resizeToHeight(800);
             $new_name = '800_' . $pic1 . '.jpg';
-            $new_path = '../../upload/product/' . $new_name;
+            $new_path = '../upload/product/' . $new_name;
             $image->save($new_path, IMAGETYPE_JPEG);
     
         } catch (ImageResizeException $e) {
@@ -83,7 +106,7 @@ if (isset($_FILES['file1']["name"]) && !empty($_FILES['file1']["name"])) {
             $image->resizeToWidth(300);
             $image->resizeToHeight(300);
             $new_name = '300_' . $pic1 . '.jpg';
-            $new_path = '../../upload/product/' . $new_name;
+            $new_path = '../upload/product/' . $new_name;
             $image->save($new_path, IMAGETYPE_JPEG);
           
         } catch (ImageResizeException $e) {
@@ -95,7 +118,7 @@ if (isset($_FILES['file1']["name"]) && !empty($_FILES['file1']["name"])) {
             $image->resizeToWidth(200);
             $image->resizeToHeight(150);
             $new_name = '200_' . $pic1 . '.jpg';
-            $new_path = '../../upload/product/' . $new_name;
+            $new_path = '../upload/product/' . $new_name;
             $image->save($new_path, IMAGETYPE_JPEG);
           
         } catch (ImageResizeException $e) {
@@ -113,7 +136,7 @@ if (isset($_FILES['file2']["name"]) && !empty($_FILES['file2']["name"])) {
     $pic2extension = strtolower($extension);
     $pic2 = time().rand();
     $pic2we=$pic2.".".$pic2extension;
-    $location2 = "../../upload/product/".$pic2we;
+    $location2 = "../upload/product/".$pic2we;
     
   if(move_uploaded_file($_FILES["file2"]["tmp_name"], $location2)){
 
@@ -123,7 +146,7 @@ if (isset($_FILES['file2']["name"]) && !empty($_FILES['file2']["name"])) {
             $image->resizeToWidth(800);
             $image->resizeToHeight(800);
             $new_name = '800_' . $pic2 . '.jpg';
-            $new_path = '../../upload/product/' . $new_name;
+            $new_path = '../upload/product/' . $new_name;
             $image->save($new_path, IMAGETYPE_JPEG);
     
         } catch (ImageResizeException $e) {
@@ -135,7 +158,7 @@ if (isset($_FILES['file2']["name"]) && !empty($_FILES['file2']["name"])) {
             $image->resizeToWidth(300);
             $image->resizeToHeight(300);
             $new_name = '300_' . $pic2 . '.jpg';
-            $new_path = '../../upload/product/' . $new_name;
+            $new_path = '../upload/product/' . $new_name;
             $image->save($new_path, IMAGETYPE_JPEG);
           
         } catch (ImageResizeException $e) {
@@ -147,7 +170,7 @@ if (isset($_FILES['file2']["name"]) && !empty($_FILES['file2']["name"])) {
             $image->resizeToWidth(200);
             $image->resizeToHeight(150);
             $new_name = '200_' . $pic2 . '.jpg';
-            $new_path = '../../upload/product/' . $new_name;
+            $new_path = '../upload/product/' . $new_name;
             $image->save($new_path, IMAGETYPE_JPEG);
           
         } catch (ImageResizeException $e) {
@@ -164,7 +187,7 @@ if (isset($_FILES['file3']["name"]) && !empty($_FILES['file3']["name"])) {
     $pic3extension = strtolower($extension);
     $pic3 = time().rand();
     $pic3we=$pic3.".".$pic3extension;
-    $location3 = "../../upload/product/".$pic3we;
+    $location3 = "../upload/product/".$pic3we;
     
   if(move_uploaded_file($_FILES["file3"]["tmp_name"], $location3)){
 
@@ -174,7 +197,7 @@ if (isset($_FILES['file3']["name"]) && !empty($_FILES['file3']["name"])) {
             $image->resizeToWidth(800);
             $image->resizeToHeight(800);
             $new_name = '800_' . $pic3 . '.jpg';
-            $new_path = '../../upload/product/' . $new_name;
+            $new_path = '../upload/product/' . $new_name;
             $image->save($new_path, IMAGETYPE_JPEG);
     
         } catch (ImageResizeException $e) {
@@ -186,7 +209,7 @@ if (isset($_FILES['file3']["name"]) && !empty($_FILES['file3']["name"])) {
             $image->resizeToWidth(300);
             $image->resizeToHeight(300);
             $new_name = '300_' . $pic3 . '.jpg';
-            $new_path = '../../upload/product/' . $new_name;
+            $new_path = '../upload/product/' . $new_name;
             $image->save($new_path, IMAGETYPE_JPEG);
           
         } catch (ImageResizeException $e) {
@@ -198,7 +221,7 @@ if (isset($_FILES['file3']["name"]) && !empty($_FILES['file3']["name"])) {
             $image->resizeToWidth(200);
             $image->resizeToHeight(150);
             $new_name = '200_' . $pic3 . '.jpg';
-            $new_path = '../../upload/product/' . $new_name;
+            $new_path = '../upload/product/' . $new_name;
             $image->save($new_path, IMAGETYPE_JPEG);
           
         } catch (ImageResizeException $e) {
@@ -215,7 +238,7 @@ if (isset($_FILES['file4']["name"]) && !empty($_FILES['file4']["name"])) {
     $pic4extension = strtolower($extension);
     $pic4 = time().rand();
     $pic4we=$pic4.".".$pic4extension;
-    $location4 = "../../upload/product/".$pic4we;
+    $location4 = "../upload/product/".$pic4we;
     
   if(move_uploaded_file($_FILES["file4"]["tmp_name"], $location4)){
 
@@ -225,7 +248,7 @@ if (isset($_FILES['file4']["name"]) && !empty($_FILES['file4']["name"])) {
             $image->resizeToWidth(800);
             $image->resizeToHeight(800);
             $new_name = '800_' . $pic4 . '.jpg';
-            $new_path = '../../upload/product/' . $new_name;
+            $new_path = '../upload/product/' . $new_name;
             $image->save($new_path, IMAGETYPE_JPEG);
     
         } catch (ImageResizeException $e) {
@@ -237,7 +260,7 @@ if (isset($_FILES['file4']["name"]) && !empty($_FILES['file4']["name"])) {
             $image->resizeToWidth(300);
             $image->resizeToHeight(300);
             $new_name = '300_' . $pic4 . '.jpg';
-            $new_path = '../../upload/product/' . $new_name;
+            $new_path = '../upload/product/' . $new_name;
             $image->save($new_path, IMAGETYPE_JPEG);
           
         } catch (ImageResizeException $e) {
@@ -249,7 +272,7 @@ if (isset($_FILES['file4']["name"]) && !empty($_FILES['file4']["name"])) {
             $image->resizeToWidth(200);
             $image->resizeToHeight(150);
             $new_name = '200_' . $pic4 . '.jpg';
-            $new_path = '../../upload/product/' . $new_name;
+            $new_path = '../upload/product/' . $new_name;
             $image->save($new_path, IMAGETYPE_JPEG);
           
         } catch (ImageResizeException $e) {
@@ -260,12 +283,20 @@ if (isset($_FILES['file4']["name"]) && !empty($_FILES['file4']["name"])) {
 }
 
 
-     $query = "update products SET name='".$name."',cat_id='".$category_id."',sub_cat_id='".$subcategory_id."',sub_sub_cat_id='".$subsubcategory_id."',brand='".$brand."',quantity='".$quantity."',market_price='".$market_price."',selling_price='".$selling_price."',length='".$length."',width='".$width."',height='".$height."',keyword='".$keyword."',sku='".$sku."',image1='".$pic1."',image2='".$pic2."',image3='".$pic3."',image4='".$pic4."' Where product_id='".$product_id."'";
+     $query = "update products SET name='".$name."',cat_id='".$category_id."',sub_cat_id='".$subcategory_id."',sub_sub_cat_id='".$subsubcategory_id."',brand='".$brand."',quantity='".$quantity."',market_price='".$market_price."',selling_price='".$selling_price."',length='".$length."',width='".$width."',height='".$height."',keyword='".$keyword."',sku='".$sku."',description='".$description."',image1='".$pic1we."',image2='".$pic2we."',image3='".$pic3we."',image4='".$pic4we."',approved='".$approved."',exclusive='".$exclusive."' Where product_id='".$product_id."'";
+     if ($approved == "Y") {
+       
+       $approvquery = "INSERT into vendor_product (prod_id,ven_id,quantity,price,mk_price,active) VALUES ('$product_id','$ven_id','$quantity','$selling_price','$market_price','$approved')";
+       mysqli_query($con,$approvquery);
+     }
 
      if (mysqli_query($con,$query)){
 
             echo "<script>window.location.assign('product.php');</script>";
-        }
+    }else{
+
+      echo "EROOR";
+    }
 }  
 ?>
       <!-- Main Content -->
@@ -378,7 +409,7 @@ if (isset($_FILES['file4']["name"]) && !empty($_FILES['file4']["name"])) {
                               <div class="col-md-12">
                                 <label class="col-form-label">Description</label>
                                   
-                                    <textarea class="form-control" required="" name="description"></textarea>
+                                    <textarea class="form-control" required="" name="description"><?=$description?></textarea>
                                   
                                   
                               </div>
@@ -417,7 +448,17 @@ if (isset($_FILES['file4']["name"]) && !empty($_FILES['file4']["name"])) {
                                 <div class="col-md-8">
                                   <div class="form-group">
                                     <label>Add Keywords</label><button type="button" class="btn btn-warning btn-sm text-right" data-toggle="modal" data-target="#keywordModel" style="margin-left: 10px;margin-bottom: 3px;position: relative;left: 309px">Add new Keyword</button>
-                                    <select class="form-control select2" name="keyword" required="" multiple="">
+                                    <select class="form-control select2" name="keyword[]" required="" multiple="">
+                                      <?php 
+                                        foreach ($keyword as $key => $value) {
+                                            
+                                          $sql = mysqli_query($con, "SELECT * From keywords where delte = 0 AND keyword_id ='$keyword[$key]'");
+                                          
+                                          while ($res = mysqli_fetch_array($sql)) {?>
+
+                                            <option value="<?=$res['keyword_id']?>" selected><?=$res['keyword']?></option>
+                                            
+                                        <?php }  }?>
                                       <?php 
 
                                           $sql = mysqli_query($con, "SELECT * From keywords where delte = 0");
@@ -513,7 +554,7 @@ if (isset($_FILES['file4']["name"]) && !empty($_FILES['file4']["name"])) {
                             </div> 
                             <div class="col-md-4">
                                 <div class="pretty p-switch">
-                                  <input type="checkbox" value="Y" id="approved" <?php if($exclusive == 'Y'){ ?> checked <?php }?>  />
+                                  <input type="checkbox" value="Y" name="approved" id="approved" <?php if($approved == 'Y'){ ?> checked <?php }?>  />
                                   <div class="state p-warning">
                                       <label>Approved</label>
                                   </div>

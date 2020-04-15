@@ -1,5 +1,7 @@
 <?php
 
+// ---------Combinations function for different types of variations ------------ //
+
 function combinations($arrays) {
         $result = array(array());
         foreach ($arrays as $property => $property_values) {
@@ -13,4 +15,7 @@ function combinations($arrays) {
         }
         return $result;
     }
+
+// --------------------- End Combination Function ------------------------------ //
+    
 ?>    

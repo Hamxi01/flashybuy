@@ -78,7 +78,7 @@ include('includes/sidebar.php');
           <div class="section-body">
  <!-- Start Showing success or warning Msg -->
 <?php
-if (isset($_GET['error'])) {?>
+if (isset($_GET['msg']) == "error") {?>
     <div class="row">
         <div class="col-lg-6 col-sm-offset-3">
             <div class="alert alert-warning msg">    
@@ -90,7 +90,7 @@ if (isset($_GET['error'])) {?>
 }
 ?>
 <?php
-if (isset($_GET['msg'])) { ?>
+if (isset($_GET['msg']) == 'success') { ?>
 <div class="row">
     <div class="col-lg-6 col-sm-offset-3">
         <div class="alert alert-success msg">    

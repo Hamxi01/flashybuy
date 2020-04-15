@@ -88,11 +88,15 @@ if (isset($_POST['keyword'])) {
                           <td><?=$res['variant_Sku']?></td>
                           <td>2</td>
                           <td>
-                            <?php if($res['approved'] == "N"){?>
+                            <?php if (!empty($res['variant_Sku'])){ if($res['active'] == "N"){?>
                               <div class="badge badge-danger">pending</div>
                             <?php }else{     ?>
-                              <div class="badge badge-success">Approved<?=$total_pages?></div>
-                            <?php } ?>
+                              <div class="badge badge-success">Approved</div>
+                            <?php } }else{ if($res['approved'] == "N"){?>
+                              <div class="badge badge-danger">pending</div>
+                              <?php }else{     ?>
+                                <div class="badge badge-success">Approved</div>
+                              <?php } }?>
                           </td>
                           <td>
                             <div class="dropdown">
@@ -213,11 +217,15 @@ if (isset($_POST['keyword'])) {
                           <td><?=$res['variant_Sku']?></td>
                           <td>2</td>
                           <td>
-                            <?php if($res['approved'] == "N"){?>
+                            <?php if (!empty($res['variant_Sku'])){ if($res['active'] == "N"){?>
                               <div class="badge badge-danger">pending</div>
                             <?php }else{     ?>
-                              <div class="badge badge-success">Approved<?=$total_pages?></div>
-                            <?php } ?>
+                              <div class="badge badge-success">Approved</div>
+                            <?php } }else{ if($res['approved'] == "N"){?>
+                              <div class="badge badge-danger">pending</div>
+                              <?php }else{     ?>
+                                <div class="badge badge-success">Approved</div>
+                              <?php } }?>
                           </td>
                           <td>
                             <div class="dropdown">
