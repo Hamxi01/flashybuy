@@ -1,302 +1,145 @@
 <?php
-
-include('include/header.php');
-include('include/nav.php'); 
-include_once('../includes/db.php');
-
- ?>
-  <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-    <style>
-     .box {
-  display: block;
-  min-width: 350px;
-  height: 300px;
-  margin: 10px;
-  background-color: white;
-  border-radius: 5px;
- margin-left: 40%;
-  -webkit-transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-  overflow: hidden;
-}
-
-.upload-options {
+   $id = $_GET['id'];
+include('include/header.php'); 
+include('include/nav.php');
+$query = mysqli_query($con,"select * from tbl_banner where id = $id");
+$row = mysqli_fetch_array($query);
+?>  <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
+<link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+<style>
+  .switch {
   position: relative;
-  height: 75px;
-    width: 250px;
-  background-color: cadetblue;
-  cursor: pointer;
-  overflow: hidden;
-  text-align: center;
-  -webkit-transition: background-color ease-in-out 150ms;
-  transition: background-color ease-in-out 150ms;
-}
-.upload-options:hover {
-  background-color: #7fb1b3;
-}
-.upload-options input {
-  width: 0.1px;
-  height: 0.1px;
-  opacity: 0;
-  overflow: hidden;
-  position: absolute;
-  z-index: -1;
-}
-.upload-options label {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  width: 250px;
-  height: 100%;
-  font-weight: 200;
-  text-align: center;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  cursor: pointer;
-  overflow: hidden;
-}
-.upload-options label::after {
-  content: 'Add Banner';
-  font-family: 'Material Icons';
-  position: absolute;
-  font-size:20px;
-  color: #e6e6e6;
-  top: calc(50% - 1.5rem);
-  left: calc(40% - 1.25rem);
-  z-index: 0;
-}
-.upload-options label span {
   display: inline-block;
-  width: 250px;
-  height: 100%;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
-  vertical-align: middle;
-  text-align: center;
-}
-.upload-options label span:hover i.material-icons {
-  color: lightgray;
+  width: 60px;
+  height: 34px;
 }
 
-.js--image-preview {
-  height: 225px;
-  width: 250px;
-  position: relative;
-  overflow: hidden;
-  background-image: url("");
-  background-color: white;
-  background-position: center center;
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-.js--image-preview::after {
-  content: "photo_size_select_actual";
-  font-family: 'Material Icons';
-  position: relative;
-  font-size: 4.5em;
-  color: #e6e6e6;
-  top: calc(50% - 3rem);
-  left: calc(50% - 2.25rem);
-  z-index: 0;
-}
-.js--image-preview.js--no-default::after {
-  display: none;
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
 }
 
-i.material-icons {
-  -webkit-transition: color 100ms ease-in-out;
-  transition: color 100ms ease-in-out;
-  font-size: 2.25em;
-  line-height: 55px;
-  color: white;
-  display: block;
-}
-
-.drop {
-  display: block;
+/* The slider */
+.slider {
   position: absolute;
-  background: rgba(95, 158, 160, 0.2);
-  border-radius: 100%;
-  -webkit-transform: scale(0);
-          transform: scale(0);
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
 }
 
-.animate {
-  -webkit-animation: ripple 0.4s linear;
-          animation: ripple 0.4s linear;
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
 }
 
-@-webkit-keyframes ripple {
-  100% {
-    opacity: 0;
-    -webkit-transform: scale(2.5);
-            transform: scale(2.5);
-  }
+input:checked + .slider {
+  background-color: green;
 }
 
-@keyframes ripple {
-  100% {
-    opacity: 0;
-    -webkit-transform: scale(2.5);
-            transform: scale(2.5);
-  }
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
 }
-        
-        .switch {
-            position: relative;
-            display: inline-block;
-            width: 60px;
-            height: 34px;
-        }
-        /* Hide default HTML checkbox */
-        
-        .switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-        /* The slider */
-        
-        .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #ccc;
-            -webkit-transition: .4s;
-            transition: .4s;
-        }
-        
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 26px;
-            width: 26px;
-            left: 4px;
-            bottom: 4px;
-            background-color: white;
-            -webkit-transition: .4s;
-            transition: .4s;
-        }
-        
-        input:checked + .slider {
-            background-color: #2196F3;
-        }
-        
-        input:focus + .slider {
-            box-shadow: 0 0 1px #2196F3;
-        }
-        
-        input:checked + .slider:before {
-            -webkit-transform: translateX(26px);
-            -ms-transform: translateX(26px);
-            transform: translateX(26px);
-        }
-        /* Rounded sliders */
-        
-        .slider.round {
-            border-radius: 34px;
-        }
-        
-        .slider.round:before {
-            border-radius: 50%;
-        }
-    </style>
-    <div class="content-page">
-        <!-- Start content -->
-        <div class="content">
-            <div class="container">
 
-                <!-- Page-Title -->
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="page-title-box">
-                            <ol class="breadcrumb pull-right">
-                                <li><a href="#">Flashy buy</a></li>
-                                <li><a href="#">Banner Management</a></li>
-                                <li class="active">Banner Upload</li>
-                            </ol>
-                            <h4 class="page-title">Upload Banner</h4>
-                        </div>
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+
+
+
+
+}
+</style>
+      <!-- Main Content -->
+      <div class="main-content">
+        <section class="section">
+          <div class="section-body">
+            <div class="row">
+              <div class="col-12">
+                <div class="card">
+                  <form method="post" action="actions/banner.php" enctype="multipart/form-data" autocomplete="off">
+                  <div class="card-header">
+                    <h4>Banner Management</h4>
+                  </div>
+                  <div class="card-body">
+                    <div class="form-group row mb-4">
+                    <input type="hidden" name="id" value="<?php echo $row[0] ?>">
+                      <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Title</label>
+                      <div class="col-sm-12 col-md-7">
+                        <input type="text" placeholder="Enter Title" name="title"  value="<?php echo $row[1] ?>"  class="form-control">
+                      </div>  
                     </div>
-                </div>
 
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="card-box">
-                            <div class="row">
-                                <div class="alert alert-success">
-                                    <p class="text-center"><i class="fa fa-info-circle"></i>
-                                        <b>Banner size must 1090x245 pixel</b></p>
+                    <div class="form-group row mb-4">
+                      <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Primary URL</label>
+                      <div class="col-sm-12 col-md-7">
+                        <input type="url" name="url" value="<?php echo $row[2] ?>"  placeholder="Enter URL" class="form-control">
+                      </div>  
+                    </div>
+                    <div class="form-group row mb-4">
+                      <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Secondary URL</label>
+                      <div class="col-sm-12 col-md-7">
+                        <input type="url" name="url1" value="<?php echo $row[3] ?>"  placeholder="Enter URL" class="form-control">
+                      </div>  
+                    </div>
+                    <div class="form-group row mb-4">
+                      <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Primary Image</label>
+                      <div class="col-sm-12 col-md-7">
+                      <div id="image-preview1" class="image-preview" style="width: 200px;">
+                         <input type="file" name="file" id="profile-img1">
+<img src="../img/banner/<?php echo $row[4] ?>"   id="profile-img-tag1" width="200px" />
+                         </div>
+                      </div>
+                    </div>
+                    <div class="form-group row mb-4">
+                      <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Secondary Image</label>
+                      <div class="col-sm-12 col-md-7">
+                      <div id="image-preview" class="image-preview" style="width: 200px;">
+                            
 
-                                </div>
-                                <div class="col-md-12">
-                                    <form class="form-horizontal" enctype="multipart/form-data" method="post" action="admin/upload_banner.php" role="form" onSubmit="return validate();">
-                                        <div class="form-group">
-                                            <label class="col-md-2 control-label">Title</label>
-                                            <div class="col-md-10">
-                                                <textarea class="form-control" name="title" placeholder="Enter Title" style="resize: none;"></textarea>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-md-2 control-label">Url</label>
-                                            <div class="col-md-10">
-                                                <input type="text" name="url" placeholder="Enter Url" class="form-control">
-                                            </div>
+                            <input type="file" name="file1" id="profile-img">
+<img src="../img/banner/<?php echo $row[5] ?>"  id="profile-img-tag" width="200px" />
+                         </div>
+                      </div>
+                    </div>
+                   
 
-                                        </div>
-
-                                     <br>
-   <h3 class="text-center"><div class="alert alert-success"> Upload Primary & Secondry Banner Images</div></h3>  
-
-<div class="form-group">
-    <div class="col-md-10">
-    
-     <div class="box">
-    <div class="js--image-preview"></div>
-   
-    <div class="upload-options">
-   
-      <label>
-    
-        <input type="file" name="primary" id="primary" class="image-upload" accept="image/*" onchange="primaryImage()" />
-      </label>
+                    <div class="form-group row mb-4">
+                    <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Start Date:</label>
+                     <input class="form-control" name="start"  value="<?php 
+                     $datestart=date_create($row[15]);
+                     echo $datestart=date_format($datestart,"m/d/Y"); ?>" id="startDate" width="276" />
+                    <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3"> End Date:</label> 
+                    <input class="form-control" name="end" value="<?php 
+                     $dateend=date_create($row[16]);
+                     echo $dateend=date_format($dateend,"m/d/Y"); ?>"  id="endDate" width="276" />
     </div>
-  </div>
-</div>
-</div>
-<div class="form-group">
-    <div class="col-md-10">
-  <div class="box">
-    <div class="js--image-preview"></div>
-    <div class="upload-options">
-      <label>
-        <input type="file" name="secondry" id="secondry" class="image-upload" accept="image/*" onchange="secondry_image()" />
-      </label>
-    </div>
-  </div>
-</div>
-</div>
-
-                                       
-
-
-                                        <!--  <div class="form-group">
-                                                        <label class="col-lg-4 control-label">Date Range With Time</label>
-                                                        <div class="col-lg-8">
-                                                            <input type="text" class="form-control input-daterange-timepicker" name="daterange" value="01/01/2015 1:30 PM - 01/01/2015 2:00 PM"/>
-                                                        </div>
-                                                    </div> -->
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <table class="table table-border">
+                     <div class="form-group row mb-4">
+                     
+                   <table class="table table-border">
                                             <thead class="thead-dark">
                                                 <tr>
                                                     <th>Sunday</th>
@@ -310,7 +153,7 @@ i.material-icons {
                                             </tr>
                                             <tr>
                                             </tr>
-                                            <tr>
+                                             <tr>
                                                 <td>
                                                     <label class="switch">
                                                         <input type="checkbox" name="ch_sunday"  value="1" id="sunday" checked="">
@@ -361,134 +204,46 @@ i.material-icons {
                                                 </td>
                                             </tr>
                                         </table>
-                                    </div>
-
-                                </div>
-                            </div>
-
-                        </div>
-                        <!-- end container -->
-
+                  </div>
                     </div>
-                    <input type="submit" name="btnsub" class="btn btn-primary" value="Create Crousel">
-                    </form>
-                    <!-- end content -->
 
-                    <!-- FOOTER -->
-                    <footer class="footer text-right">
-                        2017 © Minton.
-                    </footer>
-                    <!-- End FOOTER -->
 
+
+                    <div class="form-group row mb-4">
+                      <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3"></label>
+                      <div class="col-sm-12 col-md-7">
+                        <button type="submit" name="btnsub" class="btn btn-primary">Update Banner</button>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-
-                <?php include('include/footer.php'); ?>
-
-  <script src='//production-assets.codepen.io/assets/common/stopExecutionOnTimeout-b2a7b3fe212eaa732349046d8416e00a9dec26eb7fd347590fbced3ab38af52e.js'></script>
+              </div>
+            </div>
+          </div>
+        </section>
+     
+      </div>
+      </script>
+ 
+  <script>
+        var today = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
+        $('#startDate').datepicker({
+            uiLibrary: 'bootstrap4',
+            iconsLibrary: 'fontawesome',
+            minDate: today,
+            maxDate: function () {
+                return $('#endDate').val();
+            }
+        });
+        $('#endDate').datepicker({
+            uiLibrary: 'bootstrap4',
+            iconsLibrary: 'fontawesome',
+            minDate: function () {
+                return $('#startDate').val();
+            }
+        });
+    </script>
 <script>
-   
-function initImageUpload(box) {
-  let uploadField = box.querySelector('.image-upload');
-
-  uploadField.addEventListener('change', getFile);
-
-  function getFile(e){
-    let file = e.currentTarget.files[0];
-    checkType(file);
-  }
-  
-  function previewImage(file){
-    let thumb = box.querySelector('.js--image-preview'),
-        reader = new FileReader();
-
-    reader.onload = function() {
-      thumb.style.backgroundImage = 'url(' + reader.result + ')';
-    }
-    reader.readAsDataURL(file);
-    thumb.className += ' js--no-default';
-  }
-
-  function checkType(file){
-    let imageType = /image.*/;
-    if (!file.type.match(imageType)) {
-      throw 'Datei ist kein Bild';
-    } else if (!file){
-      throw 'Kein Bild gewählt';
-    } else {
-      previewImage(file);
-    }
-  }
-  
-}
-
-// initialize box-scope
-var boxes = document.querySelectorAll('.box');
-
-for(let i = 0; i < boxes.length; i++) {if (window.CP.shouldStopExecution(1)){break;}
-  let box = boxes[i];
-  initDropEffect(box);
-  initImageUpload(box);
-}
-window.CP.exitedLoop(1);
-
-
-
-
-/// drop-effect
-function initDropEffect(box){
-  let area, drop, areaWidth, areaHeight, maxDistance, dropWidth, dropHeight, x, y;
-  
-  // get clickable area for drop effect
-  area = box.querySelector('.js--image-preview');
-  area.addEventListener('click', fireRipple);
-  
-  function fireRipple(e){
-    area = e.currentTarget
-    // create drop
-    if(!drop){
-      drop = document.createElement('span');
-      drop.className = 'drop';
-      this.appendChild(drop);
-    }
-    // reset animate class
-    drop.className = 'drop';
-    
-    // calculate dimensions of area (longest side)
-    areaWidth = getComputedStyle(this, null).getPropertyValue("width");
-    areaHeight = getComputedStyle(this, null).getPropertyValue("height");
-    maxDistance = Math.max(parseInt(areaWidth, 10), parseInt(areaHeight, 10));
-
-    // set drop dimensions to fill area
-    drop.style.width = maxDistance + 'px';
-    drop.style.height = maxDistance + 'px';
-    
-    // calculate dimensions of drop
-    dropWidth = getComputedStyle(this, null).getPropertyValue("width");
-    dropHeight = getComputedStyle(this, null).getPropertyValue("height");
-    
-    // calculate relative coordinates of click
-    // logic: click coordinates relative to page - parent's position relative to page - half of self height/width to make it controllable from the center
-    x = e.pageX - this.offsetLeft - (parseInt(dropWidth, 10)/2);
-    y = e.pageY - this.offsetTop - (parseInt(dropHeight, 10)/2) - 30;
-    
-    // position drop and animate
-    drop.style.top = y + 'px';
-    drop.style.left = x + 'px';
-    drop.className += ' animate';
-    e.stopPropagation();
-    
-  }
-}
-
-//# sourceURL=pen.js
-</script>
-
-
-
-
-
-<script>
-    
 $('#monday').on('change', function(){
    this.value = this.checked ? 1 : 0;
 });
@@ -517,60 +272,31 @@ $('#sunday').on('change', function(){
    this.value = this.checked ? 1 : 0;
 });
 
-</script>
-<script>
-      $(document).ready(function(){
-        
-        $("#").keyup(function(){
-
-
-
-        });
-
-        $("#").keyup(function(){
-
-
-
-        });
-
-        $("#").keyup(function(){
-
-
-
-        });
-      })
-
-</script>
-
-
-<script type="text/javascript">
-    function primaryImage(){
-        var fileName = document.getElementById("primary").value;
-        var idxDot = fileName.lastIndexOf(".") + 1;
-        var extFile = fileName.substr(idxDot, fileName.length).toLowerCase();
-        if (extFile=="jpg" || extFile=="jpeg" || extFile=="png"){
-            //TO DO
-        }else{
-            alert("Only jpg/jpeg and png files are allowed!");
-            document.getElementById("upload_imgs").value='';
-        }   
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            
+            reader.onload = function (e) {
+                $('#profile-img-tag').attr('src', e.target.result);
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
     }
-</script>     
-
-
-<script type="text/javascript">
-    function secondry_image(){
-        var fileName = document.getElementById("secondry").value;
-        var idxDot = fileName.lastIndexOf(".") + 1;
-        var extFile = fileName.substr(idxDot, fileName.length).toLowerCase();
-        if (extFile=="jpg" || extFile=="jpeg" || extFile=="png"){
-            //TO DO
-        }else{
-            alert("Only jpg/jpeg and png files are allowed!");
-            document.getElementById("upload_imgs").value='';
-        }   
+    $("#profile-img").change(function(){
+        readURL(this);
+    });
+    function readUR1L(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            
+            reader.onload = function (e) {
+                $('#profile-img-tag1').attr('src', e.target.result);
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
     }
-</script>     
-
-
-                
+    $("#profile-img1").change(function(){
+        readUR1L(this);
+    });
+</script>
+      <?php include('include/footer.php'); ?>
