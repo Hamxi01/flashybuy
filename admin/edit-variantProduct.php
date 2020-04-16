@@ -3,6 +3,12 @@
 include('../includes/db.php');
 include('includes/header.php');
 include('includes/sidebar.php');
+// --- pic crop plugin library ------//
+include("../thirdparty/image-resize/ImageResize.php");
+include ("../thirdparty/image-resize/ImageResizeException.php");
+use \Gumlet\ImageResize;
+use \Gumlet\ImageResizeException;
+// --------- end library files
 
 if (isset($_GET['id']) && isset($_GET['variant_id'])) {
   
@@ -25,6 +31,10 @@ if (isset($_GET['id']) && isset($_GET['variant_id'])) {
         $length                = $result['length'];
         $exclusive             = $result['exclusive'];
         $approved              = $result['approved'];
+        $keyword               = $result['keyword'];
+        $description           = $result['description'];
+        $ven_id                = $result['ven_id'];
+        $keyword               = explode(',',$keyword);
   }
   $sql   = "SELECT * from product_variations where variation_id = '$variation_id'";
   $query = mysqli_query($con,$sql);
@@ -42,6 +52,18 @@ if (isset($_GET['id']) && isset($_GET['variant_id'])) {
       $quantity               = $res['quantity'];
       $price                  = $res['price'];
       $active                 = $res['active'];
+      $skuColor               = explode('-',$sku);
+
+  }
+  $color                  = $skuColor[0];
+  $sql   = "SELECT * from product_variant_images WHERE product_id='$product_id' AND variation_value ='$color'";
+  $query = mysqli_query($con,$sql);
+  while ( $imageRes = mysqli_fetch_array($query)) {
+      
+        $image1                = $imageRes['image1'];
+        $image2                = $imageRes['image2'];
+        $image3                = $imageRes['image3'];
+        $image4                = $imageRes['image4'];
   }
 }
 if (isset($_POST['update-product'])) {
@@ -53,13 +75,28 @@ if (isset($_POST['update-product'])) {
   $subcategory_id                  =     $_POST['sub_cat_id'];
   $subsubcategory_id               =     $_POST['sub_sub_cat_id'];
   $brand                           =     $_POST['brand'];
-  $keyword                         =     $_POST['keyword'];
+  foreach ($_POST['keyword'] as $key => $value) {
+            
+    $keyword     =  implode(',' , $_POST['keyword']);
+
+  }
   $quantity                        =     $_POST['quantity'];
   $width                           =     $_POST['width'];
   $height                          =     $_POST['height'];
   $length                          =     $_POST['length'];
   // $courier_size                 =     $_POST['courier_size'];
   $description                     =     $_POST['description'];
+  $approved =     $_POST['approved'];
+  if ($approved != 'Y') {
+      
+      $approved = 'N';
+  }
+  $exclusive =     $_POST['exclusive'];
+  if ($exclusive != 'Y') {
+      
+      $exclusive = 'N';
+  }
+$description =     $_POST['description'];
 
   $first_variation_value  = $_POST['first_variation_value'];
   $sku                    = $first_variation_value;
@@ -85,217 +122,225 @@ if (isset($_POST['forth_variation_value'])) {
         $active = 'N';
     }
 // upload and crop image1 //
-// if (isset($_FILES['file1']["name"]) && !empty($_FILES['file1']["name"])) {
+if (isset($_FILES['file1']["name"]) && !empty($_FILES['file1']["name"])) {
 
-//     $filename = $_FILES["file1"]["name"];
-//     $extension = @end(explode('.', $filename)); // explode the image name to get the extension
-//     $pic1extension = strtolower($extension);
-//     $pic1 = time().rand();
-//     $pic1we=$pic1.".".$pic1extension;
-//     $location = "../../upload/product/".$pic1we;
+    $filename = $_FILES["file1"]["name"];
+    $extension = @end(explode('.', $filename)); // explode the image name to get the extension
+    $pic1extension = strtolower($extension);
+    $pic1 = time().rand();
+    $pic1we=$pic1.".".$pic1extension;
+    $location = "../upload/product/".$pic1we;
     
-//   if(move_uploaded_file($_FILES["file1"]["tmp_name"], $location)){
+  if(move_uploaded_file($_FILES["file1"]["tmp_name"], $location)){
 
-//           try {
-//             $image = new ImageResize($location);
-//             $image->quality_jpg = 85;
-//             $image->resizeToWidth(800);
-//             $image->resizeToHeight(800);
-//             $new_name = '800_' . $pic1 . '.jpg';
-//             $new_path = '../../upload/product/' . $new_name;
-//             $image->save($new_path, IMAGETYPE_JPEG);
+          try {
+            $image = new ImageResize($location);
+            $image->quality_jpg = 85;
+            $image->resizeToWidth(800);
+            $image->resizeToHeight(800);
+            $new_name = '800_' . $pic1 . '.jpg';
+            $new_path = '../upload/product/' . $new_name;
+            $image->save($new_path, IMAGETYPE_JPEG);
     
-//         } catch (ImageResizeException $e) {
-//             return null;
-//         }
-//       try {
-//             $image = new ImageResize($location);
-//             $image->quality_jpg = 85;
-//             $image->resizeToWidth(300);
-//             $image->resizeToHeight(300);
-//             $new_name = '300_' . $pic1 . '.jpg';
-//             $new_path = '../../upload/product/' . $new_name;
-//             $image->save($new_path, IMAGETYPE_JPEG);
+        } catch (ImageResizeException $e) {
+            return null;
+        }
+      try {
+            $image = new ImageResize($location);
+            $image->quality_jpg = 85;
+            $image->resizeToWidth(300);
+            $image->resizeToHeight(300);
+            $new_name = '300_' . $pic1 . '.jpg';
+            $new_path = '../upload/product/' . $new_name;
+            $image->save($new_path, IMAGETYPE_JPEG);
           
-//         } catch (ImageResizeException $e) {
-//             return null;
-//         }
-//       try {
-//             $image = new ImageResize($location);
-//             $image->quality_jpg = 85;
-//             $image->resizeToWidth(200);
-//             $image->resizeToHeight(150);
-//             $new_name = '200_' . $pic1 . '.jpg';
-//             $new_path = '../../upload/product/' . $new_name;
-//             $image->save($new_path, IMAGETYPE_JPEG);
+        } catch (ImageResizeException $e) {
+            return null;
+        }
+      try {
+            $image = new ImageResize($location);
+            $image->quality_jpg = 85;
+            $image->resizeToWidth(200);
+            $image->resizeToHeight(150);
+            $new_name = '200_' . $pic1 . '.jpg';
+            $new_path = '../upload/product/' . $new_name;
+            $image->save($new_path, IMAGETYPE_JPEG);
           
-//         } catch (ImageResizeException $e) {
-//             return null;
-//         }
+        } catch (ImageResizeException $e) {
+            return null;
+        }
 
-//   }
-// }
+  }
+}
 
 // upload and crop image2 //
-// if (isset($_FILES['file2']["name"]) && !empty($_FILES['file2']["name"])) {
+if (isset($_FILES['file2']["name"]) && !empty($_FILES['file2']["name"])) {
 
-//     $filename = $_FILES["file2"]["name"];
-//     $extension = @end(explode('.', $filename)); // explode the image name to get the extension
-//     $pic2extension = strtolower($extension);
-//     $pic2 = time().rand();
-//     $pic2we=$pic2.".".$pic2extension;
-//     $location2 = "../../upload/product/".$pic2we;
+    $filename = $_FILES["file2"]["name"];
+    $extension = @end(explode('.', $filename)); // explode the image name to get the extension
+    $pic2extension = strtolower($extension);
+    $pic2 = time().rand();
+    $pic2we=$pic2.".".$pic2extension;
+    $location2 = "../upload/product/".$pic2we;
     
-//   if(move_uploaded_file($_FILES["file2"]["tmp_name"], $location2)){
+  if(move_uploaded_file($_FILES["file2"]["tmp_name"], $location2)){
 
-//           try {
-//             $image = new ImageResize($location2);
-//             $image->quality_jpg = 85;
-//             $image->resizeToWidth(800);
-//             $image->resizeToHeight(800);
-//             $new_name = '800_' . $pic2 . '.jpg';
-//             $new_path = '../../upload/product/' . $new_name;
-//             $image->save($new_path, IMAGETYPE_JPEG);
+          try {
+            $image = new ImageResize($location2);
+            $image->quality_jpg = 85;
+            $image->resizeToWidth(800);
+            $image->resizeToHeight(800);
+            $new_name = '800_' . $pic2 . '.jpg';
+            $new_path = '../upload/product/' . $new_name;
+            $image->save($new_path, IMAGETYPE_JPEG);
     
-//         } catch (ImageResizeException $e) {
-//             return null;
-//         }
-//       try {
-//             $image = new ImageResize($location2);
-//             $image->quality_jpg = 85;
-//             $image->resizeToWidth(300);
-//             $image->resizeToHeight(300);
-//             $new_name = '300_' . $pic2 . '.jpg';
-//             $new_path = '../../upload/product/' . $new_name;
-//             $image->save($new_path, IMAGETYPE_JPEG);
+        } catch (ImageResizeException $e) {
+            return null;
+        }
+      try {
+            $image = new ImageResize($location2);
+            $image->quality_jpg = 85;
+            $image->resizeToWidth(300);
+            $image->resizeToHeight(300);
+            $new_name = '300_' . $pic2 . '.jpg';
+            $new_path = '../upload/product/' . $new_name;
+            $image->save($new_path, IMAGETYPE_JPEG);
           
-//         } catch (ImageResizeException $e) {
-//             return null;
-//         }
-//       try {
-//             $image = new ImageResize($location2);
-//             $image->quality_jpg = 85;
-//             $image->resizeToWidth(200);
-//             $image->resizeToHeight(150);
-//             $new_name = '200_' . $pic2 . '.jpg';
-//             $new_path = '../../upload/product/' . $new_name;
-//             $image->save($new_path, IMAGETYPE_JPEG);
+        } catch (ImageResizeException $e) {
+            return null;
+        }
+      try {
+            $image = new ImageResize($location2);
+            $image->quality_jpg = 85;
+            $image->resizeToWidth(200);
+            $image->resizeToHeight(150);
+            $new_name = '200_' . $pic2 . '.jpg';
+            $new_path = '../upload/product/' . $new_name;
+            $image->save($new_path, IMAGETYPE_JPEG);
           
-//         } catch (ImageResizeException $e) {
-//             return null;
-//         }
+        } catch (ImageResizeException $e) {
+            return null;
+        }
 
-//   }
-// }
+  }
+}
 // upload and crop image3 //
-// if (isset($_FILES['file3']["name"]) && !empty($_FILES['file3']["name"])) {
+if (isset($_FILES['file3']["name"]) && !empty($_FILES['file3']["name"])) {
 
-//     $filename = $_FILES["file3"]["name"];
-//     $extension = @end(explode('.', $filename)); // explode the image name to get the extension
-//     $pic3extension = strtolower($extension);
-//     $pic3 = time().rand();
-//     $pic3we=$pic3.".".$pic3extension;
-//     $location3 = "../../upload/product/".$pic3we;
+    $filename = $_FILES["file3"]["name"];
+    $extension = @end(explode('.', $filename)); // explode the image name to get the extension
+    $pic3extension = strtolower($extension);
+    $pic3 = time().rand();
+    $pic3we=$pic3.".".$pic3extension;
+    $location3 = "../upload/product/".$pic3we;
     
-//   if(move_uploaded_file($_FILES["file3"]["tmp_name"], $location3)){
+  if(move_uploaded_file($_FILES["file3"]["tmp_name"], $location3)){
 
-//           try {
-//             $image = new ImageResize($location3);
-//             $image->quality_jpg = 85;
-//             $image->resizeToWidth(800);
-//             $image->resizeToHeight(800);
-//             $new_name = '800_' . $pic3 . '.jpg';
-//             $new_path = '../../upload/product/' . $new_name;
-//             $image->save($new_path, IMAGETYPE_JPEG);
+          try {
+            $image = new ImageResize($location3);
+            $image->quality_jpg = 85;
+            $image->resizeToWidth(800);
+            $image->resizeToHeight(800);
+            $new_name = '800_' . $pic3 . '.jpg';
+            $new_path = '../upload/product/' . $new_name;
+            $image->save($new_path, IMAGETYPE_JPEG);
     
-//         } catch (ImageResizeException $e) {
-//             return null;
-//         }
-//       try {
-//             $image = new ImageResize($location3);
-//             $image->quality_jpg = 85;
-//             $image->resizeToWidth(300);
-//             $image->resizeToHeight(300);
-//             $new_name = '300_' . $pic3 . '.jpg';
-//             $new_path = '../../upload/product/' . $new_name;
-//             $image->save($new_path, IMAGETYPE_JPEG);
+        } catch (ImageResizeException $e) {
+            return null;
+        }
+      try {
+            $image = new ImageResize($location3);
+            $image->quality_jpg = 85;
+            $image->resizeToWidth(300);
+            $image->resizeToHeight(300);
+            $new_name = '300_' . $pic3 . '.jpg';
+            $new_path = '../upload/product/' . $new_name;
+            $image->save($new_path, IMAGETYPE_JPEG);
           
-//         } catch (ImageResizeException $e) {
-//             return null;
-//         }
-//       try {
-//             $image = new ImageResize($location3);
-//             $image->quality_jpg = 85;
-//             $image->resizeToWidth(200);
-//             $image->resizeToHeight(150);
-//             $new_name = '200_' . $pic3 . '.jpg';
-//             $new_path = '../../upload/product/' . $new_name;
-//             $image->save($new_path, IMAGETYPE_JPEG);
+        } catch (ImageResizeException $e) {
+            return null;
+        }
+      try {
+            $image = new ImageResize($location3);
+            $image->quality_jpg = 85;
+            $image->resizeToWidth(200);
+            $image->resizeToHeight(150);
+            $new_name = '200_' . $pic3 . '.jpg';
+            $new_path = '../upload/product/' . $new_name;
+            $image->save($new_path, IMAGETYPE_JPEG);
           
-//         } catch (ImageResizeException $e) {
-//             return null;
-//         }
+        } catch (ImageResizeException $e) {
+            return null;
+        }
 
-//   }
-// }
+  }
+}
 // upload and crop image1 //
-// if (isset($_FILES['file4']["name"]) && !empty($_FILES['file4']["name"])) {
+if (isset($_FILES['file4']["name"]) && !empty($_FILES['file4']["name"])) {
 
-//     $filename = $_FILES["file4"]["name"];
-//     $extension = @end(explode('.', $filename)); // explode the image name to get the extension
-//     $pic4extension = strtolower($extension);
-//     $pic4 = time().rand();
-//     $pic4we=$pic4.".".$pic4extension;
-//     $location4 = "../../upload/product/".$pic4we;
+    $filename = $_FILES["file4"]["name"];
+    $extension = @end(explode('.', $filename)); // explode the image name to get the extension
+    $pic4extension = strtolower($extension);
+    $pic4 = time().rand();
+    $pic4we=$pic4.".".$pic4extension;
+    $location4 = "../upload/product/".$pic4we;
     
-//   if(move_uploaded_file($_FILES["file4"]["tmp_name"], $location4)){
+  if(move_uploaded_file($_FILES["file4"]["tmp_name"], $location4)){
 
-//           try {
-//             $image = new ImageResize($location4);
-//             $image->quality_jpg = 85;
-//             $image->resizeToWidth(800);
-//             $image->resizeToHeight(800);
-//             $new_name = '800_' . $pic4 . '.jpg';
-//             $new_path = '../../upload/product/' . $new_name;
-//             $image->save($new_path, IMAGETYPE_JPEG);
+          try {
+            $image = new ImageResize($location4);
+            $image->quality_jpg = 85;
+            $image->resizeToWidth(800);
+            $image->resizeToHeight(800);
+            $new_name = '800_' . $pic4 . '.jpg';
+            $new_path = '../upload/product/' . $new_name;
+            $image->save($new_path, IMAGETYPE_JPEG);
     
-//         } catch (ImageResizeException $e) {
-//             return null;
-//         }
-//       try {
-//             $image = new ImageResize($location4);
-//             $image->quality_jpg = 85;
-//             $image->resizeToWidth(300);
-//             $image->resizeToHeight(300);
-//             $new_name = '300_' . $pic4 . '.jpg';
-//             $new_path = '../../upload/product/' . $new_name;
-//             $image->save($new_path, IMAGETYPE_JPEG);
+        } catch (ImageResizeException $e) {
+            return null;
+        }
+      try {
+            $image = new ImageResize($location4);
+            $image->quality_jpg = 85;
+            $image->resizeToWidth(300);
+            $image->resizeToHeight(300);
+            $new_name = '300_' . $pic4 . '.jpg';
+            $new_path = '../upload/product/' . $new_name;
+            $image->save($new_path, IMAGETYPE_JPEG);
           
-//         } catch (ImageResizeException $e) {
-//             return null;
-//         }
-//       try {
-//             $image = new ImageResize($location4);
-//             $image->quality_jpg = 85;
-//             $image->resizeToWidth(200);
-//             $image->resizeToHeight(150);
-//             $new_name = '200_' . $pic4 . '.jpg';
-//             $new_path = '../../upload/product/' . $new_name;
-//             $image->save($new_path, IMAGETYPE_JPEG);
+        } catch (ImageResizeException $e) {
+            return null;
+        }
+      try {
+            $image = new ImageResize($location4);
+            $image->quality_jpg = 85;
+            $image->resizeToWidth(200);
+            $image->resizeToHeight(150);
+            $new_name = '200_' . $pic4 . '.jpg';
+            $new_path = '../upload/product/' . $new_name;
+            $image->save($new_path, IMAGETYPE_JPEG);
           
-//         } catch (ImageResizeException $e) {
-//             return null;
-//         }
+        } catch (ImageResizeException $e) {
+            return null;
+        }
 
-//   }
-// }
+  }
+}
 
 
-     $query = "update products SET name='".$name."',cat_id='".$category_id."',sub_cat_id='".$subcategory_id."',sub_sub_cat_id='".$subsubcategory_id."',brand='".$brand."',length='".$length."',width='".$width."',height='".$height."',keyword='".$keyword."' Where product_id='".$product_id."'";
+     $query = "update products SET name='".$name."',cat_id='".$category_id."',sub_cat_id='".$subcategory_id."',sub_sub_cat_id='".$subsubcategory_id."',brand='".$brand."',length='".$length."',width='".$width."',height='".$height."',keyword='".$keyword."',exclusive='".$exclusive."' Where product_id='".$product_id."'";
 
      $vquery = "update product_variations SET first_variation_value='".$first_variation_value."',second_variation_value='".$second_variation_value."',third_variation_value='".$third_variation_value."',forth_variation_value='".$forth_variation_value."',quantity='".$quantity."',price='".$price."',sku='".$sku."',active='".$active."' Where variation_id='".$variation_id."'";
 
-     if (mysqli_query($con,$query) && mysqli_query($con,$vquery)){
+     $imagequery = "update product_variant_images SET image1='".$pic1we."',image2='".$pic2we."',image3='".$pic3we."',image4='".$pic4we."' where product_id='".$product_id."'";
+
+    if ($approved == "Y") {
+       
+       $approvquery = "INSERT into vendor_product (prod_id,ven_id,variation_id,quantity,price,mk_price,active) VALUES ('$product_id','$ven_id','$variation_id','$quantity','$price','$market_price','$approved')";
+       mysqli_query($con,$approvquery);
+     } 
+
+     if (mysqli_query($con,$query) && mysqli_query($con,$vquery) && mysqli_query($con,$imagequery) ){
 
             echo "<script>window.location.assign('product.php');</script>";
         }
@@ -412,7 +457,7 @@ if (isset($_POST['forth_variation_value'])) {
                               <div class="col-md-12">
                                 <label class="col-form-label">Description</label>
                                   
-                                    <textarea class="form-control" required="" name="description"></textarea>
+                                    <textarea class="form-control" required="" name="description"><?=$description?></textarea>
                                   
                                   
                               </div>
@@ -451,7 +496,17 @@ if (isset($_POST['forth_variation_value'])) {
                                 <div class="col-md-8">
                                   <div class="form-group">
                                     <label>Add Keywords</label><button type="button" class="btn btn-warning btn-sm text-right" data-toggle="modal" data-target="#keywordModel" style="margin-left: 10px;margin-bottom: 3px;position: relative;left: 309px">Add new Keyword</button>
-                                    <select class="form-control select2" name="keyword" required="" multiple="">
+                                    <select class="form-control select2" name="keyword[]" required="" multiple="">
+                                      <?php 
+                                        foreach ($keyword as $key => $value) {
+                                            
+                                          $sql = mysqli_query($con, "SELECT * From keywords where delte = 0 AND keyword_id ='$keyword[$key]'");
+                                          
+                                          while ($res = mysqli_fetch_array($sql)) {?>
+
+                                            <option value="<?=$res['keyword_id']?>" selected><?=$res['keyword']?></option>
+                                            
+                                        <?php }  }?>
                                       <?php 
 
                                           $sql = mysqli_query($con, "SELECT * From keywords where delte = 0");
@@ -515,7 +570,7 @@ if (isset($_POST['forth_variation_value'])) {
                                 </div>
                               </div>  
                           </div>
-                          <!-- <div class="form-group row">
+                          <div class="form-group row">
                             <div class="col-md-3">
                               <div class="form-group">
                                   <label>Image1</label>
@@ -540,7 +595,7 @@ if (isset($_POST['forth_variation_value'])) {
                                   <input type="file" name="file4" class="form-control" value="<?=$image4?>">
                                 </div>
                               </div>  
-                          </div> -->
+                          </div>
                           <div class="form-group row">
                             <div class="col-md-4">
                               <div class="form-group">

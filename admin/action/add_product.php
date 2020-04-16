@@ -242,10 +242,11 @@ if (isset($_FILES['file4']["name"]) && !empty($_FILES['file4']["name"])) {
 		$id = mysqli_insert_id($con);
 
 			$custom_option        =     $_POST['custom_options'];
+			$variations_approval  =     $_POST['variation_approval'];
 
 ////////////////// insert Varition images ////////////////
 
-	if ($custom_option=="Y") {
+	if ($variations_approval=="N") {
 
 		foreach ($_POST['vari'] as $key => $value) {
 			
@@ -668,13 +669,13 @@ if (isset($_FILES['file4']["name"]) && !empty($_FILES['file4']["name"])) {
 		else{
 
         	header("location:../add-product.php?msg=success");
+
         }
 
 //////// End Variation insertion Code //////////////////////////
 
     }
     else{
-
 					header("location:../add-product.php?msg=error");
 	}
 

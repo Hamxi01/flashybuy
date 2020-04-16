@@ -1,5 +1,7 @@
 <?php
 
+///// Variation Combination function which is used to generate differ combination and sku from product variations //////
+
 function combinations($arrays) {
         $result = array(array());
         foreach ($arrays as $property => $property_values) {
@@ -13,4 +15,5 @@ function combinations($arrays) {
         }
         return $result;
     }
+    // End Combination Function ////
 ?>    
