@@ -187,7 +187,7 @@ if (isset($_GET['msg'])) { ?>
                                                 <div class="col-lg-3">
                                                     <select class="select2 select2-multiple" multiple multiple="multiple"  data-placeholder="Choose variation Type" name="variation_id[]">
                                                         <?php
-                                                            $sql = mysqli_query($con, "SELECT * From variations");
+                                                            $sql = mysqli_query($con, "SELECT * From variations where delte=0");
                                                             $row = mysqli_num_rows($sql);
                                                             while ($row = mysqli_fetch_array($sql)){
                                                             echo "<option value='". $row['id'] ."'>" .$row['variation_name'] ."</option>" ;
