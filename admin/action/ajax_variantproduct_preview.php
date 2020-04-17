@@ -17,7 +17,7 @@
               <div class="modal-body">
                 <div class="row">
                   <div class="col-md-6">
-                    <p><?=$res[1]?>asssssssssssssssssss</p>
+                    <p><?=$res[1]?></p>
                   </div>
                   <div class="col-md-5">
                     <div id="carouselExampleFade" class="carousel slide carousel-fade" data-ride="carousel">

@@ -2,9 +2,11 @@
       include('includes/header.php');
       include('includes/sidebar.php');
 
-      if (isset($_POST['type'])) {
+    if (isset($_POST['type'])) {
    
         $subsubcategory_id = $_GET['id'];
+
+        // Options data //
 
         $form = array();
         $select_types = ['select', 'multi_select', 'radio'];
@@ -19,19 +21,48 @@
             array_push($form, $item);
         }
         $data = json_encode($form);
-        $stmt = $con->prepare("INSERT INTO variant_options (subsubcategory_id,options) VALUES (?, ?)");
-        $stmt->bind_param("ss",$subsubcategory_id,$data);
-        
-        if ($stmt->execute()) {
+
+        // End options code //
+    
+    //Check selected Category have already options or not///
+
+        $sql = "SELECT * from variant_options where subsubcategory_id = '$subsubcategory_id'";
+        $query = mysqli_query($con,$sql);
+        $rows = mysqli_num_rows($query);
+        if ($rows>0) {
+            
+             // updating already have options //
+
+             $stmt= $con->prepare("UPDATE variant_options SET options=? WHERE subsubcategory_id=?");
+             $stmt->bind_param("ss",$data,$subsubcategory_id);
+             if ($stmt->execute()) {
              
-             $msg = "<span>Options Added successfully...!!</span>";
-         }
-         else{
+                 $msg = "<span>Options updated successfully...!!</span>";
+             }
+             else{
 
 
-            $error = "<span>Something went wrong...!!</span>";
-         } 
-      }
+                $error = "<span>Something went wrong...!!</span>";
+             }
+
+        }else{
+
+            /// insert new options for an category ////
+
+            $stmt = $con->prepare("INSERT INTO variant_options (subsubcategory_id,options) VALUES (?, ?)");
+            $stmt->bind_param("ss",$subsubcategory_id,$data);
+            if ($stmt->execute()) {
+             
+                 $msg = "<span>Options Added successfully...!!</span>";
+             }
+             else{
+
+
+                $error = "<span>Something went wrong...!!</span>";
+             }
+
+        }  
+   }
 
 ?>
 
@@ -71,15 +102,86 @@ if (isset($msg)) { ?>
                 <div class="card">
                   <div class="card-header">
                     <h4>Dynamic Variant Options</h4>
-                    <div class="card-header-form">
-                    </div>
+<!--  Delete button for removing all options for selected category -->
+                       
+<!--  Delete button for removing all options for selected category -->
                   </div>
                   <div class="card-body p-0">
                       <form action="variant_options.php?id=<?php echo $_GET['id']; ?>" method="post">
                         <div class="row">  
-                          <div class="col-lg-8 form-horizontal" id="form">
+                          <div class="col-lg-9 form-horizontal" id="form">
+<!-- Fetching Dynamic options for selected category if they already added -->
+<?php 
+if (isset($_GET['id'])) {
+
+    $subsubcategoryid = $_GET['id'];
+
+
+    $sql = "SELECT * from variant_options WHERE subsubcategory_id ='$subsubcategoryid'";
+
+    $query = mysqli_query($con,$sql);
+
+    while ($row = mysqli_fetch_array($query)) {
+        
+        $options =  $row['options'];
+        
+    }
+    if (!empty($options)) {
+        
+    
+            foreach (json_decode($options) as $key => $element){
+                if ($element->type == 'text' || $element->type == 'file'){ ?>
+                        <div class="form-group" style="background:rgba(0,0,0,0.1);padding:10px 0;">
+                            <input type="hidden" name="type[]" value="<?=$element->type?>">
+                            <div class="col-lg-3">
+                                <label class="control-label"><?=ucfirst($element->type)?></label>
+                            </div>
+                            <div class="col-lg-7">
+                                <input class="form-control" type="text" name="label[]" value="<?=$element->label?>" placeholder="Label">
+                            </div>
+                            <div class="col-lg-1"><span class="btn btn-icon btn-circle icon-lg fa fa-times" onclick="delete_choice_clearfix(this)"></span></div>
+                        </div>
+                <?php
+                }
+                elseif ($element->type == 'select' || $element->type == 'multi_select' || $element->type == 'radio'){?>
+                    <div class="form-group" style="background:rgba(0,0,0,0.1);padding:10px 0;">
+                        <input type="hidden" name="type[]" value="<?=$element->type?>">
+                        <input type="hidden" name="option[]" class="option" value="<?=$key?>">
+                        <div class="col-lg-3">
+                            <label class="control-label"><?=ucfirst(str_replace('_', ' ', $element->type))?></label>
+                        </div>
+                        <div class="col-lg-7">
+                            <input class="form-control" type="text" name="label[]" value="<?=$element->label?>" placeholder="Select Label" style="margin-bottom:10px">
+                            <div class="customer_choice_options_types_wrap_child">
+                            <?php    
+                                if (is_array(json_decode($element->options))){
+                                    foreach (json_decode($element->options) as $value){
+                            ?>
+                                        <div class="form-group">
+                                            <div class="col-sm-6 col-sm-offset-4">
+                                                <input class="form-control" type="text" name="options_<?=$key?>[]" value="<?=$value?>" required="">
+                                            </div>
+                                            <div class="col-sm-1"> <span class="btn btn-icon btn-circle icon-lg fa fa-times" onclick="delete_choice_clearfix(this)"></span></div>
+                                        </div>
+                            <?php            
+                                    }
+                                }
+                            ?>    
+                            </div>
+                            <button class="btn btn-success pull-right" type="button" onclick="add_customer_choice_options(this)"><i class="glyphicon glyphicon-plus"></i> Add option</button>
+                        </div>
+                        <div class="col-lg-2"><span class="btn btn-icon btn-circle icon-lg fa fa-times" onclick="delete_choice_clearfix(this)"></span></div>
+                    </div>
+                <?php    
+                }
+            }
+    }        
+}
+?>
+<!-- End Showing Dynamic options for selected category if they already added -->
                           </div>
-                          <div class="col-lg-4">
+<!--    Buttons for adding Dynamic options for Category  -->
+                          <div class="col-lg-3">
                               <ul class="list-group">
                                   <li class="list-group-item btn-dark" style="text-align: left;" onclick="appenddToForm('text')">Text Input</li>
                                   <li class="list-group-item btn-dark" style="text-align: left;" onclick="appenddToForm('select')">Select</li>
@@ -88,6 +190,7 @@ if (isset($msg)) { ?>
                                   <li class="list-group-item btn-dark" style="text-align: left;" onclick="appenddToForm('file')">File</li>
                               </ul>
                           </div>
+<!--  End Buttons for adding Dynamic options for Category  -->                          
                         </div><br>
                         <div class="text-right">
                               <button class="btn btn-warning" type="submit">Save</button>

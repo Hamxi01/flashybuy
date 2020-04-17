@@ -23,7 +23,7 @@ if (isset($_FILES['file']["name"])) {
     $extension = @end(explode('.', $filename)); // explode the image name to get the extension
     $pic1extension = strtolower($extension);
     $pic1 = time().rand();
-    $pic1we=$pic1.".".$pic1extension;
+    $pic1we=$pic1.".".".jpg";
     $location = "../../upload/category/".$pic1we;
     
 if(move_uploaded_file($_FILES["file"]["tmp_name"], $location)){

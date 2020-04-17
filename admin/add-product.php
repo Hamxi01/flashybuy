@@ -130,8 +130,8 @@ if (isset($_GET['msg']) == 'success') { ?>
                             </div>
                             <div class="form-group row">
                                     <label>Choose Brands</label>
-                                    <select class="form-control select2" required="" name="brand">
-                                        
+                                    <input list="brand" name="brand" class="form-control"/>
+                                      <datalist id="brand">
                                       <?php 
 
                                           $sql = mysqli_query($con, "SELECT * From brands where delte = 0");
@@ -142,7 +142,7 @@ if (isset($_GET['msg']) == 'success') { ?>
                                             
                                         <?php  }
                                       ?>
-                                    </select>
+                                    </datalist>
                             </div>
                             <div class="form-group row">
                               <div class="col-md-12">

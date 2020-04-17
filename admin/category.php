@@ -155,13 +155,16 @@ if (isset($_GET['msg'])) { ?>
                       <div class="col-lg-1"></div>
                       <div class="col-lg-3">
                           <button type="button" class="btn btn-warning" id="categories_add" onclick="categoriesForm()">Add new</button>
+                          <button type="button" class="btn btn-dark" id="edit_category" onclick="editCategory()" style="display: none">Edit this Category</button>
                       </div>
                       <div class="col-lg-4">
                           <button type="button" class="btn btn-warning" id="subcategories_add" style="display: none;" onclick="subcategoriesForm()">Add new</button>
+                          <button type="button" class="btn btn-dark" id="edit_subcategory" onclick="editSubCategory()" style="display: none">Edit this SubCategory</button>
                       </div>
                       <div class="col-lg-4">
                           <button type="button" class="btn btn-warning" id="subsubcategories_add" style="display: none;" onclick="subsubcategoriesForm()">Add new</button>
                           <button type="button" class="btn btn-warning" id="add_options" style="display: none;"><a id="variant_options" href="" style="text-decoration: none;color: #fff">Add Options</a></button>
+                          <button type="button" class="btn btn-dark" id="edit_subsubcategory" onclick="editSubSubCategory()" style="display: none">Edit this SubCategory</button>
                       </div>
                     </div><br>
                     <div class="row" id="categories_div" style="display: none;">
@@ -293,9 +296,12 @@ if (isset($_GET['msg'])) { ?>
             $("#category_name").val(category_id);
             $("#subcategories_div").css("display","none");
             $("#add_options").css("display","none");
+            $("#edit_subcategory").css("display","none");
             $("#subsubcategories_add").css("display","none");
             $("#subsubcategories_div").css("display","none");
             $(".subsubcategories .app-search").css("display","none");
+            $("#edit_subsubcategory").css("display","none");
+
             category_name = $(el).html();
             $('#subcategories').html(null);
             $('#subsubcategories').html(null);
@@ -309,6 +315,7 @@ if (isset($_GET['msg'])) { ?>
                         $("#categories_div").css("display","none");
                         $("#categories_add").css("display","none");
                         $("#subcategories_add").css("display","");
+                        $("#edit_category").css("display","");
                         $(".subcategories .app-search").css("display","");
                 }
             });
@@ -319,9 +326,11 @@ if (isset($_GET['msg'])) { ?>
             subcategory_id = cat_id;
             $(".category_name").val(category_id);
             $(".subcategory_name").val(subcategory_id);
+            $("#edit_category").css("display","none");
             $("#add_options").css("display","none");
             $("#subcategories_div").css("display","none");
             $("#subsubcategories_div").css("display","none");
+            $("#edit_subsubcategory").css("display","none");
 
             subsubcategory_name = "";
             subsubcategory_id= null;
@@ -338,16 +347,17 @@ if (isset($_GET['msg'])) { ?>
                         $("#subcategories_add").css("display","none");
                         $("#subsubcategories_add").css("display","");
                         $(".subsubcategories .app-search").css("display","");
+                        $("#edit_subcategory").css("display","");
                     
                 }
             });
         }
-        function confirm_subsubcategory(el, subsubcat_id){
-            list_item_highlight(el);
-            subsubcategory_id = subsubcat_id;
-            subsubcategory_name = $(el).html();
-            // fetch_Variations(subsubcategory_id);
-        }
+        // function confirm_subsubcategory(el, subsubcat_id){
+        //     list_item_highlight(el);
+        //     subsubcategory_id = subsubcat_id;
+        //     subsubcategory_name = $(el).html();
+        //     // fetch_Variations(subsubcategory_id);
+        // }
         //////////////////////////////////////////////
         ////// -----add new Categories ------////////
         ///--------------------------------------///
@@ -437,9 +447,13 @@ if (isset($_GET['msg'])) { ?>
         function confirm_subsubcategory(el,sub_sub_id){
 
             list_item_highlight(el);
+            subsubcategory_id = sub_sub_id;
+            subsubcategory_name = $(el).html();
             $("#add_options").css("display","");
             $("#subsubcategories_div").css("display","none");
             $("#subsubcategories_add").css("display","none");
+            $("#edit_subcategory").css("display","none");
+            $("#edit_subsubcategory").css("display","");
             $("#variant_options").attr("href","variant_options.php?id="+sub_sub_id);
         }
 
@@ -525,9 +539,31 @@ if (isset($_GET['msg'])) { ?>
                 });
            
         }
-
+  
 
         //////////////////////////////////////////////////////
-        //-------- End subsubCategory Search --------------//
-        ////////////////////////////////////////////////////   
+               //-------- Edit Category  --------------//
+        //////////////////////////////////////////////////// 
+
+        function editCategory(){
+
+          categoryid = btoa(category_id);
+          window.location="editCategory.php?cat_id="+categoryid;
+        }
+        //////////////////////////////////////////////////////
+               //-------- Edit SubCategory  --------------//
+        ////////////////////////////////////////////////////
+        function editSubCategory(){
+
+          subcategoryid = btoa(subcategory_id);
+          window.location="editSubCategory.php?cat_id="+subcategoryid;
+        } 
+        //////////////////////////////////////////////////////
+               //-------- Edit SubSubCategory  --------------//
+        ////////////////////////////////////////////////////
+        function editSubSubCategory(){
+          alert(subsubcategory_id);
+          subsubcategoryid = btoa(subsubcategory_id);
+          window.location="editSubSubCategory.php?cat_id="+subsubcategoryid;
+        }
 </script>

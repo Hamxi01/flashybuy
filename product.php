@@ -892,8 +892,12 @@ if (isset($_GET['id'])) {
     </div>
     <?php include('includes/footer.php'); ?>
     <script type="text/javascript">
-        
-var variation1;
+        $(document).ready(function(){
+
+             window.alert();
+             console.log("Assalam-o-Alaikum! hi how are you?what did you want to nuy from us?")
+        });
+       var variation1;
        var variation2;
        $(document).delegate(".option","click",function(e){
         e.preventDefault();
