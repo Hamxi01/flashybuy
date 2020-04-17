@@ -3,7 +3,8 @@
 include('include/header.php'); 
 include('include/nav.php');
 $query = mysqli_query($con,"select * from tbl_banner where id = $id");
-$row = mysqli_fetch_array($query);
+while($row = mysqli_fetch_assoc($query)){
+
 ?>  <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
 <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
 <style>
@@ -86,23 +87,23 @@ input:checked + .slider:before {
                   </div>
                   <div class="card-body">
                     <div class="form-group row mb-4">
-                    <input type="hidden" name="id" value="<?php echo $row[0] ?>">
+                    <input type="hidden" name="id" value="<?php echo $row['id'] ?>">
                       <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Title</label>
                       <div class="col-sm-12 col-md-7">
-                        <input type="text" placeholder="Enter Title" name="title"  value="<?php echo $row[1] ?>"  class="form-control">
+                        <input type="text" placeholder="Enter Title" name="title"  value="<?php echo $row['title'] ?>"  class="form-control">
                       </div>  
                     </div>
 
                     <div class="form-group row mb-4">
                       <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Primary URL</label>
                       <div class="col-sm-12 col-md-7">
-                        <input type="url" name="url" value="<?php echo $row[2] ?>"  placeholder="Enter URL" class="form-control">
+                        <input type="url" name="url" value="<?php echo $row['url'] ?>"  placeholder="Enter URL" class="form-control">
                       </div>  
                     </div>
                     <div class="form-group row mb-4">
                       <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Secondary URL</label>
                       <div class="col-sm-12 col-md-7">
-                        <input type="url" name="url1" value="<?php echo $row[3] ?>"  placeholder="Enter URL" class="form-control">
+                        <input type="url" name="url1" value="<?php echo $row['url1'] ?>"  placeholder="Enter URL" class="form-control">
                       </div>  
                     </div>
                     <div class="form-group row mb-4">
@@ -110,7 +111,7 @@ input:checked + .slider:before {
                       <div class="col-sm-12 col-md-7">
                       <div id="image-preview1" class="image-preview" style="width: 200px;">
                          <input type="file" name="file" id="profile-img1">
-<img src="../img/banner/<?php echo $row[4] ?>"   id="profile-img-tag1" width="200px" />
+<img src="../img/banner/<?php echo $row['primary_image'] ?>"   id="profile-img-tag1" width="200px" />
                          </div>
                       </div>
                     </div>
@@ -121,7 +122,7 @@ input:checked + .slider:before {
                             
 
                             <input type="file" name="file1" id="profile-img">
-<img src="../img/banner/<?php echo $row[5] ?>"  id="profile-img-tag" width="200px" />
+<img src="../img/banner/<?php echo $row['secondry_image'] ?>"  id="profile-img-tag" width="200px" />
                          </div>
                       </div>
                     </div>
@@ -130,11 +131,11 @@ input:checked + .slider:before {
                     <div class="form-group row mb-4">
                     <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Start Date:</label>
                      <input class="form-control" name="start"  value="<?php 
-                     $datestart=date_create($row[15]);
+                     $datestart=date_create($row['start']);
                      echo $datestart=date_format($datestart,"m/d/Y"); ?>" id="startDate" width="276" />
                     <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3"> End Date:</label> 
                     <input class="form-control" name="end" value="<?php 
-                     $dateend=date_create($row[16]);
+                     $dateend=date_create($row['end']);
                      echo $dateend=date_format($dateend,"m/d/Y"); ?>"  id="endDate" width="276" />
     </div>
                      <div class="form-group row mb-4">
@@ -156,49 +157,49 @@ input:checked + .slider:before {
                                              <tr>
                                                 <td>
                                                     <label class="switch">
-                                                        <input type="checkbox" name="ch_sunday"  value="1" id="sunday" checked="">
+                                                        <input type="checkbox" name="ch_sunday"  value="1" id="sunday" <?php if($row['sunday']==1){?> checked <?php } ?>>
+                                                        <span class="slider round" ></span>
+                                                    </label>
+                                                </td>
+
+                                                <td>
+                                                    <label class="switch">
+                                                        <input type="checkbox" name="ch_monday"  value="1" id="monday" <?php if($row['monday']==1){?> checked <?php } ?> >
                                                         <span class="slider round"></span>
                                                     </label>
                                                 </td>
 
                                                 <td>
                                                     <label class="switch">
-                                                        <input type="checkbox" name="ch_monday"  value="1" id="monday" checked="">
+                                                        <input type="checkbox" value="1" name="ch_tuesday" id="tuesday" <?php if($row['tuesday']==1){?> checked <?php } ?>>
                                                         <span class="slider round"></span>
                                                     </label>
                                                 </td>
 
                                                 <td>
                                                     <label class="switch">
-                                                        <input type="checkbox" value="1" name="ch_tuesday" id="tuesday" checked="" >
+                                                        <input type="checkbox" name="ch_wednesday" id="wednesday"value="1" <?php if($row['wednesday']==1){?> checked <?php } ?>>
                                                         <span class="slider round"></span>
                                                     </label>
                                                 </td>
 
                                                 <td>
                                                     <label class="switch">
-                                                        <input type="checkbox" name="ch_wednesday" id="wednesday" checked=""   value="1">
+                                                        <input type="checkbox" name="ch_thursday"  value="1" id="thursday" <?php if($row['thursday']==1){?> checked <?php } ?>>
                                                         <span class="slider round"></span>
                                                     </label>
                                                 </td>
 
                                                 <td>
                                                     <label class="switch">
-                                                        <input type="checkbox" name="ch_thursday"  value="1" id="thursday" checked="" >
+                                                        <input type="checkbox" name="ch_friday"  value="1" id="friday" <?php if($row['friday']==1){?> checked <?php } ?>>
                                                         <span class="slider round"></span>
                                                     </label>
                                                 </td>
 
                                                 <td>
                                                     <label class="switch">
-                                                        <input type="checkbox" name="ch_friday"  value="1" id="frinday" checked="" >
-                                                        <span class="slider round"></span>
-                                                    </label>
-                                                </td>
-
-                                                <td>
-                                                    <label class="switch">
-                                                        <input type="checkbox"  name="ch_saturday" value="1" id="saturday" checked="">
+                                                        <input type="checkbox"  name="ch_saturday" value="1" id="saturday" <?php if($row['saturday']==1){?> checked <?php } ?>>
                                                         <span class="slider round"></span>
                                                     </label>
                                                 </td>
@@ -221,7 +222,7 @@ input:checked + .slider:before {
             </div>
           </div>
         </section>
-     
+     <?php } ?>
       </div>
       </script>
  

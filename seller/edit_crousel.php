@@ -125,66 +125,71 @@
                      echo $dateend=date_format($dateend,"m/d/Y"); ?>"  id="endDate" width="276" />
     </div>
                      <div class="form-group row mb-4">
-                        
-                        <table class="table table-border">
-                           <thead class="thead-dark">
-                              <tr>
-                                 <th>Sunday</th>
-                                 <th>Monday</th>
-                                 <th>Tuesday</th>
-                                 <th>Wednesday</th>
-                                 <th>thursday</th>
-                                 <th>Friday</th>
-                                 <th>Saturday</th>
-                           </thead>
-                           </tr>
-                           <tr>
-                           </tr>
-                           <tr>
-                              <td>
-                                 <label class="switch">
-                                 <input type="checkbox" name="ch_sunday"  value="1" id="sunday" checked="">
-                                 <span class="slider round"></span>
-                                 </label>
-                              </td>
-                              <td>
-                                 <label class="switch">
-                                 <input type="checkbox" name="ch_monday"  value="1" id="monday" checked="">
-                                 <span class="slider round"></span>
-                                 </label>
-                              </td>
-                              <td>
-                                 <label class="switch">
-                                 <input type="checkbox" value="1" name="ch_tuesday" id="tuesday" checked="" >
-                                 <span class="slider round"></span>
-                                 </label>
-                              </td>
-                              <td>
-                                 <label class="switch">
-                                 <input type="checkbox" name="ch_wednesday" id="wednesday" checked=""   value="1">
-                                 <span class="slider round"></span>
-                                 </label>
-                              </td>
-                              <td>
-                                 <label class="switch">
-                                 <input type="checkbox" name="ch_thursday"  value="1" id="thursday" checked="" >
-                                 <span class="slider round"></span>
-                                 </label>
-                              </td>
-                              <td>
-                                 <label class="switch">
-                                 <input type="checkbox" name="ch_friday"  value="1" id="frinday" checked="" >
-                                 <span class="slider round"></span>
-                                 </label>
-                              </td>
-                              <td>
-                                 <label class="switch">
-                                 <input type="checkbox"  name="ch_saturday" value="1" id="saturday" checked="">
-                                 <span class="slider round"></span>
-                                 </label>
-                              </td>
-                           </tr>
-                        </table>
+                     <table class="table table-border">
+                                            <thead class="thead-dark">
+                                                <tr>
+                                                    <th>Sunday</th>
+                                                    <th>Monday</th>
+                                                    <th>Tuesday</th>
+                                                    <th>Wednesday</th>
+                                                    <th>thursday</th>
+                                                    <th>Friday</th>
+                                                    <th>Saturday</th>
+                                            </thead>
+                                            </tr>
+                                            <tr>
+                                            </tr>
+                                             <tr>
+                                                <td>
+                                                    <label class="switch">
+                                                        <input type="checkbox" name="ch_sunday"  value="1" id="sunday" <?php if($row['sunday']==1){?> checked <?php } ?>>
+                                                        <span class="slider round" ></span>
+                                                    </label>
+                                                </td>
+
+                                                <td>
+                                                    <label class="switch">
+                                                        <input type="checkbox" name="ch_monday"  value="1" id="monday" <?php if($row['monday']==1){?> checked <?php } ?> >
+                                                        <span class="slider round"></span>
+                                                    </label>
+                                                </td>
+
+                                                <td>
+                                                    <label class="switch">
+                                                        <input type="checkbox" value="1" name="ch_tuesday" id="tuesday" <?php if($row['tuesday']==1){?> checked <?php } ?>>
+                                                        <span class="slider round"></span>
+                                                    </label>
+                                                </td>
+
+                                                <td>
+                                                    <label class="switch">
+                                                        <input type="checkbox" name="ch_wednesday" id="wednesday"value="1" <?php if($row['wednesday']==1){?> checked <?php } ?>>
+                                                        <span class="slider round"></span>
+                                                    </label>
+                                                </td>
+
+                                                <td>
+                                                    <label class="switch">
+                                                        <input type="checkbox" name="ch_thursday"  value="1" id="thursday" <?php if($row['thursday']==1){?> checked <?php } ?>>
+                                                        <span class="slider round"></span>
+                                                    </label>
+                                                </td>
+
+                                                <td>
+                                                    <label class="switch">
+                                                        <input type="checkbox" name="ch_friday"  value="1" id="friday" <?php if($row['friday']==1){?> checked <?php } ?>>
+                                                        <span class="slider round"></span>
+                                                    </label>
+                                                </td>
+
+                                                <td>
+                                                    <label class="switch">
+                                                        <input type="checkbox"  name="ch_saturday" value="1" id="saturday" <?php if($row['saturday']==1){?> checked <?php } ?>>
+                                                        <span class="slider round"></span>
+                                                    </label>
+                                                </td>
+                                            </tr>
+                                        </table>
                      </div>
                   </div>
                   <div class="form-group row mb-4">

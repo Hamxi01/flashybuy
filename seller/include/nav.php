@@ -34,9 +34,9 @@
               <a href="#" class="menu-toggle nav-link has-dropdown"><i data-feather="command"></i><span>Front End</span></a>
               <ul class="dropdown-menu">
                 <li><a class="nav-link" href="view_crousel.php">Main Banners</a></li>
-                <li><a class="nav-link" href="banner.php">Banner</a></li>
+                <li><a class="nav-link" href="vie_banner.php">Banner</a></li>
                 <li><a class="nav-link" href="view_social.php">Social Media</a></li>
-                <li><a class="nav-link" href="view_record.php">Signup Form Content</a></li>
+                <li><a class="nav-link" href="signup_page_content.php">Signup Form Content</a></li>
                 
                 <li><a class="nav-link" href="manage_footer.php">Footer</a></li>
               </ul>
