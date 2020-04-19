@@ -29,7 +29,7 @@ try {
     $image = new ImageResize($target_file);
     $image->quality_jpg = 85;
     $image->resizeToWidth(300);
-    $image->resizeToHeight(300);
+    $image->resizeToHeight(225);
     $new_name = '300_' . $pic1 . '.jpg';
     $new_path = '../upload/product/' . $new_name;
     $image->save($new_path, IMAGETYPE_JPEG);

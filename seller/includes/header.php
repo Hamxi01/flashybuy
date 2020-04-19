@@ -1,38 +1,40 @@
-<?php
-@session_start();
-if (isset($_SESSION['id'])) 
- {
-
- }else{
-
-    header("Location:../login.php");
- }
- 
-include('../includes/db.php');
+<?php 
+    @session_start();
+    if(isset($_SESSION['id'])){
+        
+    }else{
+      header("location: ../login.php");
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
+
+<!-- advance-table.html  21 Nov 2019 03:55:20 GMT -->
 <head>
   <meta charset="UTF-8">
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
-  <title>Flashy Buy Seller Pannel</title>
+  <title>Otika - Admin Dashboard Template</title>
+  <!-- General CSS Files -->
   <link rel="stylesheet" href="assets/css/app.min.css">
+  <link rel="stylesheet" href="assets/bundles/summernote/summernote-bs4.css">
+  <link rel="stylesheet" href="assets/bundles/codemirror/lib/codemirror.css">
+  <link rel="stylesheet" href="assets/bundles/codemirror/theme/duotone-dark.css">
+  <link rel="stylesheet" href="assets/bundles/select2/dist/css/select2.min.css">
+  <link rel="stylesheet" href="assets/bundles/jquery-selectric/selectric.css">
+  <link rel="stylesheet" href="assets/bundles/pretty-checkbox/pretty-checkbox.min.css">
+  <link rel="stylesheet" href="assets/bundles/bootstrap-tagsinput/dist/bootstrap-tagsinput.css">
+  <link rel="stylesheet" href="assets/bundles/owlcarousel2/dist/assets/owl.carousel.min.css">
+  <link rel="stylesheet" href="assets/bundles/owlcarousel2/dist/assets/owl.theme.default.min.css">
+  <!-- Template CSS -->
   <link rel="stylesheet" href="assets/css/style.css">
   <link rel="stylesheet" href="assets/css/components.css">
+  <!-- Custom style CSS -->
   <link rel="stylesheet" href="assets/css/custom.css">
   <link rel='shortcut icon' type='image/x-icon' href='assets/img/favicon.ico' />
-  <link rel="stylesheet" href="assets/css/app.min.css">
-  <link rel="stylesheet" href="assets/bundles/datatables/datatables.min.css">
-  <link rel="stylesheet" href="assets/bundles/datatables/DataTables-1.10.16/css/dataTables.bootstrap4.min.css">
-    <link rel="stylesheet" href="assets/bundles/summernote/summernote-bs4.css">
-  <link rel="stylesheet" href="assets/bundles/jquery-selectric/selectric.css">
-  <link rel="stylesheet" href="assets/bundles/bootstrap-tagsinput/dist/bootstrap-tagsinput.css">
-
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 </head>
 
 <body>
-  <div class="loader"></div>
   <div id="app">
     <div class="main-wrapper main-wrapper-1">
       <div class="navbar-bg"></div>
@@ -171,10 +173,12 @@ include('../includes/db.php');
               class="nav-link dropdown-toggle nav-link-lg nav-link-user"> <img alt="image" src="assets/img/user.png"
                 class="user-img-radious-style"> <span class="d-sm-none d-lg-inline-block"></span></a>
             <div class="dropdown-menu dropdown-menu-right pullDown">
-              <div class="dropdown-title">Hello <?php echo $_SESSION['name']; ?></div>
-
-    
-              </a> <a href="my_account.php" class="dropdown-item has-icon"> <i class="fas fa-cog"></i>
+              <div class="dropdown-title">Hello <?php if(isset($_SESSION['username'])){?> <?=$_SESSION['username']?> <?php } ?></div>
+              <a href="profile.html" class="dropdown-item has-icon"> <i class="far
+										fa-user"></i> Profile
+              </a> <a href="timeline.html" class="dropdown-item has-icon"> <i class="fas fa-bolt"></i>
+                Activities
+              </a> <a href="#" class="dropdown-item has-icon"> <i class="fas fa-cog"></i>
                 Settings
               </a>
               <div class="dropdown-divider"></div>

@@ -284,11 +284,23 @@ if (isset($_FILES['file4']["name"]) && !empty($_FILES['file4']["name"])) {
 
 
      $query = "update products SET name='".$name."',cat_id='".$category_id."',sub_cat_id='".$subcategory_id."',sub_sub_cat_id='".$subsubcategory_id."',brand='".$brand."',quantity='".$quantity."',market_price='".$market_price."',selling_price='".$selling_price."',length='".$length."',width='".$width."',height='".$height."',keyword='".$keyword."',sku='".$sku."',description='".$description."',image1='".$pic1we."',image2='".$pic2we."',image3='".$pic3we."',image4='".$pic4we."',approved='".$approved."',exclusive='".$exclusive."' Where product_id='".$product_id."'";
-     if ($approved == "Y") {
-       
-       $approvquery = "INSERT into vendor_product (prod_id,ven_id,quantity,price,mk_price,active) VALUES ('$product_id','$ven_id','$quantity','$selling_price','$market_price','$approved')";
-       mysqli_query($con,$approvquery);
-     }
+     ///// Check product is already in vendors products or not////
+
+      $vpSql   = "SELECT * from vendor_product where prod_id = '$product_id'  AND ven_id='$ven_id'";
+      $vpQuery = mysqli_query($con,$vpSql);
+      $vpRows  = mysqli_num_rows($vpQuery);
+
+      if ($vpRows>0) {
+            
+        $approvquery = "update vendor_product SET quantity='".$quantity."',price='".$selling_price."',mk_price='".$market_price."',active='".$approved."' where prod_id ='".$product_id."' AND ven_id ='".$ven_id."'";
+        mysqli_query($con,$approvquery);
+
+      }else{
+
+        $approvquery = "INSERT into vendor_product (prod_id,ven_id,quantity,price,mk_price,active) VALUES ('$product_id','$ven_id','$quantity','$price','$market_price','$approved')";
+        mysqli_query($con,$approvquery);
+      }
+  //----- Vendor product update and insert new data end ----////////////
 
      if (mysqli_query($con,$query)){
 

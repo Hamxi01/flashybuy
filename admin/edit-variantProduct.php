@@ -55,7 +55,8 @@ if (isset($_GET['id']) && isset($_GET['variant_id'])) {
       $skuColor               = explode('-',$sku);
 
   }
-  $color                  = $skuColor[0];
+      $color                  = $skuColor[0];
+
   $sql   = "SELECT * from product_variant_images WHERE product_id='$product_id' AND variation_value ='$color'";
   $query = mysqli_query($con,$sql);
   while ( $imageRes = mysqli_fetch_array($query)) {
@@ -70,11 +71,15 @@ if (isset($_POST['update-product'])) {
 
   $variation_id                    =     $_POST['variation_id'];
   $product_id                      =     $_POST['id'];
+  $ven_id                          =     $_POST['ven_id'];
   $name                            =     $_POST['name'];
   $category_id                     =     $_POST['cat_id'];
   $subcategory_id                  =     $_POST['sub_cat_id'];
   $subsubcategory_id               =     $_POST['sub_sub_cat_id'];
   $brand                           =     $_POST['brand'];
+  $market_price                    =     $_POST['market_price'];
+  $price                           =     $_POST['price'];
+  $stock                           =     $_POST['quantity'];
   foreach ($_POST['keyword'] as $key => $value) {
             
     $keyword     =  implode(',' , $_POST['keyword']);
@@ -86,16 +91,24 @@ if (isset($_POST['update-product'])) {
   $length                          =     $_POST['length'];
   // $courier_size                 =     $_POST['courier_size'];
   $description                     =     $_POST['description'];
-  $approved =     $_POST['approved'];
-  if ($approved != 'Y') {
+
+  if (isset($_POST['approved'])) { 
+
+      $approved                        =     $_POST['approved'];
+      if ($approved != 'Y') {
       
-      $approved = 'N';
+          $approved = 'N';
+      }
   }
-  $exclusive =     $_POST['exclusive'];
-  if ($exclusive != 'Y') {
+  if (isset($_POST['exclusive'])) { 
+
+       $exclusive                       =     $_POST['exclusive'];
+         if ($exclusive != 'Y') {
       
-      $exclusive = 'N';
+              $exclusive = 'N';
+          }
   }
+
 $description =     $_POST['description'];
 
   $first_variation_value  = $_POST['first_variation_value'];
@@ -328,19 +341,31 @@ if (isset($_FILES['file4']["name"]) && !empty($_FILES['file4']["name"])) {
 }
 
 
-     $query = "update products SET name='".$name."',cat_id='".$category_id."',sub_cat_id='".$subcategory_id."',sub_sub_cat_id='".$subsubcategory_id."',brand='".$brand."',length='".$length."',width='".$width."',height='".$height."',keyword='".$keyword."',exclusive='".$exclusive."' Where product_id='".$product_id."'";
+     $query = "update products SET name='".$name."',cat_id='".$category_id."',sub_cat_id='".$subcategory_id."',sub_sub_cat_id='".$subsubcategory_id."',brand='".$brand."',length='".$length."',width='".$width."',height='".$height."',keyword='".$keyword."',exclusive='".$exclusive."',exclusive='".$exclusive."' Where product_id='".$product_id."'";
 
-     $vquery = "update product_variations SET first_variation_value='".$first_variation_value."',second_variation_value='".$second_variation_value."',third_variation_value='".$third_variation_value."',forth_variation_value='".$forth_variation_value."',quantity='".$quantity."',price='".$price."',sku='".$sku."',active='".$active."' Where variation_id='".$variation_id."'";
+     $vquery = "update product_variations SET first_variation_value='".$first_variation_value."',second_variation_value='".$second_variation_value."',third_variation_value='".$third_variation_value."',forth_variation_value='".$forth_variation_value."',quantity='".$stock."',price='".$price."',sku='".$sku."',active='".$active."' Where variation_id='".$variation_id."'";
 
      $imagequery = "update product_variant_images SET image1='".$pic1we."',image2='".$pic2we."',image3='".$pic3we."',image4='".$pic4we."' where product_id='".$product_id."'";
 
-    if ($approved == "Y") {
-       
-       $approvquery = "INSERT into vendor_product (prod_id,ven_id,variation_id,quantity,price,mk_price,active) VALUES ('$product_id','$ven_id','$variation_id','$quantity','$price','$market_price','$approved')";
-       mysqli_query($con,$approvquery);
-     } 
+      ///// Check product is already in vendors products or not////
 
-     if (mysqli_query($con,$query) && mysqli_query($con,$vquery) && mysqli_query($con,$imagequery) ){
+      $vpSql   = "SELECT * from vendor_product where prod_id = '$product_id' AND variation_id='$variation_id' AND ven_id='$ven_id'";
+      $vpQuery = mysqli_query($con,$vpSql);
+      $vpRows  = mysqli_num_rows($vpQuery);
+
+      if ($vpRows>0) {
+            
+        $approvquery = "update vendor_product SET quantity='".$quantity."',price='".$price."',mk_price='".$market_price."',active='".$active."' where prod_id ='".$product_id."' AND variation_id='".$variation_id."' AND ven_id ='".$ven_id."'";
+        mysqli_query($con,$approvquery);
+
+      }else{
+
+        $approvquery = "INSERT into vendor_product (prod_id,ven_id,variation_id,quantity,price,mk_price,active) VALUES ('$product_id','$ven_id','$variation_id','$stock','$price','$market_price','$active')";
+        mysqli_query($con,$approvquery);
+      }
+  //----- Vendor product update and insert new data end ----////////////
+
+     if (mysqli_query($con,$query) && mysqli_query($con,$vquery) && mysqli_query($con,$imagequery)){
 
             echo "<script>window.location.assign('product.php');</script>";
         }
@@ -363,6 +388,7 @@ if (isset($_FILES['file4']["name"]) && !empty($_FILES['file4']["name"])) {
                             <div class="col-md-10">
                               <label class="col-form-label">Product Name</label>
                                 <input type="text" class="form-control" required="" name="name" value="<?=$name?>">
+                                <input type="hidden" name="ven_id" value="<?=$ven_id?>">
                                 <input type="hidden" name="id" value="<?=$product_id?>">
                                 <input type="hidden" name="variation_id" value="<?=$variation_id?>">
                                 <div class="invalid-feedback">

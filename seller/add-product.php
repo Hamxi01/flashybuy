@@ -101,6 +101,10 @@ if (isset($_GET['msg']) == 'success') { ?>
 </div>
 <?php 
 }
+if (isset($_SESSION['id'])) 
+ {
+    $vendor_id = $_SESSION['id'];
+ }
 ?>
 
 <!-- End Message Alert -->            
@@ -114,6 +118,7 @@ if (isset($_GET['msg']) == 'success') { ?>
                         </div>
                         <div class="card-body">
                           <div class="form-group row">
+                            <input type="hidden" name="vendor_id" value="<?=$vendor_id?>">
                               <label class="col-form-label">Product Name</label>
                                 <input type="text" class="form-control" required="" name="name" value="">
                                 <div class="invalid-feedback">
@@ -138,7 +143,7 @@ if (isset($_GET['msg']) == 'success') { ?>
                                           
                                           while ($res = mysqli_fetch_array($sql)) {?>
 
-                                            <option value="<?=$res['id']?>"><?=$res['name']?></option>
+                                            <option value="<?=$res['id']?>" style="display:none"><?=$res['name']?></option>
                                             
                                         <?php  }
                                       ?>
@@ -651,5 +656,17 @@ var s = new Array();
     $(document).ready(function() {
 
         setTimeout(function(){ $(".msg").hide(); }, 5000);
+    });
+    
+    ////////////////////////////////////////////////
+    ///////////////////////////////////////////////
+
+    $(".select2-search__field").on('input',function() {
+
+        console.log("Red");
+
+    });
+    $('.select2-search__field').on('keyup', function() {
+         console.log("Red");
     });
 </script>  

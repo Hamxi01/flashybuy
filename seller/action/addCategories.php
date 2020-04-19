@@ -23,7 +23,7 @@ if (isset($_FILES['file']["name"])) {
     $extension = @end(explode('.', $filename)); // explode the image name to get the extension
     $pic1extension = strtolower($extension);
     $pic1 = time().rand();
-    $pic1we=$pic1.".".$pic1extension;
+    $pic1we=$pic1.".".".jpg";
     $location = "../../upload/category/".$pic1we;
     
 if(move_uploaded_file($_FILES["file"]["tmp_name"], $location)){
@@ -31,8 +31,8 @@ if(move_uploaded_file($_FILES["file"]["tmp_name"], $location)){
         try {
             $image = new ImageResize($location);
             $image->quality_jpg = 85;
-            $image->resizeToWidth(300);
-            $image->resizeToHeight(225);
+            $image->resizeToWidth(170);
+            $image->resizeToHeight(170);
             $new_name = '170_' . $pic1 . '.jpg';
             $new_path = '../../upload/category/' . $new_name;
             $image->save($new_path, IMAGETYPE_JPEG); 

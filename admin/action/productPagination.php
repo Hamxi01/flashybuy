@@ -125,7 +125,7 @@ $start_from = ($page-1) * $limit;
                               <div class="badge badge-danger">pending</div>
                               <?php }else{     ?>
                                 <div class="badge badge-success">Approved</div>
-                              <?php } }?>  
+                              <?php } }?>
                           </td>
                           <td>
                             <div class="dropdown">
