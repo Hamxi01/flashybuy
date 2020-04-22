@@ -121,7 +121,7 @@ data-c_id='".$fetch[0]."'name='chk_status'>
                             <tr>
                               <td class="text-center"><?php echo $fetch[3]?></td>
                               <td class="text-center"><?php echo $fetch[1] ?></td>
-                              <td class="text-center"><img src="../img/crousel/<?php echo $fetch[4] ?>" height="150" width="350"></td>
+                              <td class="text-center"><img src="../img/crousel/800_<?php echo $fetch[4] ?>"></td>
                              <td><?=$status?></td>
                               <td class="text-center"><a href="edit_crousel.php?id=<?php echo $fetch[0] ?>" class="btn btn-outline-dark"><i class="fa fa-edit"></i></a>|
                                <a href="actions/delete_crousel.php?id=<?php echo $fetch[0] ?>"class="btn btn-outline-danger"> <i class="fa fa-trash"></i>
