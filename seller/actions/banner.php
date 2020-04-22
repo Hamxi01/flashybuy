@@ -1,12 +1,18 @@
 <?php 
 include('../../includes/db.php');
-$db = new connection();
 if (isset($_POST['btnsub'])) 
 {
 	$image  = $_FILES['file']['name'];
      $tmpName = $_FILES['file']['tmp_name'];
      $image1  = $_FILES['file1']['name'];
 	 $tmpName1 = $_FILES['file1']['tmp_name'];
+$fileinfo = @getimagesize($_FILES["file"]["tmp_name"]);
+    $width = $fileinfo[0];
+	$height = $fileinfo[1];
+	$fileinfo1 = @getimagesize($_FILES["file1"]["tmp_name"]);
+    $width1 = $fileinfo[0];
+	$height1 = $fileinfo[1];
+	if($width =='390' && $height=='193'){
 		$id 			= $_POST['id'];
 		$title 			= $_POST['title'];
         $url 			= $_POST['url'];
@@ -74,7 +80,11 @@ if ($query)
 		{
 			echo "error";
 		}
-	
+	}
+	else{
+		header('Location: ../view_banner.php?msg=error');
+	}
 }
+
 
 ?>
