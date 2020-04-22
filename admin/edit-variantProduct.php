@@ -36,26 +36,26 @@ if (isset($_GET['id']) && isset($_GET['variant_id'])) {
         $ven_id                = $result['ven_id'];
         $keyword               = explode(',',$keyword);
   }
-  $sql   = "SELECT * from product_variations where variation_id = '$variation_id'";
-  $query = mysqli_query($con,$sql);
-  while ($res = mysqli_fetch_array($query)) {
+  // $sql   = "SELECT * from product_variations where variation_id = '$variation_id'";
+  // $query = mysqli_query($con,$sql);
+  // while ($res = mysqli_fetch_array($query)) {
       
-      $first_variation_name   = $res['first_variation_name'];
-      $second_variation_name  = $res['second_variation_name'];
-      $third_variation_name   = $res['third_variation_name'];
-      $forth_variation_name   = $res['forth_variation_name'];
-      $first_variation_value  = $res['first_variation_value'];
-      $second_variation_value = $res['second_variation_value'];
-      $third_variation_value  = $res['third_variation_value'];
-      $forth_variation_value  = $res['forth_variation_value'];
-      $sku                    = $res['sku'];
-      $quantity               = $res['quantity'];
-      $price                  = $res['price'];
-      $active                 = $res['active'];
-      $skuColor               = explode('-',$sku);
+  //     $first_variation_name   = $res['first_variation_name'];
+  //     $second_variation_name  = $res['second_variation_name'];
+  //     $third_variation_name   = $res['third_variation_name'];
+  //     $forth_variation_name   = $res['forth_variation_name'];
+  //     $first_variation_value  = $res['first_variation_value'];
+  //     $second_variation_value = $res['second_variation_value'];
+  //     $third_variation_value  = $res['third_variation_value'];
+  //     $forth_variation_value  = $res['forth_variation_value'];
+  //     $sku                    = $res['sku'];
+  //     $quantity               = $res['quantity'];
+  //     $price                  = $res['price'];
+  //     $active                 = $res['active'];
+  //     $skuColor               = explode('-',$sku);
 
-  }
-      $color                  = $skuColor[0];
+  // }
+  //     $color                  = $skuColor[0];
 
   $sql   = "SELECT * from product_variant_images WHERE product_id='$product_id' AND variation_value ='$color'";
   $query = mysqli_query($con,$sql);
@@ -550,7 +550,7 @@ if (isset($_FILES['file4']["name"]) && !empty($_FILES['file4']["name"])) {
                                   Oh no! SubCategories is invalid.
                                 </div>
                             </div>
-                            <div class="form-group row">
+                            <!-- <div class="form-group row">
                             <div class="col-md-4">
                               <div class="form-group">
                                   <label>SKU</label>
@@ -569,8 +569,52 @@ if (isset($_FILES['file4']["name"]) && !empty($_FILES['file4']["name"])) {
                                   <input type="number" name="quantity" required="" class="form-control" value="<?=$quantity?>">
                                 </div>
                               </div> 
-                          </div>
+                          </div> -->
                           <div class="form-group row">
+                            <table class="table table-bordered" id="variant_table">
+                              <thead>
+                                  <tr>
+                                      <td class="text-center">
+                                          <label for="" class="control-label">Variant</label>
+                                      </td>
+                                      <td class="text-center">
+                                          <label for="" class="control-label">Variant Price</label>
+                                      </td>
+                                      <td class="text-center">
+                                          <label for="" class="control-label">SKU</label>
+                                      </td>
+                                      <td class="text-center">
+                                          <label for="" class="control-label">Quantity</label>
+                                      </td>
+                                      <td class="text-center"><label>active</label></td>
+                                  </tr>
+                              </thead>
+                              <tbody id="variant_combinations">
+                                <?php 
+
+                                  $sql   = "SELECT * from product_variations where product_id = '$product_id'";
+                                  $query = mysqli_query($con,$sql);
+                                  while ($res = mysqli_fetch_array($query)) {
+
+                                ?>
+                                  <tr>
+                                    <td><label for="" class="control-label"><?=$res['sku']?></label></td>
+                                    <td><input type="number" name="price[]" value="<?=$res['price']?>" min="1" step="1" class="form-control" required></td>
+                                    <td><input type="text" name="sku[]" value="<?=$res['sku']?>" class="form-control" required></td>
+                                    <td><input type="number" name="qty[]"  min="1" value="<?=$res['quantity']?>" step="1" class="form-control" required></td>
+                                    <td class="pretty p-switch">
+                                      <br>
+                                      <input type="checkbox" value="Y" name="active" <?php if($res['active'] == 'Y'){ ?> checked <?php }?>  />
+                                      <div class="state p-warning">
+                                          <label>Active</label>
+                                      </div>
+                                    </td>
+                                  </tr>
+                              <?php } ?>    
+                              </tbody>
+                          </table>
+                          </div>
+                          <!-- <div class="form-group row">
                             <div class="col-md-3">
                               <div class="form-group">
                                   <label><?=$first_variation_name?></label>
@@ -595,7 +639,7 @@ if (isset($_FILES['file4']["name"]) && !empty($_FILES['file4']["name"])) {
                                   <input type="text" name="forth_variation_value" class="form-control" value="<?=$forth_variation_value?>">
                                 </div>
                               </div>  
-                          </div>
+                          </div> -->
                           <div class="form-group row">
                             <div class="col-md-3">
                               <div class="form-group">
@@ -659,14 +703,14 @@ if (isset($_FILES['file4']["name"]) && !empty($_FILES['file4']["name"])) {
                                   </div>
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                           <!--  <div class="col-md-4">
                                 <div class="pretty p-switch">
                                   <input type="checkbox" value="Y" name="active" <?php if($active == 'Y'){ ?> checked <?php }?>  />
                                   <div class="state p-warning">
                                       <label>Product variation Active</label>
                                   </div>
                                 </div>
-                            </div>  
+                            </div> -->  
                           </div>
                         </div>
                         <div class="card-footer text-right">
