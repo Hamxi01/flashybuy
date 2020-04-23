@@ -95,45 +95,22 @@ if (isset($_POST['update-product'])) {
   if (isset($_POST['approved'])) { 
 
       $approved                        =     $_POST['approved'];
-      if ($approved != 'Y') {
       
-          $approved = 'N';
-      }
+  }else{
+
+    $approved = 'N';
   }
   if (isset($_POST['exclusive'])) { 
 
        $exclusive                       =     $_POST['exclusive'];
-         if ($exclusive != 'Y') {
-      
-              $exclusive = 'N';
-          }
+       
+  }else{
+
+    $exclusive = 'N';
   }
 
 $description =     $_POST['description'];
 
-  $first_variation_value  = $_POST['first_variation_value'];
-  $sku                    = $first_variation_value;
-
-if (isset($_POST['second_variation_value'])) {  
-  
-  $second_variation_value = $_POST['second_variation_value'];
-  $sku                    = $sku.'-'.$second_variation_value;
-}
-if (isset($_POST['third_variation_value'])) {
-   
-  $third_variation_value  = $_POST['third_variation_value'];
-  $sku                    = $sku.'-'.$third_variation_value;
-}
-if (isset($_POST['forth_variation_value'])) {
-   
-  $forth_variation_value  = $_POST['forth_variation_value'];
-  $sku                    = $sku.'-'.$forth_variation_value;
-}
-    $active                 = $_POST['active'];
-    if ($active!="Y") {
-      
-        $active = 'N';
-    }
 // upload and crop image1 //
 if (isset($_FILES['file1']["name"]) && !empty($_FILES['file1']["name"])) {
 
@@ -343,29 +320,42 @@ if (isset($_FILES['file4']["name"]) && !empty($_FILES['file4']["name"])) {
 
      $query = "update products SET name='".$name."',cat_id='".$category_id."',sub_cat_id='".$subcategory_id."',sub_sub_cat_id='".$subsubcategory_id."',brand='".$brand."',length='".$length."',width='".$width."',height='".$height."',keyword='".$keyword."',exclusive='".$exclusive."',exclusive='".$exclusive."' Where product_id='".$product_id."'";
 
-     $vquery = "update product_variations SET first_variation_value='".$first_variation_value."',second_variation_value='".$second_variation_value."',third_variation_value='".$third_variation_value."',forth_variation_value='".$forth_variation_value."',quantity='".$stock."',price='".$price."',sku='".$sku."',active='".$active."' Where variation_id='".$variation_id."'";
+    foreach ($_POST['sku'] as $key => $value) {
+      
+          $vquery = "update product_variations SET quantity='".$_POST['qty'][$key]."',price='".$_POST['price'][$key]."',sku='".$_POST['sku'][$key]."',active='".$_POST['active'][$key]."' Where product_id='".$product_id."'";
 
-     $imagequery = "update product_variant_images SET image1='".$pic1we."',image2='".$pic2we."',image3='".$pic3we."',image4='".$pic4we."' where product_id='".$product_id."'";
+    }
+     // $vquery = "update product_variations SET first_variation_value='".$first_variation_value."',second_variation_value='".$second_variation_value."',third_variation_value='".$third_variation_value."',forth_variation_value='".$forth_variation_value."',quantity='".$stock."',price='".$price."',sku='".$sku."',active='".$active."' Where variation_id='".$variation_id."'";
+
+     // $imagequery = "update product_variant_images SET image1='".$pic1we."',image2='".$pic2we."',image3='".$pic3we."',image4='".$pic4we."' where product_id='".$product_id."'";
 
       ///// Check product is already in vendors products or not////
+      foreach ($_POST['variation_id'] as $key => $id) {
+        
+          $vpSql   = "SELECT * from vendor_product where variation_id = '".$_POST['variation_id'][$key]."'  AND prod_id = '".$product_id."'  AND ven_id ='".$ven_id."'";
+          $vpQuery = mysqli_query($con,$vpSql);
+          $vpRows  = mysqli_num_rows($vpQuery);
+          if ($vpRows>0) {
+              if (isset($_POST['active'])) {
+                  
+                  $active = $_POST['active'];
+                }else{
 
-      $vpSql   = "SELECT * from vendor_product where prod_id = '$product_id' AND variation_id='$variation_id' AND ven_id='$ven_id'";
-      $vpQuery = mysqli_query($con,$vpSql);
-      $vpRows  = mysqli_num_rows($vpQuery);
+                  $active = 'N';
+                }  
+                $approvquery = "update vendor_product SET quantity='".$_POST['qty'][$key]."',price='".$_POST['price'][$key]."',mk_price='".$market_price."',active='".$active[$key]."' where prod_id ='".$product_id."' AND variation_id='".$_POST['variation_id'][$key]."' AND ven_id ='".$ven_id."'";
+                mysqli_query($con,$approvquery);
 
-      if ($vpRows>0) {
-            
-        $approvquery = "update vendor_product SET quantity='".$quantity."',price='".$price."',mk_price='".$market_price."',active='".$active."' where prod_id ='".$product_id."' AND variation_id='".$variation_id."' AND ven_id ='".$ven_id."'";
-        mysqli_query($con,$approvquery);
+          }else{
 
-      }else{
-
-        $approvquery = "INSERT into vendor_product (prod_id,ven_id,variation_id,quantity,price,mk_price,active) VALUES ('$product_id','$ven_id','$variation_id','$stock','$price','$market_price','$active')";
-        mysqli_query($con,$approvquery);
+            $approvquery = "INSERT into vendor_product (prod_id,ven_id,variation_id,quantity,price,mk_price,active) VALUES ('".$product_id."','".$ven_id."','".$_POST['variation_id'][$key]."','".$_POST['qty'][$key]."','".$_POST['price'][$key]."','".$market_price."','".$_POST['active'][$key]."')";
+            mysqli_query($con,$approvquery);
+          }
       }
+      
   //----- Vendor product update and insert new data end ----////////////
 
-     if (mysqli_query($con,$query) && mysqli_query($con,$vquery) && mysqli_query($con,$imagequery)){
+     if (mysqli_query($con,$query) && mysqli_query($con,$vquery) ){
 
             echo "<script>window.location.assign('product.php');</script>";
         }
@@ -390,7 +380,6 @@ if (isset($_FILES['file4']["name"]) && !empty($_FILES['file4']["name"])) {
                                 <input type="text" class="form-control" required="" name="name" value="<?=$name?>">
                                 <input type="hidden" name="ven_id" value="<?=$ven_id?>">
                                 <input type="hidden" name="id" value="<?=$product_id?>">
-                                <input type="hidden" name="variation_id" value="<?=$variation_id?>">
                                 <div class="invalid-feedback">
                                   What's Product name?
                                 </div>
@@ -598,13 +587,14 @@ if (isset($_FILES['file4']["name"]) && !empty($_FILES['file4']["name"])) {
 
                                 ?>
                                   <tr>
+                                    <input type="hidden" name="variation_id[]" value="<?=$res['variation_id']?>">
                                     <td><label for="" class="control-label"><?=$res['sku']?></label></td>
                                     <td><input type="number" name="price[]" value="<?=$res['price']?>" min="1" step="1" class="form-control" required></td>
                                     <td><input type="text" name="sku[]" value="<?=$res['sku']?>" class="form-control" required></td>
                                     <td><input type="number" name="qty[]"  min="1" value="<?=$res['quantity']?>" step="1" class="form-control" required></td>
                                     <td class="pretty p-switch">
                                       <br>
-                                      <input type="checkbox" value="Y" name="active" <?php if($res['active'] == 'Y'){ ?> checked <?php }?>  />
+                                      <input type="checkbox" value="Y" name="active[]" <?php if($res['active'] == 'Y'){ ?> checked <?php }?>  />
                                       <div class="state p-warning">
                                           <label>Active</label>
                                       </div>
