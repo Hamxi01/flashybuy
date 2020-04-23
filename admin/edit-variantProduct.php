@@ -36,36 +36,36 @@ if (isset($_GET['id']) && isset($_GET['variant_id'])) {
         $ven_id                = $result['ven_id'];
         $keyword               = explode(',',$keyword);
   }
-  $sql   = "SELECT * from product_variations where variation_id = '$variation_id'";
-  $query = mysqli_query($con,$sql);
-  while ($res = mysqli_fetch_array($query)) {
+  // $sql   = "SELECT * from product_variations where variation_id = '$variation_id'";
+  // $query = mysqli_query($con,$sql);
+  // while ($res = mysqli_fetch_array($query)) {
       
-      $first_variation_name   = $res['first_variation_name'];
-      $second_variation_name  = $res['second_variation_name'];
-      $third_variation_name   = $res['third_variation_name'];
-      $forth_variation_name   = $res['forth_variation_name'];
-      $first_variation_value  = $res['first_variation_value'];
-      $second_variation_value = $res['second_variation_value'];
-      $third_variation_value  = $res['third_variation_value'];
-      $forth_variation_value  = $res['forth_variation_value'];
-      $sku                    = $res['sku'];
-      $quantity               = $res['quantity'];
-      $price                  = $res['price'];
-      $active                 = $res['active'];
-      $skuColor               = explode('-',$sku);
+  //     $first_variation_name   = $res['first_variation_name'];
+  //     $second_variation_name  = $res['second_variation_name'];
+  //     $third_variation_name   = $res['third_variation_name'];
+  //     $forth_variation_name   = $res['forth_variation_name'];
+  //     $first_variation_value  = $res['first_variation_value'];
+  //     $second_variation_value = $res['second_variation_value'];
+  //     $third_variation_value  = $res['third_variation_value'];
+  //     $forth_variation_value  = $res['forth_variation_value'];
+  //     $sku                    = $res['sku'];
+  //     $quantity               = $res['quantity'];
+  //     $price                  = $res['price'];
+  //     $active                 = $res['active'];
+  //     $skuColor               = explode('-',$sku);
 
-  }
-      $color                  = $skuColor[0];
+  // }
+  //     $color                  = $skuColor[0];
 
-  $sql   = "SELECT * from product_variant_images WHERE product_id='$product_id' AND variation_value ='$color'";
-  $query = mysqli_query($con,$sql);
-  while ( $imageRes = mysqli_fetch_array($query)) {
+  // $sql   = "SELECT * from product_variant_images WHERE product_id='$product_id' AND variation_value ='$color'";
+  // $query = mysqli_query($con,$sql);
+  // while ( $imageRes = mysqli_fetch_array($query)) {
       
-        $image1                = $imageRes['image1'];
-        $image2                = $imageRes['image2'];
-        $image3                = $imageRes['image3'];
-        $image4                = $imageRes['image4'];
-  }
+  //       $image1                = $imageRes['image1'];
+  //       $image2                = $imageRes['image2'];
+  //       $image3                = $imageRes['image3'];
+  //       $image4                = $imageRes['image4'];
+  // }
 }
 if (isset($_POST['update-product'])) {
 
@@ -95,277 +95,62 @@ if (isset($_POST['update-product'])) {
   if (isset($_POST['approved'])) { 
 
       $approved                        =     $_POST['approved'];
-      if ($approved != 'Y') {
       
-          $approved = 'N';
-      }
+  }else{
+
+    $approved = 'N';
   }
   if (isset($_POST['exclusive'])) { 
 
        $exclusive                       =     $_POST['exclusive'];
-         if ($exclusive != 'Y') {
-      
-              $exclusive = 'N';
-          }
+       
+  }else{
+
+    $exclusive = 'N';
   }
 
 $description =     $_POST['description'];
 
-  $first_variation_value  = $_POST['first_variation_value'];
-  $sku                    = $first_variation_value;
 
-if (isset($_POST['second_variation_value'])) {  
-  
-  $second_variation_value = $_POST['second_variation_value'];
-  $sku                    = $sku.'-'.$second_variation_value;
-}
-if (isset($_POST['third_variation_value'])) {
-   
-  $third_variation_value  = $_POST['third_variation_value'];
-  $sku                    = $sku.'-'.$third_variation_value;
-}
-if (isset($_POST['forth_variation_value'])) {
-   
-  $forth_variation_value  = $_POST['forth_variation_value'];
-  $sku                    = $sku.'-'.$forth_variation_value;
-}
-    $active                 = $_POST['active'];
-    if ($active!="Y") {
+
+     $query = "update products SET name='".$name."',cat_id='".$category_id."',sub_cat_id='".$subcategory_id."',sub_sub_cat_id='".$subsubcategory_id."',brand='".$brand."',length='".$length."',width='".$width."',height='".$height."',keyword='".$keyword."',approved='".$approved."',exclusive='".$exclusive."' Where product_id='".$product_id."'";
+
+    foreach ($_POST['sku'] as $key => $value) {
       
-        $active = 'N';
+          $vquery = "update product_variations SET quantity='".$_POST['qty'][$key]."',price='".$_POST['price'][$key]."',sku='".$_POST['sku'][$key]."',active='".$_POST['active'][$key]."' Where product_id='".$product_id."'";
+
     }
-// upload and crop image1 //
-if (isset($_FILES['file1']["name"]) && !empty($_FILES['file1']["name"])) {
+     // $vquery = "update product_variations SET first_variation_value='".$first_variation_value."',second_variation_value='".$second_variation_value."',third_variation_value='".$third_variation_value."',forth_variation_value='".$forth_variation_value."',quantity='".$stock."',price='".$price."',sku='".$sku."',active='".$active."' Where variation_id='".$variation_id."'";
 
-    $filename = $_FILES["file1"]["name"];
-    $extension = @end(explode('.', $filename)); // explode the image name to get the extension
-    $pic1extension = strtolower($extension);
-    $pic1 = time().rand();
-    $pic1we=$pic1.".".$pic1extension;
-    $location = "../upload/product/".$pic1we;
-    
-  if(move_uploaded_file($_FILES["file1"]["tmp_name"], $location)){
-
-          try {
-            $image = new ImageResize($location);
-            $image->quality_jpg = 85;
-            $image->resizeToWidth(800);
-            $image->resizeToHeight(800);
-            $new_name = '800_' . $pic1 . '.jpg';
-            $new_path = '../upload/product/' . $new_name;
-            $image->save($new_path, IMAGETYPE_JPEG);
-    
-        } catch (ImageResizeException $e) {
-            return null;
-        }
-      try {
-            $image = new ImageResize($location);
-            $image->quality_jpg = 85;
-            $image->resizeToWidth(300);
-            $image->resizeToHeight(300);
-            $new_name = '300_' . $pic1 . '.jpg';
-            $new_path = '../upload/product/' . $new_name;
-            $image->save($new_path, IMAGETYPE_JPEG);
-          
-        } catch (ImageResizeException $e) {
-            return null;
-        }
-      try {
-            $image = new ImageResize($location);
-            $image->quality_jpg = 85;
-            $image->resizeToWidth(200);
-            $image->resizeToHeight(150);
-            $new_name = '200_' . $pic1 . '.jpg';
-            $new_path = '../upload/product/' . $new_name;
-            $image->save($new_path, IMAGETYPE_JPEG);
-          
-        } catch (ImageResizeException $e) {
-            return null;
-        }
-
-  }
-}
-
-// upload and crop image2 //
-if (isset($_FILES['file2']["name"]) && !empty($_FILES['file2']["name"])) {
-
-    $filename = $_FILES["file2"]["name"];
-    $extension = @end(explode('.', $filename)); // explode the image name to get the extension
-    $pic2extension = strtolower($extension);
-    $pic2 = time().rand();
-    $pic2we=$pic2.".".$pic2extension;
-    $location2 = "../upload/product/".$pic2we;
-    
-  if(move_uploaded_file($_FILES["file2"]["tmp_name"], $location2)){
-
-          try {
-            $image = new ImageResize($location2);
-            $image->quality_jpg = 85;
-            $image->resizeToWidth(800);
-            $image->resizeToHeight(800);
-            $new_name = '800_' . $pic2 . '.jpg';
-            $new_path = '../upload/product/' . $new_name;
-            $image->save($new_path, IMAGETYPE_JPEG);
-    
-        } catch (ImageResizeException $e) {
-            return null;
-        }
-      try {
-            $image = new ImageResize($location2);
-            $image->quality_jpg = 85;
-            $image->resizeToWidth(300);
-            $image->resizeToHeight(300);
-            $new_name = '300_' . $pic2 . '.jpg';
-            $new_path = '../upload/product/' . $new_name;
-            $image->save($new_path, IMAGETYPE_JPEG);
-          
-        } catch (ImageResizeException $e) {
-            return null;
-        }
-      try {
-            $image = new ImageResize($location2);
-            $image->quality_jpg = 85;
-            $image->resizeToWidth(200);
-            $image->resizeToHeight(150);
-            $new_name = '200_' . $pic2 . '.jpg';
-            $new_path = '../upload/product/' . $new_name;
-            $image->save($new_path, IMAGETYPE_JPEG);
-          
-        } catch (ImageResizeException $e) {
-            return null;
-        }
-
-  }
-}
-// upload and crop image3 //
-if (isset($_FILES['file3']["name"]) && !empty($_FILES['file3']["name"])) {
-
-    $filename = $_FILES["file3"]["name"];
-    $extension = @end(explode('.', $filename)); // explode the image name to get the extension
-    $pic3extension = strtolower($extension);
-    $pic3 = time().rand();
-    $pic3we=$pic3.".".$pic3extension;
-    $location3 = "../upload/product/".$pic3we;
-    
-  if(move_uploaded_file($_FILES["file3"]["tmp_name"], $location3)){
-
-          try {
-            $image = new ImageResize($location3);
-            $image->quality_jpg = 85;
-            $image->resizeToWidth(800);
-            $image->resizeToHeight(800);
-            $new_name = '800_' . $pic3 . '.jpg';
-            $new_path = '../upload/product/' . $new_name;
-            $image->save($new_path, IMAGETYPE_JPEG);
-    
-        } catch (ImageResizeException $e) {
-            return null;
-        }
-      try {
-            $image = new ImageResize($location3);
-            $image->quality_jpg = 85;
-            $image->resizeToWidth(300);
-            $image->resizeToHeight(300);
-            $new_name = '300_' . $pic3 . '.jpg';
-            $new_path = '../upload/product/' . $new_name;
-            $image->save($new_path, IMAGETYPE_JPEG);
-          
-        } catch (ImageResizeException $e) {
-            return null;
-        }
-      try {
-            $image = new ImageResize($location3);
-            $image->quality_jpg = 85;
-            $image->resizeToWidth(200);
-            $image->resizeToHeight(150);
-            $new_name = '200_' . $pic3 . '.jpg';
-            $new_path = '../upload/product/' . $new_name;
-            $image->save($new_path, IMAGETYPE_JPEG);
-          
-        } catch (ImageResizeException $e) {
-            return null;
-        }
-
-  }
-}
-// upload and crop image1 //
-if (isset($_FILES['file4']["name"]) && !empty($_FILES['file4']["name"])) {
-
-    $filename = $_FILES["file4"]["name"];
-    $extension = @end(explode('.', $filename)); // explode the image name to get the extension
-    $pic4extension = strtolower($extension);
-    $pic4 = time().rand();
-    $pic4we=$pic4.".".$pic4extension;
-    $location4 = "../upload/product/".$pic4we;
-    
-  if(move_uploaded_file($_FILES["file4"]["tmp_name"], $location4)){
-
-          try {
-            $image = new ImageResize($location4);
-            $image->quality_jpg = 85;
-            $image->resizeToWidth(800);
-            $image->resizeToHeight(800);
-            $new_name = '800_' . $pic4 . '.jpg';
-            $new_path = '../upload/product/' . $new_name;
-            $image->save($new_path, IMAGETYPE_JPEG);
-    
-        } catch (ImageResizeException $e) {
-            return null;
-        }
-      try {
-            $image = new ImageResize($location4);
-            $image->quality_jpg = 85;
-            $image->resizeToWidth(300);
-            $image->resizeToHeight(300);
-            $new_name = '300_' . $pic4 . '.jpg';
-            $new_path = '../upload/product/' . $new_name;
-            $image->save($new_path, IMAGETYPE_JPEG);
-          
-        } catch (ImageResizeException $e) {
-            return null;
-        }
-      try {
-            $image = new ImageResize($location4);
-            $image->quality_jpg = 85;
-            $image->resizeToWidth(200);
-            $image->resizeToHeight(150);
-            $new_name = '200_' . $pic4 . '.jpg';
-            $new_path = '../upload/product/' . $new_name;
-            $image->save($new_path, IMAGETYPE_JPEG);
-          
-        } catch (ImageResizeException $e) {
-            return null;
-        }
-
-  }
-}
-
-
-     $query = "update products SET name='".$name."',cat_id='".$category_id."',sub_cat_id='".$subcategory_id."',sub_sub_cat_id='".$subsubcategory_id."',brand='".$brand."',length='".$length."',width='".$width."',height='".$height."',keyword='".$keyword."',exclusive='".$exclusive."',exclusive='".$exclusive."' Where product_id='".$product_id."'";
-
-     $vquery = "update product_variations SET first_variation_value='".$first_variation_value."',second_variation_value='".$second_variation_value."',third_variation_value='".$third_variation_value."',forth_variation_value='".$forth_variation_value."',quantity='".$stock."',price='".$price."',sku='".$sku."',active='".$active."' Where variation_id='".$variation_id."'";
-
-     $imagequery = "update product_variant_images SET image1='".$pic1we."',image2='".$pic2we."',image3='".$pic3we."',image4='".$pic4we."' where product_id='".$product_id."'";
+     // $imagequery = "update product_variant_images SET image1='".$pic1we."',image2='".$pic2we."',image3='".$pic3we."',image4='".$pic4we."' where product_id='".$product_id."'";
 
       ///// Check product is already in vendors products or not////
+      foreach ($_POST['variation_id'] as $key => $id) {
+        
+          $vpSql   = "SELECT * from vendor_product where variation_id = '".$_POST['variation_id'][$key]."'  AND prod_id = '".$product_id."'  AND ven_id ='".$ven_id."'";
+          $vpQuery = mysqli_query($con,$vpSql);
+          $vpRows  = mysqli_num_rows($vpQuery);
+          if ($vpRows>0) {
+              if (isset($_POST['active'])) {
+                  
+                  $active = $_POST['active'];
+                }else{
 
-      $vpSql   = "SELECT * from vendor_product where prod_id = '$product_id' AND variation_id='$variation_id' AND ven_id='$ven_id'";
-      $vpQuery = mysqli_query($con,$vpSql);
-      $vpRows  = mysqli_num_rows($vpQuery);
+                  $active = 'N';
+                }  
+                $approvquery = "update vendor_product SET quantity='".$_POST['qty'][$key]."',price='".$_POST['price'][$key]."',mk_price='".$market_price."',active='".$active[$key]."' where prod_id ='".$product_id."' AND variation_id='".$_POST['variation_id'][$key]."' AND ven_id ='".$ven_id."'";
+                mysqli_query($con,$approvquery);
 
-      if ($vpRows>0) {
-            
-        $approvquery = "update vendor_product SET quantity='".$quantity."',price='".$price."',mk_price='".$market_price."',active='".$active."' where prod_id ='".$product_id."' AND variation_id='".$variation_id."' AND ven_id ='".$ven_id."'";
-        mysqli_query($con,$approvquery);
+          }else{
 
-      }else{
-
-        $approvquery = "INSERT into vendor_product (prod_id,ven_id,variation_id,quantity,price,mk_price,active) VALUES ('$product_id','$ven_id','$variation_id','$stock','$price','$market_price','$active')";
-        mysqli_query($con,$approvquery);
+            $approvquery = "INSERT into vendor_product (prod_id,ven_id,variation_id,quantity,price,mk_price,active) VALUES ('".$product_id."','".$ven_id."','".$_POST['variation_id'][$key]."','".$_POST['qty'][$key]."','".$_POST['price'][$key]."','".$market_price."','".$_POST['active'][$key]."')";
+            mysqli_query($con,$approvquery);
+          }
       }
+      
   //----- Vendor product update and insert new data end ----////////////
 
-     if (mysqli_query($con,$query) && mysqli_query($con,$vquery) && mysqli_query($con,$imagequery)){
+     if (mysqli_query($con,$query) && mysqli_query($con,$vquery) ){
 
             echo "<script>window.location.assign('product.php');</script>";
         }
@@ -390,7 +175,6 @@ if (isset($_FILES['file4']["name"]) && !empty($_FILES['file4']["name"])) {
                                 <input type="text" class="form-control" required="" name="name" value="<?=$name?>">
                                 <input type="hidden" name="ven_id" value="<?=$ven_id?>">
                                 <input type="hidden" name="id" value="<?=$product_id?>">
-                                <input type="hidden" name="variation_id" value="<?=$variation_id?>">
                                 <div class="invalid-feedback">
                                   What's Product name?
                                 </div>
@@ -550,7 +334,7 @@ if (isset($_FILES['file4']["name"]) && !empty($_FILES['file4']["name"])) {
                                   Oh no! SubCategories is invalid.
                                 </div>
                             </div>
-                            <div class="form-group row">
+                            <!-- <div class="form-group row">
                             <div class="col-md-4">
                               <div class="form-group">
                                   <label>SKU</label>
@@ -569,8 +353,53 @@ if (isset($_FILES['file4']["name"]) && !empty($_FILES['file4']["name"])) {
                                   <input type="number" name="quantity" required="" class="form-control" value="<?=$quantity?>">
                                 </div>
                               </div> 
-                          </div>
+                          </div> -->
                           <div class="form-group row">
+                            <table class="table table-bordered" id="variant_table">
+                              <thead>
+                                  <tr>
+                                      <td class="text-center">
+                                          <label for="" class="control-label">Variant</label>
+                                      </td>
+                                      <td class="text-center">
+                                          <label for="" class="control-label">Variant Price</label>
+                                      </td>
+                                      <td class="text-center">
+                                          <label for="" class="control-label">SKU</label>
+                                      </td>
+                                      <td class="text-center">
+                                          <label for="" class="control-label">Quantity</label>
+                                      </td>
+                                      <td class="text-center"><label>active</label></td>
+                                  </tr>
+                              </thead>
+                              <tbody id="variant_combinations">
+                                <?php 
+
+                                  $sql   = "SELECT * from product_variations where product_id = '$product_id'";
+                                  $query = mysqli_query($con,$sql);
+                                  while ($res = mysqli_fetch_array($query)) {
+
+                                ?>
+                                  <tr>
+                                    <input type="hidden" name="variation_id[]" value="<?=$res['variation_id']?>">
+                                    <td><label for="" class="control-label"><?=$res['sku']?></label></td>
+                                    <td><input type="number" name="price[]" value="<?=$res['price']?>" min="1" step="1" class="form-control" required></td>
+                                    <td><input type="text" name="sku[]" value="<?=$res['sku']?>" class="form-control" required></td>
+                                    <td><input type="number" name="qty[]"  min="1" value="<?=$res['quantity']?>" step="1" class="form-control" required></td>
+                                    <td class="pretty p-switch">
+                                      <br>
+                                      <input type="checkbox" value="Y" name="active[]" <?php if($res['active'] == 'Y'){ ?> checked <?php }?>  />
+                                      <div class="state p-warning">
+                                          <label>Active</label>
+                                      </div>
+                                    </td>
+                                  </tr>
+                              <?php } ?>    
+                              </tbody>
+                          </table>
+                          </div>
+                          <!-- <div class="form-group row">
                             <div class="col-md-3">
                               <div class="form-group">
                                   <label><?=$first_variation_name?></label>
@@ -595,7 +424,7 @@ if (isset($_FILES['file4']["name"]) && !empty($_FILES['file4']["name"])) {
                                   <input type="text" name="forth_variation_value" class="form-control" value="<?=$forth_variation_value?>">
                                 </div>
                               </div>  
-                          </div>
+                          </div> -->
                           <div class="form-group row">
                             <div class="col-md-3">
                               <div class="form-group">
@@ -659,14 +488,14 @@ if (isset($_FILES['file4']["name"]) && !empty($_FILES['file4']["name"])) {
                                   </div>
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                           <!--  <div class="col-md-4">
                                 <div class="pretty p-switch">
                                   <input type="checkbox" value="Y" name="active" <?php if($active == 'Y'){ ?> checked <?php }?>  />
                                   <div class="state p-warning">
                                       <label>Product variation Active</label>
                                   </div>
                                 </div>
-                            </div>  
+                            </div> -->  
                           </div>
                         </div>
                         <div class="card-footer text-right">

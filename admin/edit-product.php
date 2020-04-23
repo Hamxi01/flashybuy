@@ -7,11 +7,7 @@ include("../thirdparty/image-resize/ImageResize.php");
 include ("../thirdparty/image-resize/ImageResizeException.php");
 use \Gumlet\ImageResize;
 use \Gumlet\ImageResizeException;
-// if (isset($_GET['id']) && isset($_GET['variant_id'])) {
-  
-//   echo $_GET['id'];
-//   echo $_GET['variant_id'];
-// }
+
 if (isset($_GET['id']) && isset($_GET['sku'])) {
   
   $product_id = base64_decode($_GET['id']);
@@ -61,229 +57,32 @@ if (isset($_POST['update-product'])) {
   $width                           =     $_POST['width'];
   $height                          =     $_POST['height'];
   $length                          =     $_POST['length'];
-  $approved                        =     $_POST['approved'];
-  if ($approved != 'Y') {
+  if (isset($_POST['approved'])) {
       
-      $approved = 'N';
+      $approved = $_POST['approved'];
+  }else{
+
+    $approved = 'N';
   }
-  $exclusive                       =     $_POST['exclusive'];
-  if ($exclusive != 'Y') {
+ 
+  if (isset($_POST['exclusive'])) {
       
-      $exclusive = 'N';
+      $exclusive = $_POST['exclusive'];
+  }else{
+
+    $exclusive = 'N';
   }
   // $courier_size                 =     $_POST['courier_size'];
   $description                     =     $_POST['description'];
-  
   $sku                             =     str_replace(" ","-", $name);
-
-// upload and crop image1 //
-if (isset($_FILES['file1']["name"]) && !empty($_FILES['file1']["name"])) {
-
-    $filename = $_FILES["file1"]["name"];
-    $extension = @end(explode('.', $filename)); // explode the image name to get the extension
-    $pic1extension = strtolower($extension);
-    $pic1 = time().rand();
-    $pic1we=$pic1.".".$pic1extension;
-    $location = "../upload/product/".$pic1we;
-    
-  if(move_uploaded_file($_FILES["file1"]["tmp_name"], $location)){
-
-          try {
-            $image = new ImageResize($location);
-            $image->quality_jpg = 85;
-            $image->resizeToWidth(800);
-            $image->resizeToHeight(800);
-            $new_name = '800_' . $pic1 . '.jpg';
-            $new_path = '../upload/product/' . $new_name;
-            $image->save($new_path, IMAGETYPE_JPEG);
-    
-        } catch (ImageResizeException $e) {
-            return null;
-        }
-      try {
-            $image = new ImageResize($location);
-            $image->quality_jpg = 85;
-            $image->resizeToWidth(300);
-            $image->resizeToHeight(300);
-            $new_name = '300_' . $pic1 . '.jpg';
-            $new_path = '../upload/product/' . $new_name;
-            $image->save($new_path, IMAGETYPE_JPEG);
-          
-        } catch (ImageResizeException $e) {
-            return null;
-        }
-      try {
-            $image = new ImageResize($location);
-            $image->quality_jpg = 85;
-            $image->resizeToWidth(200);
-            $image->resizeToHeight(150);
-            $new_name = '200_' . $pic1 . '.jpg';
-            $new_path = '../upload/product/' . $new_name;
-            $image->save($new_path, IMAGETYPE_JPEG);
-          
-        } catch (ImageResizeException $e) {
-            return null;
-        }
-
-  }
-}
-
-// upload and crop image2 //
-if (isset($_FILES['file2']["name"]) && !empty($_FILES['file2']["name"])) {
-
-    $filename = $_FILES["file2"]["name"];
-    $extension = @end(explode('.', $filename)); // explode the image name to get the extension
-    $pic2extension = strtolower($extension);
-    $pic2 = time().rand();
-    $pic2we=$pic2.".".$pic2extension;
-    $location2 = "../upload/product/".$pic2we;
-    
-  if(move_uploaded_file($_FILES["file2"]["tmp_name"], $location2)){
-
-          try {
-            $image = new ImageResize($location2);
-            $image->quality_jpg = 85;
-            $image->resizeToWidth(800);
-            $image->resizeToHeight(800);
-            $new_name = '800_' . $pic2 . '.jpg';
-            $new_path = '../upload/product/' . $new_name;
-            $image->save($new_path, IMAGETYPE_JPEG);
-    
-        } catch (ImageResizeException $e) {
-            return null;
-        }
-      try {
-            $image = new ImageResize($location2);
-            $image->quality_jpg = 85;
-            $image->resizeToWidth(300);
-            $image->resizeToHeight(300);
-            $new_name = '300_' . $pic2 . '.jpg';
-            $new_path = '../upload/product/' . $new_name;
-            $image->save($new_path, IMAGETYPE_JPEG);
-          
-        } catch (ImageResizeException $e) {
-            return null;
-        }
-      try {
-            $image = new ImageResize($location2);
-            $image->quality_jpg = 85;
-            $image->resizeToWidth(200);
-            $image->resizeToHeight(150);
-            $new_name = '200_' . $pic2 . '.jpg';
-            $new_path = '../upload/product/' . $new_name;
-            $image->save($new_path, IMAGETYPE_JPEG);
-          
-        } catch (ImageResizeException $e) {
-            return null;
-        }
-
-  }
-}
-// upload and crop image3 //
-if (isset($_FILES['file3']["name"]) && !empty($_FILES['file3']["name"])) {
-
-    $filename = $_FILES["file3"]["name"];
-    $extension = @end(explode('.', $filename)); // explode the image name to get the extension
-    $pic3extension = strtolower($extension);
-    $pic3 = time().rand();
-    $pic3we=$pic3.".".$pic3extension;
-    $location3 = "../upload/product/".$pic3we;
-    
-  if(move_uploaded_file($_FILES["file3"]["tmp_name"], $location3)){
-
-          try {
-            $image = new ImageResize($location3);
-            $image->quality_jpg = 85;
-            $image->resizeToWidth(800);
-            $image->resizeToHeight(800);
-            $new_name = '800_' . $pic3 . '.jpg';
-            $new_path = '../upload/product/' . $new_name;
-            $image->save($new_path, IMAGETYPE_JPEG);
-    
-        } catch (ImageResizeException $e) {
-            return null;
-        }
-      try {
-            $image = new ImageResize($location3);
-            $image->quality_jpg = 85;
-            $image->resizeToWidth(300);
-            $image->resizeToHeight(300);
-            $new_name = '300_' . $pic3 . '.jpg';
-            $new_path = '../upload/product/' . $new_name;
-            $image->save($new_path, IMAGETYPE_JPEG);
-          
-        } catch (ImageResizeException $e) {
-            return null;
-        }
-      try {
-            $image = new ImageResize($location3);
-            $image->quality_jpg = 85;
-            $image->resizeToWidth(200);
-            $image->resizeToHeight(150);
-            $new_name = '200_' . $pic3 . '.jpg';
-            $new_path = '../upload/product/' . $new_name;
-            $image->save($new_path, IMAGETYPE_JPEG);
-          
-        } catch (ImageResizeException $e) {
-            return null;
-        }
-
-  }
-}
-// upload and crop image1 //
-if (isset($_FILES['file4']["name"]) && !empty($_FILES['file4']["name"])) {
-
-    $filename = $_FILES["file4"]["name"];
-    $extension = @end(explode('.', $filename)); // explode the image name to get the extension
-    $pic4extension = strtolower($extension);
-    $pic4 = time().rand();
-    $pic4we=$pic4.".".$pic4extension;
-    $location4 = "../upload/product/".$pic4we;
-    
-  if(move_uploaded_file($_FILES["file4"]["tmp_name"], $location4)){
-
-          try {
-            $image = new ImageResize($location4);
-            $image->quality_jpg = 85;
-            $image->resizeToWidth(800);
-            $image->resizeToHeight(800);
-            $new_name = '800_' . $pic4 . '.jpg';
-            $new_path = '../upload/product/' . $new_name;
-            $image->save($new_path, IMAGETYPE_JPEG);
-    
-        } catch (ImageResizeException $e) {
-            return null;
-        }
-      try {
-            $image = new ImageResize($location4);
-            $image->quality_jpg = 85;
-            $image->resizeToWidth(300);
-            $image->resizeToHeight(300);
-            $new_name = '300_' . $pic4 . '.jpg';
-            $new_path = '../upload/product/' . $new_name;
-            $image->save($new_path, IMAGETYPE_JPEG);
-          
-        } catch (ImageResizeException $e) {
-            return null;
-        }
-      try {
-            $image = new ImageResize($location4);
-            $image->quality_jpg = 85;
-            $image->resizeToWidth(200);
-            $image->resizeToHeight(150);
-            $new_name = '200_' . $pic4 . '.jpg';
-            $new_path = '../upload/product/' . $new_name;
-            $image->save($new_path, IMAGETYPE_JPEG);
-          
-        } catch (ImageResizeException $e) {
-            return null;
-        }
-
-  }
-}
+  $image1                          =     $_POST['image1'];
+  $image2                          =     $_POST['image2'];
+  $image3                          =     $_POST['image3'];
+  $image4                          =     $_POST['image4'];
 
 
-     $query = "update products SET name='".$name."',cat_id='".$category_id."',sub_cat_id='".$subcategory_id."',sub_sub_cat_id='".$subsubcategory_id."',brand='".$brand."',quantity='".$quantity."',market_price='".$market_price."',selling_price='".$selling_price."',length='".$length."',width='".$width."',height='".$height."',keyword='".$keyword."',sku='".$sku."',description='".$description."',image1='".$pic1we."',image2='".$pic2we."',image3='".$pic3we."',image4='".$pic4we."',approved='".$approved."',exclusive='".$exclusive."' Where product_id='".$product_id."'";
+
+     $query = "update products SET name='".$name."',cat_id='".$category_id."',sub_cat_id='".$subcategory_id."',sub_sub_cat_id='".$subsubcategory_id."',brand='".$brand."',quantity='".$quantity."',market_price='".$market_price."',selling_price='".$selling_price."',length='".$length."',width='".$width."',height='".$height."',keyword='".$keyword."',sku='".$sku."',description='".$description."',image1='".$image1."',image2='".$image2."',image3='".$image3."',image4='".$image4."',approved='".$approved."',exclusive='".$exclusive."' Where product_id='".$product_id."'";
      ///// Check product is already in vendors products or not////
 
       $vpSql   = "SELECT * from vendor_product where prod_id = '$product_id'  AND ven_id='$ven_id'";
@@ -488,6 +287,7 @@ if (isset($_FILES['file4']["name"]) && !empty($_FILES['file4']["name"])) {
                                   Oh no! SubCategories is invalid.
                                 </div>
                             </div>
+                        <?php  if($approved != "Y"){  ?>
                             <div class="form-group row">
                             <div class="col-md-4">
                               <div class="form-group">
@@ -508,29 +308,38 @@ if (isset($_FILES['file4']["name"]) && !empty($_FILES['file4']["name"])) {
                                 </div>
                               </div> 
                           </div>
+                        <?php } ?>
                           <div class="form-group row">
                             <div class="col-md-3">
                               <div class="form-group">
                                   <label>Image1</label>
-                                  <input type="file" name="file1" class="form-control" value="<?=$image1?>">
+                                  <input type="file" name="file1" class="form-control" value="" id="file1">
+                                  <span id="uploaded_image1"><img src="../upload/product/200_<?=$image1?>" width="180" height="160"></span>
+                                  <input type="hidden" name="image1" id="image1" value="<?=$image1?>">
                                 </div>
                               </div>
                               <div class="col-md-3">
                                 <div class="form-group">
                                   <label>Image2</label>
-                                  <input type="file" name="file2" class="form-control" value="<?=$image2?>">
+                                  <input type="file" name="file2" class="form-control" id="file2">
+                                  <span id="uploaded_image2"><img src="../upload/product/200_<?=$image2?>" width="180" height="160"></span>
+                                  <input type="hidden" name="image2" id="image2" value="<?=$image2?>">
                                 </div>
                               </div>
                               <div class="col-md-3">
                                 <div class="form-group">
                                   <label>Image3</label>
-                                  <input type="file" name="file3" class="form-control" value="<?=$image3?>">
+                                  <input type="file" name="file3" class="form-control" id="file3" >
+                                  <span id="uploaded_image3"><img src="../upload/product/200_<?=$image3?>" width="180" height="160"></span>
+                                  <input type="hidden" name="image3" id="image3" value="<?=$image3?>">
                                 </div>
                               </div>
                               <div class="col-md-3">
                                 <div class="form-group">
                                   <label>Image4</label>
-                                  <input type="file" name="file4" class="form-control" value="<?=$image4?>">
+                                  <input type="file" name="file4" class="form-control" id="file4">
+                                  <span id="uploaded_image4"><img src="../upload/product/200_<?=$image4?>" width="180" height="160"></span>
+                                  <input type="hidden" name="image4" id="image4" value="<?=$image4?>">
                                 </div>
                               </div>  
                           </div>
@@ -676,4 +485,157 @@ if (isset($_FILES['file4']["name"]) && !empty($_FILES['file4']["name"])) {
         }
       });
     }
+    ////////////////////////////////////////
+    ///--------- upload image1 ----------//
+
+    $(document).ready(function(){
+       $(document).on('change', '#file1', function(){
+        var name = document.getElementById("file1").files[0].name;
+        var form_data = new FormData();
+        var ext = name.split('.').pop().toLowerCase();
+        if(jQuery.inArray(ext, ['gif','png','jpg','jpeg']) == -1) 
+        {
+         alert("Invalid Image File");
+        }
+        var oFReader = new FileReader();
+        oFReader.readAsDataURL(document.getElementById("file1").files[0]);
+        var f = document.getElementById("file1").files[0];
+        var fsize = f.size||f.fileSize;
+       
+         form_data.append("file1", document.getElementById('file1').files[0]);
+         $.ajax({
+          url:"action/uploadimg1.php",
+          method:"POST",
+          data: form_data,
+          dataType: 'json',
+          contentType: false,
+          cache: false,
+          processData: false,
+          beforeSend:function(){
+           $('#uploaded_image1').html("<label class='text-success'>Image Uploading...</label>");
+          },   
+          success:function(data)
+          {
+            $('#uploaded_image1').html(null);
+           $('#uploaded_image1').html(data[0]);
+           $('#image1').val(data[1]);
+          }
+         });
+        
+       });
+    });
+    ////////////////////////////////////////
+    ///--------- upload image2 ----------//
+
+    $(document).ready(function(){
+       $(document).on('change', '#file2', function(){
+        var name = document.getElementById("file2").files[0].name;
+        var form_data = new FormData();
+        var ext = name.split('.').pop().toLowerCase();
+        if(jQuery.inArray(ext, ['gif','png','jpg','jpeg']) == -1) 
+        {
+         alert("Invalid Image File");
+        }
+        var oFReader = new FileReader();
+        oFReader.readAsDataURL(document.getElementById("file2").files[0]);
+        var f = document.getElementById("file2").files[0];
+        var fsize = f.size||f.fileSize;
+       
+         form_data.append("file2", document.getElementById('file2').files[0]);
+         $.ajax({
+          url:"action/uploadimg2.php",
+          method:"POST",
+          data: form_data,
+          dataType: 'json',
+          contentType: false,
+          cache: false,
+          processData: false,
+          beforeSend:function(){
+           $('#uploaded_image2').html("<label class='text-success'>Image Uploading...</label>");
+          },   
+          success:function(data)
+          {
+           $('#uploaded_image2').html(data[0]);
+           $('#image2').val(data[1]);
+          }
+         });
+        
+       });
+    });
+    ////////////////////////////////////////
+    ///--------- upload image3 ----------//
+
+    $(document).ready(function(){
+       $(document).on('change', '#file3', function(){
+        var name = document.getElementById("file3").files[0].name;
+        var form_data = new FormData();
+        var ext = name.split('.').pop().toLowerCase();
+        if(jQuery.inArray(ext, ['gif','png','jpg','jpeg']) == -1) 
+        {
+         alert("Invalid Image File");
+        }
+        var oFReader = new FileReader();
+        oFReader.readAsDataURL(document.getElementById("file3").files[0]);
+        var f = document.getElementById("file3").files[0];
+        var fsize = f.size||f.fileSize;
+       
+         form_data.append("file3", document.getElementById('file3').files[0]);
+         $.ajax({
+          url:"action/uploadimg3.php",
+          method:"POST",
+          data: form_data,
+          dataType: 'json',
+          contentType: false,
+          cache: false,
+          processData: false,
+          beforeSend:function(){
+           $('#uploaded_image3').html("<label class='text-success'>Image Uploading...</label>");
+          },   
+          success:function(data)
+          {
+           $('#uploaded_image3').html(data[0]);
+           $('#image3').val(data[1]);
+          }
+         });
+        
+       });
+    });
+    ////////////////////////////////////////
+    ///--------- upload image4 ----------//
+
+    $(document).ready(function(){
+       $(document).on('change', '#file4', function(){
+        var name = document.getElementById("file4").files[0].name;
+        var form_data = new FormData();
+        var ext = name.split('.').pop().toLowerCase();
+        if(jQuery.inArray(ext, ['gif','png','jpg','jpeg']) == -1) 
+        {
+         alert("Invalid Image File");
+        }
+        var oFReader = new FileReader();
+        oFReader.readAsDataURL(document.getElementById("file4").files[0]);
+        var f = document.getElementById("file4").files[0];
+        var fsize = f.size||f.fileSize;
+       
+         form_data.append("file4", document.getElementById('file4').files[0]);
+         $.ajax({
+          url:"action/uploadimg4.php",
+          method:"POST",
+          data: form_data,
+          dataType: 'json',
+          contentType: false,
+          cache: false,
+          processData: false,
+          beforeSend:function(){
+           $('#uploaded_image4').html("<label class='text-success'>Image Uploading...</label>");
+          },   
+          success:function(data)
+          {
+           $('#uploaded_image4').html(data[0]);
+           $('#image4').val(data[1]);
+          }
+         });
+        
+       });
+    });
 </script>
