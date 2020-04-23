@@ -139,7 +139,7 @@
       <script>
 $(document).ready(function() {
 
-    $(".table-responsive").load("action/productPagination.php?page=1");
+    $(".table-responsive").load("action/pendingproductPagination.php?page=1");
         $("#pagination li").on('click',function(e){
       e.preventDefault();
       $("#pagination li").removeClass('active');

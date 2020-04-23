@@ -230,27 +230,18 @@ if (isset($_POST['update-product'])) {
                               <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Brands</label><button type="button" class="btn btn-warning btn-sm text-right" data-toggle="modal" data-target="#brandsModel" style="margin-left: 10px;margin-bottom: 3px;position: relative;left: 89px">Add new Brand</button>
-                                    <select class="form-control select2" required="" name="brand">
+                                    
                                         <?php 
 
                                           $sql = mysqli_query($con, "SELECT * From brands where delte = 0 AND id ='$brand_id'");
                                           
                                           while ($res = mysqli_fetch_array($sql)) {?>
 
-                                            <option value="<?=$res['id']?>" selected><?=$res['name']?></option>
                                             
-                                        <?php  }?>
-                                      <?php 
-
-                                          $sql = mysqli_query($con, "SELECT * From brands where delte = 0");
-                                          
-                                          while ($res = mysqli_fetch_array($sql)) {?>
-
-                                            <option value="<?=$res['id']?>"><?=$res['name']?></option>
                                             
-                                        <?php  }
-                                      ?>
-                                    </select>
+                                      <input type="text" class="form-control" name="" value="<?=$res['name']?>" id="brandkeyword" oninput="brandSearch()"> 
+                                      <input type="hidden" name="brand" value="<?=$res['id']?>">
+                                      <?php  }?>
                                   </div>
                                 </div>  
                                 <div class="invalid-feedback">
@@ -464,6 +455,7 @@ if (isset($_POST['update-product'])) {
             $("#brandsModel").modal('hide');
 
               alert("Brands Added Successfully");
+              location.reload();
                  
         }
       });
@@ -482,6 +474,7 @@ if (isset($_POST['update-product'])) {
             $("#keywordModel").modal('hide');
 
               alert("Keywords Added Successfully");
+              location.reload();
         }
       });
     }
@@ -638,4 +631,13 @@ if (isset($_POST['update-product'])) {
         
        });
     });
+
+
+    //////////------------------- Brands Search Function -------------------- //////////////////
+
+    function brandSearch(){
+
+      console.log($("#brandkeyword").val());
+    }
+
 </script>

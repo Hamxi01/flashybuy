@@ -117,7 +117,8 @@ $description =     $_POST['description'];
 
     foreach ($_POST['sku'] as $key => $value) {
       
-          $vquery = "update product_variations SET quantity='".$_POST['qty'][$key]."',price='".$_POST['price'][$key]."',sku='".$_POST['sku'][$key]."',active='".$_POST['active'][$key]."' Where product_id='".$product_id."'";
+          $vquery = "update product_variations SET quantity='".$_POST['qty'][$key]."',price='".$_POST['price'][$key]."',sku='".$_POST['sku'][$key]."',active='".$_POST['active'][$key]."' Where variation_id='".$_POST['variation_id'][$key]."'";
+          mysqli_query($con,$vquery);
 
     }
      // $vquery = "update product_variations SET first_variation_value='".$first_variation_value."',second_variation_value='".$second_variation_value."',third_variation_value='".$third_variation_value."',forth_variation_value='".$forth_variation_value."',quantity='".$stock."',price='".$price."',sku='".$sku."',active='".$active."' Where variation_id='".$variation_id."'";
@@ -150,7 +151,7 @@ $description =     $_POST['description'];
       
   //----- Vendor product update and insert new data end ----////////////
 
-     if (mysqli_query($con,$query) && mysqli_query($con,$vquery) ){
+     if (mysqli_query($con,$query)){
 
             echo "<script>window.location.assign('product.php');</script>";
         }
