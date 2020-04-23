@@ -117,15 +117,11 @@ $start_from = ($page-1) * $limit;
                           <!-- end Count Vendor -->
                           <td><button class="btn btn-sm btn-warning"><a href="product-vendor-detail.php?id=<?=$id?>&show-vendors-detail" style="color: #fff;text-decoration: none;">Details</a></button></td>
                           <td>
-                            <?php if (!empty($res['variant_Sku'])){ if($res['active'] == "N"){?>
-                              <div class="badge badge-danger">pending</div>
-                            <?php }else{     ?>
-                              <div class="badge badge-success">Approved</div>
-                            <?php } }else{ if($res['approved'] == "N"){?>
+                            <?php if($res['approved'] == "N"){?>
                               <div class="badge badge-danger">pending</div>
                               <?php }else{     ?>
                                 <div class="badge badge-success">Approved</div>
-                              <?php } }?>
+                              <?php } ?>
                           </td>
                           <td>
                             <div class="dropdown">
