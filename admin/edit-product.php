@@ -287,6 +287,7 @@ if (isset($_POST['update-product'])) {
                                   Oh no! SubCategories is invalid.
                                 </div>
                             </div>
+                        <?php  if($approved != "Y"){  ?>
                             <div class="form-group row">
                             <div class="col-md-4">
                               <div class="form-group">
@@ -307,6 +308,7 @@ if (isset($_POST['update-product'])) {
                                 </div>
                               </div> 
                           </div>
+                        <?php } ?>
                           <div class="form-group row">
                             <div class="col-md-3">
                               <div class="form-group">
