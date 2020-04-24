@@ -21,13 +21,14 @@ if (isset($_POST['add-product'])) {
 	$height                          =     $_POST['height'];
 	$length                          =     $_POST['length'];
 	$ven_id                          =     $_POST['vendor_id'];
-	// $courier_size                 =     $_POST['courier_size'];
+	$courier_size                    =     $_POST['courier_size'];
 	$description                     =     $_POST['description'];
 	$sku                             =     str_replace(" ","-", $name);
 	$image1                          =     $_POST['image1'];
 	$image2                          =     $_POST['image2'];
 	$image3                          =     $_POST['image3'];
 	$image4                          =     $_POST['image4'];
+	$warranty                        =     $_POST['warranty'];
 	  if (isset($_POST['exclusive'])) {
 	  
 	  $exclusive = $_POST['exclusive'];
@@ -37,7 +38,7 @@ if (isset($_POST['add-product'])) {
 	  }
 
 
-	$sql = "INSERT into products (name,cat_id,sub_cat_id,sub_sub_cat_id,sku,brand,market_price,selling_price,quantity,ven_id,width,height,length,description,image1,image2,image3,image4,exclusive) VALUES ('$name', '$category_id', '$subcategory_id','$subsubcategory_id','$sku','$brand','$market_price','$selling_price','$quantity','$ven_id','$width','$height','$length','$description','$image1','$image2','$image3','$image4','$exclusive')";
+	$sql = "INSERT into products (name,cat_id,sub_cat_id,sub_sub_cat_id,sku,brand,market_price,selling_price,quantity,ven_id,width,height,length,description,image1,image2,image3,image4,exclusive,warranty,courier_size) VALUES ('$name', '$category_id', '$subcategory_id','$subsubcategory_id','$sku','$brand','$market_price','$selling_price','$quantity','$ven_id','$width','$height','$length','$description','$image1','$image2','$image3','$image4','$exclusive','$warranty','$courier_size')";
 
 
 
@@ -50,266 +51,266 @@ if (isset($_POST['add-product'])) {
 
 ////////////////// insert Varition images ////////////////
 
-	if ($variations_approval=="N") {
+		if ($variations_approval=="N") {
 
-		foreach ($_POST['vari'] as $key => $value) {
-			
-			if ($value == "Color") {
+			foreach ($_POST['vari'] as $key => $value) {
 				
-			if(isset($_FILES['variant_img1']['name']) && !empty($_FILES['variant_img1']["name"])){	
-				foreach ($_FILES['variant_img1']['name'] as $index => $value) {
+				if ($value == "Color") {
+					
+					if(isset($_FILES['variant_img1']['name']) && !empty($_FILES['variant_img1']["name"])){	
+						foreach ($_FILES['variant_img1']['name'] as $index => $value) {
 
-						$skuu         = $_POST['sku'][$index];
-						$skuu         = explode("-", $skuu);
-						$variantvalue = $skuu[0];
+								$skuu         = $_POST['sku'][$index];
+								$skuu         = explode("-", $skuu);
+								$variantvalue = $skuu[0];
 
-						$filename = $_FILES['variant_img1']['name'][$index];
-					    $extension = @end(explode('.', $filename)); // explode the image name to get the extension
-					    $pic8extension = strtolower($extension);
-					    $pic8 = time().rand();
-					    $pic8we=$pic8.".".$pic8extension;
-					    $location8 = "../../upload/product/".$pic8we;
+								$filename = $_FILES['variant_img1']['name'][$index];
+							    $extension = @end(explode('.', $filename)); // explode the image name to get the extension
+							    $pic8extension = strtolower($extension);
+							    $pic8 = time().rand();
+							    $pic8we=$pic8.".".$pic8extension;
+							    $location8 = "../../upload/product/".$pic8we;
 
-					    if(move_uploaded_file($_FILES["variant_img1"]["tmp_name"][$index], $location8)){
+							    if(move_uploaded_file($_FILES["variant_img1"]["tmp_name"][$index], $location8)){
 
-						        try {
-									    $image = new ImageResize($location8);
-									    $image->quality_jpg = 85;
-									    $image->resizeToWidth(800);
-									    $image->resizeToHeight(800);
-									    $new_name = '800_' . $pic8 . '.jpg';
-									    $new_path = '../../upload/product/' . $new_name;
-									    $image->save($new_path, IMAGETYPE_JPEG);
-						  
-									} catch (ImageResizeException $e) {
-									    return null;
-									}
-								try {
-									    $image = new ImageResize($location8);
-									    $image->quality_jpg = 85;
-									    $image->resizeToWidth(300);
-									    $image->resizeToHeight(300);
-									    $new_name = '300_' . $pic8 . '.jpg';
-									    $new_path = '../../upload/product/' . $new_name;
-									    $image->save($new_path, IMAGETYPE_JPEG);
-									  
-									} catch (ImageResizeException $e) {
-									    return null;
-									}
-								try {
-									    $image = new ImageResize($location8);
-									    $image->quality_jpg = 85;
-									    $image->resizeToWidth(200);
-									    $image->resizeToHeight(150);
-									    $new_name = '200_' . $pic8 . '.jpg';
-									    $new_path = '../../upload/product/' . $new_name;
-									    $image->save($new_path, IMAGETYPE_JPEG);
-									  
-									} catch (ImageResizeException $e) {
-									    return null;
-									}
+								        try {
+											    $image = new ImageResize($location8);
+											    $image->quality_jpg = 85;
+											    $image->resizeToWidth(800);
+											    $image->resizeToHeight(800);
+											    $new_name = '800_' . $pic8 . '.jpg';
+											    $new_path = '../../upload/product/' . $new_name;
+											    $image->save($new_path, IMAGETYPE_JPEG);
+								  
+											} catch (ImageResizeException $e) {
+											    return null;
+											}
+										try {
+											    $image = new ImageResize($location8);
+											    $image->quality_jpg = 85;
+											    $image->resizeToWidth(300);
+											    $image->resizeToHeight(300);
+											    $new_name = '300_' . $pic8 . '.jpg';
+											    $new_path = '../../upload/product/' . $new_name;
+											    $image->save($new_path, IMAGETYPE_JPEG);
+											  
+											} catch (ImageResizeException $e) {
+											    return null;
+											}
+										try {
+											    $image = new ImageResize($location8);
+											    $image->quality_jpg = 85;
+											    $image->resizeToWidth(200);
+											    $image->resizeToHeight(150);
+											    $new_name = '200_' . $pic8 . '.jpg';
+											    $new_path = '../../upload/product/' . $new_name;
+											    $image->save($new_path, IMAGETYPE_JPEG);
+											  
+											} catch (ImageResizeException $e) {
+											    return null;
+											}
 
+								}
+								$sql = "INSERT into product_variant_images(product_id,variation_value,image1) VALUES('$id','$variantvalue','$pic8we')";
+								if (mysqli_query($con,$sql)) {
+									
+									echo "Success";
+								}
+						}		
+
+								
+					}
+					if(isset($_FILES['variant_img2']['name']) && !empty($_FILES['variant_img2']["name"])){
+						foreach ($_FILES['variant_img2']['name'] as $index => $value) {
+
+								$skuu         = $_POST['sku'][$index];
+								$skuu         = explode("-", $skuu);
+								$variantvalue = $skuu[0];
+
+								$filename = $_FILES['variant_img2']['name'][$index];
+							    $extension = @end(explode('.', $filename)); // explode the image name to get the extension
+							    $pic7extension = strtolower($extension);
+							    $pic7 = time().rand();
+							    $pic7we=$pic7.".".$pic7extension;
+							    $location7 = "../../upload/product/".$pic7we;
+
+							    if(move_uploaded_file($_FILES["variant_img2"]["tmp_name"][$index], $location7)){
+
+								        try {
+											    $image = new ImageResize($location7);
+											    $image->quality_jpg = 85;
+											    $image->resizeToWidth(800);
+											    $image->resizeToHeight(800);
+											    $new_name = '800_' . $pic7 . '.jpg';
+											    $new_path = '../../upload/product/' . $new_name;
+											    $image->save($new_path, IMAGETYPE_JPEG);
+								  
+											} catch (ImageResizeException $e) {
+											    return null;
+											}
+										try {
+											    $image = new ImageResize($location7);
+											    $image->quality_jpg = 85;
+											    $image->resizeToWidth(300);
+											    $image->resizeToHeight(300);
+											    $new_name = '300_' . $pic7 . '.jpg';
+											    $new_path = '../../upload/product/' . $new_name;
+											    $image->save($new_path, IMAGETYPE_JPEG);
+											  
+											} catch (ImageResizeException $e) {
+											    return null;
+											}
+										try {
+											    $image = new ImageResize($location7);
+											    $image->quality_jpg = 85;
+											    $image->resizeToWidth(200);
+											    $image->resizeToHeight(150);
+											    $new_name = '200_' . $pic7 . '.jpg';
+											    $new_path = '../../upload/product/' . $new_name;
+											    $image->save($new_path, IMAGETYPE_JPEG);
+											  
+											} catch (ImageResizeException $e) {
+											    return null;
+											}
+
+								}
+
+								$sql = "update product_variant_images SET image2 ='".$pic7we."' Where product_id ='".$id."'";
+								if (mysqli_query($con,$sql)) {
+									
+									echo "Success";
+								}
 						}
-						$sql = "INSERT into product_variant_images(product_id,variation_value,image1) VALUES('$id','$variantvalue','$pic8we')";
-						if (mysqli_query($con,$sql)) {
-							
-							echo "Success";
+					}
+					if(isset($_FILES['variant_img3']['name']) && !empty($_FILES['variant_img3']["name"])){
+						foreach ($_FILES['variant_img3']['name'] as $index => $value) {
+
+								$skuu         = $_POST['sku'][$index];
+								$skuu         = explode("-", $skuu);
+								$variantvalue = $skuu[0];
+
+								$filename = $_FILES['variant_img3']['name'][$index];
+							    $extension = @end(explode('.', $filename)); // explode the image name to get the extension
+							    $pic6extension = strtolower($extension);
+							    $pic6 = time().rand();
+							    $pic6we=$pic6.".".$pic6extension;
+							    $location6 = "../../upload/product/".$pic6we;
+
+							    if(move_uploaded_file($_FILES["variant_img3"]["tmp_name"][$index], $location6)){
+
+								        try {
+											    $image = new ImageResize($location6);
+											    $image->quality_jpg = 85;
+											    $image->resizeToWidth(800);
+											    $image->resizeToHeight(800);
+											    $new_name = '800_' . $pic6 . '.jpg';
+											    $new_path = '../../upload/product/' . $new_name;
+											    $image->save($new_path, IMAGETYPE_JPEG);
+								  
+											} catch (ImageResizeException $e) {
+											    return null;
+											}
+										try {
+											    $image = new ImageResize($location6);
+											    $image->quality_jpg = 85;
+											    $image->resizeToWidth(300);
+											    $image->resizeToHeight(300);
+											    $new_name = '300_' . $pic6 . '.jpg';
+											    $new_path = '../../upload/product/' . $new_name;
+											    $image->save($new_path, IMAGETYPE_JPEG);
+											  
+											} catch (ImageResizeException $e) {
+											    return null;
+											}
+										try {
+											    $image = new ImageResize($location6);
+											    $image->quality_jpg = 85;
+											    $image->resizeToWidth(200);
+											    $image->resizeToHeight(150);
+											    $new_name = '200_' . $pic6 . '.jpg';
+											    $new_path = '../../upload/product/' . $new_name;
+											    $image->save($new_path, IMAGETYPE_JPEG);
+											  
+											} catch (ImageResizeException $e) {
+											    return null;
+											}
+
+								}
+
+								$sql = "update product_variant_images SET image3 ='".$pic6we."' Where product_id ='".$id."'";
+								if (mysqli_query($con,$sql)) {
+									
+									echo "Success";
+								}
 						}
-				}		
+					}
+				    if(isset($_FILES['variant_img4']['name']) && !empty($_FILES['variant_img4']["name"])){
+						foreach ($_FILES['variant_img4']['name'] as $index => $value) {
 
-						
-			}
-			if(isset($_FILES['variant_img2']['name']) && !empty($_FILES['variant_img2']["name"])){
-				foreach ($_FILES['variant_img2']['name'] as $index => $value) {
+								$skuu         = $_POST['sku'][$index];
+								$skuu         = explode("-", $skuu);
+								$variantvalue = $skuu[0];
 
-						$skuu         = $_POST['sku'][$index];
-						$skuu         = explode("-", $skuu);
-						$variantvalue = $skuu[0];
+								$filename = $_FILES['variant_img4']['name'][$index];
+							    $extension = @end(explode('.', $filename)); // explode the image name to get the extension
+							    $pic5extension = strtolower($extension);
+							    $pic5 = time().rand();
+							    $pic5we=$pic5.".".$pic5extension;
+							    $location5 = "../../upload/product/".$pic5we;
 
-						$filename = $_FILES['variant_img2']['name'][$index];
-					    $extension = @end(explode('.', $filename)); // explode the image name to get the extension
-					    $pic7extension = strtolower($extension);
-					    $pic7 = time().rand();
-					    $pic7we=$pic7.".".$pic7extension;
-					    $location7 = "../../upload/product/".$pic7we;
+							    if(move_uploaded_file($_FILES["variant_img4"]["tmp_name"][$index], $location5)){
 
-					    if(move_uploaded_file($_FILES["variant_img2"]["tmp_name"][$index], $location7)){
+								        try {
+											    $image = new ImageResize($location5);
+											    $image->quality_jpg = 85;
+											    $image->resizeToWidth(800);
+											    $image->resizeToHeight(800);
+											    $new_name = '800_' . $pic5 . '.jpg';
+											    $new_path = '../../upload/product/' . $new_name;
+											    $image->save($new_path, IMAGETYPE_JPEG);
+								  
+											} catch (ImageResizeException $e) {
+											    return null;
+											}
+										try {
+											    $image = new ImageResize($location5);
+											    $image->quality_jpg = 85;
+											    $image->resizeToWidth(300);
+											    $image->resizeToHeight(300);
+											    $new_name = '300_' . $pic5 . '.jpg';
+											    $new_path = '../../upload/product/' . $new_name;
+											    $image->save($new_path, IMAGETYPE_JPEG);
+											  
+											} catch (ImageResizeException $e) {
+											    return null;
+											}
+										try {
+											    $image = new ImageResize($location5);
+											    $image->quality_jpg = 85;
+											    $image->resizeToWidth(200);
+											    $image->resizeToHeight(150);
+											    $new_name = '200_' . $pic5 . '.jpg';
+											    $new_path = '../../upload/product/' . $new_name;
+											    $image->save($new_path, IMAGETYPE_JPEG);
+											  
+											} catch (ImageResizeException $e) {
+											    return null;
+											}
 
-						        try {
-									    $image = new ImageResize($location7);
-									    $image->quality_jpg = 85;
-									    $image->resizeToWidth(800);
-									    $image->resizeToHeight(800);
-									    $new_name = '800_' . $pic7 . '.jpg';
-									    $new_path = '../../upload/product/' . $new_name;
-									    $image->save($new_path, IMAGETYPE_JPEG);
-						  
-									} catch (ImageResizeException $e) {
-									    return null;
-									}
-								try {
-									    $image = new ImageResize($location7);
-									    $image->quality_jpg = 85;
-									    $image->resizeToWidth(300);
-									    $image->resizeToHeight(300);
-									    $new_name = '300_' . $pic7 . '.jpg';
-									    $new_path = '../../upload/product/' . $new_name;
-									    $image->save($new_path, IMAGETYPE_JPEG);
-									  
-									} catch (ImageResizeException $e) {
-									    return null;
-									}
-								try {
-									    $image = new ImageResize($location7);
-									    $image->quality_jpg = 85;
-									    $image->resizeToWidth(200);
-									    $image->resizeToHeight(150);
-									    $new_name = '200_' . $pic7 . '.jpg';
-									    $new_path = '../../upload/product/' . $new_name;
-									    $image->save($new_path, IMAGETYPE_JPEG);
-									  
-									} catch (ImageResizeException $e) {
-									    return null;
-									}
+								}
 
+								$sql = "update product_variant_images SET image4 ='".$pic5we."' Where product_id ='".$id."'";
+								if (mysqli_query($con,$sql)) {
+									
+									echo "Success";
+								}
 						}
+				    }	
 
-						$sql = "update product_variant_images SET image2 ='".$pic7we."' Where product_id ='".$id."'";
-						if (mysqli_query($con,$sql)) {
-							
-							echo "Success";
-						}
 				}
-			}
-			if(isset($_FILES['variant_img3']['name']) && !empty($_FILES['variant_img3']["name"])){
-				foreach ($_FILES['variant_img3']['name'] as $index => $value) {
-
-						$skuu         = $_POST['sku'][$index];
-						$skuu         = explode("-", $skuu);
-						$variantvalue = $skuu[0];
-
-						$filename = $_FILES['variant_img3']['name'][$index];
-					    $extension = @end(explode('.', $filename)); // explode the image name to get the extension
-					    $pic6extension = strtolower($extension);
-					    $pic6 = time().rand();
-					    $pic6we=$pic6.".".$pic6extension;
-					    $location6 = "../../upload/product/".$pic6we;
-
-					    if(move_uploaded_file($_FILES["variant_img3"]["tmp_name"][$index], $location6)){
-
-						        try {
-									    $image = new ImageResize($location6);
-									    $image->quality_jpg = 85;
-									    $image->resizeToWidth(800);
-									    $image->resizeToHeight(800);
-									    $new_name = '800_' . $pic6 . '.jpg';
-									    $new_path = '../../upload/product/' . $new_name;
-									    $image->save($new_path, IMAGETYPE_JPEG);
-						  
-									} catch (ImageResizeException $e) {
-									    return null;
-									}
-								try {
-									    $image = new ImageResize($location6);
-									    $image->quality_jpg = 85;
-									    $image->resizeToWidth(300);
-									    $image->resizeToHeight(300);
-									    $new_name = '300_' . $pic6 . '.jpg';
-									    $new_path = '../../upload/product/' . $new_name;
-									    $image->save($new_path, IMAGETYPE_JPEG);
-									  
-									} catch (ImageResizeException $e) {
-									    return null;
-									}
-								try {
-									    $image = new ImageResize($location6);
-									    $image->quality_jpg = 85;
-									    $image->resizeToWidth(200);
-									    $image->resizeToHeight(150);
-									    $new_name = '200_' . $pic6 . '.jpg';
-									    $new_path = '../../upload/product/' . $new_name;
-									    $image->save($new_path, IMAGETYPE_JPEG);
-									  
-									} catch (ImageResizeException $e) {
-									    return null;
-									}
-
-						}
-
-						$sql = "update product_variant_images SET image3 ='".$pic6we."' Where product_id ='".$id."'";
-						if (mysqli_query($con,$sql)) {
-							
-							echo "Success";
-						}
-				}
-			}
-			  if(isset($_FILES['variant_img4']['name']) && !empty($_FILES['variant_img4']["name"])){
-				foreach ($_FILES['variant_img4']['name'] as $index => $value) {
-
-						$skuu         = $_POST['sku'][$index];
-						$skuu         = explode("-", $skuu);
-						$variantvalue = $skuu[0];
-
-						$filename = $_FILES['variant_img4']['name'][$index];
-					    $extension = @end(explode('.', $filename)); // explode the image name to get the extension
-					    $pic5extension = strtolower($extension);
-					    $pic5 = time().rand();
-					    $pic5we=$pic5.".".$pic5extension;
-					    $location5 = "../../upload/product/".$pic5we;
-
-					    if(move_uploaded_file($_FILES["variant_img4"]["tmp_name"][$index], $location5)){
-
-						        try {
-									    $image = new ImageResize($location5);
-									    $image->quality_jpg = 85;
-									    $image->resizeToWidth(800);
-									    $image->resizeToHeight(800);
-									    $new_name = '800_' . $pic5 . '.jpg';
-									    $new_path = '../../upload/product/' . $new_name;
-									    $image->save($new_path, IMAGETYPE_JPEG);
-						  
-									} catch (ImageResizeException $e) {
-									    return null;
-									}
-								try {
-									    $image = new ImageResize($location5);
-									    $image->quality_jpg = 85;
-									    $image->resizeToWidth(300);
-									    $image->resizeToHeight(300);
-									    $new_name = '300_' . $pic5 . '.jpg';
-									    $new_path = '../../upload/product/' . $new_name;
-									    $image->save($new_path, IMAGETYPE_JPEG);
-									  
-									} catch (ImageResizeException $e) {
-									    return null;
-									}
-								try {
-									    $image = new ImageResize($location5);
-									    $image->quality_jpg = 85;
-									    $image->resizeToWidth(200);
-									    $image->resizeToHeight(150);
-									    $new_name = '200_' . $pic5 . '.jpg';
-									    $new_path = '../../upload/product/' . $new_name;
-									    $image->save($new_path, IMAGETYPE_JPEG);
-									  
-									} catch (ImageResizeException $e) {
-									    return null;
-									}
-
-						}
-
-						$sql = "update product_variant_images SET image4 ='".$pic5we."' Where product_id ='".$id."'";
-						if (mysqli_query($con,$sql)) {
-							
-							echo "Success";
-						}
-				}
-			  }	
 
 			}
-
-		}
-	}			
+		}			
 
 ////////////////////////////End varition images/////////////
 
@@ -324,7 +325,7 @@ if (isset($_POST['add-product'])) {
 					}
 					$data = array();
 		        	$i = 0;
-		        if (!empty($options)) {
+		            if (!empty($options)) {
 		        		
 		        		foreach (json_decode($options) as $key => $element){
 

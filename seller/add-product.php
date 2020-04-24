@@ -78,7 +78,7 @@ include('includes/sidebar.php');
           <div class="section-body">
  <!-- Start Showing success or warning Msg -->
 <?php
-if (isset($_GET['msg']) == "error") {?>
+if (isset($_GET['msg']) && $_GET['msg'] ==  "error") {?>
     <div class="row">
         <div class="col-lg-6 col-sm-offset-3">
             <div class="alert alert-warning msg">    
@@ -90,7 +90,7 @@ if (isset($_GET['msg']) == "error") {?>
 }
 ?>
 <?php
-if (isset($_GET['msg']) == 'success') { ?>
+if (isset($_GET['msg']) && $_GET['msg'] == 'success') { ?>
 <div class="row">
     <div class="col-lg-6 col-sm-offset-3">
         <div class="alert alert-success msg">    
@@ -194,26 +194,81 @@ if (isset($_SESSION['id']))
                                 </div>
                               </div> 
                           </div>
+                          <?php 
 
-                          <div class="form-group row">
-                            <div class="col-md-4">
-                              <div class="form-group">
-                                  <label>Width</label>
-                                  <input type="number" name="width" required="" class="form-control" value="">
-                                </div>
+                                $sql = mysqli_query($con, "SELECT * From vendor where id = $vendor_id");
+                                $row = mysqli_num_rows($sql);
+                                while ($row = mysqli_fetch_array($sql)){
+                                  if($row['courier_permission']!='Y'){
+
+                          ?>
+                              <div class="form-group row">
+                                <div class="col-md-4">
+                                  <div class="form-group">
+                                      <label>Width</label>
+                                      <input type="number" name="width" required="" class="form-control" value="">
+                                    </div>
+                                  </div>
+                                  <div class="col-md-4">
+                                    <div class="form-group">
+                                      <label>Height</label>
+                                      <input type="number" name="height" required="" class="form-control" value="">
+                                    </div>
+                                  </div>
+                                  <div class="col-md-4">
+                                    <div class="form-group">
+                                      <label>Length</label>
+                                      <input type="number" name="length" required="" class="form-control" value="">
+                                    </div>
+                                  </div> 
                               </div>
+                        <?php } } ?>
+                          <div class="form-group row">
+                            <?php 
+
+                                    $sql = mysqli_query($con, "SELECT * From vendor where id = $vendor_id");
+                                    $row = mysqli_num_rows($sql);
+                                    while ($row = mysqli_fetch_array($sql)){
+                                      if($row['courier_permission']=='Y'){
+
+                              ?>
+                                <div class="col-md-4">
+                                  <div class="form-group">
+                                      <label>Courier Size</label>
+                                      <select class="form-control" name="courier_size">
+                                        <?php 
+                                              $sql = mysqli_query($con,"SELECT DISTINCT size from vendor_courier_sizes where vendor_id='$vendor_id' AND delte = 0");
+                                              $row = mysqli_num_rows($sql);
+                                              while ($res = mysqli_fetch_array($sql)){
+
+                                                echo '<option value="'.$res[0].'">'.$res[0].'</option>';
+                                              }
+
+                                        ?>
+                                      </select>
+                                    </div>
+                                  </div>
+                            <?php } } ?>
                               <div class="col-md-4">
                                 <div class="form-group">
-                                  <label>Height</label>
-                                  <input type="number" name="height" required="" class="form-control" value="">
+                                  <label>Warranty</label>
+                                  <select name="warranty" required="" class="form-control">
+                                    <option value="">Warranty</option>
+                                    <option value="6 Months">6 Months</option>
+                                    <option value="1 Year">1 Year</option>
+                                    <option value="2 Years">2 Years</option>
+                                    <option value="3 Years">3 Years</option>
+                                    <option value="5 Years">5 Years</option>
+                                    <option value="Lifetime">Lifetime</option>
+                                  </select>
                                 </div>
                               </div>
-                              <div class="col-md-4">
+                              <!-- <div class="col-md-4">
                                 <div class="form-group">
                                   <label>Length</label>
                                   <input type="number" name="length" required="" class="form-control" value="">
                                 </div>
-                              </div> 
+                              </div>  -->
                           </div>
                           <div class="form-group row" id="images">
                             <div class="col-md-3">
@@ -674,17 +729,6 @@ var s = new Array();
         setTimeout(function(){ $(".msg").hide(); }, 5000);
     });
     
-    ////////////////////////////////////////////////
-    ///////////////////////////////////////////////
-
-    // $(".select2-search__field").on('input',function() {
-
-    //     console.log("Red");
-
-    // });
-    // $('.select2-search__field').on('keyup', function() {
-    //      console.log("Red");
-    // });
 
 
     ////////////////////////////////////////
@@ -853,15 +897,20 @@ var s = new Array();
               success:function(data){
 
                   // console.log(data);
+                  $('#brandslist').show();
                   $('#brandslist').html(data);
               }
             });
         }
     }
-    function addBrand(el,id,myname){
+    function addBrand(el,id){
 
-        // $('#brandid').val(id);
-        // $('#brandkeyword').val(myname);
+        var brand = $(el).html();
+        $('#brandid').val(id);
+        $('#brandkeyword').val(brand);
+        $('#brandslist').html(null);
+        $('#brandslist').hide();
+        
     }
     
 </script>  

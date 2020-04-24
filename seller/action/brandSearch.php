@@ -12,11 +12,11 @@ if (isset($_POST['keyword'])) {
 
 
 			while ($row = mysqli_fetch_array($query)) {
-				
+
 					$id   = $row['id'];
 		        	$name = $row['name'];
 
-					echo '<li onclick="addBrand(this, '.$id.','.$name.')">'.$name.'</li>';
+					echo '<li onclick="addBrand(this, '.$id.')">'.$name.'</li>';
 			}
 		}	
 

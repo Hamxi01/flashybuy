@@ -27,12 +27,14 @@ if (isset($_POST['keyword'])) {
                     LEFT JOIN product_variations AS PV ON PV.product_id = P.product_id
                     where P.name like '%$keyword%'
                     OR P.product_id like '%$keyword%'
-                    AND P.ven_id = $vendor_id
+                    AND P.ven_id = '$vendor_id'
                     AND P.approved = 'N'
                   ORDER BY
                     P.product_id DESC LIMIT $limit";
         $query = mysqli_query($con,$sql);
         $i=1;
+        $res = mysqli_fetch_array($query);
+        print_r($res);
         while ($res = mysqli_fetch_array($query)) {
 
           $v_id          = $res['variation_id'];
