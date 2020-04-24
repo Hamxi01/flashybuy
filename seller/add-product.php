@@ -134,21 +134,12 @@ if (isset($_SESSION['id']))
                                   <input type="hidden" name="subsubcategory_id" id="subsubcategory_id" value="" required>
                             </div>
                             <div class="form-group row">
-                                    <label>Choose Brands</label>
-                                    <select class="form-control select2" required="" name="brand">
-                                        
-                                      <?php 
-
-                                          $sql = mysqli_query($con, "SELECT * From brands where delte = 0");
-                                          
-                                          while ($res = mysqli_fetch_array($sql)) {?>
-
-                                            <option value="<?=$res['id']?>" style="display:none"><?=$res['name']?></option>
-                                            
-                                        <?php  }
-                                      ?>
-                                    </select>
-                            </div>
+                              <label>Choose Brands</label>
+                              <input type="text" name="" id="brandkeyword" class="form-control" oninput="searchBrands()">
+                              <input type="hidden" name="brand" id="brandid" value="">
+                              <ul id="brandslist">
+                              </ul>
+                            </div>        
                             <div class="form-group row">
                               <div class="col-md-12">
                                 <label class="col-form-label">Description</label>
@@ -164,6 +155,23 @@ if (isset($_SESSION['id']))
                                     </div>
                                   </div>
                               </div>
+                              <?php 
+
+                                    $sql = mysqli_query($con, "SELECT * From vendor where id = $vendor_id");
+                                    $row = mysqli_num_rows($sql);
+                                    while ($row = mysqli_fetch_array($sql)){
+                                      if($row['exclusive_permission']=='Y'){
+
+                              ?>
+                              <div class="col-md-4">
+                                  <div class="pretty p-switch">
+                                    <input type="checkbox" value="Y" name="exclusive"  id="variations"/>
+                                    <div class="state p-warning">
+                                        <label><b>Exclusive</b></label>
+                                    </div>
+                                  </div>
+                              </div>
+                              <?php } }?>
                               <div class="col-md-2"></div>   
                             </div>
                             <div class="form-group row" id="price_section">
@@ -831,5 +839,29 @@ var s = new Array();
         
        });
     });
+    /////-------brands search ----- ///////
+
+    function searchBrands(){
+
+        var keyword = $('#brandkeyword').val();
+        if (keyword.length>=3) {
+
+            $.ajax({
+              type: "POST",
+              url: 'action/brandSearch.php',
+              data: {keyword:keyword},
+              success:function(data){
+
+                  // console.log(data);
+                  $('#brandslist').html(data);
+              }
+            });
+        }
+    }
+    function addBrand(el,id,myname){
+
+        // $('#brandid').val(id);
+        // $('#brandkeyword').val(myname);
+    }
     
 </script>  

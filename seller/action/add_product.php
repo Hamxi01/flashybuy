@@ -28,9 +28,16 @@ if (isset($_POST['add-product'])) {
 	$image2                          =     $_POST['image2'];
 	$image3                          =     $_POST['image3'];
 	$image4                          =     $_POST['image4'];
+	  if (isset($_POST['exclusive'])) {
+	  
+	  $exclusive = $_POST['exclusive'];
+	  }else{
+
+	    $exclusive = 'N';
+	  }
 
 
-	$sql = "INSERT into products (name,cat_id,sub_cat_id,sub_sub_cat_id,sku,brand,market_price,selling_price,quantity,ven_id,width,height,length,description,image1,image2,image3,image4) VALUES ('$name', '$category_id', '$subcategory_id','$subsubcategory_id','$sku','$brand','$market_price','$selling_price','$quantity','$ven_id','$width','$height','$length','$description','$image1','$image2','$image3','$image4')";
+	$sql = "INSERT into products (name,cat_id,sub_cat_id,sub_sub_cat_id,sku,brand,market_price,selling_price,quantity,ven_id,width,height,length,description,image1,image2,image3,image4,exclusive) VALUES ('$name', '$category_id', '$subcategory_id','$subsubcategory_id','$sku','$brand','$market_price','$selling_price','$quantity','$ven_id','$width','$height','$length','$description','$image1','$image2','$image3','$image4','$exclusive')";
 
 
 
