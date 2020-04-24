@@ -135,5 +135,8 @@ function productSearch(){
       }
     });
 }
+$(document).ready(function() {
 
+  setTimeout(function(){ $(".msg").hide(); }, 5000);
+});
 </script>
