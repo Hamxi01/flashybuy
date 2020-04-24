@@ -10,6 +10,16 @@
       $totalRow = $row['0'];
       $total_pages = ceil($totalRow / $limit);
 
+      if (isset($_POST['update'])) {
+        
+          foreach ($_POST['v_p_id'] as $key => $value) {
+            
+              $approvquery = "update vendor_product SET quantity='".$_POST['qty'][$key]."',price='".$_POST['price'][$key]."',mk_price='".$_POST['mk_price'][$key]."' where id ='".$_POST['v_p_id'][$key]."'";
+                mysqli_query($con,$approvquery);
+          }
+          echo "<script>window.location.assign('products.php?msg=success');</script>";
+      }
+
 
 ?>
 
@@ -17,6 +27,39 @@
       <div class="main-content">
         <section class="section">
           <div class="section-body">
+ <!-- Start Showing success or warning Msg -->
+<?php
+if (isset($_GET['msg']) && $_GET['msg'] ==  "error") {?>
+    <div class="row">
+        <div class="col-lg-6 col-sm-offset-3">
+            <div class="alert alert-warning msg">    
+    <?php echo "Something went wrong!"; ?>
+            </div>
+        </div>
+    </div>
+<?php
+}
+?>
+<?php
+if (isset($_GET['msg']) && $_GET['msg'] == 'success') { ?>
+<div class="row">
+    <div class="col-lg-6 col-sm-offset-3">
+        <div class="alert alert-success msg">    
+    <?php echo "<span>Data updated successfully...!!</span>"; ?>
+
+        </div>
+    </div>
+</div>
+<?php 
+}?>
+<!-- End Message Alert --> 
+            <form action="products.php" method="post">
+              <div class="row">
+                <div class="col-11"></div>
+                <div class="col-1">
+                  <button class="btn btn-warning text-right" type="submit" name="update" style="position: relative;right: 20px;">update</button>
+                </div>
+              </div>
             <div class="row">
               <div class="col-12">
                 <div class="card">
@@ -54,6 +97,7 @@
                 </div>
               </div>
             </div>
+            </form>
           </div>
         </section>
       </div>

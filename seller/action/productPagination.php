@@ -11,13 +11,15 @@ if (isset($_SESSION['id']))
                         <tr>
                             <th>#</th>
                             <th>Name</th>
+                            <th>In Stock</th>
                             <th>Quantity</th>
                             <th>Market Price</th>
                             <th>Selling Price</th>
-                            <!-- <th>Status</th> -->
+                            <th>Status</th>
                         </tr>
                       </thead>
-                      <tbody id="searchResult">  
+                      <tbody id="searchResult"> 
+
                         <!-- Fetch Products -->
 <?php 
 
@@ -80,21 +82,22 @@ $start_from = ($page-1) * $limit;
                           <td><?= $i++?></td>
                           <td><img alt="image" src="../upload/product/200_<?php echo $image;?>" width="35"
                               data-toggle="tooltip" title="<?=$res['name']?>">  <span style="margin-left: 5px"> <?=$res['name']?> <?=$res['variant_Sku']?></span> </td>
-
-                          <td class="align-middle"><input type="number" class="form-control" name="" value="<?=$res['quantity']?>"></td>
-                          <td><input type="number" name="" class="form-control" value="<?=$res['mk_price']?>"></td>
-                          <td><input type="number" name="" class="form-control" value="<?=$res['price']?>"></td>
+                          <input type="hidden" name="v_p_id[]" value="<?=$res['id']?>">
+                          <td class="align-middle"><input type="text" name="dispatch_days" class="form-control"  value="<?=$res['dispatched_days']?>"></td>
+                          <td class="align-middle"><input type="number" name="qty[]" class="form-control"  value="<?=$res['quantity']?>"></td>
+                          <td><input type="number" name="mk_price[]" class="form-control" value="<?=$res['mk_price']?>"></td>
+                          <td><input type="number" name="price[]" class="form-control" value="<?=$res['price']?>"></td>
                           <!-- <td><?=$res['variant_Sku']?></td> -->
 
                           
                           
-                          <!-- <td>
-                            <?php  if($res['approved'] == "N"){?>
+                          <td>
+                            <?php  if($res['active'] == "N"){?>
                               <div class="badge badge-danger">pending</div>
                               <?php }else{     ?>
                                 <div class="badge badge-success">Approved</div>
                               <?php } ?>  
-                          </td> -->
+                          </td>
                         </tr>
 <?php }  ?>           
                       </tbody>             
