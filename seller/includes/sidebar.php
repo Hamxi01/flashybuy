@@ -48,8 +48,21 @@
                 <li><a class="nav-link" href="manage_footer.php">Footer</a></li>
               </ul>
             </li>
+            <?php 
 
-
+                $sql = mysqli_query($con, "SELECT * From vendor where id = $vendor_id");
+                $row = mysqli_num_rows($sql);
+                while ($row = mysqli_fetch_array($sql)){
+                  if($row['courier_permission']=='Y'){
+            ?>
+              <li class="dropdown">
+                <a href="#" class="menu-toggle nav-link has-dropdown"><i data-feather="command"></i><span>Courier Sizes</span></a>
+                <ul class="dropdown-menu">
+                  <li><a class="nav-link" href="addcouriersizes.php">Add Courier Sizes</a></li>
+                  <li><a class="nav-link" href="couriersizes.php">Courier Sizes</a></li>
+                </ul>
+              </li>
+            <?php } } ?>
           </ul>
         </aside>
       </div>

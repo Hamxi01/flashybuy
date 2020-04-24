@@ -2,7 +2,8 @@
 @session_start();
 if (isset($_SESSION['id'])) 
  {
-
+    $vendor_id=$_SESSION['id'];
+    
  }else{
 
     header("Location:../login.php");

@@ -100,14 +100,16 @@ if (isset($_GET['msg']) && $_GET['msg'] == 'success') { ?>
     </div>
 </div>
 <?php 
-}
+}?>
+<!-- End Message Alert --> 
+<?php
 if (isset($_SESSION['id'])) 
  {
     $vendor_id = $_SESSION['id'];
  }
 ?>
 
-<!-- End Message Alert -->            
+           
             <div class="row">
               <div class="col-md-10 offset-md-1">
                 
