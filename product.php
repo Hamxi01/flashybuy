@@ -11,8 +11,8 @@ if (isset($_GET['id'])) {
         PV.first_variation_name,
         PV.second_variation_name,
         PV.second_variation_value,
-        min(PV.price) as min_price,
-        max(PV.price) as max_price,
+        min(VP.price) as min_price,
+        max(VP.price) as max_price,
         PV.price,
         PV.quantity as stock,
         PV.sku,
@@ -25,7 +25,10 @@ if (isset($_GET['id'])) {
         products AS P 
     LEFT JOIN
         product_variations AS PV 
-            ON PV.product_id = P.product_id 
+            ON PV.product_id = P.product_id
+    LEFT JOIN
+        vendor_product AS VP 
+            ON VP.prod_id = P.product_id 
     LEFT JOIN
         product_variant_images AS PVS 
             ON PV.product_id = PVS.product_id 
@@ -46,8 +49,12 @@ if (isset($_GET['id'])) {
 
         if (empty($result['image1'])) {
             
-            $image1 = $result['variant_img1'];
-            $image2 = $result['variant_img2'];
+            $vimg = mysqli_query($con,"SELECT * from product_variant_images Where product_id ='$product_id'");
+            while ($res = mysqli_fetch_array($vimg)) {
+                    
+                    $image1 = $res['image1'];
+                    $image2 = $res['image2'];
+            }
         }else{
 
             $image1 = $result['image1'];
@@ -152,7 +159,7 @@ if (isset($_GET['id'])) {
                                 </div>
                                 <h4 class="ps-product__price">R<?=$price?></h4>
                                 <div class="ps-product__desc">
-                                    <p>Sold By:<a href="shop-default.html"><strong> Global Store</strong></a></p>
+                                    <p>Sold By:<a href="shop-default.html"><strong id="vendorname"> Global Store</strong></a></p>
                                     <ul class="ps-list--dot">
                                         <li> Unrestrained and portable active stereo speaker</li>
                                         <li> Free from the confines of wires and chords</li>
@@ -167,7 +174,7 @@ if (isset($_GET['id'])) {
                                         <figcaption><?=$first_variation_name?>: <strong> Choose an option</strong></figcaption>
                                         <?php if ($quantity==0) {
                                                 
-                                                $variants = "SELECT DISTINCT first_variation_value from product_variations where product_id = '$product_id'";
+                                                $variants = "SELECT DISTINCT first_variation_value from product_variations where product_id = '$product_id' AND active='Y'";
                                                 $query    = mysqli_query($con,$variants);
                                                 while ($variations = mysqli_fetch_array($query)) {
                                                     
@@ -186,7 +193,7 @@ if (isset($_GET['id'])) {
                                         <figcaption><?=$second_variation_name?>: <strong> Choose an option</strong></figcaption>
                                         <?php if ($quantity==0) {
                                                 
-                                                $variants = "SELECT DISTINCT second_variation_value from product_variations where product_id = '$product_id'";
+                                                $variants = "SELECT DISTINCT second_variation_value from product_variations where product_id = '$product_id' AND active='Y'";
                                                 $query    = mysqli_query($con,$variants);
                                                 while ($variations = mysqli_fetch_array($query)) {
                                                     
@@ -890,13 +897,9 @@ if (isset($_GET['id'])) {
             </div>
         </div>
     </div>
+    <input type="hidden" name="id" value="<?=$product_id?>" id="productid">
     <?php include('includes/footer.php'); ?>
     <script type="text/javascript">
-        $(document).ready(function(){
-
-             window.alert();
-             console.log("Assalam-o-Alaikum! hi how are you?what did you want to nuy from us?")
-        });
        var variation1;
        var variation2;
        $(document).delegate(".option","click",function(e){
@@ -907,29 +910,47 @@ if (isset($_GET['id'])) {
            $(this).removeClass('option').addClass('Active');
 
            variation1     = $('.Active').text();
-           alert(variation1);
            // var token      = $('input[name=_token').val();
-           // var product_id = $('input[name=id').val();
+           var product_id = $('input[name=id').val();
            // $('input[name="product_first_variation"]').val($(this).val()); 
-           // if($(".option1").length){
-           //  if($(".Active1").length){
-           //       getsecondVariation(variation1,variation2,token,product_id); 
-           //   }
-           // }else{
-           //      getfirstVariation(variation1,token,product_id);
-           // }
+           if($(".option1").length){
+            if($(".Active1").length){
+                 getsecondVariation(variation1,variation2,product_id); 
+             }
+           }else{
+                getfirstVariation(variation1,product_id);
+           }
        });
        $('.option1').click(function(){
             if($('.Active1').length){
                 $('.Active1').not($(this)).removeClass('Active1').addClass('option1');
             }      
             $(this).removeClass('option1').addClass('Active1');
-       // var product_id = $('input[name=id').val();
+            variation2     = $('.Active1').text();
+            
+       var product_id = $('input[name=id').val();
        // variation2     = $('.btn-warning.Active1').val();
        // var token      = $('input[name=_token').val();
        // $('input[name="product_second_variation"]').val($(this).val()); 
-       // if($('.Active').length){
-       //      getsecondVariation(variation1,variation2,token,product_id);
-       //  }  
+       if($('.Active').length){
+            getsecondVariation(variation1,variation2,product_id);
+        }  
         });
+       function getsecondVariation(variation1,variation2,product_id){
+
+            $.ajax({
+                  type: "POST",
+                  url: 'actions/productVariations2.php',
+                  data: {variation1:variation1,variation2:variation2,product_id:product_id},
+                  dataType:'json',
+                  success:function(data){
+
+                      console.log(data);
+                      $('.ps-product__price').html('R'+data[0]);
+                      $("#vendorname").html(data[2]);
+                      let refresh = window.location + '?'+data[3];  
+                      window.history.replaceState({ path: refresh }, '', refresh);
+                  }
+            });
+       }
     </script>

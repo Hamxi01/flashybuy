@@ -14,7 +14,7 @@
         
           foreach ($_POST['v_p_id'] as $key => $value) {
             
-              $approvquery = "update vendor_product SET quantity='".$_POST['qty'][$key]."',price='".$_POST['price'][$key]."',mk_price='".$_POST['mk_price'][$key]."' where id ='".$_POST['v_p_id'][$key]."'";
+              $approvquery = "update vendor_product SET quantity='".$_POST['qty'][$key]."',price='".$_POST['price'][$key]."',mk_price='".$_POST['mk_price'][$key]."',dispatched_days = '".$_POST['dispatch_days'][$key]."'  where id ='".$_POST['v_p_id'][$key]."'";
                 mysqli_query($con,$approvquery);
           }
           echo "<script>window.location.assign('products.php?msg=success');</script>";

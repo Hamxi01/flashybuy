@@ -4,45 +4,51 @@
 
 <?php   
 
-$productQuery = "SELECT * from products";
-$query = mysqli_query($con,$productQuery);
-while($result = mysqli_fetch_array($query)){
-
-    $product_id = $result['product_id'];
-    $name       = $result['name'];
-  if (empty($result['image1'])) {
-    
-     $image = null;
-     $sqll   = "SELECT image1 from product_variant_images WHERE product_id = '$product_id'";
-     $quer = mysqli_query($con,$sqll);
-     while($res = mysqli_fetch_array($quer)){
-       
-       $image = $res['image1'];
-     }
-    
-  }else{
-
-    $image = $result['image1'];
-       
-     
-  }
-    if ($result['selling_price'] == 0) {
-    $price = null;
-      $sql = "SELECT min(price) ,max(price) from product_variations where product_id = '$product_id'";
-      $pq  = mysqli_query($con,$sql);
-      while($pres = mysqli_fetch_array($pq)){
-       
-       $price =  $pres[0].'-R'.$pres[1];
-       
-     }
+$productQuery = "SELECT 
+                      VP.*, 
+                      P.name, 
+                      P.image1, 
+                      min(VP.price) as min, 
+                      max(VP.price) as max, 
+                      PV.sku as variant_Sku 
+                    FROM 
+                      vendor_product AS VP 
+                      LEFT JOIN product_variations AS PV ON PV.variation_id = VP.variation_id 
+                      INNER JOIN products AS P ON P.product_id = VP.prod_id 
+                    where 
+                      VP.active = 'Y'
+                      AND VP.quantity > 0 
+                      AND VP.price > 0
+                    GROUP BY 
+                      VP.prod_id";
+$productSql = mysqli_query($con,$productQuery);
+while ( $productResult = mysqli_fetch_array($productSql)) {
+  
+  $product_id = $productResult['prod_id'];
+  $name       = $productResult['name'];
+  $min        = $productResult['min'];
+  $max        = $productResult['max'];
+  if ($max==$min) {
+         
+    $price = $min;
   }
   else{
 
-    $price   = $result['selling_price'];
+    $price = $min."-".$max;
+  }     
+  $image = $productResult['image1'];
+  if (empty($image)) {
+    
+      $varaintImgQuery = "SELECT main_img from product_variant_images where product_id ='$product_id'";
+      $varaintImgSql   = mysqli_query($con,$varaintImgQuery);
+      while ($productVaraintImg = mysqli_fetch_array($varaintImgSql)) {
+
+        $image = $productVaraintImg['main_img'];
+      }
   }
 ?>                         
                         <div class="ps-product">
-                            <div class="ps-product__thumbnail"><a href="product.php?id=<?=base64_encode($product_id)?>&name=<?=str_replace(' ','-',$name)?>"><img src="upload/product/300_<?=$image?>" alt=""></a>
+                            <div class="ps-product__thumbnail"><a href="product.php?id=<?=base64_encode($product_id)?>&name=<?=str_replace(' ','-',$name)?>"><img src="upload/product/200_<?=$image?>" alt=""></a>
                                 <div class="ps-product__badge">-16%</div>
                                 <ul class="ps-product__actions">
                                     <li><a href="#" data-toggle="tooltip" data-placement="top" title="Read More"><i class="icon-bag2"></i></a></li>

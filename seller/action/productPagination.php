@@ -83,7 +83,7 @@ $start_from = ($page-1) * $limit;
                           <td><img alt="image" src="../upload/product/200_<?php echo $image;?>" width="35"
                               data-toggle="tooltip" title="<?=$res['name']?>">  <span style="margin-left: 5px"> <?=$res['name']?> <?=$res['variant_Sku']?></span> </td>
                           <input type="hidden" name="v_p_id[]" value="<?=$res['id']?>">
-                          <td class="align-middle"><input type="text" name="dispatch_days" class="form-control"  value="<?=$res['dispatched_days']?>"></td>
+                          <td class="align-middle"><input type="text" name="dispatch_days[]" class="form-control"  value="<?=$res['dispatched_days']?>"></td>
                           <td class="align-middle"><input type="number" name="qty[]" class="form-control"  value="<?=$res['quantity']?>"></td>
                           <td><input type="number" name="mk_price[]" class="form-control" value="<?=$res['mk_price']?>"></td>
                           <td><input type="number" name="price[]" class="form-control" value="<?=$res['price']?>"></td>
