@@ -9,11 +9,11 @@
         $sql = "update vendor_courier_sizes SET delte = '1' WHERE id = $id";
         if(mysqli_query($con,$sql)){
 
-            $msg = "<span>Data Deleted successfully...!!</span>";
+             echo "<script>window.location.assign('couriersizes.php?msg=success');</script>";
         }
         else{
 
-            $error = "<span>Something went wrong...!!</span>";
+            echo "<script>window.location.assign('couriersizes.php?msg=error');</script>";
         }
     }
 ?>
@@ -22,13 +22,13 @@
       <div class="main-content">
         <section class="section">
           <div class="section-body">
-<!-- Start Message -->
+ <!-- Start Showing success or warning Msg -->
 <?php
-if (isset($error)) {?>
+if (isset($_GET['msg']) && $_GET['msg'] =="error") {?>
     <div class="row">
-        <div class="col-lg-6 col-sm-offset-3">
-            <div class="alert alert-warning msg">    
-    <?php echo $error; ?>
+        <div class="col-lg-4 col-sm-offset-3">
+            <div class="alert alert-danger msg">    
+              <span>These values are already Exists.</span>
             </div>
         </div>
     </div>
@@ -36,19 +36,30 @@ if (isset($error)) {?>
 }
 ?>
 <?php
-if (isset($msg)) { ?>
+if (isset($_GET['msg']) && $_GET['msg'] =="success") { ?>
 <div class="row">
-    <div class="col-lg-6 col-sm-offset-3">
+    <div class="col-lg-4 col-sm-offset-3">
         <div class="alert alert-success msg">    
-    <?php echo $msg; ?>
-
+          <span>Data Deleted successfully...!!</span>
         </div>
     </div>
 </div>
 <?php 
 }
 ?>
-<!-- End Message  -->            
+<?php
+if (isset($_GET['msg']) && $_GET['msg'] =="successadd") { ?>
+<div class="row">
+    <div class="col-lg-4 col-sm-offset-3">
+        <div class="alert alert-success msg">    
+          <span>Values Saved successfully...!!</span>
+        </div>
+    </div>
+</div>
+<?php 
+}
+?>
+<!-- End Message Alert -->              
             <div class="row">
               <div class="col-12">
                 <div class="card">
