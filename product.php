@@ -33,7 +33,9 @@ if (isset($_GET['id'])) {
         product_variant_images AS PVS 
             ON PV.product_id = PVS.product_id 
     WHERE
-        P.product_id = $product_id";
+        P.product_id = $product_id
+    AND
+        VP.active='Y'";
    $pQuery = mysqli_query($con,$pMain);
    while ( $result = mysqli_fetch_array($pQuery)) {
         
@@ -62,6 +64,12 @@ if (isset($_GET['id'])) {
         }
         $first_variation_name  = $result['first_variation_name'];
         $second_variation_name = $result['second_variation_name'];
+
+        $vendor_id = $result['ven_id'];
+        $vsql ="SELECT shop_name from vendor where id='$vendor_id'";
+        $vquery = mysqli_query($con,$vsql);
+        $vres   = mysqli_fetch_array($vquery);
+        $vendorname = $vres['shop_name'];     
     } 
 }
 ?>
@@ -111,6 +119,11 @@ if (isset($_GET['id'])) {
         border-color:white;
         background: #ee4d2d;
     }
+    div#other-offers {
+        background: #fff;
+        box-shadow: -1px -1px 3px 1px rgba(0, 0, 0, 0.45);
+        padding: 10px;
+    }
 </style>    
     <nav class="navigation--mobile-product"><a class="ps-btn ps-btn--black" href="shopping-cart.html">Add tos cart</a><a class="ps-btn" href="checkout.html">Buy Now</a></nav>
     <div class="ps-breadcrumb">
@@ -159,7 +172,7 @@ if (isset($_GET['id'])) {
                                 </div>
                                 <h4 class="ps-product__price">R<?=$price?></h4>
                                 <div class="ps-product__desc">
-                                    <p>Sold By:<a href="shop-default.html"><strong id="vendorname"> Global Store</strong></a></p>
+                                    <p>Sold By:<a href="#"><strong id="vendorname"><?=$vendorname?></strong></a></p>
                                     <ul class="ps-list--dot">
                                         <li> Unrestrained and portable active stereo speaker</li>
                                         <li> Free from the confines of wires and chords</li>
@@ -390,9 +403,12 @@ if (isset($_GET['id'])) {
                     </aside>
                     <aside class="widget widget_ads"><a href="#"><img src="img/ads/product-ads.png" alt=""></a></aside>
                     <aside class="widget widget_same-brand">
-                        <h3>Same Brand</h3>
+                        <h3>Other Offers</h3>
                         <div class="widget__content">
-                            <div class="ps-product">
+                            <div id="other-offers" class="row">
+                                
+                            </div>
+                            <!-- <div class="ps-product">
                                 <div class="ps-product__thumbnail"><a href="product-default.html"><img src="img/products/shop/5.jpg" alt=""></a>
                                     <div class="ps-product__badge">-37%</div>
                                     <ul class="ps-product__actions">
@@ -447,7 +463,7 @@ if (isset($_GET['id'])) {
                                         <p class="ps-product__price sale">$100.99 <del>$106.00 </del></p>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                     </aside>
                 </div>
@@ -898,8 +914,10 @@ if (isset($_GET['id'])) {
         </div>
     </div>
     <input type="hidden" name="id" value="<?=$product_id?>" id="productid">
+    <input type="hidden" name="ven_id" value="<?=$vendor_id?>">
     <?php include('includes/footer.php'); ?>
     <script type="text/javascript">
+        
        var variation1;
        var variation2;
        $(document).delegate(".option","click",function(e){
@@ -912,10 +930,12 @@ if (isset($_GET['id'])) {
            variation1     = $('.Active').text();
            // var token      = $('input[name=_token').val();
            var product_id = $('input[name=id').val();
+           var vendor_id = $('input[name=ven_id').val();
            // $('input[name="product_first_variation"]').val($(this).val()); 
            if($(".option1").length){
             if($(".Active1").length){
-                 getsecondVariation(variation1,variation2,product_id); 
+                 getsecondVariation(variation1,variation2,product_id);
+                 getotherOffers(variation1,variation2,product_id,vendor_id); 
              }
            }else{
                 getfirstVariation(variation1,product_id);
@@ -928,12 +948,15 @@ if (isset($_GET['id'])) {
             $(this).removeClass('option1').addClass('Active1');
             variation2     = $('.Active1').text();
             
-       var product_id = $('input[name=id').val();
+           var vendor_id = $('input[name=ven_id').val();
+            var product_id = $('input[name=id').val();
        // variation2     = $('.btn-warning.Active1').val();
        // var token      = $('input[name=_token').val();
        // $('input[name="product_second_variation"]').val($(this).val()); 
        if($('.Active').length){
             getsecondVariation(variation1,variation2,product_id);
+            getotherOffers(variation1,variation2,product_id,vendor_id); 
+
         }  
         });
        function getsecondVariation(variation1,variation2,product_id){
@@ -948,8 +971,27 @@ if (isset($_GET['id'])) {
                       console.log(data);
                       $('.ps-product__price').html('R'+data[0]);
                       $("#vendorname").html(data[2]);
-                      let refresh = window.location + '?'+data[3];  
-                      window.history.replaceState({ path: refresh }, '', refresh);
+                      // let refresh = window.location + '?'+data[3];  
+                      // window.history.replaceState({ path: refresh }, '', refresh);
+                  }
+            });
+       }
+       function getotherOffers(variation1,variation2,product_id,vendor_id){
+
+            $.ajax({
+                  type: "POST",
+                  url: 'actions/getotherOffers.php',
+                  data: {variation1:variation1,variation2:variation2,product_id:product_id,vendor_id:vendor_id},
+                  
+                  success:function(data){
+
+                      console.log(data);
+                      $("#other-offers").html(null);
+                      $("#other-offers").html(data);
+                      // $('.ps-product__price').html('R'+data[0]);
+                      // $("#vendorname").html(data[2]);
+                      // let refresh = window.location + '?'+data[3];  
+                      // window.history.replaceState({ path: refresh }, '', refresh);
                   }
             });
        }
