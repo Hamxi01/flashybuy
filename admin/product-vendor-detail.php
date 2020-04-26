@@ -94,7 +94,7 @@
                             <td><?=$product_name?></td>
                             <td><?=$sku?></td>
                             <td><?=$categoryName?></td>
-                            <td><?=$subCategoryName?>><?=$subsubCategoryName?></td>
+                            <td><?=$subCategoryName?> <b>></b> <?=$subsubCategoryName?></td>
                             <?php if ($approved == 'N') {
                               echo '<td><div class="badge badge-danger">NO</div></td>';
                             }else{

@@ -1,6 +1,7 @@
 <?php 
         include('includes/db.php');
         include('includes/head.php');
+        include('actions/singleproductOtherOffers.php');
 if (isset($_GET['id'])) {
 
 
@@ -13,6 +14,8 @@ if (isset($_GET['id'])) {
         PV.second_variation_value,
         min(VP.price) as min_price,
         max(VP.price) as max_price,
+        VP.price as actual_price,
+        VP.variation_id,
         PV.price,
         PV.quantity as stock,
         PV.sku,
@@ -45,7 +48,7 @@ if (isset($_GET['id'])) {
             $price = $result['min_price'].'-R'.$result['max_price'];
         }else{
 
-            $price = $result['selling_price'];
+            $price = $result['actual_price'];
         }
         $quantity = $result['quantity'];
 
@@ -64,6 +67,8 @@ if (isset($_GET['id'])) {
         }
         $first_variation_name  = $result['first_variation_name'];
         $second_variation_name = $result['second_variation_name'];
+        $description           = $result['description'];
+        $variationid           = $result['variation_id'];
 
         $vendor_id = $result['ven_id'];
         $vsql ="SELECT shop_name from vendor where id='$vendor_id'";
@@ -120,9 +125,14 @@ if (isset($_GET['id'])) {
         background: #ee4d2d;
     }
     div#other-offers {
-        background: #fff;
-        box-shadow: -1px -1px 3px 1px rgba(0, 0, 0, 0.45);
+        background: #ffffff;
+        box-shadow: -1px -1px 3px 1px rgba(0, 0, 0, 0.23);
         padding: 10px;
+    }
+    .widget_same-brand .widget__content {
+        padding: 20px;
+        position: relative;
+        bottom: 50px;
     }
 </style>    
     <nav class="navigation--mobile-product"><a class="ps-btn ps-btn--black" href="shopping-cart.html">Add tos cart</a><a class="ps-btn" href="checkout.html">Buy Now</a></nav>
@@ -251,7 +261,8 @@ if (isset($_GET['id'])) {
                             <div class="ps-tabs">
                                 <div class="ps-tab active" id="tab-1">
                                     <div class="ps-document">
-                                        <h5>Embodying the Raw, Wayward Spirit of Rock 'N' Roll</h5>
+                                        <?=$description?>
+                                        <!-- <h5>Embodying the Raw, Wayward Spirit of Rock 'N' Roll</h5>
                                         <p>Embodying the raw, wayward spirit of rock ‘n’ roll, the Kilburn portable active stereo speaker takes the unmistakable look and sound of Marshall, unplugs the chords, and takes the show on the road.</p>
                                         <p>Weighing in under 7 pounds, the Kilburn is a lightweight piece of vintage styled engineering. Setting the bar as one of the loudest speakers in its class, the Kilburn is a compact, stout-hearted hero with a well-balanced audio which boasts a clear midrange and extended highs for a sound that is both articulate and pronounced. The analogue knobs allow you to fine tune the controls to your personal preferences while the guitar-influenced leather strap enables easy and stylish travel.</p><img class="mb-30" src="img/products/detail/content/description.jpg" alt="">
                                         <h5>What do you get</h5>
@@ -265,7 +276,7 @@ if (isset($_GET['id'])) {
                                             <li>No IR blaster</li>
                                             <li>No stereo speakers</li>
                                         </ul>
-                                        <p>If you’ve taken the phone for a plunge in the bath, you’ll need to dry the charging port before plugging in. Samsung hasn’t reinvented the wheel with the design of the Galaxy S7, but it didn’t need to. The Gala S6 was an excellently styled device, and the S7 has managed to improve on that.</p>
+                                        <p>If you’ve taken the phone for a plunge in the bath, you’ll need to dry the charging port before plugging in. Samsung hasn’t reinvented the wheel with the design of the Galaxy S7, but it didn’t need to. The Gala S6 was an excellently styled device, and the S7 has managed to improve on that.</p> -->
                                     </div>
                                 </div>
                                 <div class="ps-tab" id="tab-2">
@@ -305,7 +316,7 @@ if (isset($_GET['id'])) {
                                     </div>
                                 </div>
                                 <div class="ps-tab" id="tab-3">
-                                    <h4>GoPro</h4>
+                                    <h4 id="vendor"><?=$vendorname?></h4>
                                     <p>Digiworld US, New York’s no.1 online retailer was established in May 2012 with the aim and vision to become the one-stop shop for retail in New York with implementation of best practices both online</p><a href="#">More Products from gopro</a>
                                 </div>
                                 <div class="ps-tab" id="tab-4">
@@ -406,7 +417,11 @@ if (isset($_GET['id'])) {
                         <h3>Other Offers</h3>
                         <div class="widget__content">
                             <div id="other-offers" class="row">
-                                
+                                <?php if(empty($variationid)){
+
+                                    echo singleProductOtherOffers($product_id,$vendor_id,$con);
+                                    }     
+                                ?>
                             </div>
                             <!-- <div class="ps-product">
                                 <div class="ps-product__thumbnail"><a href="product-default.html"><img src="img/products/shop/5.jpg" alt=""></a>
@@ -934,7 +949,7 @@ if (isset($_GET['id'])) {
            // $('input[name="product_first_variation"]').val($(this).val()); 
            if($(".option1").length){
             if($(".Active1").length){
-                 getsecondVariation(variation1,variation2,product_id);
+                 getsecondVariation(variation1,variation2,product_id,vendor_id);
                  getotherOffers(variation1,variation2,product_id,vendor_id); 
              }
            }else{
@@ -954,23 +969,28 @@ if (isset($_GET['id'])) {
        // var token      = $('input[name=_token').val();
        // $('input[name="product_second_variation"]').val($(this).val()); 
        if($('.Active').length){
-            getsecondVariation(variation1,variation2,product_id);
+            getsecondVariation(variation1,variation2,product_id,vendor_id);
             getotherOffers(variation1,variation2,product_id,vendor_id); 
 
         }  
         });
-       function getsecondVariation(variation1,variation2,product_id){
+       function getsecondVariation(variation1,variation2,product_id,vendor_id){
 
             $.ajax({
                   type: "POST",
                   url: 'actions/productVariations2.php',
-                  data: {variation1:variation1,variation2:variation2,product_id:product_id},
+                  data: {variation1:variation1,variation2:variation2,product_id:product_id,vendor_id:vendor_id},
                   dataType:'json',
                   success:function(data){
 
-                      console.log(data);
-                      $('.ps-product__price').html('R'+data[0]);
-                      $("#vendorname").html(data[2]);
+                      if (data[0]!=0) {
+                            $('.ps-product__price').html('R'+data[0]);
+                            $("#vendorname").html(data[2]);
+                            $("#vendor").html(data[2]);
+                      }
+                      else{
+                            $('.ps-product__price').html("out Of Stock");
+                      }
                       // let refresh = window.location + '?'+data[3];  
                       // window.history.replaceState({ path: refresh }, '', refresh);
                   }

@@ -26,6 +26,8 @@ if (isset($_GET['id']) && isset($_GET['sku'])) {
         $width                 = $result['width'];
         $height                = $result['height'];
         $length                = $result['length'];
+        $courier_size          = $result['courier_size'];
+        $warranty              = $result['warranty'];
         $exclusive             = $result['exclusive'];
         $approved              = $result['approved'];
         $image1                = $result['image1'];
@@ -57,6 +59,8 @@ if (isset($_POST['update-product'])) {
   $width                           =     $_POST['width'];
   $height                          =     $_POST['height'];
   $length                          =     $_POST['length'];
+  $courier_size                    =     $_POST['courier_size'];
+  $warranty                        =     $_POST['warranty'];
   if (isset($_POST['approved'])) {
       
       $approved = $_POST['approved'];
@@ -82,7 +86,7 @@ if (isset($_POST['update-product'])) {
 
 
 
-     $query = "update products SET name='".$name."',cat_id='".$category_id."',sub_cat_id='".$subcategory_id."',sub_sub_cat_id='".$subsubcategory_id."',brand='".$brand."',quantity='".$quantity."',market_price='".$market_price."',selling_price='".$selling_price."',length='".$length."',width='".$width."',height='".$height."',keyword='".$keyword."',sku='".$sku."',description='".$description."',image1='".$image1."',image2='".$image2."',image3='".$image3."',image4='".$image4."',approved='".$approved."',exclusive='".$exclusive."' Where product_id='".$product_id."'";
+     $query = "update products SET name='".$name."',cat_id='".$category_id."',sub_cat_id='".$subcategory_id."',sub_sub_cat_id='".$subsubcategory_id."',brand='".$brand."',quantity='".$quantity."',market_price='".$market_price."',selling_price='".$selling_price."',length='".$length."',width='".$width."',height='".$height."',keyword='".$keyword."',sku='".$sku."',description='".$description."',image1='".$image1."',image2='".$image2."',image3='".$image3."',image4='".$image4."',approved='".$approved."',exclusive='".$exclusive."',courier_size='".$courier_size."',warranty='".$warranty."' Where product_id='".$product_id."'";
      ///// Check product is already in vendors products or not////
 
       $vpSql   = "SELECT * from vendor_product where prod_id = '$product_id'  AND ven_id='$ven_id'";
@@ -334,6 +338,7 @@ if (isset($_POST['update-product'])) {
                                 </div>
                               </div>  
                           </div>
+                        <?php if(!empty($width) && !empty($length) && !empty($height)){?>  
                           <div class="form-group row">
                             <div class="col-md-4">
                               <div class="form-group">
@@ -353,6 +358,41 @@ if (isset($_POST['update-product'])) {
                                   <input type="number" name="length" required="" class="form-control" value="<?=$length?>">
                                 </div>
                               </div> 
+                          </div>
+                        <?php } ?>
+                          <div class="form-group row">
+                            <div class="col-md-5">
+                              <div class="form-group">
+                                <label>Warranty</label>
+                                <select name="warranty" required="" class="form-control">
+                                  <option value="<?=$warranty?>" selected><?=$warranty?></option>
+                                  <option value="6 Months">6 Months</option>
+                                  <option value="1 Year">1 Year</option>
+                                  <option value="2 Years">2 Years</option>
+                                  <option value="3 Years">3 Years</option>
+                                  <option value="5 Years">5 Years</option>
+                                  <option value="Lifetime">Lifetime</option>
+                                </select>
+                              </div>
+                            </div>
+                        <?php if(!empty($courier_size)){ ?>    
+                            <div class="col-md-5">
+                              <div class="form-group">
+                                <label>Courier Size</label>
+                                <select class="form-control" name="courier_size">
+                                  <option value="<?=$courier_size?>" selected><?=$courier_size?></option>
+                                  <?php 
+                                        $sql = mysqli_query($con,"SELECT DISTINCT size from vendor_courier_sizes where vendor_id='$ven_id' AND delte = 0");
+                                        $row = mysqli_num_rows($sql);
+                                        while ($res = mysqli_fetch_array($sql)){
+
+                                          echo '<option value="'.$res[0].'">'.$res[0].'</option>';
+                                        }
+                                  ?>
+                                </select>
+                              </div>
+                            </div>
+                        <?php } ?>    
                           </div>
                           <div class="form-group row">
                             <div class="col-md-2"></div>
