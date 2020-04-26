@@ -12,7 +12,7 @@ if (isset($_POST['product_id'])) {
 	$mk_price       = $_POST['market_price'];
 	$vendor         = $_POST['vendor'];
 
-	$sql   = "INSERT into vendor_product(ven_id,prod_id,variation_id,price,mk_price,quantity) VALUES ('$vendor','$product_id','$variation_id','$quantity','$price','$mk_price')";
+	$sql   = "INSERT into vendor_product(ven_id,prod_id,variation_id,price,mk_price,quantity) VALUES ('$vendor','$product_id','$variation_id','$price','$mk_price','$quantity')";
 	
 	if (mysqli_query($con,$sql)) {
 		
