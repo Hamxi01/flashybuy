@@ -562,7 +562,6 @@ if (isset($_GET['msg'])) { ?>
                //-------- Edit SubSubCategory  --------------//
         ////////////////////////////////////////////////////
         function editSubSubCategory(){
-          alert(subsubcategory_id);
           subsubcategoryid = btoa(subsubcategory_id);
           window.location="editSubSubCategory.php?cat_id="+subsubcategoryid;
         }

@@ -111,7 +111,7 @@ if (isset($_POST['add-product'])) {
 											}
 
 								}
-								$sql = "INSERT into product_variant_images(product_id,variation_value,image1) VALUES('$id','$variantvalue','$pic8we')";
+								$sql = "INSERT into product_variant_images(product_id,variation_value,image1,main_img) VALUES('$id','$variantvalue','$pic8we','$pic8we')";
 								if (mysqli_query($con,$sql)) {
 									
 									echo "Success";

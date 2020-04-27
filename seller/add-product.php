@@ -123,9 +123,7 @@ if (isset($_SESSION['id']))
                             <input type="hidden" name="vendor_id" value="<?=$vendor_id?>">
                               <label class="col-form-label">Product Name</label>
                                 <input type="text" class="form-control" required="" name="name" value="">
-                                <div class="invalid-feedback">
-                                  What's Product name?
-                                </div>
+                                
                           </div>  
                             <div class="form-group row"> 
                                 
@@ -915,13 +913,12 @@ var s = new Array();
         
     }
 //---- On press Enter form not submit Fuction --- ////    
- $(document).ready(function() {
-  $(window).keydown(function(event){
-    if(event.keyCode == 13) {
-      event.preventDefault();
-      return false;
-    }
-  });
+$('#product_form').on('keyup keypress', function(e) {
+  var keyCode = e.keyCode || e.which;
+  if (keyCode === 13) { 
+    e.preventDefault();
+    return false;
+  }
 });
 //---- On press Enter form not submit Fuction --- //// 
 </script>  

@@ -130,6 +130,18 @@ if (isset($_GET['id'])) {
         border-color:white;
         background: #ee4d2d;
     }
+    .Active2 {
+        color: #fff;
+        padding: 5px 5px;
+        border-color:white;
+        background: #ee4d2d;
+    }
+    .Active3 {
+        color: #fff;
+        padding: 5px 5px;
+        border-color:white;
+        background: #ee4d2d;
+    }
     div#other-offers {
         background: #ffffff;
         box-shadow: -1px -1px 3px 1px rgba(0, 0, 0, 0.23);
@@ -200,7 +212,7 @@ if (isset($_GET['id'])) {
                                 <div class="ps-product__variations">
                                     <?php if(!empty($first_variation_name)){?>
                                     <figure>
-                                        <figcaption><?=$first_variation_name?>: <strong> Choose an option</strong></figcaption>
+                                        <figcaption><strong><?=$first_variation_name?>:</strong>  Choose an option</figcaption>
                                         <?php if ($quantity==0) {
                                                 
                                                 $variants = "SELECT DISTINCT first_variation_value from product_variations where product_id = '$product_id' AND active='Y'";
@@ -219,7 +231,7 @@ if (isset($_GET['id'])) {
                                 <?php } ?>
                                 <?php if(!empty($second_variation_name)){?>
                                     <figure>
-                                        <figcaption><?=$second_variation_name?>: <strong> Choose an option</strong></figcaption>
+                                        <figcaption><strong><?=$second_variation_name?>: </strong> Choose an option</figcaption>
                                         <?php if ($quantity==0) {
                                                 
                                                 $variants = "SELECT DISTINCT second_variation_value from product_variations where product_id = '$product_id' AND active='Y'";
@@ -237,7 +249,7 @@ if (isset($_GET['id'])) {
                                 <?php } ?>
                                 <?php if(!empty($third_variation_name)){?>
                                     <figure>
-                                        <figcaption><?=$third_variation_name?>: <strong> Choose an option</strong></figcaption>
+                                        <figcaption><strong><?=$third_variation_name?>: </strong> Choose an option</figcaption>
                                         <?php if ($quantity==0) {
                                                 
                                                 $variants = "SELECT DISTINCT third_variation_value from product_variations where product_id = '$product_id' AND active='Y'";
@@ -255,7 +267,7 @@ if (isset($_GET['id'])) {
                                 <?php } ?>
                                 <?php if(!empty($forth_variation_name)){?>
                                     <figure>
-                                        <figcaption><?=$forth_variation_name?>: <strong> Choose an option</strong></figcaption>
+                                        <figcaption><strong><?=$forth_variation_name?>: </strong> Choose an option</figcaption>
                                         <?php if ($quantity==0) {
                                                 
                                                 $variants = "SELECT DISTINCT forth_variation_value from product_variations where product_id = '$product_id' AND active='Y'";
@@ -977,6 +989,12 @@ if (isset($_GET['id'])) {
         
        var variation1;
        var variation2;
+       var variation3;
+       var variation4;
+       var vendor_id;
+       var product_id;
+    //////option////////
+       
        $(document).delegate(".option","click",function(e){
         e.preventDefault();
         if($('.Active').length){
@@ -985,20 +1003,35 @@ if (isset($_GET['id'])) {
            $(this).removeClass('option').addClass('Active');
 
            variation1     = $('.Active').text();
-           // var token      = $('input[name=_token').val();
-           var product_id = $('input[name=id').val();
-           var vendor_id = $('input[name=ven_id').val();
-           // $('input[name="product_first_variation"]').val($(this).val()); 
-           if($(".option1").length){
-            if($(".Active1").length){
-                 getsecondVariation(variation1,variation2,product_id,vendor_id);
-                 getotherOffers(variation1,variation2,product_id,vendor_id); 
+           product_id = $('input[name=id').val();
+           vendor_id = $('input[name=ven_id').val();
+           if($(".option1").length && $(".option2").length && $(".option3").length){
+                if($(".Active1").length && $(".Active2").length && $(".Active3").length){
+
+                         getforthVariation(variation1,variation2,variation3,variation4,product_id,vendor_id);
+                         // getforthOffers(variation1,variation2,variation3,variation4,product_id,vendor_id); 
+                }
+            } 
+            else if($(".option1").length && $(".option2").length){
+            if($(".Active1").length && $(".Active2").length){
+
+                    getthirdVariation(variation1,variation2,variation3,product_id,vendor_id);
+                    getthirdOffers(variation1,variation2,variation3,product_id,vendor_id); 
              }
+           }else if($(".option1").length){
+                if($(".Active1").length){
+                    getsecondVariation(variation1,variation2,product_id,vendor_id);
+                    getotherOffers(variation1,variation2,product_id,vendor_id);
+                }
            }else{
-                getfirstVariation(variation1,product_id,vendor_id);
-                getsingleOffers(variation1,product_id,vendor_id);
+
+                    getfirstVariation(variation1,product_id,vendor_id);
+                    getsingleOffers(variation1,product_id,vendor_id);
+
            }
        });
+    ///////option1 ///////////  
+
        $('.option1').click(function(){
             if($('.Active1').length){
                 $('.Active1').not($(this)).removeClass('Active1').addClass('option1');
@@ -1006,17 +1039,71 @@ if (isset($_GET['id'])) {
             $(this).removeClass('option1').addClass('Active1');
             variation2     = $('.Active1').text();
             
-           var vendor_id = $('input[name=ven_id').val();
-            var product_id = $('input[name=id').val();
-       // variation2     = $('.btn-warning.Active1').val();
-       // var token      = $('input[name=_token').val();
-       // $('input[name="product_second_variation"]').val($(this).val()); 
-       if($('.Active').length){
-            getsecondVariation(variation1,variation2,product_id,vendor_id);
-            getotherOffers(variation1,variation2,product_id,vendor_id); 
+           vendor_id = $('input[name=ven_id').val();
+            product_id = $('input[name=id').val();
+            if($(".Active").length && $(".Active2").length && $(".Active3").length){
 
+                     getforthVariation(variation1,variation2,variation3,variation4,product_id,vendor_id);
+                     // getforthOffers(variation1,variation2,variation3,variation4,product_id,vendor_id); 
+            }   
+        else if($(".option2").length && $(".option").length){
+            if($(".Active2").length && $(".Active").length){
+
+                 getthirdVariation(variation1,variation2,variation3,product_id,vendor_id);
+                 getthirdOffers(variation1,variation2,variation3,product_id,vendor_id); 
+             }
+        }           
+        else if($('.option').length){
+            if ($('.Active').length) {
+                getsecondVariation(variation1,variation2,product_id,vendor_id);
+                getotherOffers(variation1,variation2,product_id,vendor_id); 
+            }   
         }  
         });
+
+    //////==============option2=========///////////////
+       
+       $('.option2').click(function(){
+            if($('.Active2').length){
+                $('.Active2').not($(this)).removeClass('Active2').addClass('option2');
+            }      
+            $(this).removeClass('option2').addClass('Active2');
+            variation3     = $('.Active2').text();
+            
+            vendor_id = $('input[name=ven_id').val();
+            product_id = $('input[name=id').val();
+
+                if($(".Active").length && $(".Active1").length && $(".Active3").length){
+
+                     getforthVariation(variation1,variation2,variation3,variation4,product_id,vendor_id);
+                     // getforthOffers(variation1,variation2,variation3,variation4,product_id,vendor_id); 
+                 }
+                else if($('.option').length && $('.option1').length){ 
+                if($('.Active').length && $('.Active1').length){
+                    getthirdVariation(variation1,variation2,variation3,product_id,vendor_id);
+                    getthirdOffers(variation1,variation2,variation3,product_id,vendor_id); 
+                }}  
+        });
+    //////======option3==============/////////////
+
+        $('.option3').click(function(){
+            if($('.Active3').length){
+
+                $('.Active3').not($(this)).removeClass('Active3').addClass('option3');
+            }
+            $(this).removeClass('.option3').addClass('Active3');
+            variation4 = $('.Active3').text();
+            product_id = $('input[name=id').val();
+            vendor_id = $('input[name=ven_id').val();
+            if($('.Active').length && $('.Active1').length && $('.Active2').length){
+
+                getforthVariation(variation1,variation2,variation3,variation4,product_id,vendor_id);
+                // getforthOffers(variation1,variation2,variation3,variation4,product_id,vendor_id); 
+
+            }
+        });
+
+   //////----get Second Variations-----//////////    
        function getsecondVariation(variation1,variation2,product_id,vendor_id){
 
             $.ajax({
@@ -1039,6 +1126,8 @@ if (isset($_GET['id'])) {
                   }
             });
        }
+    /////------ get other offers ---- ////////////
+        
        function getotherOffers(variation1,variation2,product_id,vendor_id){
 
             $.ajax({
@@ -1048,17 +1137,14 @@ if (isset($_GET['id'])) {
                   
                   success:function(data){
 
-                      console.log(data);
+                      // console.log(data);
                       $("#other-offers").html(null);
                       $("#other-offers").html(data);
-                      // $('.ps-product__price').html('R'+data[0]);
-                      // $("#vendorname").html(data[2]);
-                      // let refresh = window.location + '?'+data[3];  
-                      // window.history.replaceState({ path: refresh }, '', refresh);
                   }
             });
        }
-       // ---Get first Variation--- ///
+
+    /////------Get first Variation ------- ///
 
        function getfirstVariation(variation1,product_id,vendor_id){
 
@@ -1083,6 +1169,7 @@ if (isset($_GET['id'])) {
                   }
             });
        }
+       /////------- Gey Single offers ------ /////////    
        function getsingleOffers(variation1,product_id,vendor_id){
 
             $.ajax({
@@ -1092,14 +1179,77 @@ if (isset($_GET['id'])) {
                   
                   success:function(data){
 
-                      console.log(data);
+                      // console.log(data);
                       $("#other-offers").html(null);
                       $("#other-offers").html(data);
-                      // $('.ps-product__price').html('R'+data[0]);
-                      // $("#vendorname").html(data[2]);
+                  }
+            });
+       }
+
+       /////////get third variation ////////
+
+       function getthirdVariation(variation1,variation2,variation3,product_id,vendor_id){
+
+            $.ajax({
+                  type: "POST",
+                  url: 'actions/productVariations3.php',
+                  data: {variation1:variation1,variation2:variation2,variation3:variation3,product_id:product_id,vendor_id:vendor_id},
+                  dataType:'json',
+                  success:function(data){
+
+                      if (data[0]!=0) {
+                            $('.ps-product__price').html('R'+data[0]);
+                            $("#vendorname").html(data[2]);
+                            $("#vendor").html(data[2]);
+                      }
+                      else{
+                            $('.ps-product__price').html("out Of Stock");
+                      }
                       // let refresh = window.location + '?'+data[3];  
                       // window.history.replaceState({ path: refresh }, '', refresh);
                   }
             });
+
        }
+    /////---- get third offers -------- ////
+
+        function getthirdOffers(variation1,variation2,variation3,product_id,vendor_id){
+
+            $.ajax({
+
+                type      : 'POST',
+                url       : 'actions/getthirdOffers.php',
+                data      : {variation1:variation1,variation2:variation2,variation3:variation3,product_id:product_id,vendor_id,vendor_id},
+                success   : function(data){
+
+                    // console.log(data);
+                    $('#other-offers').html(null);
+                    $('#other-offers').html(data);
+                }
+
+            });
+        }
+////=========== Get forth Variations =============== ///////
+    function getforthVariation(variation1,variation2,variation3,variation4,product_id,vendor_id){
+
+        $.ajax({
+
+            type : 'POST',
+            url  : 'actions/productVariations4.php',
+            data : {variation1:variation1,variation2:variation2,variation3:variation3,variation4:variation4,product_id:product_id,vendor_id:vendor_id},
+            dataType : 'json',
+            success : function(data){
+
+                if (data[0]!=0) {
+                    $('.ps-product__price').html('R'+data[0]);
+                    $("#vendorname").html(data[2]);
+                    $("#vendor").html(data[2]);
+                }
+                else{
+                    $('.ps-product__price').html("out Of Stock");
+                }
+            }
+
+        });
+    }    
     </script>

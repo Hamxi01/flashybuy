@@ -35,7 +35,7 @@ if (isset($_POST['product_id'])) {
 		echo '<div class="col-md-12">
                                     <h4><b>R'.$price.'</b><button class="btn btn-warning" style="float: right;color:#fff">Add to cart</button></h4>
                                     <h5>By: <a href="#">'.$vendorname.'</a></h5>
-                                    <p>'.$days.'</p>
+                                    <p><b>'.$days.'</b></p>
                                 </div>';
                                
 	}
