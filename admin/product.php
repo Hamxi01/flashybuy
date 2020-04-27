@@ -107,6 +107,10 @@
                         <label>Selling Price</label>
                         <input type="number" name="selling_price" id="selling_price" class="form-control">
                       </div>
+                      <div class="form-group">
+                        <label>Dispatched Days</label>
+                        <input type="text" name="dispatched_days" id="dispatched_days" class="form-control">
+                      </div>
                       <input type="hidden" name="variation_id" id="variation_id">
                       <input type="hidden" name="product_id" id="product_id">    
                   <button type="button" onclick="assignVendor()" class="btn btn-primary m-t-15 waves-effect">Save</button>
@@ -215,6 +219,7 @@ function assignVendor(){
         success:function(data){
             $("#vendorModel").modal('hide');
               alert("Product Assign Successfully");
+              location.reload(true);
         }
       });
 

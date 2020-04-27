@@ -10,8 +10,12 @@ if (isset($_GET['id'])) {
         P.*,
         PV.first_variation_value,
         PV.first_variation_name,
-        PV.second_variation_name,
         PV.second_variation_value,
+        PV.second_variation_name,
+        PV.third_variation_value,
+        PV.third_variation_name,
+        PV.forth_variation_value,
+        PV.forth_variation_name,
         min(VP.price) as min_price,
         max(VP.price) as max_price,
         VP.price as actual_price,
@@ -67,6 +71,8 @@ if (isset($_GET['id'])) {
         }
         $first_variation_name  = $result['first_variation_name'];
         $second_variation_name = $result['second_variation_name'];
+        $third_variation_name  = $result['third_variation_name'];
+        $forth_variation_name  = $result['forth_variation_name'];
         $description           = $result['description'];
         $variationid           = $result['variation_id'];
 
@@ -223,6 +229,42 @@ if (isset($_GET['id'])) {
                                                
                                           ?>
                                         <button class="product-variation option1"><?=$variations['second_variation_value']?></button>
+                                        <?php } }?>
+                                            
+                                        <!-- <div class="ps-variant ps-variant--size"><span class="ps-variant__tooltip"> M</span><span class="ps-variant__size">M</span></div>
+                                        <div class="ps-variant ps-variant--size"><span class="ps-variant__tooltip"> L</span><span class="ps-variant__size">L</span></div> -->
+                                    </figure>
+                                <?php } ?>
+                                <?php if(!empty($third_variation_name)){?>
+                                    <figure>
+                                        <figcaption><?=$third_variation_name?>: <strong> Choose an option</strong></figcaption>
+                                        <?php if ($quantity==0) {
+                                                
+                                                $variants = "SELECT DISTINCT third_variation_value from product_variations where product_id = '$product_id' AND active='Y'";
+                                                $query    = mysqli_query($con,$variants);
+                                                while ($variations = mysqli_fetch_array($query)) {
+                                                    
+                                               
+                                          ?>
+                                        <button class="product-variation option2"><?=$variations['third_variation_value']?></button>
+                                        <?php } }?>
+                                            
+                                        <!-- <div class="ps-variant ps-variant--size"><span class="ps-variant__tooltip"> M</span><span class="ps-variant__size">M</span></div>
+                                        <div class="ps-variant ps-variant--size"><span class="ps-variant__tooltip"> L</span><span class="ps-variant__size">L</span></div> -->
+                                    </figure>
+                                <?php } ?>
+                                <?php if(!empty($forth_variation_name)){?>
+                                    <figure>
+                                        <figcaption><?=$forth_variation_name?>: <strong> Choose an option</strong></figcaption>
+                                        <?php if ($quantity==0) {
+                                                
+                                                $variants = "SELECT DISTINCT forth_variation_value from product_variations where product_id = '$product_id' AND active='Y'";
+                                                $query    = mysqli_query($con,$variants);
+                                                while ($variations = mysqli_fetch_array($query)) {
+                                                    
+                                               
+                                          ?>
+                                        <button class="product-variation option3"><?=$variations['forth_variation_value']?></button>
                                         <?php } }?>
                                             
                                         <!-- <div class="ps-variant ps-variant--size"><span class="ps-variant__tooltip"> M</span><span class="ps-variant__size">M</span></div>
@@ -953,7 +995,8 @@ if (isset($_GET['id'])) {
                  getotherOffers(variation1,variation2,product_id,vendor_id); 
              }
            }else{
-                getfirstVariation(variation1,product_id);
+                getfirstVariation(variation1,product_id,vendor_id);
+                getsingleOffers(variation1,product_id,vendor_id);
            }
        });
        $('.option1').click(function(){
@@ -1002,6 +1045,50 @@ if (isset($_GET['id'])) {
                   type: "POST",
                   url: 'actions/getotherOffers.php',
                   data: {variation1:variation1,variation2:variation2,product_id:product_id,vendor_id:vendor_id},
+                  
+                  success:function(data){
+
+                      console.log(data);
+                      $("#other-offers").html(null);
+                      $("#other-offers").html(data);
+                      // $('.ps-product__price').html('R'+data[0]);
+                      // $("#vendorname").html(data[2]);
+                      // let refresh = window.location + '?'+data[3];  
+                      // window.history.replaceState({ path: refresh }, '', refresh);
+                  }
+            });
+       }
+       // ---Get first Variation--- ///
+
+       function getfirstVariation(variation1,product_id,vendor_id){
+
+
+            $.ajax({
+                  type: "POST",
+                  url: 'actions/productVariation1.php',
+                  data: {variation1:variation1,product_id:product_id,vendor_id:vendor_id},
+                  dataType:'json',
+                  success:function(data){
+
+                      if (data[0]!=0) {
+                            $('.ps-product__price').html('R'+data[0]);
+                            $("#vendorname").html(data[2]);
+                            $("#vendor").html(data[2]);
+                      }
+                      else{
+                            $('.ps-product__price').html("out Of Stock");
+                      }
+                      // let refresh = window.location + '?'+data[3];  
+                      // window.history.replaceState({ path: refresh }, '', refresh);
+                  }
+            });
+       }
+       function getsingleOffers(variation1,product_id,vendor_id){
+
+            $.ajax({
+                  type: "POST",
+                  url: 'actions/getsingleOffers.php',
+                  data: {variation1:variation1,product_id:product_id,vendor_id:vendor_id},
                   
                   success:function(data){
 

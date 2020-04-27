@@ -914,5 +914,14 @@ var s = new Array();
         $('#brandslist').hide();
         
     }
-    
+//---- On press Enter form not submit Fuction --- ////    
+ $(document).ready(function() {
+  $(window).keydown(function(event){
+    if(event.keyCode == 13) {
+      event.preventDefault();
+      return false;
+    }
+  });
+});
+//---- On press Enter form not submit Fuction --- //// 
 </script>  
