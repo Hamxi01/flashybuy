@@ -24,7 +24,7 @@ if (isset($_POST['vari_type'])) {
 		}
 		if(strlen($str) > 0){
 		?>
-		<tr><td><label for="" class="control-label"><?php echo $str; ?></label></td><td><input type="number" name="price[]" value="" min="1" step="1" class="form-control" required></td><td><input type="text" name="sku[]" value="<?php echo $str; ?>" class="form-control" required></td><td><input type="number" name="qty[]"  min="1" step="1" class="form-control" required></td></tr> 
+		<tr><td><label for="" class="control-label"><?php echo $str; ?></label></td><td><input type="number" name="mk_price[]" value="" min="1" step="1" class="form-control" required></td><td><input type="number" name="price[]" value="" min="1" step="1" class="form-control" required></td><td><input type="text" name="sku[]" value="<?php echo $str; ?>" class="form-control" required></td><td><input type="number" name="qty[]"  min="1" step="1" class="form-control" required></td></tr> 
 	 <?php	
 	}
 	

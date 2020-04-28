@@ -100,7 +100,7 @@ if (isset($_POST['update-product'])) {
 
       }else{
 
-        $approvquery = "INSERT into vendor_product (prod_id,ven_id,quantity,price,mk_price,active) VALUES ('$product_id','$ven_id','$quantity','$price','$market_price','$approved')";
+        $approvquery = "INSERT into vendor_product (prod_id,ven_id,quantity,price,mk_price,active) VALUES ('$product_id','$ven_id','$quantity','$selling_price','$market_price','$approved')";
         mysqli_query($con,$approvquery);
       }
   //----- Vendor product update and insert new data end ----////////////

@@ -83,7 +83,17 @@ $start_from = ($page-1) * $limit;
                           <td><img alt="image" src="../upload/product/200_<?php echo $image;?>" width="35"
                               data-toggle="tooltip" title="<?=$res['name']?>">  <span style="margin-left: 5px"> <?=$res['name']?> <?=$res['variant_Sku']?></span> </td>
                           <input type="hidden" name="v_p_id[]" value="<?=$res['id']?>">
-                          <td class="align-middle"><input type="text" name="dispatch_days[]" class="form-control"  value="<?=$res['dispatched_days']?>"></td>
+                          <td class="align-middle">
+                            <select name="dispatch_days[]" class="form-control">
+                              <option value="<?=$res['dispatched_days']?>" selected><?=$res['dispatched_days']?></option>
+                              <option value="In Stock">In Stock</option>
+                              <option value="1 day">1 day</option>
+                              <option value="2 days">2 days</option>
+                              <option value="3 days">3 days</option>
+                              <option value="4 days">4 days</option>
+                              <option value="5 days">5 days</option>
+                            </select>
+                          </td>
                           <td class="align-middle"><input type="number" name="qty[]" class="form-control"  value="<?=$res['quantity']?>"></td>
                           <td><input type="number" name="mk_price[]" class="form-control" value="<?=$res['mk_price']?>"></td>
                           <td><input type="number" name="price[]" class="form-control" value="<?=$res['price']?>"></td>

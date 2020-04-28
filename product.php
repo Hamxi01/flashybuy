@@ -68,6 +68,8 @@ if (isset($_GET['id'])) {
 
             $image1 = $result['image1'];
             $image2 = $result['image2'];
+            $image1 = $result['image3'];
+            $image2 = $result['image4'];
         }
         $first_variation_name  = $result['first_variation_name'];
         $second_variation_name = $result['second_variation_name'];
@@ -337,15 +339,35 @@ if (isset($_GET['id'])) {
                                     <div class="table-responsive">
                                         <table class="table table-bordered ps-table ps-table--specification">
                                             <tbody>
+                                    <?php 
+
+                                            $vpSql = mysqli_query($con,"SELECT * FROM product_specification WHERE product_id = '$product_id'");
+                                            while ($vpRes = mysqli_fetch_array($vpSql)) {
+                                                 
+                                                 $options =  $vpRes['options'];
+                                             }
+                                             if (!empty($options)) {
+                                                  echo "<pre>";
+                                               print_r(json_decode($options));
+                                    ?>
+                                    <?php 
+
+                                                foreach (json_decode($options) as $key => $element){
+                                                if ($element->type == 'text' || $element->type == 'file'){
+
+                                    ?>
                                                 <tr>
-                                                    <td>Color</td>
-                                                    <td>Black, Gray</td>
+                                                    <td><?=$element->label?></td>
+                                                    <td><?=$element->value?></td>
                                                 </tr>
+
+                                    <?php }elseif ($element->type == 'select' || $element->type == 'multi_select' || $element->type == 'radio'){ ?>
                                                 <tr>
-                                                    <td>Style</td>
-                                                    <td>Ear Hook</td>
+                                                 <td><?=$element->label?></td>
+                                                 <td><?=$element->value?></td>
                                                 </tr>
-                                                <tr>
+                                    <?php   } }} ?>            
+                                                <!-- <tr>
                                                     <td>Wireless</td>
                                                     <td>Yes</td>
                                                 </tr>
@@ -364,7 +386,7 @@ if (isset($_GET['id'])) {
                                                 <tr>
                                                     <td>Bluetooth</td>
                                                     <td>Yes</td>
-                                                </tr>
+                                                </tr> -->
                                             </tbody>
                                         </table>
                                     </div>
@@ -993,7 +1015,8 @@ if (isset($_GET['id'])) {
        var variation4;
        var vendor_id;
        var product_id;
-    //////option////////
+
+//==================option===================//
        
        $(document).delegate(".option","click",function(e){
         e.preventDefault();
@@ -1009,7 +1032,7 @@ if (isset($_GET['id'])) {
                 if($(".Active1").length && $(".Active2").length && $(".Active3").length){
 
                          getforthVariation(variation1,variation2,variation3,variation4,product_id,vendor_id);
-                         // getforthOffers(variation1,variation2,variation3,variation4,product_id,vendor_id); 
+                         getforthOffers(variation1,variation2,variation3,variation4,product_id,vendor_id); 
                 }
             } 
             else if($(".option1").length && $(".option2").length){
@@ -1030,7 +1053,8 @@ if (isset($_GET['id'])) {
 
            }
        });
-    ///////option1 ///////////  
+
+//=================option1===============//  
 
        $('.option1').click(function(){
             if($('.Active1').length){
@@ -1044,24 +1068,24 @@ if (isset($_GET['id'])) {
             if($(".Active").length && $(".Active2").length && $(".Active3").length){
 
                      getforthVariation(variation1,variation2,variation3,variation4,product_id,vendor_id);
-                     // getforthOffers(variation1,variation2,variation3,variation4,product_id,vendor_id); 
+                     getforthOffers(variation1,variation2,variation3,variation4,product_id,vendor_id); 
             }   
-        else if($(".option2").length && $(".option").length){
-            if($(".Active2").length && $(".Active").length){
+            else if($(".option2").length && $(".option").length){
+                if($(".Active2").length && $(".Active").length){
 
-                 getthirdVariation(variation1,variation2,variation3,product_id,vendor_id);
-                 getthirdOffers(variation1,variation2,variation3,product_id,vendor_id); 
-             }
-        }           
-        else if($('.option').length){
-            if ($('.Active').length) {
-                getsecondVariation(variation1,variation2,product_id,vendor_id);
-                getotherOffers(variation1,variation2,product_id,vendor_id); 
-            }   
-        }  
+                     getthirdVariation(variation1,variation2,variation3,product_id,vendor_id);
+                     getthirdOffers(variation1,variation2,variation3,product_id,vendor_id); 
+                 }
+            }           
+            else if($('.option').length){
+                if ($('.Active').length){
+                    getsecondVariation(variation1,variation2,product_id,vendor_id);
+                    getotherOffers(variation1,variation2,product_id,vendor_id); 
+                }   
+            }  
         });
 
-    //////==============option2=========///////////////
+//============== option2  ====================//
        
        $('.option2').click(function(){
             if($('.Active2').length){
@@ -1076,7 +1100,7 @@ if (isset($_GET['id'])) {
                 if($(".Active").length && $(".Active1").length && $(".Active3").length){
 
                      getforthVariation(variation1,variation2,variation3,variation4,product_id,vendor_id);
-                     // getforthOffers(variation1,variation2,variation3,variation4,product_id,vendor_id); 
+                     getforthOffers(variation1,variation2,variation3,variation4,product_id,vendor_id); 
                  }
                 else if($('.option').length && $('.option1').length){ 
                 if($('.Active').length && $('.Active1').length){
@@ -1084,7 +1108,8 @@ if (isset($_GET['id'])) {
                     getthirdOffers(variation1,variation2,variation3,product_id,vendor_id); 
                 }}  
         });
-    //////======option3==============/////////////
+
+//==========option3==============//
 
         $('.option3').click(function(){
             if($('.Active3').length){
@@ -1098,12 +1123,13 @@ if (isset($_GET['id'])) {
             if($('.Active').length && $('.Active1').length && $('.Active2').length){
 
                 getforthVariation(variation1,variation2,variation3,variation4,product_id,vendor_id);
-                // getforthOffers(variation1,variation2,variation3,variation4,product_id,vendor_id); 
+                getforthOffers(variation1,variation2,variation3,variation4,product_id,vendor_id); 
 
             }
         });
 
-   //////----get Second Variations-----//////////    
+//==========get Second Variations===============// 
+
        function getsecondVariation(variation1,variation2,product_id,vendor_id){
 
             $.ajax({
@@ -1126,7 +1152,7 @@ if (isset($_GET['id'])) {
                   }
             });
        }
-    /////------ get other offers ---- ////////////
+//============get other offers===============//
         
        function getotherOffers(variation1,variation2,product_id,vendor_id){
 
@@ -1144,7 +1170,7 @@ if (isset($_GET['id'])) {
             });
        }
 
-    /////------Get first Variation ------- ///
+///=================Get first Variation==============///
 
        function getfirstVariation(variation1,product_id,vendor_id){
 
@@ -1169,7 +1195,9 @@ if (isset($_GET['id'])) {
                   }
             });
        }
-       /////------- Gey Single offers ------ /////////    
+
+//============Gey Single offers====================//
+
        function getsingleOffers(variation1,product_id,vendor_id){
 
             $.ajax({
@@ -1186,7 +1214,7 @@ if (isset($_GET['id'])) {
             });
        }
 
-       /////////get third variation ////////
+//===========get third variation===============//
 
        function getthirdVariation(variation1,variation2,variation3,product_id,vendor_id){
 
@@ -1211,7 +1239,7 @@ if (isset($_GET['id'])) {
             });
 
        }
-    /////---- get third offers -------- ////
+///==============get third offers===========///
 
         function getthirdOffers(variation1,variation2,variation3,product_id,vendor_id){
 
@@ -1229,7 +1257,7 @@ if (isset($_GET['id'])) {
 
             });
         }
-////=========== Get forth Variations =============== ///////
+//=========== Get forth Variations =============== ////
     function getforthVariation(variation1,variation2,variation3,variation4,product_id,vendor_id){
 
         $.ajax({
@@ -1251,5 +1279,21 @@ if (isset($_GET['id'])) {
             }
 
         });
-    }    
+    }
+//==================GET FORTH OFFERS===============///
+function getforthOffers(variation1,variation2,variation3,variation4,prodcut_id,vendor_id){
+
+    $.ajax({
+
+        type    : 'POST',
+        url     : 'actions/getforthOffers.php',
+        data    : {variation1:variation1,variation2:variation2,variation3:variation3,variation4:variation4,product_id:prodcut_id,vendor_id:vendor_id},
+        success : function(data){
+
+            // console.log(data);
+            $('#other-offers').html(null);
+            $('#other-offers').html(data);
+        }
+    });
+}     
     </script>

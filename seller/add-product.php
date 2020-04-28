@@ -329,6 +329,9 @@ if (isset($_SESSION['id']))
                                           <label for="" class="control-label">Variant</label>
                                       </td>
                                       <td class="text-center">
+                                          <label for="" class="control-label">Market Price</label>
+                                      </td>
+                                      <td class="text-center">
                                           <label for="" class="control-label">Variant Price</label>
                                       </td>
                                       <td class="text-center">

@@ -142,12 +142,12 @@ $description =     $_POST['description'];
 
                   $active = 'N';
                 }  
-                $approvquery = "update vendor_product SET quantity='".$_POST['qty'][$key]."',price='".$_POST['price'][$key]."',mk_price='".$market_price."',active='".$active[$key]."' where prod_id ='".$product_id."' AND variation_id='".$_POST['variation_id'][$key]."' AND ven_id ='".$ven_id."'";
+                $approvquery = "update vendor_product SET quantity='".$_POST['qty'][$key]."',price='".$_POST['price'][$key]."',mk_price='".$_POST['mk_price'][$key]."',active='".$active[$key]."' where prod_id ='".$product_id."' AND variation_id='".$_POST['variation_id'][$key]."' AND ven_id ='".$ven_id."'";
                 mysqli_query($con,$approvquery);
 
           }else{
 
-            $approvquery = "INSERT into vendor_product (prod_id,ven_id,variation_id,quantity,price,mk_price,active) VALUES ('".$product_id."','".$ven_id."','".$_POST['variation_id'][$key]."','".$_POST['qty'][$key]."','".$_POST['price'][$key]."','".$market_price."','".$_POST['active'][$key]."')";
+            $approvquery = "INSERT into vendor_product (prod_id,ven_id,variation_id,quantity,price,mk_price,active) VALUES ('".$product_id."','".$ven_id."','".$_POST['variation_id'][$key]."','".$_POST['qty'][$key]."','".$_POST['price'][$key]."','".$_POST['mk_price'][$key]."','".$_POST['active'][$key]."')";
             mysqli_query($con,$approvquery);
           }
       }
@@ -367,6 +367,9 @@ $description =     $_POST['description'];
                                           <label for="" class="control-label">Variant</label>
                                       </td>
                                       <td class="text-center">
+                                          <label for="" class="control-label">Market Price</label>
+                                      </td>
+                                      <td class="text-center">
                                           <label for="" class="control-label">Variant Price</label>
                                       </td>
                                       <td class="text-center">
@@ -389,6 +392,7 @@ $description =     $_POST['description'];
                                   <tr>
                                     <input type="hidden" name="variation_id[]" value="<?=$res['variation_id']?>">
                                     <td><label for="" class="control-label"><?=$res['sku']?></label></td>
+                                    <td><input type="number" name="mk_price[]" value="<?=$res['mk_price']?>" min="1" step="1" class="form-control" required></td>
                                     <td><input type="number" name="price[]" value="<?=$res['price']?>" min="1" step="1" class="form-control" required></td>
                                     <td><input type="text" name="sku[]" value="<?=$res['sku']?>" class="form-control" required></td>
                                     <td><input type="number" name="qty[]"  min="1" value="<?=$res['quantity']?>" step="1" class="form-control" required></td>
