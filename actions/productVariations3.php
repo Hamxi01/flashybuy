@@ -21,10 +21,10 @@ if (isset($_POST['product_id'])) {
 	if ($tRows>0) {
 			
 			$vpres = mysqli_fetch_array($vpquery);
-
-			$price   = $vpres[0];
-			$quantity = $vpres[1];
-			$ven_id  = $vpres[2];
+			$v_p_id  = $vpres[0];
+			$price   = $vpres[1];
+			$quantity = $vpres[2];
+			$ven_id  = $vpres[3];
 
 			$vcsql ="SELECT shop_name from vendor where id='$ven_id'";
 			$vcquery = mysqli_query($con,$vcsql);
@@ -43,7 +43,7 @@ if (isset($_POST['product_id'])) {
 			$sku          = 0;
 	}
 
-	$array = [$price,$quantity,$vendorname,$sku,$variation_id];
+	$array = [$price,$quantity,$vendorname,$sku,$variation_id,$v_p_id];
 	echo json_encode($array);
 }
 ?>

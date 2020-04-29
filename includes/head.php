@@ -24,7 +24,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 </head>
 <body>
-<header class="header header--product" data-sticky="true">
+<!-- <header class="header header--product" data-sticky="true">
         <nav class="navigation">
             <div class="container">
                 <article class="ps-product--header-sticky">
@@ -44,7 +44,7 @@
                 </article>
             </div>
         </nav>
-    </header>
+    </header> -->
     <header class="header header--1" data-sticky="false">
         <div class="header__top">
             <div class="ps-container">
