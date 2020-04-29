@@ -39,9 +39,11 @@ if (isset($_POST['product_id'])) {
 			$price = 0;
 			$quantity = 0;
 			$vendorname = 0;
+			$variation_id = 0;
+			$sku          = 0;
 	}
 
-	$array = [$price,$quantity,$vendorname,$sku];
+	$array = [$price,$quantity,$vendorname,$sku,$variation_id];
 	echo json_encode($array);
 }
 ?>

@@ -20,6 +20,8 @@ if (isset($_GET['id'])) {
         max(VP.price) as max_price,
         VP.price as actual_price,
         VP.variation_id,
+        VP.quantity as qty,
+        VP.id as v_p_id,
         PV.price,
         PV.quantity as stock,
         PV.sku,
@@ -77,6 +79,8 @@ if (isset($_GET['id'])) {
         $forth_variation_name  = $result['forth_variation_name'];
         $description           = $result['description'];
         $variationid           = $result['variation_id'];
+        $v_p_id                = $result['v_p_id'];
+        $stock                 = $result['qty'];
 
         $vendor_id = $result['ven_id'];
         $vsql ="SELECT shop_name from vendor where id='$vendor_id'";
@@ -154,6 +158,23 @@ if (isset($_GET['id'])) {
         position: relative;
         bottom: 50px;
     }
+    button#cart:disabled {
+        background: gainsboro;
+    }
+    #quantity::-webkit-outer-spin-button,
+    #quantity::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    #quantity {
+        -moz-appearance:textfield;
+    }
+    span#notify {
+        padding: 10px;
+        border-radius: 4px;
+        box-shadow: 1px 1px rgba(136, 136, 136, 0.38);
+    }
 </style>    
     <nav class="navigation--mobile-product"><a class="ps-btn ps-btn--black" href="shopping-cart.html">Add tos cart</a><a class="ps-btn" href="checkout.html">Buy Now</a></nav>
     <div class="ps-breadcrumb">
@@ -200,7 +221,7 @@ if (isset($_GET['id'])) {
                                         </select><span>(1 review)</span>
                                     </div>
                                 </div>
-                                <h4 class="ps-product__price">R<?=$price?></h4>
+                                <h4 class="ps-product__price"><b>R</b><?=$price?></h4>
                                 <div class="ps-product__desc">
                                     <p>Sold By:<a href="#"><strong id="vendorname"><?=$vendorname?></strong></a></p>
                                     <ul class="ps-list--dot">
@@ -226,6 +247,7 @@ if (isset($_GET['id'])) {
                                             
                                         
                                         <button class="product-variation option"><?=$variations['first_variation_value']?></button>
+                                        <input type="hidden" name="option">
                                     <?php } }?>
                                         <!-- <div class="ps-variant ps-variant--image"><span class="ps-variant__tooltip"> Dark</span><img src="img/products/detail/variants/small-2.jpg" alt=""></div>
                                         <div class="ps-variant ps-variant--image"><span class="ps-variant__tooltip"> pink</span><img src="img/products/detail/variants/small-3.jpg" alt=""></div> -->
@@ -292,9 +314,21 @@ if (isset($_GET['id'])) {
                                         <div class="form-group--number">
                                             <button class="up"><i class="fa fa-plus"></i></button>
                                             <button class="down"><i class="fa fa-minus"></i></button>
-                                            <input class="form-control" type="text" placeholder="1">
+                                            <input class="form-control" type="number" value="1" min="1"  id="quantity">
                                         </div>
-                                    </figure><a class="ps-btn ps-btn--black" href="#">Add to cart</a><a class="ps-btn" href="#">Buy Now</a>
+                                        <input type="hidden" name="" id="variation_id" value="">
+
+                                    </figure>
+                                    <?php if(empty($variationid)){?>
+
+                                        <button class="ps-btn ps-btn--black" id="cart">Add to cart</button>
+
+                                    <?php }else{?>
+
+                                        <button class="ps-btn ps-btn--black" id="cart" disabled>Add to cart</button>
+
+                                    <?php } ?>
+                                    <!-- <a class="ps-btn" href="#">Buy Now</a> -->
                                     <div class="ps-product__actions"><a href="#"><i class="icon-heart"></i></a><a href="#"><i class="icon-chart-bars"></i></a></div>
                                 </div>
                                 <div class="ps-product__specification"><a class="report" href="#">Report Abuse</a>
@@ -1004,8 +1038,10 @@ if (isset($_GET['id'])) {
             </div>
         </div>
     </div>
+    <input type="hidden" name="" value="<?=$price?>" id="price">
     <input type="hidden" name="id" value="<?=$product_id?>" id="productid">
-    <input type="hidden" name="ven_id" value="<?=$vendor_id?>">
+    <input type="hidden" name="ven_id" value="<?=$vendor_id?>" id="vendorid">
+    <input type="hidden" name=""  value="<?=$stock?>" id="maxQty">
     <?php include('includes/footer.php'); ?>
     <script type="text/javascript">
         
@@ -1085,7 +1121,7 @@ if (isset($_GET['id'])) {
             }  
         });
 
-//============== option2  ====================//
+//============== option2 ====================//
        
        $('.option2').click(function(){
             if($('.Active2').length){
@@ -1140,12 +1176,18 @@ if (isset($_GET['id'])) {
                   success:function(data){
 
                       if (data[0]!=0) {
+
                             $('.ps-product__price').html('R'+data[0]);
+                            $('#price').val(data[0]);
+                            $('#maxQty').val(data[1]);
                             $("#vendorname").html(data[2]);
                             $("#vendor").html(data[2]);
+                            $("#variation_id").val(data[4]);
+                            $("#cart").prop('disabled', false);
                       }
                       else{
                             $('.ps-product__price').html("out Of Stock");
+                            $("#cart").prop('disabled', true);
                       }
                       // let refresh = window.location + '?'+data[3];  
                       // window.history.replaceState({ path: refresh }, '', refresh);
@@ -1183,12 +1225,18 @@ if (isset($_GET['id'])) {
                   success:function(data){
 
                       if (data[0]!=0) {
+
+                            $('#price').val(data[0]);
                             $('.ps-product__price').html('R'+data[0]);
+                            $('#maxQty').val(data[1]);
                             $("#vendorname").html(data[2]);
                             $("#vendor").html(data[2]);
+                            $("#variation_id").val(data[4]);
+                            $("#cart").prop('disabled', false);
                       }
                       else{
                             $('.ps-product__price').html("out Of Stock");
+                            $("#cart").prop('disabled', true);
                       }
                       // let refresh = window.location + '?'+data[3];  
                       // window.history.replaceState({ path: refresh }, '', refresh);
@@ -1227,11 +1275,16 @@ if (isset($_GET['id'])) {
 
                       if (data[0]!=0) {
                             $('.ps-product__price').html('R'+data[0]);
+                            $('#price').val(data[0]);
+                            $('#maxQty').val(data[1]);
                             $("#vendorname").html(data[2]);
                             $("#vendor").html(data[2]);
+                            $("#variation_id").val(data[4]);
+                            $("#cart").prop('disabled', false);
                       }
                       else{
                             $('.ps-product__price').html("out Of Stock");
+                            $("#cart").prop('disabled', true);
                       }
                       // let refresh = window.location + '?'+data[3];  
                       // window.history.replaceState({ path: refresh }, '', refresh);
@@ -1270,17 +1323,24 @@ if (isset($_GET['id'])) {
 
                 if (data[0]!=0) {
                     $('.ps-product__price').html('R'+data[0]);
+                    $('#price').val(data[0]);
+                    $('#maxQty').val(data[1]);
                     $("#vendorname").html(data[2]);
                     $("#vendor").html(data[2]);
+                    $("#variation_id").val(data[4]);
+                    $("#cart").prop('disabled', false);
                 }
                 else{
                     $('.ps-product__price').html("out Of Stock");
+                    $("#cart").prop('disabled', true);
                 }
             }
 
         });
     }
+
 //==================GET FORTH OFFERS===============///
+
 function getforthOffers(variation1,variation2,variation3,variation4,prodcut_id,vendor_id){
 
     $.ajax({
@@ -1295,5 +1355,89 @@ function getforthOffers(variation1,variation2,variation3,variation4,prodcut_id,v
             $('#other-offers').html(data);
         }
     });
-}     
+}
+//====================================///
+//====== Quantity Box plus  ========= ///
+//====================================///
+
+    $('.up').click(function(){
+
+        var val = $('#quantity').val();
+        $('#quantity').val(parseInt(val)+1);
+        
+        
+    });
+
+//===================================//
+//======  Minus Functions  ========= //
+//==================================// 
+    
+    $('.down').click(function(){
+
+        var val = $('#quantity').val();
+
+        if(val>1){
+
+           $('#quantity').val(parseInt(val)-1); 
+        }
+        
+    });
+
+   //========================================//
+// ========= Start Cart Functionality =========//
+  //========================================// 
+
+    $("#cart").click(function(){
+
+        var product_id   = $("#productid").val();
+        var vendor_id    = $("#vendorid").val();
+        var variation_id = $("#variation_id").val();
+        var quantity     = $("#quantity").val();
+        var maxQty       = $("#maxQty").val();
+        var price        = $('#price').val();
+
+        if (parseInt(maxQty) < quantity) {
+            if (!$("div").is("#notify")) {
+
+                $(".ps-product__variations").append("<div id='notify' class='btn btn-danger'>Sorry! We have Only "+maxQty+" items in Stock.For Further info Conatct Support.</div>");
+            }    
+        }
+        else if(parseInt(maxQty) >= quantity){
+
+            if ($("div").is("#notify")) {
+
+                $('#notify').remove();
+
+            }
+            addtoCart(product_id,vendor_id,variation_id,quantity,price);
+        }
+        
+        
+    }); 
+    function addtoCart(product_id,vendor_id,variation_id,quantity,price){
+
+        // alert("product id:"+product_id+"vendor id :"+vendor_id+"variation id :"+variation_id+"Product quantity is: "+quantity+"Product Price is: "+price);
+
+        $.ajax({
+
+                type    : 'POST',
+                url     : 'ajax_Cart.php',
+                data    :  {
+
+                              action       : 'add',
+                              product_id   :  product_id,
+                              variation_id : variation_id,
+                              vendor_id    :  vendor_id,
+                              quantity     :  quantity,
+                              price        :  price
+                            },
+                success : function(data){
+
+                    alert(data);
+                }
+
+
+        });
+        
+    }         
     </script>

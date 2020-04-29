@@ -37,6 +37,8 @@ if (isset($_POST['product_id'])) {
 			$price = 0;
 			$quantity = 0;
 			$vendorname = 0;
+			$variation_id = 0;
+			$sku          = 0;
 
 			// $vsql ="SELECT shop_name from vendor where id='$ven_id'";
 			// $vquery = mysqli_query($con,$vsql);
@@ -46,7 +48,7 @@ if (isset($_POST['product_id'])) {
 
 	}
 
-	$array = [$price,$quantity,$vendorname,$sku];
+	$array = [$price,$quantity,$vendorname,$sku,$variation_id];
 	echo json_encode($array);
 }
 ?>
