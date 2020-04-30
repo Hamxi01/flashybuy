@@ -20,13 +20,14 @@ if (isset($_POST['product_id'])) {
 
 	// ====== Get Vendor Product Price quantity =======  //
 
-	$pvSql = mysqli_query($con,"SELECT price,quantity,ven_id FROM vendor_product where prod_id = '$product_id' AND variation_id = '$variation_id'");
+	$pvSql = mysqli_query($con,"SELECT id,price,quantity,ven_id FROM vendor_product where prod_id = '$product_id' AND variation_id = '$variation_id'");
 
 	$pvRows = mysqli_num_rows($pvSql);
 	if ($pvRows>0) {
 		
 		while ($pvRes = mysqli_fetch_array($pvSql)) {
 			
+			$v_p_id   = $pvRes['id'];
 			$price    = $pvRes['price'];
 			$quantity = $pvRes['quantity'];
 			$ven_id   = $pvRes['ven_id'];
@@ -47,7 +48,7 @@ if (isset($_POST['product_id'])) {
 		$sku          = 0;
 	}
 	
-	$array = [$price,$quantity,$vendorname,$sku,$variation_id];
+	$array = [$price,$quantity,$vendorname,$sku,$variation_id,$v_p_id];
 	echo json_encode($array);		
 }
 ?>

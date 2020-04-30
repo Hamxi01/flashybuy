@@ -221,7 +221,7 @@ if (isset($_GET['id'])) {
                                         </select><span>(1 review)</span>
                                     </div>
                                 </div>
-                                <h4 class="ps-product__price"><b>R</b><?=$price?></h4>
+                                <h4 id="ps-product__price"><b>R</b><?=$price?></h4>
                                 <div class="ps-product__desc">
                                     <p>Sold By:<a href="#"><strong id="vendorname"><?=$vendorname?></strong></a></p>
                                     <ul class="ps-list--dot">
@@ -381,8 +381,7 @@ if (isset($_GET['id'])) {
                                                  $options =  $vpRes['options'];
                                              }
                                              if (!empty($options)) {
-                                                  echo "<pre>";
-                                               print_r(json_decode($options));
+
                                     ?>
                                     <?php 
 
@@ -1042,6 +1041,7 @@ if (isset($_GET['id'])) {
     <input type="hidden" name="id" value="<?=$product_id?>" id="productid">
     <input type="hidden" name="ven_id" value="<?=$vendor_id?>" id="vendorid">
     <input type="hidden" name=""  value="<?=$stock?>" id="maxQty">
+    <input type="hidden" name=""  value="<?=$v_p_id?>" id="v_p_id">
     <?php include('includes/footer.php'); ?>
     <script type="text/javascript">
         
@@ -1177,16 +1177,17 @@ if (isset($_GET['id'])) {
 
                       if (data[0]!=0) {
 
-                            $('.ps-product__price').html('R'+data[0]);
+                            $('#ps-product__price').html('R'+data[0]);
                             $('#price').val(data[0]);
                             $('#maxQty').val(data[1]);
                             $("#vendorname").html(data[2]);
                             $("#vendor").html(data[2]);
                             $("#variation_id").val(data[4]);
+                            $("#v_p_id").val(data[5]);
                             $("#cart").prop('disabled', false);
                       }
                       else{
-                            $('.ps-product__price').html("out Of Stock");
+                            $('#ps-product__price').html("out Of Stock");
                             $("#cart").prop('disabled', true);
                       }
                       // let refresh = window.location + '?'+data[3];  
@@ -1227,15 +1228,16 @@ if (isset($_GET['id'])) {
                       if (data[0]!=0) {
 
                             $('#price').val(data[0]);
-                            $('.ps-product__price').html('R'+data[0]);
+                            $('#ps-product__price').html('R'+data[0]);
                             $('#maxQty').val(data[1]);
                             $("#vendorname").html(data[2]);
                             $("#vendor").html(data[2]);
                             $("#variation_id").val(data[4]);
+                            $("#v_p_id").val(data[5]);
                             $("#cart").prop('disabled', false);
                       }
                       else{
-                            $('.ps-product__price').html("out Of Stock");
+                            $('#ps-product__price').html("out Of Stock");
                             $("#cart").prop('disabled', true);
                       }
                       // let refresh = window.location + '?'+data[3];  
@@ -1274,16 +1276,17 @@ if (isset($_GET['id'])) {
                   success:function(data){
 
                       if (data[0]!=0) {
-                            $('.ps-product__price').html('R'+data[0]);
+                            $('#ps-product__price').html('R'+data[0]);
                             $('#price').val(data[0]);
                             $('#maxQty').val(data[1]);
                             $("#vendorname").html(data[2]);
                             $("#vendor").html(data[2]);
                             $("#variation_id").val(data[4]);
+                            $("#v_p_id").val(data[5]);
                             $("#cart").prop('disabled', false);
                       }
                       else{
-                            $('.ps-product__price').html("out Of Stock");
+                            $('#ps-product__price').html("out Of Stock");
                             $("#cart").prop('disabled', true);
                       }
                       // let refresh = window.location + '?'+data[3];  
@@ -1322,16 +1325,17 @@ if (isset($_GET['id'])) {
             success : function(data){
 
                 if (data[0]!=0) {
-                    $('.ps-product__price').html('R'+data[0]);
+                    $('#ps-product__price').html('R'+data[0]);
                     $('#price').val(data[0]);
                     $('#maxQty').val(data[1]);
                     $("#vendorname").html(data[2]);
                     $("#vendor").html(data[2]);
                     $("#variation_id").val(data[4]);
+                    $("#v_p_id").val(data[5]);
                     $("#cart").prop('disabled', false);
                 }
                 else{
-                    $('.ps-product__price').html("out Of Stock");
+                    $('#ps-product__price').html("out Of Stock");
                     $("#cart").prop('disabled', true);
                 }
             }
@@ -1395,6 +1399,7 @@ function getforthOffers(variation1,variation2,variation3,variation4,prodcut_id,v
         var quantity     = $("#quantity").val();
         var maxQty       = $("#maxQty").val();
         var price        = $('#price').val();
+        var v_p_id       = $('#v_p_id').val();
 
         if (parseInt(maxQty) < quantity) {
             if (!$("div").is("#notify")) {
@@ -1409,30 +1414,33 @@ function getforthOffers(variation1,variation2,variation3,variation4,prodcut_id,v
                 $('#notify').remove();
 
             }
-            addtoCart(product_id,vendor_id,variation_id,quantity,price);
+            addtoCart(product_id,vendor_id,variation_id,quantity,price,v_p_id);
         }
         
         
     }); 
-    function addtoCart(product_id,vendor_id,variation_id,quantity,price){
+    function addtoCart(product_id,vendor_id,variation_id,quantity,price,v_p_id){
 
         // alert("product id:"+product_id+"vendor id :"+vendor_id+"variation id :"+variation_id+"Product quantity is: "+quantity+"Product Price is: "+price);
 
         $.ajax({
 
-                type    : 'POST',
-                url     : 'ajax_Cart.php',
-                data    :  {
+                    type        : 'POST',
+                    url         : 'ajax_Cart.php',
+                    data        :  {
 
-                              action       : 'add',
-                              product_id   :  product_id,
-                              variation_id : variation_id,
-                              vendor_id    :  vendor_id,
-                              quantity     :  quantity,
-                              price        :  price
-                            },
-                success : function(data){
+                                      action       : 'add',
+                                      product_id   :  product_id,
+                                      variation_id : variation_id,
+                                      vendor_id    :  vendor_id,
+                                      quantity     :  quantity,
+                                      price        :  price,
+                                      v_p_id       :  v_p_id
+                                    },
+                    // dataType    : 'json',            
+                    success     : function(data){
 
+                    // $('.ps-cart__content').html(data);
                     alert(data);
                 }
 

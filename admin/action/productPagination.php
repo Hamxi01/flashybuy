@@ -115,8 +115,13 @@ $start_from = ($page-1) * $limit;
                             <td><?=$pvCount?></td>
                           <?php } ?>
                           <!-- end Count Vendor -->
-                          <td><button class="btn btn-sm btn-warning"><a href="product-vendor-detail.php?id=<?=$id?>&show-vendors-detail" style="color: #fff;text-decoration: none;">Details</a></button></td>
+                          <?php if (!empty($res['variant_Sku'])){ ?>
+                          <td><button class="btn btn-sm btn-warning"><a href="product-vendor-detail.php?id=<?=$id?>&variation_id=<?=$variation_id?>&show-vendors-detail" style="color: #fff;text-decoration: none;">Details</a></button></td>
                           <td>
+                          <?php }else{ ?>
+                              <td><button class="btn btn-sm btn-warning"><a href="product-vendor-detail.php?id=<?=$id?>&show-vendors-detail" style="color: #fff;text-decoration: none;">Details</a></button></td>
+                              <td>
+                           <?php } ?>  
                             <?php if($res['approved'] == "N"){?>
                               <div class="badge badge-danger">pending</div>
                               <?php }else{     ?>

@@ -8,6 +8,7 @@ if (isset($_POST['action']) && $_POST['action']=='add'){
 	$quantity          =  $_POST['quantity'];
 	$price             =  $_POST['price'];
 	$variation_id      =  $_POST['variation_id'];
+	$v_p_id            =  $_POST['v_p_id'];
 
 	// echo $product_id.$vendor_id.$quantity.$variation_id;
 
@@ -24,10 +25,10 @@ if (isset($_POST['action']) && $_POST['action']=='add'){
 
 	if (!empty($variation_id)) {
 		
-		$vSql = mysqli_query($con,"SELECT * FROM product_variations WHERE product_id ='$product_id' AND variation_id='$variation_id'");
-		while ($vRes = mysqli_fetch_array($vSql)) {
+		$pvSql = mysqli_query($con,"SELECT * FROM product_variations WHERE product_id ='$product_id' AND variation_id='$variation_id'");
+		while ($pvRes = mysqli_fetch_array($pvSql)) {
 		
-			$sku = $vRes['sku'];
+			$sku = $pvRes['sku'];
 		}
 		$imgSql = mysqli_query($con,"SELECT main_img FROM product_variant_images WHERE product_id='$product_id'");
 		$imgRes = mysqli_fetch_array($imgSql);
@@ -35,6 +36,7 @@ if (isset($_POST['action']) && $_POST['action']=='add'){
 
 		$product = Array(
 
+						'v_p_id'       => $v_p_id,
 						'product_id'   => $product_id,
 						'name'         => $name,
 						'price'        => $price*$quantity,
@@ -43,17 +45,43 @@ if (isset($_POST['action']) && $_POST['action']=='add'){
 
 					);
 
+//==================== CART SESSION IF PRODUCT HAVE VARIATIONS ===================// 		
+
 	}else{
 
 		$product = Array(
 
+						'v_p_id'       => $v_p_id,
 						'product_id'   => $product_id,
 						'name'         => $name,
 						'price'        => $price*$quantity,
 						'quantity'     => $quantity,
 
 					);
+//=================== CART SESSION IF PRODUCT HAVE NO VARIATIONS =================//		
 	}
+
+//=============== Find Vendor Name ========================== ///
+
+	$vSql = mysqli_query($con,"SELECT shop_name FROM vendor WHERE id='$vendor_id'");
+	$vRes = mysqli_fetch_array($vSql);
+	$vendor = $vRes['shop_name'];
+
+
+//======================== return cart items detials ===================//
+
+	// echo '<div class="ps-cart__items">
+	// 								<div class="ps-product--cart-mobile">
+ //                                        <div class="ps-product__thumbnail"><a href="#"><img src="upload/product/200_'.$image.'" alt=""></a></div>
+ //                                        <div class="ps-product__content"><a class="ps-product__remove" href="#"><i class="icon-cross"></i></a><a href="product-default.html">'.$name.'</a>
+ //                                            <p><strong>Sold by:</strong> '.$vendor.'</p><small>'.$quantity.' x '.$price.'</small>
+ //                                        </div>
+ //                                    </div>
+ //                                </div>
+ //                                <div class="ps-cart__footer">
+ //                                    <h3>Sub Total:<strong>R'.$price*$quantity.'</strong></h3>
+ //                                    <figure><a class="ps-btn" href="shopping-cart.html">View Cart</a><a class="ps-btn" href="checkout.html">Checkout</a></figure>
+ //                                </div>';
 	print_r($product);
 }
 ?>

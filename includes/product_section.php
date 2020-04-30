@@ -28,13 +28,21 @@ while ( $productResult = mysqli_fetch_array($productSql)) {
   $name       = $productResult['name'];
   $min        = $productResult['min'];
   $max        = $productResult['max'];
-  if ($max==$min) {
-         
-    $price = $min;
-  }
-  else{
 
-    $price = $min."-".$max;
+  if (!empty($productResult['variation_id'])) {
+    
+  
+      if ($max==$min) {
+             
+        $price = $min;
+      }
+      else{
+
+        $price = $min."-".$max;
+      }
+  }else{
+
+      $price = $productResult['price'];
   }     
   $image = $productResult['image1'];
   if (empty($image)) {

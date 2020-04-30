@@ -12,7 +12,6 @@
 
 
 ?>
-a
       <!-- Main Content -->
       <div class="main-content">
         <section class="section">
@@ -57,84 +56,6 @@ a
           </div>
         </section>
       </div>
-      <!-- View Model -->
-        <div class="modal fade bd-example-modal-lg" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
-          aria-hidden="true">
-          <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-              
-            </div>
-          </div>
-        </div>
-        <!-- Vendor assign Model -->
-        <div class="modal fade" id="vendorModel" tabindex="-1" role="dialog" aria-labelledby="formModal"
-          aria-hidden="true">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="formModal">Asign to vendor</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                <form id="vendor-form">
-                    <div class="form-group">
-                      <label>choose vendor name</label>
-                        <select class="form-control select2" required="" name="vendor">
-
-                            <option>choose vendor name</option>
-
-                            <?php 
-
-                                          $sql = mysqli_query($con, "SELECT * From vendor");
-                                          
-                                          while ($res = mysqli_fetch_array($sql)) {?>
-
-                            <option value="<?=$res['id']?>"><?=$res['name']?></option>
-                                            
-                                        <?php  }?>
-                        </select>
-                    </div>    
-                      <div class="form-group">
-                        <label>Quantity</label>
-                        <input type="number" name="stock" id="stock" class="form-control">
-                      </div>
-                      <div class="form-group" id="marketPrice">
-                        <label>Market Price</label>
-                        <input type="number" name="market_price" id="mk_price" class="form-control">
-                      </div>
-                      <div class="form-group">
-                        <label>Selling Price</label>
-                        <input type="number" name="selling_price" id="selling_price" class="form-control">
-                      </div>
-                      <input type="hidden" name="variation_id" id="variation_id">
-                      <input type="hidden" name="product_id" id="product_id">    
-                  <button type="button" onclick="assignVendor()" class="btn btn-primary m-t-15 waves-effect">Save</button>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- Variation insertion Model -->
-        <div class="modal fade" id="variationModel" tabindex="-1" role="dialog" aria-labelledby="formModal"
-          aria-hidden="true">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <!-- <h5 class="modal-title" id="formModal">Add new variation in this Product</h5> -->
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                <form id="variation-form">
-                  
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
       <?php include('includes/footer.php'); ?>
       <script>
 $(document).ready(function() {
@@ -145,7 +66,7 @@ $(document).ready(function() {
       $("#pagination li").removeClass('active');
       $(this).addClass('active');
       var pageNum = this.id;
-      $(".table-responsive").load("action/productPagination.php?page=" + pageNum);
+      $(".table-responsive").load("action/pendingproductPagination.php?page=" + pageNum);
     });
 });
 
@@ -153,7 +74,7 @@ $(document).ready(function() {
 ////-----------------------------------------////
 //-----------Product Seacrh Function----------//
 
-function productSearch(){
+function pendingProductSearch(){
 
     var keyword = $('#keyword').val();
     $.ajax({

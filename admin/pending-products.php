@@ -4,75 +4,31 @@
       include('includes/sidebar.php');
 
       $limit = 10;
-      $prow ="SELECT  COUNT(P.product_id) AS pTotal  FROM vendor_product AS VP LEFT JOIN product_variations AS PV ON PV.variation_id = VP.variation_id INNER JOIN products AS P ON P.product_id = VP.prod_id Where VP.ven_id = $vendor_id";
+      $prow ="SELECT  COUNT(P.product_id) AS pTotal  FROM products AS P LEFT JOIN product_variations AS PV ON PV.product_id = P.product_id Where P.approved = 'N'";
       $prow = mysqli_query($con,$prow);
       $row = mysqli_fetch_array($prow);
       $totalRow = $row['0'];
       $total_pages = ceil($totalRow / $limit);
 
-      if (isset($_POST['update'])) {
-        
-          foreach ($_POST['v_p_id'] as $key => $value) {
-            
-              $approvquery = "update vendor_product SET quantity='".$_POST['qty'][$key]."',price='".$_POST['price'][$key]."',mk_price='".$_POST['mk_price'][$key]."',dispatched_days = '".$_POST['dispatch_days'][$key]."'  where id ='".$_POST['v_p_id'][$key]."'";
-                mysqli_query($con,$approvquery);
-          }
-          echo "<script>window.location.assign('products.php?msg=success');</script>";
-      }
-
 
 ?>
-
       <!-- Main Content -->
       <div class="main-content">
         <section class="section">
           <div class="section-body">
- <!-- Start Showing success or warning Msg -->
-<?php
-if (isset($_GET['msg']) && $_GET['msg'] ==  "error") {?>
-    <div class="row">
-        <div class="col-lg-6 col-sm-offset-3">
-            <div class="alert alert-warning msg">    
-    <?php echo "Something went wrong!"; ?>
-            </div>
-        </div>
-    </div>
-<?php
-}
-?>
-<?php
-if (isset($_GET['msg']) && $_GET['msg'] == 'success') { ?>
-<div class="row">
-    <div class="col-lg-6 col-sm-offset-3">
-        <div class="alert alert-success msg">    
-    <?php echo "<span>Data updated successfully...!!</span>"; ?>
-
-        </div>
-    </div>
-</div>
-<?php 
-}?>
-<!-- End Message Alert --> 
-            <form action="products.php" method="post">
-              <div class="row">
-                <div class="col-11"></div>
-                <div class="col-1">
-                  <button class="btn btn-warning text-right" type="submit" name="update" style="position: relative;right: 20px;">update</button>
-                </div>
-              </div>
             <div class="row">
               <div class="col-12">
                 <div class="card">
                   <div class="card-header">
-                    <h4>Products</h4>
+                    <h4>Pending Products</h4>
                     <div class="card-header-form">
                       <form>
-                        <div class="input-group">
+                        <!-- <div class="input-group">
                           <input type="text" class="form-control" placeholder="Search" id="keyword" oninput="productSearch()">
                           <div class="input-group-btn">
                             <button class="btn btn-primary"><i class="fas fa-search"></i></button>
                           </div>
-                        </div>
+                        </div> -->
                       </form>
                     </div>
                   </div>
@@ -97,22 +53,20 @@ if (isset($_GET['msg']) && $_GET['msg'] == 'success') { ?>
                 </div>
               </div>
             </div>
-            </form>
           </div>
         </section>
       </div>
-      
       <?php include('includes/footer.php'); ?>
       <script>
 $(document).ready(function() {
 
-    $(".table-responsive").load("action/productPagination.php?page=1");
+    $(".table-responsive").load("action/pendingproductPagination.php?page=1");
         $("#pagination li").on('click',function(e){
       e.preventDefault();
       $("#pagination li").removeClass('active');
       $(this).addClass('active');
       var pageNum = this.id;
-      $(".table-responsive").load("action/productPagination.php?page=" + pageNum);
+      $(".table-responsive").load("action/pendingproductPagination.php?page=" + pageNum);
     });
 });
 
@@ -120,12 +74,12 @@ $(document).ready(function() {
 ////-----------------------------------------////
 //-----------Product Seacrh Function----------//
 
-function productSearch(){
+function pendingProductSearch(){
 
     var keyword = $('#keyword').val();
     $.ajax({
       type:"post",
-      url:"action/productSearch.php",
+      url:"action/pendingproductSearch.php",
       data:{keyword:keyword},
       success:function(data){
         // /console.log(data);
@@ -135,8 +89,5 @@ function productSearch(){
       }
     });
 }
-$(document).ready(function() {
 
-  setTimeout(function(){ $(".msg").hide(); }, 5000);
-});
 </script>

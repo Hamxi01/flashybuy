@@ -30,6 +30,7 @@
               <ul class="dropdown-menu">
                 <li><a class="nav-link" href="product.php">Products</a></li>
                 <li><a class="nav-link" href="add-product.php">Add new Products</a></li>
+                <li><a class="nav-link" href="pending-products.php">Pending Products</a></li>
               </ul>
             </li>
             <li class="dropdown">
