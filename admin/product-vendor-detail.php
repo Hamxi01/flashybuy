@@ -5,7 +5,8 @@
 
   if (isset($_GET['id'])) {
 
-        $id = base64_decode($_GET['id']);
+        $id           = base64_decode($_GET['id']);
+        $variation_id = base64_decode($_GET['variation_id']);
 
         $psql    = "SELECT * FROM products where product_id='$id'";
         $pquery  = mysqli_query($con,$psql);
@@ -43,13 +44,6 @@
             }
             //--- fetch vendor variation by product -------//
 
-            $pvsql   = "SELECT variation_id FROM vendor_product where prod_id='$product_id'";
-            $pvquery = mysqli_query($con,$pvsql);
-            $pvrows = mysqli_num_rows($pvquery);
-            if($pvrows>0){
-              while ($pvres = mysqli_fetch_array($pvquery)) {
-
-                  $variation_id = $pvres['variation_id'];
                   if (empty($variation_id)) {
                       
                       $sku     = $pres['sku'];
@@ -62,12 +56,7 @@
                           $sku = $vres['sku'];
                         }
 
-                  }
-              }
-            }else{
-
-              $sku     = $pres['sku'];
-            } 
+                  } 
         }
   }
 ?>
