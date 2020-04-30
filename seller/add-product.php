@@ -924,4 +924,4 @@ $('#product_form').on('keyup keypress', function(e) {
   }
 });
 //---- On press Enter form not submit Fuction --- //// 
-</script>  
+</script> 
