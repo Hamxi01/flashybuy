@@ -78,7 +78,7 @@ include('includes/sidebar.php');
           <div class="section-body">
  <!-- Start Showing success or warning Msg -->
 <?php
-if (isset($_GET['msg']) == "error") {?>
+if (isset($_GET['msg']) && $_GET['msg'] ==  "error") {?>
     <div class="row">
         <div class="col-lg-6 col-sm-offset-3">
             <div class="alert alert-warning msg">    
@@ -90,7 +90,7 @@ if (isset($_GET['msg']) == "error") {?>
 }
 ?>
 <?php
-if (isset($_GET['msg']) == 'success') { ?>
+if (isset($_GET['msg']) && $_GET['msg'] == 'success') { ?>
 <div class="row">
     <div class="col-lg-6 col-sm-offset-3">
         <div class="alert alert-success msg">    
@@ -100,145 +100,52 @@ if (isset($_GET['msg']) == 'success') { ?>
     </div>
 </div>
 <?php 
-}
+}?>
+<!-- End Message Alert --> 
+<?php
+if (isset($_GET['id'])) 
+ {
+    $product_id = base64_decode($_GET['id']);
+
+ }
 ?>
 
-<!-- End Message Alert -->            
+           
             <div class="row">
               <div class="col-md-10 offset-md-1">
                 
                     <div class="card">
                       <form  action="action/add_product.php" method="post"  enctype="multipart/form-data" id="product_form">
                         <div class="card-header">
-                          <h4>Add Your Products</h4>
+                          <h4>Add Your Variations</h4>
                         </div>
                         <div class="card-body">
-                          <div class="form-group row">
-                              <label class="col-form-label">Product Name</label>
-                                <input type="text" class="form-control" required="" name="name" value="">
-                                <div class="invalid-feedback">
-                                  What's Product name?
-                                </div>
-                          </div>  
-                            <div class="form-group row"> 
-                                
-                                  <label>Choose Categories</label>
-                                  <input type="text" parsley-trigger="change" required  class="form-control" data-toggle="modal" data-target=".bd-example-modal-lg" id="categories_name" value="Select Category">
-                                  <input type="hidden" name="category_id" id="category_id" value="" required>
-                                  <input type="hidden" name="subcategory_id" id="subcategory_id" value="" required>
-                                  <input type="hidden" name="subsubcategory_id" id="subsubcategory_id" value="" required>
-                            </div>
-                            <div class="form-group row">
-                                    <label>Choose Brands</label>
-                                    <select class="form-control select2" required="" name="brand">
-                                        
-                                      <?php 
-
-                                          $sql = mysqli_query($con, "SELECT * From brands where delte = 0");
-                                          
-                                          while ($res = mysqli_fetch_array($sql)) {?>
-
-                                            <option value="<?=$res['id']?>"><?=$res['name']?></option>
-                                            
-                                        <?php  }
-                                      ?>
-                                    </select>
-                            </div>
-                            <div class="form-group row">
-                              <div class="col-md-12">
-                                <label class="col-form-label">Description</label>
-                                    <textarea class="form-control" required="" name="description"></textarea>
-                              </div>
-                            </div>
-                            <div class="form-group row">
-                              <div class="col-md-4">
-                                  <div class="pretty p-switch">
-                                    <input type="checkbox" value="Y" name="variation_approval"  id="variations" onchange="showVariations()"/>
-                                    <div class="state p-warning">
-                                        <label><b>Do you have product variations?</b></label>
-                                    </div>
-                                  </div>
-                              </div>
-                              <div class="col-md-2"></div>   
-                            </div>
-                            <div class="form-group row" id="price_section">
-                            <div class="col-md-4">
-                              <div class="form-group">
-                                  <label>Market Price</label>
-                                  <input type="number" name="market_price"  class="form-control" value="">
-                                </div>
-                              </div>
-                              <div class="col-md-4">
-                                <div class="form-group">
-                                  <label>Selling Price</label>
-                                  <input type="number" name="selling_price"  class="form-control" value="">
-                                </div>
-                              </div>
-                              <div class="col-md-4">
-                                <div class="form-group">
-                                  <label>Quantity</label>
-                                  <input type="number" name="quantity"  class="form-control" value="">
-                                </div>
-                              </div> 
-                          </div>
-
-                          <div class="form-group row">
-                            <div class="col-md-4">
-                              <div class="form-group">
-                                  <label>Width</label>
-                                  <input type="number" name="width" required="" class="form-control" value="">
-                                </div>
-                              </div>
-                              <div class="col-md-4">
-                                <div class="form-group">
-                                  <label>Height</label>
-                                  <input type="number" name="height" required="" class="form-control" value="">
-                                </div>
-                              </div>
-                              <div class="col-md-4">
-                                <div class="form-group">
-                                  <label>Length</label>
-                                  <input type="number" name="length" required="" class="form-control" value="">
-                                </div>
-                              </div> 
-                          </div>
-                          <div class="form-group row" id="images">
-                            <div class="col-md-3">
-                              <div class="form-group">
-                                  <label>Image1</label>
-                                  <input type="file" name="file1" class="form-control" value="">
-                                </div>
-                              </div>
-                              <div class="col-md-3">
-                                <div class="form-group">
-                                  <label>Image2</label>
-                                  <input type="file" name="file2" class="form-control" value="">
-                                </div>
-                              </div>
-                              <div class="col-md-3">
-                                <div class="form-group">
-                                  <label>Image3</label>
-                                  <input type="file" name="file3" class="form-control" value="">
-                                </div>
-                              </div>
-                              <div class="col-md-3">
-                                <div class="form-group">
-                                  <label>Image4</label>
-                                  <input type="file" name="file4" class="form-control" value="">
-                                </div>
-                              </div>  
-                          </div>
-                          <div class="form-group row" id="variations_heading" style="display: none;">
-                              <div class="col-md-4 offset-md-4">
-                                <h3>Variations</h3>
-                              </div>
-                          </div>
-                          <div class="form-group row" id="variations_value" style="display: none;">
+                            
+                          <div class="form-group row" id="variations_value">
                             <div class="col-md-3">
                               <label>Product Variants (Options)</label>
                             </div>  
                             <div class="col-md-9">
                                 <select class="form-control select2"  onchange="variationsName()" name="variationname[]" id="variations_name" placeholder="choose" multiple="">
+                                  <?php 
+                                        $subSql = mysqli_query($con,"SELECT sub_sub_cat_id FROM products where product_id = '$product_id'");
+                                        $subRes = mysqli_fetch_array($subSql);
+                                        $subsubid = $subRes[0];
+                                        echo $subsubid;
+                                        $vSql = mysqli_query($con,"SELECT variation_id from sub_sub_categories where sub_sub_cat='$subsubid'");
+                                        $vRes = mysqli_fetch_array($vSql);
+                                        $vid = $vRes[0];
+                                        $vid = explode(',',$vid);
+
+                                  foreach ($vid as $key => $value) {
+                                            
+                                          $sql = mysqli_query($con, "SELECT * From variations where delte = 0 AND id ='$vid[$key]'");
+                                          
+                                          while ($res = mysqli_fetch_array($sql)) {?>
+
+                                            <option value="<?=$res['variation_name']?>"><?=$res['variation_name']?></option>
+                                            
+                                        <?php }  }?>
                                 </select>  
                             </div>
                           </div>
@@ -251,6 +158,9 @@ if (isset($_GET['msg']) == 'success') { ?>
                                   <tr>
                                       <td class="text-center">
                                           <label for="" class="control-label">Variant</label>
+                                      </td>
+                                      <td class="text-center">
+                                          <label for="" class="control-label">Market Price</label>
                                       </td>
                                       <td class="text-center">
                                           <label for="" class="control-label">Variant Price</label>
@@ -351,116 +261,7 @@ if (isset($_GET['msg']) == 'success') { ?>
   <script src="assets/js/page/toastr.js"></script>
 <script type="text/javascript">
 
-        var category_name = "";
-        var subcategory_name = "";
-        var subsubcategory_name = "";
-
-        var category_id = null;
-        var subcategory_id = null;
-        var subsubcategory_id = null;
-
-            function list_item_highlight(el){
-                $(el).parent().children().each(function(){
-                    $(this).removeClass('selected');
-                });
-                $(el).addClass('selected');
-            }
-        function get_subcategories_by_category(el, cat_id){
-            list_item_highlight(el);
-            category_id = cat_id;
-            category_name = $(el).html();
-            $('#subcategories').html(null);
-            $('#subsubcategories').html(null);
-            $.ajax({
-                type: "POST",
-                url: 'action/getsubcategories.php',
-                data: {category_id:category_id},
-                success:function(data){
-
-                        $('#subcategories').append(data);
-                        $(".subcategories .app-search").css("display","");
-                }
-            });
-        }
-        function get_subsubcategories_by_subcategory(el, cat_id){
-            list_item_highlight(el);
-            subcategory_id = cat_id;
-            subsubcategory_name = "";
-            subsubcategory_id= null;
-            sub_category_name = $(el).html();
-            $('#subsubcategories').html(null);
-            $.ajax({
-                type: "POST",
-                url: 'action/getsubsubcategories.php',
-                data: {category_id:subcategory_id},
-                success:function(data){
-                
-                        $('#subsubcategories').append(data);
-                        $(".subsubcategories .app-search").css("display","");
-                }
-            });
-        }
-        function confirm_subsubcategory(el, subsubcat_id){
-            list_item_highlight(el);
-            subsubcategory_id = subsubcat_id;
-            subsubcategory_name = $(el).html();
-            fetch_Variations(subsubcategory_id);
-            fetch_variant_options(subsubcategory_id);
-        }
-        function fetch_Variations(id){
-            $('#variations_name').html(null);
-            $.ajax({
-                type: "POST",
-                url: 'action/getvariations.php',
-                data: {sub_sub_cat:id},
-                success:function(data){
-                
-                        $('#variations_name').append(data);
-                        // console.log(data);
-                    
-                }
-            });
-
-
-        }
-////////////////////////
-
-///////////////////////////////////////
-////---- Variant Options ---------////
-////////////////////////////////////// 
-
-        function fetch_variant_options(id){
-            // $('#variations_name').html(null);
-            $.ajax({
-                type: "POST",
-                url: 'action/getvariantoptions.php',
-                data: {subsubcategoryid:id},
-                success:function(data){
-                        // console.log(data);
-                        $('#variant_options').append(data);
-                        $('#custom_options').val('Y');
-                    
-                }
-            });
-
-
-        }
-///////////////////////////////////////
-////---- Variant Options ---------////
-//////////////////////////////////////       
-        function closeModal(){
-            if(category_id > 0 && subcategory_id > 0 && subsubcategory_id > 0){
-                $('#category_id').val(category_id);
-                $('#subcategory_id').val(subcategory_id);
-                $('#subsubcategory_id').val(subsubcategory_id);
-                $('#categories_name').val(category_name+'>'+sub_category_name+'>'+subsubcategory_name);
-                $('#categories_name').prop('readonly', true);
-                $('.bd-example-modal-lg').modal('hide');
-            }
-            else{
-                alert('Please choose categories...');
-            }
-        }
+        
         $(".select2").select2();
         function showVariations(){
 
@@ -652,4 +453,197 @@ var s = new Array();
 
         setTimeout(function(){ $(".msg").hide(); }, 5000);
     });
-</script>  
+    
+
+
+    ////////////////////////////////////////
+    ///--------- upload image1 ----------//
+
+    $(document).ready(function(){
+       $(document).on('change', '#file1', function(){
+        var name = document.getElementById("file1").files[0].name;
+        var form_data = new FormData();
+        var ext = name.split('.').pop().toLowerCase();
+        if(jQuery.inArray(ext, ['gif','png','jpg','jpeg']) == -1) 
+        {
+         alert("Invalid Image File");
+        }
+        var oFReader = new FileReader();
+        oFReader.readAsDataURL(document.getElementById("file1").files[0]);
+        var f = document.getElementById("file1").files[0];
+        var fsize = f.size||f.fileSize;
+       
+         form_data.append("file1", document.getElementById('file1').files[0]);
+         $.ajax({
+          url:"action/uploadimg1.php",
+          method:"POST",
+          data: form_data,
+          dataType: 'json',
+          contentType: false,
+          cache: false,
+          processData: false,
+          beforeSend:function(){
+           $('#uploaded_image').html("<label class='text-success'>Image Uploading...</label>");
+          },   
+          success:function(data)
+          {
+           $('#uploaded_image').html(data[0]);
+           $('#image1').val(data[1]);
+          }
+         });
+        
+       });
+    });
+    ////////////////////////////////////////
+    ///--------- upload image2 ----------//
+
+    $(document).ready(function(){
+       $(document).on('change', '#file2', function(){
+        var name = document.getElementById("file2").files[0].name;
+        var form_data = new FormData();
+        var ext = name.split('.').pop().toLowerCase();
+        if(jQuery.inArray(ext, ['gif','png','jpg','jpeg']) == -1) 
+        {
+         alert("Invalid Image File");
+        }
+        var oFReader = new FileReader();
+        oFReader.readAsDataURL(document.getElementById("file2").files[0]);
+        var f = document.getElementById("file2").files[0];
+        var fsize = f.size||f.fileSize;
+       
+         form_data.append("file2", document.getElementById('file2').files[0]);
+         $.ajax({
+          url:"action/uploadimg2.php",
+          method:"POST",
+          data: form_data,
+          dataType: 'json',
+          contentType: false,
+          cache: false,
+          processData: false,
+          beforeSend:function(){
+           $('#uploaded_image2').html("<label class='text-success'>Image Uploading...</label>");
+          },   
+          success:function(data)
+          {
+           $('#uploaded_image2').html(data[0]);
+           $('#image2').val(data[1]);
+          }
+         });
+        
+       });
+    });
+    ////////////////////////////////////////
+    ///--------- upload image3 ----------//
+
+    $(document).ready(function(){
+       $(document).on('change', '#file3', function(){
+        var name = document.getElementById("file3").files[0].name;
+        var form_data = new FormData();
+        var ext = name.split('.').pop().toLowerCase();
+        if(jQuery.inArray(ext, ['gif','png','jpg','jpeg']) == -1) 
+        {
+         alert("Invalid Image File");
+        }
+        var oFReader = new FileReader();
+        oFReader.readAsDataURL(document.getElementById("file3").files[0]);
+        var f = document.getElementById("file3").files[0];
+        var fsize = f.size||f.fileSize;
+       
+         form_data.append("file3", document.getElementById('file3').files[0]);
+         $.ajax({
+          url:"action/uploadimg3.php",
+          method:"POST",
+          data: form_data,
+          dataType: 'json',
+          contentType: false,
+          cache: false,
+          processData: false,
+          beforeSend:function(){
+           $('#uploaded_image3').html("<label class='text-success'>Image Uploading...</label>");
+          },   
+          success:function(data)
+          {
+           $('#uploaded_image3').html(data[0]);
+           $('#image3').val(data[1]);
+          }
+         });
+        
+       });
+    });
+    ////////////////////////////////////////
+    ///--------- upload image4 ----------//
+
+    $(document).ready(function(){
+       $(document).on('change', '#file4', function(){
+        var name = document.getElementById("file4").files[0].name;
+        var form_data = new FormData();
+        var ext = name.split('.').pop().toLowerCase();
+        if(jQuery.inArray(ext, ['gif','png','jpg','jpeg']) == -1) 
+        {
+         alert("Invalid Image File");
+        }
+        var oFReader = new FileReader();
+        oFReader.readAsDataURL(document.getElementById("file4").files[0]);
+        var f = document.getElementById("file4").files[0];
+        var fsize = f.size||f.fileSize;
+       
+         form_data.append("file4", document.getElementById('file4').files[0]);
+         $.ajax({
+          url:"action/uploadimg4.php",
+          method:"POST",
+          data: form_data,
+          dataType: 'json',
+          contentType: false,
+          cache: false,
+          processData: false,
+          beforeSend:function(){
+           $('#uploaded_image4').html("<label class='text-success'>Image Uploading...</label>");
+          },   
+          success:function(data)
+          {
+           $('#uploaded_image4').html(data[0]);
+           $('#image4').val(data[1]);
+          }
+         });
+        
+       });
+    });
+    /////-------brands search ----- ///////
+
+    function searchBrands(){
+
+        var keyword = $('#brandkeyword').val();
+        if (keyword.length>=3) {
+
+            $.ajax({
+              type: "POST",
+              url: 'action/brandSearch.php',
+              data: {keyword:keyword},
+              success:function(data){
+
+                  // console.log(data);
+                  $('#brandslist').show();
+                  $('#brandslist').html(data);
+              }
+            });
+        }
+    }
+    function addBrand(el,id){
+
+        var brand = $(el).html();
+        $('#brandid').val(id);
+        $('#brandkeyword').val(brand);
+        $('#brandslist').html(null);
+        $('#brandslist').hide();
+        
+    }
+//---- On press Enter form not submit Fuction --- ////    
+$('#product_form').on('keyup keypress', function(e) {
+  var keyCode = e.keyCode || e.which;
+  if (keyCode === 13) { 
+    e.preventDefault();
+    return false;
+  }
+});
+//---- On press Enter form not submit Fuction --- //// 
+</script> 

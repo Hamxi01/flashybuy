@@ -39,8 +39,7 @@ $start_from = ($page-1) * $limit;
                   FROM
                     products AS P
                     LEFT JOIN product_variations AS PV ON PV.product_id = P.product_id
-                    Where P.ven_id = $vendor_id
-                    AND P.approved = 'N'
+                    WHERE P.approved = 'N'
                   ORDER BY
                     P.product_id DESC LIMIT $start_from, $limit";
     $query = mysqli_query($con,$sql);

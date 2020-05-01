@@ -4,7 +4,9 @@
       include('includes/sidebar.php');
 
       $limit = 10;
-      $prow ="SELECT  COUNT(P.product_id) AS pTotal  FROM products AS P LEFT JOIN product_variations AS PV ON PV.product_id = P.product_id Where P.approved = 'N'";
+      $prow ="SELECT  COUNT(P.product_id) AS pTotal  FROM products AS P  LEFT JOIN product_variations AS PV ON P.product_id = PV.product_id WHERE P.approved = 'N'
+";
+
       $prow = mysqli_query($con,$prow);
       $row = mysqli_fetch_array($prow);
       $totalRow = $row['0'];

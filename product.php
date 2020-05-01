@@ -63,15 +63,17 @@ if (isset($_GET['id'])) {
             $vimg = mysqli_query($con,"SELECT * from product_variant_images Where product_id ='$product_id'");
             while ($res = mysqli_fetch_array($vimg)) {
                     
-                    $image1 = $res['image1'];
+                    $image1 = $res['main_img'];
                     $image2 = $res['image2'];
+                    $image3 = $res['image3'];
+                    $image4 = $res['image4'];
             }
         }else{
 
             $image1 = $result['image1'];
             $image2 = $result['image2'];
-            $image1 = $result['image3'];
-            $image2 = $result['image4'];
+            $image3 = $result['image3'];
+            $image4 = $result['image4'];
         }
         $first_variation_name  = $result['first_variation_name'];
         $second_variation_name = $result['second_variation_name'];
@@ -197,14 +199,34 @@ if (isset($_GET['id'])) {
                                 <figure>
                                     <div class="ps-wrapper">
                                         <div class="ps-product__gallery" data-arrow="true">
-                                            <div class="item"><a href="upload/product/<?=$image1?>"><img src="upload/product/<?=$image1?>" alt=""></a></div>
-                                            <div class="item"><a href="upload/product/<?=$image2?>"><img src="upload/product/<?=$image2?>" alt=""></a></div>
+                                        <?php if(!empty($image1)){?>
+                                            <div class="item"><a href="upload/product/800_<?=$image1?>"><img src="upload/product/800_<?=$image1?>" alt=""></a></div>
+                                        <?php } ?>
+                                        <?php if(!empty($image2)){?>
+                                            <div class="item"><a href="upload/product/800_<?=$image2?>"><img src="upload/product/800_<?=$image2?>" alt=""></a></div>
+                                        <?php } ?>
+                                        <?php if(!empty($image3)){?>    
+                                            <div class="item"><a href="upload/product/800_<?=$image3?>"><img src="upload/product/800_<?=$image3?>" alt=""></a></div>
+                                        <?php } ?>
+                                        <?php if(!empty($image4)){?>
+                                            <div class="item"><a href="upload/product/800_<?=$image4?>"><img src="upload/product/800_<?=$image4?>" alt=""></a></div>
+                                        <?php } ?>    
                                         </div>
                                     </div>
                                 </figure>
                                 <div class="ps-product__variants" data-item="4" data-md="4" data-sm="4" data-arrow="false">
-                                    <div class="item"><img src="upload/product/<?=$image1?>" alt=""></div>
-                                    <div class="item"><img src="upload/product/<?=$image2?>" alt=""></div>
+                                <?php if(!empty($image1)){?>    
+                                    <div class="item"><img src="upload/product/800_<?=$image1?>" alt=""></div>
+                                <?php } ?> 
+                                <?php if(!empty($image2)){ ?>   
+                                    <div class="item"><img src="upload/product/800_<?=$image2?>" alt=""></div>
+                                <?php } ?>
+                                <?php if(!empty($image3)){?>    
+                                    <div class="item"><img src="upload/product/800_<?=$image3?>" alt=""></div>
+                                <?php } ?>
+                                <?php if(!empty($image4)){?>    
+                                    <div class="item"><img src="upload/product/800_<?=$image4?>" alt=""></div>
+                                <?php } ?>    
                                 </div>
                             </div>
                             <div class="ps-product__info">

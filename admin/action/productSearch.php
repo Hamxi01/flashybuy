@@ -23,6 +23,7 @@ if (isset($_POST['keyword'])) {
                     LEFT JOIN product_variations AS PV ON PV.product_id = P.product_id
                     where P.name like '%$keyword%'
                     OR P.product_id like '%$keyword%'
+                    AND P.approved = 'Y'
                   ORDER BY
                     P.product_id DESC LIMIT $limit";
         $query = mysqli_query($con,$sql);
@@ -76,7 +77,16 @@ if (isset($_POST['keyword'])) {
                
              
           }
+  $countQuery = "SELECT  COUNT(*) AS total FROM vendor_product AS VP INNER JOIN vendor AS V ON V.id = VP.ven_id INNER Join product_variations AS PV ON PV.variation_id = VP.variation_id where PV.variation_id = '$v_id'";
+  $resquery  = mysqli_query( $con , $countQuery );
+  $resArray  = mysqli_fetch_array($resquery);
+  $vCount    = $resArray["total"];
+  
 
+  $pvQuery  = "SELECT  COUNT(*) AS total FROM vendor_product AS VP INNER JOIN vendor AS V ON V.id = VP.ven_id  where VP.prod_id = '$p_id'";
+  $resQuery = mysqli_query( $con , $pvQuery );
+  $pquery   = mysqli_fetch_array($resQuery);
+  $pvCount  = $pquery["total"];
         	?>
         		<tr>
                           <td><?= $i++?></td>
@@ -86,17 +96,27 @@ if (isset($_POST['keyword'])) {
                           <td class="align-middle"><?=$stock?></td>
                           <td><b>R</b><?=$price?></td>
                           <td><?=$res['variant_Sku']?></td>
-                          <td>2</td>
-                          <td>
-                            <?php if (!empty($res['variant_Sku'])){ if($res['active'] == "N"){?>
-                              <div class="badge badge-danger">pending</div>
-                            <?php }else{     ?>
-                              <div class="badge badge-success">Approved</div>
-                            <?php } }else{ if($res['approved'] == "N"){?>
+                           <!-- Count Vendor -->
+                          <?php if (!empty($res['variant_Sku'])){ ?>
+                            <td><?=$vCount?></td>
+                          <?php }else{ ?>
+                            <td><?=$pvCount?></td>
+                          <?php } ?>
+                          <!-- end Count Vendor -->
+
+                          <?php if (!empty($res['variant_Sku'])){ ?>
+                          <td><button class="btn btn-sm btn-warning"><a href="product-vendor-detail.php?id=<?=$id?>&variation_id=<?=$variation_id?>&show-vendors-detail" style="color: #fff;text-decoration: none;">Details</a></button></td>
+                          
+                          <?php }else{ ?>
+                              <td><button class="btn btn-sm btn-warning"><a href="product-vendor-detail.php?id=<?=$id?>&show-vendors-detail" style="color: #fff;text-decoration: none;">Details</a></button></td>
+                              
+                           <?php } ?> 
+                          <td> 
+                            <?php if($res['approved'] == "N"){?>
                               <div class="badge badge-danger">pending</div>
                               <?php }else{     ?>
                                 <div class="badge badge-success">Approved</div>
-                              <?php } }?>
+                              <?php } ?>
                           </td>
                           <td>
                             <div class="dropdown">
@@ -153,6 +173,7 @@ if (isset($_POST['keyword'])) {
                   FROM
                     products AS P
                     LEFT JOIN product_variations AS PV ON PV.product_id = P.product_id
+                    WHERE P.approved ='Y'
                   ORDER BY
                     P.product_id DESC LIMIT $limit";
         $query = mysqli_query($con,$sql);
@@ -206,6 +227,16 @@ if (isset($_POST['keyword'])) {
                
              
           }
+            $countQuery = "SELECT  COUNT(*) AS total FROM vendor_product AS VP INNER JOIN vendor AS V ON V.id = VP.ven_id INNER Join product_variations AS PV ON PV.variation_id = VP.variation_id where PV.variation_id = '$v_id'";
+  $resquery  = mysqli_query( $con , $countQuery );
+  $resArray  = mysqli_fetch_array($resquery);
+  $vCount    = $resArray["total"];
+  
+
+  $pvQuery  = "SELECT  COUNT(*) AS total FROM vendor_product AS VP INNER JOIN vendor AS V ON V.id = VP.ven_id  where VP.prod_id = '$p_id'";
+  $resQuery = mysqli_query( $con , $pvQuery );
+  $pquery   = mysqli_fetch_array($resQuery);
+  $pvCount  = $pquery["total"];
         	?>
         		<tr>
                           <td><?= $i++?></td>
@@ -215,17 +246,26 @@ if (isset($_POST['keyword'])) {
                           <td class="align-middle"><?=$stock?></td>
                           <td><b>R</b><?=$price?></td>
                           <td><?=$res['variant_Sku']?></td>
-                          <td>2</td>
-                          <td>
-                            <?php if (!empty($res['variant_Sku'])){ if($res['active'] == "N"){?>
-                              <div class="badge badge-danger">pending</div>
-                            <?php }else{     ?>
-                              <div class="badge badge-success">Approved</div>
-                            <?php } }else{ if($res['approved'] == "N"){?>
+                          <!-- Count Vendor -->
+                          <?php if (!empty($res['variant_Sku'])){ ?>
+                            <td><?=$vCount?></td>
+                          <?php }else{ ?>
+                            <td><?=$pvCount?></td>
+                          <?php } ?>
+                          <!-- end Count Vendor -->
+                          <?php if (!empty($res['variant_Sku'])){ ?>
+                          <td><button class="btn btn-sm btn-warning"><a href="product-vendor-detail.php?id=<?=$id?>&variation_id=<?=$variation_id?>&show-vendors-detail" style="color: #fff;text-decoration: none;">Details</a></button></td>
+                          
+                          <?php }else{ ?>
+                              <td><button class="btn btn-sm btn-warning"><a href="product-vendor-detail.php?id=<?=$id?>&show-vendors-detail" style="color: #fff;text-decoration: none;">Details</a></button></td>
+                              
+                           <?php } ?> 
+                           <td> 
+                            <?php if($res['approved'] == "N"){?>
                               <div class="badge badge-danger">pending</div>
                               <?php }else{     ?>
                                 <div class="badge badge-success">Approved</div>
-                              <?php } }?>
+                              <?php } ?>
                           </td>
                           <td>
                             <div class="dropdown">

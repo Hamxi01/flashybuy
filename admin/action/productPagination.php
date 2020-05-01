@@ -34,6 +34,7 @@ $start_from = ($page-1) * $limit;
                   FROM
                     products AS P
                     LEFT JOIN product_variations AS PV ON PV.product_id = P.product_id
+                    WHERE P.approved = 'Y'
                   ORDER BY
                     P.product_id DESC LIMIT $start_from, $limit";
     $query = mysqli_query($con,$sql);
@@ -146,6 +147,9 @@ $start_from = ($page-1) * $limit;
                                 <?php if (!empty($res['variant_Sku'])) { ?>
                                         <a href="#" data-toggle="modal"
                                         data-target="#variationModel" class="dropdown-item has-icon" onclick="variationData('<?=$id?>','<?=$variation_id?>')"><i class="far fa-edit"></i>Add new Variation</a>
+                                <?php }else{ ?>
+                                        <a href="add_product_Variations.php?id=<?=$id?>" daggta-tole="modal"
+                                        data-target="#variationModel" class="dropdown-item has-icon"><i class="far fa-edit"></i>Add Variations</a>
                                 <?php } ?>
                                 <?php if (!empty($res['variant_Sku'])) { ?>
                                     <a href="#" data-toggle="modal"
