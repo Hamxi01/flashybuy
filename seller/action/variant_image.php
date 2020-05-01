@@ -75,14 +75,14 @@ $(document).ready(function(){
  
    form_data.append("file", document.getElementById('<?=$num?>1').files[0]);
    $.ajax({
-    url:"action/upload.php",
+    url:"action/variantuploadimg1.php",
     method:"POST",
     data: form_data,
     contentType: false,
     cache: false,
     processData: false,
     beforeSend:function(){
-     
+      $('#<?=$num?>11').html('image is uploading');
     },   
     success:function(data)
     {
@@ -109,7 +109,7 @@ $(document).ready(function(){
  
    form_data.append("file", document.getElementById('<?=$num?>2').files[0]);
    $.ajax({
-    url:"action/upload.php",
+    url:"action/variantuploadimg2.php",
     method:"POST",
     data: form_data,
     contentType: false,
@@ -142,7 +142,7 @@ $(document).ready(function(){
  
    form_data.append("file", document.getElementById('<?=$num?>3').files[0]);
    $.ajax({
-    url:"action/upload.php",
+    url:"action/variantuploadimg3.php",
     method:"POST",
     data: form_data,
     contentType: false,
@@ -175,7 +175,7 @@ $(document).ready(function(){
  
    form_data.append("file", document.getElementById('<?=$num?>4').files[0]);
    $.ajax({
-    url:"action/upload.php",
+    url:"action/variantuploadimg4.php",
     method:"POST",
     data: form_data,
     contentType: false,

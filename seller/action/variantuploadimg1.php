@@ -3,18 +3,17 @@ include("../../thirdparty/image-resize/ImageResize.php");
 include ("../../thirdparty/image-resize/ImageResizeException.php");
 use \Gumlet\ImageResize;
 use \Gumlet\ImageResizeException;
-
 //upload.php
-if($_FILES["variant_img1"]["name"] != '')
+if($_FILES["file"]["name"] != '')
 {
- $filename = $_FILES["variant_img1"]["name"];
+    $filename = $_FILES["file"]["name"];
     $extension = @end(explode('.', $filename)); // explode the image name to get the extension
     $pic1extension = strtolower($extension);
     $pic1 = time().rand();
     $pic1we=$pic1."."."jpg";
     $location = "../../upload/product/".$pic1we;
     
-	if(move_uploaded_file($_FILES["variant_img1"]["tmp_name"], $location)){
+	if(move_uploaded_file($_FILES["file"]["tmp_name"], $location)){
 
 	        try {
 				    $image = new ImageResize($location);
@@ -54,9 +53,8 @@ if($_FILES["variant_img1"]["name"] != '')
 				}
 
 	}
- $img = '<img src="../upload/product/200_'.$pic1we.'" height="150" width="225" class="img-thumbnail" />';
- $imgArray = [$img,$pic1we];
-  echo json_encode($imgArray);
+ 
 }
+echo '<img src="../upload/product/200_'.$pic1we.'" height="150" width="225" class="img-thumbnail" />
+ <input type="hidden" name="variant_img1[]" value="'.$pic1we.'"/>';
 ?>
-

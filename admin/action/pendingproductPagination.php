@@ -15,6 +15,7 @@ if (isset($_SESSION['id']))
                             <th>Base Price</th>
                             <th>Variation</th>
                             <th>Status</th>
+                            <th>Action</th>
                         </tr>
                       </thead>
                       <tbody id="searchResult">  
@@ -122,6 +123,18 @@ $start_from = ($page-1) * $limit;
                               <?php }else{     ?>
                                 <div class="badge badge-success">Approved</div>
                               <?php } ?>  
+                          </td>
+                          <td>
+                            <div class="dropdown">
+                              <a href="#" data-toggle="dropdown" class="btn btn-warning dropdown-toggle">Options</a>
+                              <div class="dropdown-menu">     
+                                <?php if (!empty($res['variant_Sku'])) { ?>
+                                    <a href="edit-variantProduct.php?id=<?=$id?>&variant_id=<?=$variation_id?>" class="dropdown-item has-icon"><i class="far fa-edit"></i>Edit</a>
+                                <?php }else{ ?>
+                                    <a href="edit-product.php?id=<?=$id?>&sku=<?=$res['sku']?>" class="dropdown-item has-icon"><i class="far fa-edit"></i>Edit</a>
+                                <?php } ?>
+                              </div>
+                            </div>
                           </td>
                         </tr>
 <?php }  ?>           

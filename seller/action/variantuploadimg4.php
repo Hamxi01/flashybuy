@@ -6,12 +6,12 @@ use \Gumlet\ImageResizeException;
 //upload.php
 if($_FILES["file"]["name"] != '')
 {
- $filename = $_FILES["file"]["name"];
+    $filename = $_FILES["file"]["name"];
     $extension = @end(explode('.', $filename)); // explode the image name to get the extension
     $pic1extension = strtolower($extension);
     $pic1 = time().rand();
- $pic1we=$pic1."."."jpg";
- $location = "../../upload/product/".$pic1we;
+    $pic1we=$pic1."."."jpg";
+    $location = "../../upload/product/".$pic1we;
     
 	if(move_uploaded_file($_FILES["file"]["tmp_name"], $location)){
 
@@ -53,8 +53,7 @@ if($_FILES["file"]["name"] != '')
 				}
 
 	}
- 
 }
 echo '<img src="../upload/product/200_'.$pic1we.'" height="150" width="225" class="img-thumbnail" />
- <input type="hidden" name="variant_img[]" value="'.$pic1we.'"/>';
+ <input type="hidden" name="variant_img4[]" value="'.$pic1we.'"/>';
 ?>
