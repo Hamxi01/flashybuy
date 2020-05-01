@@ -3,6 +3,143 @@
 include('../includes/db.php');
 include('includes/header.php');
 include('includes/sidebar.php');
+ 
+      if (isset($_POST['add-product-variants'])) {
+
+        $id = $_POST['product_id'];
+
+        $productSql = "UPDATE products SET quantity=0,selling_price=0,market_price=0 Where product_id ='$id'";
+        mysqli_query($con,$productSql);
+
+          if ($_POST['vari']) {
+          
+            foreach ($_POST['vari'] as $key => $value) {
+            
+                if ($value == "Color") {
+                  
+                  if(isset($_POST['variant_img1']) && !empty($_POST['variant_img1'])){  
+                    
+
+                        $skuu         = $_POST['sku'][$key];
+                        $skuu         = explode("-", $skuu);
+                        $variantvalue = $skuu[0];
+
+                        $sql = "INSERT into product_variant_images(product_id,variation_value,image1,main_img,image2,image3,image4) VALUES('".$id."','".$variantvalue."','".$_POST['variant_img1'][$key]."','".$_POST['variant_img1'][$key]."','".$_POST['variant_img2'][$key]."','".$_POST['variant_img3'][$key]."','".$_POST['variant_img3'][$key]."')";
+
+                        mysqli_query($con,$sql);
+                  } 
+
+                }
+            }
+          }
+        foreach ($_POST['qty'] as $key => $value) {
+
+            $variationname = $_POST['variationname'];
+            // $variationname = explode($variationname);
+            if (count($_POST['variationname'])==1) {
+
+                $first_variation_name = $_POST['variationname'][0];
+
+                $sku = $_POST['sku'][$key];
+                $sku = explode("-",$sku);
+                if (count($sku)==1) {
+                
+                  $first_variation_value = $sku[0];
+                  $sql = "INSERT into product_variations(product_id,price,mk_price,quantity,sku,first_variation_name,first_variation_value) VALUES('".$id."','".$_POST['price'][$key]."','".$_POST['mk_price'][$key]."','".$_POST['qty'][$key]."','".$_POST['sku'][$key]."','".$first_variation_name."','".$first_variation_value."')";
+                  
+                  if (mysqli_query($con,$sql)) {
+
+                    echo "<script>window.location.assign('product.php?msg=success');</script>";
+                          
+                  }
+                  else{
+
+                        echo "<script>window.location.assign('product.php?msg=erorr');</script>";
+                  }
+                }
+            }
+            if (count($_POST['variationname'])==2) {
+
+                $first_variation_name = $_POST['variationname'][0];
+                $second_variation_name = $_POST['variationname'][1];
+
+                $sku = $_POST['sku'][$key];
+                $sku = explode("-",$sku);
+                if (count($sku)==2) {
+                
+                  $first_variation_value = $sku[0];
+                  $second_variation_value = $sku[1];
+
+                  $sql = "INSERT into product_variations(product_id,price,mk_price,quantity,sku,first_variation_name,second_variation_name,first_variation_value,second_variation_value) VALUES('".$id."','".$_POST['price'][$key]."','".$_POST['mk_price'][$key]."','".$_POST['qty'][$key]."','".$_POST['sku'][$key]."','".$first_variation_name."','".$second_variation_name."','".$first_variation_value."','".$second_variation_value."')";
+                  if (mysqli_query($con,$sql)) {
+
+                   echo "<script>window.location.assign('product.php?msg=success');</script>";
+                          
+                  }
+                  else{
+
+                        echo "<script>window.location.assign('product.php?msg=erorr');</script>";
+                  }
+                }
+            }
+            if (count($_POST['variationname'])==3) {
+
+                $first_variation_name = $_POST['variationname'][0];
+                $second_variation_name = $_POST['variationname'][1];
+                $third_variation_name = $_POST['variationname'][2];
+
+                $sku = $_POST['sku'][$key];
+                $sku = explode("-",$sku);
+                if (count($sku)==3) {
+                
+                  $first_variation_value  = $sku[0];
+                  $second_variation_value = $sku[1];
+                  $third_variation_value  = $sku[2];
+
+                  $sql = "INSERT into product_variations(product_id,price,mk_price,quantity,sku,first_variation_name,second_variation_name,third_variation_name,first_variation_value,second_variation_value,third_variation_value) VALUES('".$id."','".$_POST['price'][$key]."','".$_POST['mk_price'][$key]."','".$_POST['qty'][$key]."','".$_POST['sku'][$key]."','".$first_variation_name."','".$second_variation_name."','".$third_variation_name."','".$first_variation_value."','".$second_variation_value."','".$third_variation_value."')";
+                  
+                  if (mysqli_query($con,$sql)) {
+
+                      echo "<script>window.location.assign('product.php?msg=success');</script>";
+                          
+                  }
+                  else{
+
+                        echo "<script>window.location.assign('product.php?msg=erorr');</script>";
+                  }
+                }
+            }
+            if (count($_POST['variationname'])==4) {
+
+                $first_variation_name = $_POST['variationname'][0];
+                $second_variation_name = $_POST['variationname'][1];
+                $third_variation_name = $_POST['variationname'][2];
+                $forth_variation_name = $_POST['variationname'][3];
+
+                $sku = $_POST['sku'][$key];
+                $sku = explode("-",$sku);
+                if (count($sku)==4) {
+                
+                  $first_variation_value = $sku[0];
+                  $second_variation_value = $sku[1];
+                  $third_variation_value  = $sku[2];
+                  $forth_variation_value  = $sku[3];
+
+                  $sql = "INSERT into product_variations(product_id,price,mk_price,quantity,sku,first_variation_name,second_variation_name,third_variation_name,forth_variation_name,first_variation_value,second_variation_value,third_variation_value,forth_variation_value) VALUES('".$id."','".$_POST['price'][$key]."','".$_POST['mk_price'][$key]."','".$_POST['qty'][$key]."','".$_POST['sku'][$key]."','".$first_variation_name."','".$second_variation_name."','".$third_variation_name."','".$forth_variation_name."','".$first_variation_value."','".$second_variation_value."','".$third_variation_value."','".$forth_variation_value."')";
+
+                    if (mysqli_query($con,$sql)) {
+
+                      echo "<script>window.location.assign('product.php?msg=success');</script>";
+                          
+                  }
+                  else{
+
+                        echo "<script>window.location.assign('product.php?msg=erorr');</script>";
+                  }
+                }
+            }   
+        }
+      }
 ?>
 <style type="text/css">
   .select2-container {
@@ -115,12 +252,12 @@ if (isset($_GET['id']))
               <div class="col-md-10 offset-md-1">
                 
                     <div class="card">
-                      <form  action="action/add_product.php" method="post"  enctype="multipart/form-data" id="product_form">
+                      <form  action="add_product_Variations.php" method="post"  enctype="multipart/form-data" id="product_form">
                         <div class="card-header">
                           <h4>Add Your Variations</h4>
                         </div>
                         <div class="card-body">
-                            
+                            <input type="hidden" name="product_id" value="<?=$product_id?>">
                           <div class="form-group row" id="variations_value">
                             <div class="col-md-3">
                               <label>Product Variants (Options)</label>
@@ -186,7 +323,7 @@ if (isset($_GET['id']))
                           </div>
                         </div>
                         <div class="card-footer text-right">
-                          <button class="btn btn-warning" type="submit" name="add-product">Submit</button>
+                          <button class="btn btn-warning" type="submit" name="add-product-variants">Submit</button>
                         </div>
                       </form>  
                     </div>
@@ -352,103 +489,12 @@ var s = new Array();
                     // console.log(data);
                      
                     $("#variation_image").append(data);
-                    $("#images").css("display","none");
-
             }
         });
         });
         
 
 } 
-
-        //////////////////////////////////////////////////////
-        //-----------  Category Search     ----------------//
-        ////////////////////////////////////////////////////
-
-        function categorySearch(){
-
-           var keyword = $("#categorysearch").val();
-
-                $.ajax({
-                        type: "POST",
-                        url: 'action/categorySearch.php',
-                        data: {keyword:keyword},
-                        success:function(data){
-                            
-                            $('#categories').html(null);
-                            // swal("Congrats! SubCategories added succesfully")
-                            $('#categories').append(data);
-                            // console.log(data);
-
-                        }
-                });
-           
-        }
-
-
-        //////////////////////////////////////////////////////
-        //-------- End Category Search     ----------------//
-        ////////////////////////////////////////////////////
-
-        //////////////////////////////////////////////////////
-        //-----------  SubCategory Search     -------------//
-        ////////////////////////////////////////////////////
-
-        function subcategorySearch(){
-
-           var keyword = $("#subcategorysearch").val();
-
-                $.ajax({
-                        type: "POST",
-                        url: 'action/subCategorySearch.php',
-                        data: {keyword:keyword,id:category_id},
-                        success:function(data){
-                            
-                            $('#subcategories').html(null);
-                            // swal("Congrats! SubCategories added succesfully")
-                            $('#subcategories').append(data);
-                            // console.log(data);
-
-                        }
-                });
-           
-        }
-
-
-        //////////////////////////////////////////////////////
-        //-------- End subCategory Search    --------------//
-        //////////////////////////////////////////////////// 
-
-        //////////////////////////////////////////////////////
-        //-----------  subSubCategory Search  -------------//
-        ////////////////////////////////////////////////////
-
-        function subsubcategorySearch(){
-
-           var keyword = $("#subsubcategorysearch").val();
-
-                $.ajax({
-                        type: "POST",
-                        url: 'action/subSubCategorySearch.php',
-                        data: {keyword:keyword,id:subcategory_id},
-                        success:function(data){
-                            
-                            $('#subsubcategories').html(null);
-                            // swal("Congrats! SubCategories added succesfully")
-                            $('#subsubcategories').append(data);
-                            // console.log(data);
-
-                        }
-                });
-           
-        }
-
-
-        //////////////////////////////////////////////////////
-        //-------- End subsubCategory Search --------------//
-        //////////////////////////////////////////////////// 
-
-
     $(document).ready(function() {
 
         setTimeout(function(){ $(".msg").hide(); }, 5000);
@@ -459,184 +505,7 @@ var s = new Array();
     ////////////////////////////////////////
     ///--------- upload image1 ----------//
 
-    $(document).ready(function(){
-       $(document).on('change', '#file1', function(){
-        var name = document.getElementById("file1").files[0].name;
-        var form_data = new FormData();
-        var ext = name.split('.').pop().toLowerCase();
-        if(jQuery.inArray(ext, ['gif','png','jpg','jpeg']) == -1) 
-        {
-         alert("Invalid Image File");
-        }
-        var oFReader = new FileReader();
-        oFReader.readAsDataURL(document.getElementById("file1").files[0]);
-        var f = document.getElementById("file1").files[0];
-        var fsize = f.size||f.fileSize;
-       
-         form_data.append("file1", document.getElementById('file1').files[0]);
-         $.ajax({
-          url:"action/uploadimg1.php",
-          method:"POST",
-          data: form_data,
-          dataType: 'json',
-          contentType: false,
-          cache: false,
-          processData: false,
-          beforeSend:function(){
-           $('#uploaded_image').html("<label class='text-success'>Image Uploading...</label>");
-          },   
-          success:function(data)
-          {
-           $('#uploaded_image').html(data[0]);
-           $('#image1').val(data[1]);
-          }
-         });
-        
-       });
-    });
-    ////////////////////////////////////////
-    ///--------- upload image2 ----------//
 
-    $(document).ready(function(){
-       $(document).on('change', '#file2', function(){
-        var name = document.getElementById("file2").files[0].name;
-        var form_data = new FormData();
-        var ext = name.split('.').pop().toLowerCase();
-        if(jQuery.inArray(ext, ['gif','png','jpg','jpeg']) == -1) 
-        {
-         alert("Invalid Image File");
-        }
-        var oFReader = new FileReader();
-        oFReader.readAsDataURL(document.getElementById("file2").files[0]);
-        var f = document.getElementById("file2").files[0];
-        var fsize = f.size||f.fileSize;
-       
-         form_data.append("file2", document.getElementById('file2').files[0]);
-         $.ajax({
-          url:"action/uploadimg2.php",
-          method:"POST",
-          data: form_data,
-          dataType: 'json',
-          contentType: false,
-          cache: false,
-          processData: false,
-          beforeSend:function(){
-           $('#uploaded_image2').html("<label class='text-success'>Image Uploading...</label>");
-          },   
-          success:function(data)
-          {
-           $('#uploaded_image2').html(data[0]);
-           $('#image2').val(data[1]);
-          }
-         });
-        
-       });
-    });
-    ////////////////////////////////////////
-    ///--------- upload image3 ----------//
-
-    $(document).ready(function(){
-       $(document).on('change', '#file3', function(){
-        var name = document.getElementById("file3").files[0].name;
-        var form_data = new FormData();
-        var ext = name.split('.').pop().toLowerCase();
-        if(jQuery.inArray(ext, ['gif','png','jpg','jpeg']) == -1) 
-        {
-         alert("Invalid Image File");
-        }
-        var oFReader = new FileReader();
-        oFReader.readAsDataURL(document.getElementById("file3").files[0]);
-        var f = document.getElementById("file3").files[0];
-        var fsize = f.size||f.fileSize;
-       
-         form_data.append("file3", document.getElementById('file3').files[0]);
-         $.ajax({
-          url:"action/uploadimg3.php",
-          method:"POST",
-          data: form_data,
-          dataType: 'json',
-          contentType: false,
-          cache: false,
-          processData: false,
-          beforeSend:function(){
-           $('#uploaded_image3').html("<label class='text-success'>Image Uploading...</label>");
-          },   
-          success:function(data)
-          {
-           $('#uploaded_image3').html(data[0]);
-           $('#image3').val(data[1]);
-          }
-         });
-        
-       });
-    });
-    ////////////////////////////////////////
-    ///--------- upload image4 ----------//
-
-    $(document).ready(function(){
-       $(document).on('change', '#file4', function(){
-        var name = document.getElementById("file4").files[0].name;
-        var form_data = new FormData();
-        var ext = name.split('.').pop().toLowerCase();
-        if(jQuery.inArray(ext, ['gif','png','jpg','jpeg']) == -1) 
-        {
-         alert("Invalid Image File");
-        }
-        var oFReader = new FileReader();
-        oFReader.readAsDataURL(document.getElementById("file4").files[0]);
-        var f = document.getElementById("file4").files[0];
-        var fsize = f.size||f.fileSize;
-       
-         form_data.append("file4", document.getElementById('file4').files[0]);
-         $.ajax({
-          url:"action/uploadimg4.php",
-          method:"POST",
-          data: form_data,
-          dataType: 'json',
-          contentType: false,
-          cache: false,
-          processData: false,
-          beforeSend:function(){
-           $('#uploaded_image4').html("<label class='text-success'>Image Uploading...</label>");
-          },   
-          success:function(data)
-          {
-           $('#uploaded_image4').html(data[0]);
-           $('#image4').val(data[1]);
-          }
-         });
-        
-       });
-    });
-    /////-------brands search ----- ///////
-
-    function searchBrands(){
-
-        var keyword = $('#brandkeyword').val();
-        if (keyword.length>=3) {
-
-            $.ajax({
-              type: "POST",
-              url: 'action/brandSearch.php',
-              data: {keyword:keyword},
-              success:function(data){
-
-                  // console.log(data);
-                  $('#brandslist').show();
-                  $('#brandslist').html(data);
-              }
-            });
-        }
-    }
-    function addBrand(el,id){
-
-        var brand = $(el).html();
-        $('#brandid').val(id);
-        $('#brandkeyword').val(brand);
-        $('#brandslist').html(null);
-        $('#brandslist').hide();
-        
-    }
 //---- On press Enter form not submit Fuction --- ////    
 $('#product_form').on('keyup keypress', function(e) {
   var keyCode = e.keyCode || e.which;
