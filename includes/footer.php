@@ -150,6 +150,9 @@
 
         showCart(); 
    } );
+
+///================ Show items From Cart ======================= ///
+
 function showCart(){
   
   $.ajax({
@@ -166,6 +169,8 @@ function showCart(){
     }
   });
 }
+
+///================ Remove An item From Cart ======================= ///
 
 function remove_cart(p_id){
 
