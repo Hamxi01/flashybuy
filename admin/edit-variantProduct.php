@@ -71,19 +71,22 @@ if (isset($_POST['update-product'])) {
   $subcategory_id                  =     $_POST['sub_cat_id'];
   $subsubcategory_id               =     $_POST['sub_sub_cat_id'];
   $brand                           =     $_POST['brand'];
-  $market_price                    =     $_POST['market_price'];
-  $price                           =     $_POST['price'];
-  $stock                           =     $_POST['quantity'];
   foreach ($_POST['keyword'] as $key => $value) {
             
     $keyword     =  implode(',' , $_POST['keyword']);
 
   }
-  $quantity                        =     $_POST['quantity'];
-  $width                           =     $_POST['width'];
-  $height                          =     $_POST['height'];
-  $length                          =     $_POST['length'];
-  $courier_size                    =     $_POST['courier_size'];
+  if (isset($_POST['width'])) {
+    
+      $width                           =     $_POST['width'];
+      $height                          =     $_POST['height'];
+      $length                          =     $_POST['length'];
+  }
+  if (isset($_POST['courier_size'])) {
+
+       $courier_size                    =     $_POST['courier_size'];
+  }
+  
   $description                     =     $_POST['description'];
   $warranty                        =     $_POST['warranty'];
 
@@ -112,7 +115,7 @@ $description =     $_POST['description'];
 
     foreach ($_POST['sku'] as $key => $value) {
       
-          $vquery = "update product_variations SET quantity='".$_POST['qty'][$key]."',price='".$_POST['price'][$key]."',sku='".$_POST['sku'][$key]."',active='".$_POST['active'][$key]."' Where variation_id='".$_POST['variation_id'][$key]."'";
+          $vquery = "update product_variations SET quantity='".$_POST['qty'][$key]."',mk_price='".$_POST['mk_price'][$key]."',price='".$_POST['price'][$key]."',sku='".$_POST['sku'][$key]."',active='".$_POST['active'][$key]."' Where variation_id='".$_POST['variation_id'][$key]."'";
           mysqli_query($con,$vquery);
 
     }

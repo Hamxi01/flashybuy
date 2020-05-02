@@ -60,13 +60,13 @@ if (isset($_GET['id'])) {
 
         if (empty($result['image1'])) {
             
-            $vimg = mysqli_query($con,"SELECT * from product_variant_images Where product_id ='$product_id'");
+            $vimg = mysqli_query($con,"SELECT main_img from product_variant_images Where product_id ='$product_id'");
             while ($res = mysqli_fetch_array($vimg)) {
                     
                     $image1 = $res['main_img'];
-                    $image2 = $res['image2'];
-                    $image3 = $res['image3'];
-                    $image4 = $res['image4'];
+                    // $image2 = $res['image2'];
+                    // $image3 = $res['image3'];
+                    // $image4 = $res['image4'];
             }
         }else{
 
@@ -1479,9 +1479,10 @@ function getforthOffers(variation1,variation2,variation3,variation4,prodcut_id,v
                     // alert(data);
                 }
         });   
-    }  
-/////=============================== Variation images ========= /////
-
+    } 
+ //================================================================//    
+        ///============= Variation images ========= ////
+ //================================================================//
 function getsingleImages(variation1,variation2,variation3,variation4,product_id){
 
     $.ajax({
@@ -1512,6 +1513,9 @@ function getsingleImages(variation1,variation2,variation3,variation4,product_id)
 
     });
 }
+
+////////////////////////////
+
 function getsecondImages(variation1,variation2,variation3,variation4,product_id){
 
     $.ajax({
@@ -1542,6 +1546,9 @@ function getsecondImages(variation1,variation2,variation3,variation4,product_id)
 
     });
 }
+
+///////////////////////
+
 function getthirdImages(variation1,variation2,variation3,variation4,product_id){
 
     $.ajax({
@@ -1572,6 +1579,9 @@ function getthirdImages(variation1,variation2,variation3,variation4,product_id){
 
     });
 }
+
+//////////////////
+
 function getforthImages(variation1,variation2,variation3,variation4,product_id){
 
     $.ajax({

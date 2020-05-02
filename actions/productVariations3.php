@@ -36,11 +36,12 @@ if (isset($_POST['product_id'])) {
 
 		
 
-			$price = 0;
-			$quantity = 0;
-			$vendorname = 0;
+			$price        = 0;
+			$quantity     = 0;
+			$vendorname   = 0;
 			$variation_id = 0;
 			$sku          = 0;
+			$v_p_id       = 0;
 	}
 
 	$array = [$price,$quantity,$vendorname,$sku,$variation_id,$v_p_id];
