@@ -20,10 +20,11 @@ if (isset($_POST['product_id'])) {
 
 //========= GET other vendor product price ===============//
 
- 	$vpSql = mysqli_query($con,"SELECT price,dispatched_days,ven_id FROM vendor_product WHERE prod_id='$product_id' AND variation_id ='$variation_id' AND ven_id!='$vendor_id'");
+ 	$vpSql = mysqli_query($con,"SELECT id,price,dispatched_days,ven_id FROM vendor_product WHERE prod_id='$product_id' AND variation_id ='$variation_id' AND ven_id != '$vendor_id' AND active = 'Y'");
  	
  	while($vpRes = mysqli_fetch_array($vpSql)){
 
+ 		$v_p_id  = $vpRes['id'];
  		$price  = $vpRes['price'];
  		$days   = $vpRes['dispatched_days'];
  		$ven_id = $vpRes['ven_id'];
@@ -35,7 +36,7 @@ if (isset($_POST['product_id'])) {
  		$vendorname = $vRes[0];
 
  		echo '<div class="col-md-12">
- 					<h4><b>R'.$price.'</b><button class="btn btn-warning" style="float: right;color:#fff">Add to cart</button></h4>
+ 					<h4><b>R'.$price.'</b><button class="btn btn-warning" style="float: right;color:#fff" onclick="addtoCart('.$product_id.','.$ven_id.','.$variation_id.',1,'.$price.','.$v_p_id.')">Add to cart</button></h4>
  					<h5>By: <a href="#">'.$vendorname.'</a></h5>
 					<p><b>'.$days.'</b></p>
  			 </div>';
