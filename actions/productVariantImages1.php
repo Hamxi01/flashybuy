@@ -17,8 +17,9 @@ if (isset($_POST['product_id'])) {
 			$image3 = $res['image3'];
 			$image4 = $res['image4'];
 		}
-	}	
 	$array = [$image1,$image2,$image3,$image4];
 	echo json_encode($array);		
+	}	
+			
 }
 ?>
