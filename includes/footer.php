@@ -145,3 +145,42 @@
 </body>
 
 </html>
+<script type="text/javascript">
+    $( function() {
+
+        showCart(); 
+   } );
+function showCart(){
+  
+  $.ajax({
+    type:"post",
+    url:"ajax_Cart.php",
+    data:{},
+    success:function(data){
+      
+      var data = data.split("`");
+      $('.ps-cart__content').html(data[0]);
+      $('#total_cart_items').html(data[1]);
+    
+      
+    }
+  });
+}
+
+function remove_cart(p_id){
+
+
+
+    $.ajax({
+        type:"post",
+        url:"ajax_Cart.php",
+        data:{action:'delete',p_id:p_id},
+        success:function(data){
+
+            var data = data.split("`");
+            $('.ps-cart__content').html(data[0]);
+            $('#total_cart_items').html(data[1]);
+        }
+    });
+}      
+</script>

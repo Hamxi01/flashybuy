@@ -17,6 +17,35 @@
       <div class="main-content">
         <section class="section">
           <div class="section-body">
+<!-- Start Showing success or warning Msg -->
+
+<?php
+if (isset($_GET['error'])) {?>
+    <div class="row">
+        <div class="col-lg-6 col-sm-offset-3">
+            <div class="alert alert-warning msg">    
+    <?php echo "Something went wrong!"; ?>
+            </div>
+        </div>
+    </div>
+<?php
+}
+?>
+<?php
+if (isset($_GET['msg'])) { ?>
+<div class="row">
+    <div class="col-lg-6 col-sm-offset-3">
+        <div class="alert alert-success msg">    
+    <?php echo "<span>Data Inserted successfully...!!</span>"; ?>
+
+        </div>
+    </div>
+</div>
+<?php 
+}
+?>
+
+<!-- End Message Alert -->  
             <div class="row">
               <div class="col-12">
                 <div class="card">

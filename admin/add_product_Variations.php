@@ -17,16 +17,18 @@ include('includes/sidebar.php');
             
                 if ($value == "Color") {
                   
-                  if(isset($_POST['variant_img1']) && !empty($_POST['variant_img1'])){  
-                    
+                  if(isset($_POST['variant_img1']) && !empty($_POST['variant_img1'])){
 
-                        $skuu         = $_POST['sku'][$key];
+                      foreach ($_POST['variant_img1'] as $index => $value) {
+
+                        $skuu         = $_POST['sku'][$index];
                         $skuu         = explode("-", $skuu);
                         $variantvalue = $skuu[0];
 
-                        $sql = "INSERT into product_variant_images(product_id,variation_value,image1,main_img,image2,image3,image4) VALUES('".$id."','".$variantvalue."','".$_POST['variant_img1'][$key]."','".$_POST['variant_img1'][$key]."','".$_POST['variant_img2'][$key]."','".$_POST['variant_img3'][$key]."','".$_POST['variant_img3'][$key]."')";
+                        $sql = "INSERT into product_variant_images(product_id,variation_value,image1,main_img,image2,image3,image4) VALUES('".$id."','".$variantvalue."','".$_POST['variant_img1'][$index]."','".$_POST['variant_img1'][$index]."','".$_POST['variant_img2'][$index]."','".$_POST['variant_img3'][$index]."','".$_POST['variant_img3'][$index]."')";
 
                         mysqli_query($con,$sql);
+                      }  
                   } 
 
                 }

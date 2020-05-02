@@ -1462,8 +1462,10 @@ function getforthOffers(variation1,variation2,variation3,variation4,prodcut_id,v
                     // dataType    : 'json',            
                     success     : function(data){
 
-                    // $('.ps-cart__content').html(data);
-                    alert(data);
+                    var data = data.split("`");
+                    $('.ps-cart__content').html(data[0]);
+                    $('#total_cart_items').html(data[1]);
+                    // alert(data);
                 }
 
 

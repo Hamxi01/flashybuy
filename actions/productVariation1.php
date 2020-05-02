@@ -20,7 +20,7 @@ if (isset($_POST['product_id'])) {
 			
 			$vpres = mysqli_fetch_array($vpquery);
 
-			$v_p_id  = $vpres[0]
+			$v_p_id  = $vpres[0];
 			$price   = $vpres[1];
 			$quantity = $vpres[2];
 			$ven_id  = $vpres[3];

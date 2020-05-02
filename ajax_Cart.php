@@ -34,54 +34,117 @@ if (isset($_POST['action']) && $_POST['action']=='add'){
 		$imgRes = mysqli_fetch_array($imgSql);
 		$image  = $imgRes[0];
 
-		$product = Array(
-
-						'v_p_id'       => $v_p_id,
-						'product_id'   => $product_id,
-						'name'         => $name,
-						'price'        => $price*$quantity,
-						'quantity'     => $quantity,
-						'variation_id' => $variation_id,
-
-					);
-
-//==================== CART SESSION IF PRODUCT HAVE VARIATIONS ===================// 		
-
-	}else{
-
-		$product = Array(
-
-						'v_p_id'       => $v_p_id,
-						'product_id'   => $product_id,
-						'name'         => $name,
-						'price'        => $price*$quantity,
-						'quantity'     => $quantity,
-
-					);
-//=================== CART SESSION IF PRODUCT HAVE NO VARIATIONS =================//		
-	}
-
 //=============== Find Vendor Name ========================== ///
 
-	$vSql = mysqli_query($con,"SELECT shop_name FROM vendor WHERE id='$vendor_id'");
-	$vRes = mysqli_fetch_array($vSql);
-	$vendor = $vRes['shop_name'];
+		$vSql = mysqli_query($con,"SELECT shop_name FROM vendor WHERE id='$vendor_id'");
+		$vRes = mysqli_fetch_array($vSql);
+		$vendor = $vRes['shop_name'];
 
+		$product = Array(
 
-//======================== return cart items detials ===================//
+						'v_p_id'       => $v_p_id,
+						'product_id'   => $product_id,
+						'name'         => $name,
+						'price'        => $price,
+						'quantity'     => $quantity,
+						'image'	       => $image,
+						'variation_id' => $variation_id,
+						'vendor'       => $vendor
 
-	// echo '<div class="ps-cart__items">
-	// 								<div class="ps-product--cart-mobile">
- //                                        <div class="ps-product__thumbnail"><a href="#"><img src="upload/product/200_'.$image.'" alt=""></a></div>
- //                                        <div class="ps-product__content"><a class="ps-product__remove" href="#"><i class="icon-cross"></i></a><a href="product-default.html">'.$name.'</a>
- //                                            <p><strong>Sold by:</strong> '.$vendor.'</p><small>'.$quantity.' x '.$price.'</small>
- //                                        </div>
- //                                    </div>
- //                                </div>
- //                                <div class="ps-cart__footer">
- //                                    <h3>Sub Total:<strong>R'.$price*$quantity.'</strong></h3>
- //                                    <figure><a class="ps-btn" href="shopping-cart.html">View Cart</a><a class="ps-btn" href="checkout.html">Checkout</a></figure>
- //                                </div>';
-	print_r($product);
+					);
+
+//==================== CART SESSION IF PRODUCT HAVE VARIATIONS ===================// 
+
+						
+
+	}else{
+//=============== Find Vendor Name ========================== ///
+
+		$vSql = mysqli_query($con,"SELECT shop_name FROM vendor WHERE id='$vendor_id'");
+		$vRes = mysqli_fetch_array($vSql);
+		$vendor = $vRes['shop_name'];
+
+		$product = Array(
+
+						'v_p_id'       => $v_p_id,
+						'product_id'   => $product_id,
+						'name'         => $name,
+						'price'        => $price,
+						'quantity'     => $quantity,
+						'image'	       => $image,
+						'vendor'       => $vendor
+
+					);					
+	}
+
+//=================== CART SESSION=================//
+
+if(isset($_SESSION['product_cart']) && !empty($_SESSION['product_cart']))
+				{
+					if(!array_key_exists($v_p_id,$_SESSION['product_cart']))
+					{
+				   
+						$_SESSION['product_cart'][$v_p_id] = $product;
+				   
+					}
+					else{
+						
+						$_SESSION['product_cart'][$v_p_id]['price'] 	= $_SESSION['product_cart'][$v_p_id]['price'] + ($price*$quantity);
+						$_SESSION['product_cart'][$v_p_id]['quantity'] 	= $_SESSION['product_cart'][$v_p_id]['quantity']+$quantity;
+					}		
+				}
+				else{
+				  $_SESSION['product_cart'][$v_p_id] = $product;
+				}
+
 }
-?>
+
+//================= Remove product from Cart ======================= //
+
+if(isset($_POST['action']) && $_POST['action'] == "delete"){
+
+@$p_id   	= trim($_POST['p_id']);
+unset($_SESSION['product_cart'][$p_id]);
+}
+
+// ============================== Empty Whole Cart ====================== //
+
+if(isset($_POST['action']) && $_POST['action'] == "empty"){
+	unset($_SESSION['product_cart']);
+}
+?>	
+
+<!-- ==========  Showing Cart Items  ================ -->
+
+<?php 
+		if(isset($_SESSION['product_cart'])){
+	 
+  		  $tquantity = 0;
+		  $tPrice    = 0;
+		  foreach($_SESSION['product_cart'] as $data){
+		  		$priceProduct = $data['price']*$data['quantity'];
+				$tPrice		 += $priceProduct;
+				$tquantity 	 += $data['quantity'];
+
+		  
+		 echo '<div class="ps-cart__items">
+		 								<div class="ps-product--cart-mobile">
+		                                        <div class="ps-product__thumbnail"><a href="#"><img src="upload/product/200_'.$data['image'].'" alt=""></a></div>
+ 		                                       <div class="ps-product__content"><a class="ps-product__remove" href="#" onclick="remove_cart('.$data['v_p_id'].')"><i class="icon-cross"></i></a><a href="product-default.html">'.$data['name'].'</a>
+                                            <p><strong>Sold by:</strong> '.$data['vendor'].'</p><small>'.$data['quantity'].' x '.$data['price'].'</small>
+                                        </div>
+                                    </div>
+                                </div>';
+			}
+			if ($tPrice!=0) {
+			 	
+			  
+					echo  '<div class="ps-cart__footer">
+                                    <h3>Sub Total:<strong>R'.$tPrice.'</strong></h3>
+                                    <figure><a class="ps-btn" href="shopping-cart.html">View Cart</a><a class="ps-btn" href="checkout.html">Checkout</a></figure>
+                               </div>';
+            }                   
+            echo '`'.$tquantity;                   
+		}
+
+	?>
