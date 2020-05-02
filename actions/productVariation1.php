@@ -20,7 +20,7 @@ if (isset($_POST['product_id'])) {
 			
 			$vpres = mysqli_fetch_array($vpquery);
 
-			$v_p_id  = $vpres[0]
+			$v_p_id  = $vpres[0];
 			$price   = $vpres[1];
 			$quantity = $vpres[2];
 			$ven_id  = $vpres[3];
@@ -35,16 +35,12 @@ if (isset($_POST['product_id'])) {
 
 		
 
-			$price = 0;
-			$quantity = 0;
-			$vendorname = 0;
+			$price        = 0;
+			$quantity     = 0;
+			$vendorname   = 0;
 			$variation_id = 0;
 			$sku          = 0;
-
-			// $vsql ="SELECT shop_name from vendor where id='$ven_id'";
-			// $vquery = mysqli_query($con,$vsql);
-			// $vres   = mysqli_fetch_array($vquery);
-			// $vendorname = $vres['shop_name'];
+			$v_p_id       = 0;
 		
 
 	}

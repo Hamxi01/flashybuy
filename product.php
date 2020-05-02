@@ -60,13 +60,13 @@ if (isset($_GET['id'])) {
 
         if (empty($result['image1'])) {
             
-            $vimg = mysqli_query($con,"SELECT * from product_variant_images Where product_id ='$product_id'");
+            $vimg = mysqli_query($con,"SELECT main_img from product_variant_images Where product_id ='$product_id'");
             while ($res = mysqli_fetch_array($vimg)) {
                     
                     $image1 = $res['main_img'];
-                    $image2 = $res['image2'];
-                    $image3 = $res['image3'];
-                    $image4 = $res['image4'];
+                    // $image2 = $res['image2'];
+                    // $image3 = $res['image3'];
+                    // $image4 = $res['image4'];
             }
         }else{
 
@@ -200,32 +200,32 @@ if (isset($_GET['id'])) {
                                     <div class="ps-wrapper">
                                         <div class="ps-product__gallery" data-arrow="true">
                                         <?php if(!empty($image1)){?>
-                                            <div class="item"><a href="upload/product/800_<?=$image1?>"><img src="upload/product/800_<?=$image1?>" alt=""></a></div>
+                                            <div class="item"><a id="imglink1" href="upload/product/800_<?=$image1?>"><img src="upload/product/800_<?=$image1?>" id="img1" alt=""></a></div>
                                         <?php } ?>
                                         <?php if(!empty($image2)){?>
-                                            <div class="item"><a href="upload/product/800_<?=$image2?>"><img src="upload/product/800_<?=$image2?>" alt=""></a></div>
+                                            <div class="item"><a id="imglink2" href="upload/product/800_<?=$image2?>"><img src="upload/product/800_<?=$image2?>" id="img2" alt=""></a></div>
                                         <?php } ?>
                                         <?php if(!empty($image3)){?>    
-                                            <div class="item"><a href="upload/product/800_<?=$image3?>"><img src="upload/product/800_<?=$image3?>" alt=""></a></div>
+                                            <div class="item"><a id="imglink3" href="upload/product/800_<?=$image3?>"><img src="upload/product/800_<?=$image3?>" id="img3" alt=""></a></div>
                                         <?php } ?>
                                         <?php if(!empty($image4)){?>
-                                            <div class="item"><a href="upload/product/800_<?=$image4?>"><img src="upload/product/800_<?=$image4?>" alt=""></a></div>
+                                            <div class="item"><a id="imglink4" href="upload/product/800_<?=$image4?>"><img src="upload/product/800_<?=$image4?>" id="img4" alt=""></a></div>
                                         <?php } ?>    
                                         </div>
                                     </div>
                                 </figure>
                                 <div class="ps-product__variants" data-item="4" data-md="4" data-sm="4" data-arrow="false">
                                 <?php if(!empty($image1)){?>    
-                                    <div class="item"><img src="upload/product/800_<?=$image1?>" alt=""></div>
+                                    <div class="item"><img id="imgth1" src="upload/product/800_<?=$image1?>" alt=""></div>
                                 <?php } ?> 
                                 <?php if(!empty($image2)){ ?>   
-                                    <div class="item"><img src="upload/product/800_<?=$image2?>" alt=""></div>
+                                    <div class="item"><img id="imgth2" src="upload/product/800_<?=$image2?>" alt=""></div>
                                 <?php } ?>
                                 <?php if(!empty($image3)){?>    
-                                    <div class="item"><img src="upload/product/800_<?=$image3?>" alt=""></div>
+                                    <div class="item"><img id="imgth3" src="upload/product/800_<?=$image3?>" alt=""></div>
                                 <?php } ?>
                                 <?php if(!empty($image4)){?>    
-                                    <div class="item"><img src="upload/product/800_<?=$image4?>" alt=""></div>
+                                    <div class="item"><img id="imgth4" src="upload/product/800_<?=$image4?>" alt=""></div>
                                 <?php } ?>    
                                 </div>
                             </div>
@@ -1090,24 +1090,28 @@ if (isset($_GET['id'])) {
                 if($(".Active1").length && $(".Active2").length && $(".Active3").length){
 
                          getforthVariation(variation1,variation2,variation3,variation4,product_id,vendor_id);
-                         getforthOffers(variation1,variation2,variation3,variation4,product_id,vendor_id); 
+                         getforthOffers(variation1,variation2,variation3,variation4,product_id,vendor_id);
+                         getforthImages(variation1,variation2,variation3,variation4,product_id); 
                 }
             } 
             else if($(".option1").length && $(".option2").length){
             if($(".Active1").length && $(".Active2").length){
 
                     getthirdVariation(variation1,variation2,variation3,product_id,vendor_id);
-                    getthirdOffers(variation1,variation2,variation3,product_id,vendor_id); 
+                    getthirdOffers(variation1,variation2,variation3,product_id,vendor_id);
+                    getthirdImages(variation1,variation2,variation3,variation4,product_id);  
              }
            }else if($(".option1").length){
                 if($(".Active1").length){
                     getsecondVariation(variation1,variation2,product_id,vendor_id);
                     getotherOffers(variation1,variation2,product_id,vendor_id);
+                    getsecondImages(variation1,variation2,variation3,variation4,product_id); 
                 }
            }else{
 
                     getfirstVariation(variation1,product_id,vendor_id);
                     getsingleOffers(variation1,product_id,vendor_id);
+                    getsingleImages(variation1,variation2,variation3,variation4,product_id); 
 
            }
        });
@@ -1126,19 +1130,22 @@ if (isset($_GET['id'])) {
             if($(".Active").length && $(".Active2").length && $(".Active3").length){
 
                      getforthVariation(variation1,variation2,variation3,variation4,product_id,vendor_id);
-                     getforthOffers(variation1,variation2,variation3,variation4,product_id,vendor_id); 
+                     getforthOffers(variation1,variation2,variation3,variation4,product_id,vendor_id);
+                     getforthImages(variation1,variation2,variation3,variation4,product_id); 
             }   
             else if($(".option2").length && $(".option").length){
                 if($(".Active2").length && $(".Active").length){
 
                      getthirdVariation(variation1,variation2,variation3,product_id,vendor_id);
-                     getthirdOffers(variation1,variation2,variation3,product_id,vendor_id); 
+                     getthirdOffers(variation1,variation2,variation3,product_id,vendor_id);
+                     getthirdImages(variation1,variation2,variation3,variation4,product_id); 
                  }
             }           
             else if($('.option').length){
                 if ($('.Active').length){
                     getsecondVariation(variation1,variation2,product_id,vendor_id);
-                    getotherOffers(variation1,variation2,product_id,vendor_id); 
+                    getotherOffers(variation1,variation2,product_id,vendor_id);
+                    getsingleImages(variation1,variation2,variation3,variation4,product_id); 
                 }   
             }  
         });
@@ -1158,12 +1165,14 @@ if (isset($_GET['id'])) {
                 if($(".Active").length && $(".Active1").length && $(".Active3").length){
 
                      getforthVariation(variation1,variation2,variation3,variation4,product_id,vendor_id);
-                     getforthOffers(variation1,variation2,variation3,variation4,product_id,vendor_id); 
+                     getforthOffers(variation1,variation2,variation3,variation4,product_id,vendor_id);
+                     getforthImages(variation1,variation2,variation3,variation4,product_id); 
                  }
                 else if($('.option').length && $('.option1').length){ 
                 if($('.Active').length && $('.Active1').length){
                     getthirdVariation(variation1,variation2,variation3,product_id,vendor_id);
-                    getthirdOffers(variation1,variation2,variation3,product_id,vendor_id); 
+                    getthirdOffers(variation1,variation2,variation3,product_id,vendor_id);
+                    getthirdImages(variation1,variation2,variation3,variation4,product_id); 
                 }}  
         });
 
@@ -1181,7 +1190,8 @@ if (isset($_GET['id'])) {
             if($('.Active').length && $('.Active1').length && $('.Active2').length){
 
                 getforthVariation(variation1,variation2,variation3,variation4,product_id,vendor_id);
-                getforthOffers(variation1,variation2,variation3,variation4,product_id,vendor_id); 
+                getforthOffers(variation1,variation2,variation3,variation4,product_id,vendor_id);
+                getforthImages(variation1,variation2,variation3,variation4,product_id); 
 
             }
         });
@@ -1440,10 +1450,12 @@ function getforthOffers(variation1,variation2,variation3,variation4,prodcut_id,v
         }
         
         
-    }); 
-    function addtoCart(product_id,vendor_id,variation_id,quantity,price,v_p_id){
+    });
 
-        // alert("product id:"+product_id+"vendor id :"+vendor_id+"variation id :"+variation_id+"Product quantity is: "+quantity+"Product Price is: "+price);
+  //==================================================================//  
+ //  ========================   Cart Function ===================== ///
+//==================================================================//
+    function addtoCart(product_id,vendor_id,variation_id,quantity,price,v_p_id){
 
         $.ajax({
 
@@ -1458,16 +1470,146 @@ function getforthOffers(variation1,variation2,variation3,variation4,prodcut_id,v
                                       quantity     :  quantity,
                                       price        :  price,
                                       v_p_id       :  v_p_id
-                                    },
-                    // dataType    : 'json',            
-                    success     : function(data){
+                                    },            
+                    success     :  function(data){
 
-                    // $('.ps-cart__content').html(data);
-                    alert(data);
+                    var data = data.split("`");
+                    $('.ps-cart__content').html(data[0]);
+                    $('#total_cart_items').html(data[1]);
+                    // alert(data);
                 }
+        });   
+    } 
+ //================================================================//    
+        ///============= Variation images ========= ////
+ //================================================================//
+function getsingleImages(variation1,variation2,variation3,variation4,product_id){
 
+    $.ajax({
 
-        });
-        
-    }         
+        type : 'POST',
+        url  : 'actions/productVariantImages1.php',
+        data : {variation1:variation1,variation2:variation2,variation3:variation3,variation4:variation4,product_id:product_id},
+        dataType : 'json',
+        success : function(data){
+
+            
+            var img1 = 'upload/product/800_';
+            $("#img1").attr("src", img1+data[0]);
+            $("#img2").attr("src", img1+data[1]);
+            $("#img3").attr("src", img1+data[2]);
+            $("#img4").attr("src", img1+data[3]);
+        //  ======== imglink
+            $("#imglink1").attr("href", img1+data[0]);
+            $("#imglink2").attr("href", img1+data[1]);
+            $("#imglink3").attr("href", img1+data[2]);
+            $("#imglink4").attr("href", img1+data[3]);
+        // === thumbnaills
+            $("#imgth1").attr("src", img1+data[0]);
+            $("#imgth2").attr("src", img1+data[1]);
+            $("#imgth3").attr("src", img1+data[2]);
+            $("#imgth4").attr("src", img1+data[3]);
+        }
+
+    });
+}
+
+////////////////////////////
+
+function getsecondImages(variation1,variation2,variation3,variation4,product_id){
+
+    $.ajax({
+
+        type : 'POST',
+        url  : 'actions/productVariantImages2.php',
+        data : {variation1:variation1,variation2:variation2,variation3:variation3,variation4:variation4,product_id:product_id},
+        dataType : 'json',
+        success : function(data){
+
+            
+            var img1 = 'upload/product/800_';
+            $("#img1").attr("src", img1+data[0]);
+            $("#img2").attr("src", img1+data[1]);
+            $("#img3").attr("src", img1+data[2]);
+            $("#img4").attr("src", img1+data[3]);
+        //  ======== imglink
+            $("#imglink1").attr("href", img1+data[0]);
+            $("#imglink2").attr("href", img1+data[1]);
+            $("#imglink3").attr("href", img1+data[2]);
+            $("#imglink4").attr("href", img1+data[3]);
+        // === thumbnaills
+            $("#imgth1").attr("src", img1+data[0]);
+            $("#imgth2").attr("src", img1+data[1]);
+            $("#imgth3").attr("src", img1+data[2]);
+            $("#imgth4").attr("src", img1+data[3]);
+        }
+
+    });
+}
+
+///////////////////////
+
+function getthirdImages(variation1,variation2,variation3,variation4,product_id){
+
+    $.ajax({
+
+        type : 'POST',
+        url  : 'actions/productVariantImages3.php',
+        data : {variation1:variation1,variation2:variation2,variation3:variation3,variation4:variation4,product_id:product_id},
+        dataType : 'json',
+        success : function(data){
+
+            
+            var img1 = 'upload/product/800_';
+            $("#img1").attr("src", img1+data[0]);
+            $("#img2").attr("src", img1+data[1]);
+            $("#img3").attr("src", img1+data[2]);
+            $("#img4").attr("src", img1+data[3]);
+        //  ======== imglink
+            $("#imglink1").attr("href", img1+data[0]);
+            $("#imglink2").attr("href", img1+data[1]);
+            $("#imglink3").attr("href", img1+data[2]);
+            $("#imglink4").attr("href", img1+data[3]);
+        // === thumbnaills
+            $("#imgth1").attr("src", img1+data[0]);
+            $("#imgth2").attr("src", img1+data[1]);
+            $("#imgth3").attr("src", img1+data[2]);
+            $("#imgth4").attr("src", img1+data[3]);
+        }
+
+    });
+}
+
+//////////////////
+
+function getforthImages(variation1,variation2,variation3,variation4,product_id){
+
+    $.ajax({
+
+        type : 'POST',
+        url  : 'actions/productVariantImages4.php',
+        data : {variation1:variation1,variation2:variation2,variation3:variation3,variation4:variation4,product_id:product_id},
+        dataType : 'json',
+        success : function(data){
+
+            
+            var img1 = 'upload/product/800_';
+            $("#img1").attr("src", img1+data[0]);
+            $("#img2").attr("src", img1+data[1]);
+            $("#img3").attr("src", img1+data[2]);
+            $("#img4").attr("src", img1+data[3]);
+        //  ======== imglink
+            $("#imglink1").attr("href", img1+data[0]);
+            $("#imglink2").attr("href", img1+data[1]);
+            $("#imglink3").attr("href", img1+data[2]);
+            $("#imglink4").attr("href", img1+data[3]);
+        // === thumbnaills
+            $("#imgth1").attr("src", img1+data[0]);
+            $("#imgth2").attr("src", img1+data[1]);
+            $("#imgth3").attr("src", img1+data[2]);
+            $("#imgth4").attr("src", img1+data[3]);
+        }
+
+    });
+}
     </script>

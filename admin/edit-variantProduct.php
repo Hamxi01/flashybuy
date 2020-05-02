@@ -59,15 +59,7 @@ if (isset($_GET['id']) && isset($_GET['variant_id'])) {
   // }
   //     $color                  = $skuColor[0];
 
-  // $sql   = "SELECT * from product_variant_images WHERE product_id='$product_id' AND variation_value ='$color'";
-  // $query = mysqli_query($con,$sql);
-  // while ( $imageRes = mysqli_fetch_array($query)) {
-      
-  //       $image1                = $imageRes['image1'];
-  //       $image2                = $imageRes['image2'];
-  //       $image3                = $imageRes['image3'];
-  //       $image4                = $imageRes['image4'];
-  // }
+  // 
 }
 if (isset($_POST['update-product'])) {
 
@@ -79,19 +71,22 @@ if (isset($_POST['update-product'])) {
   $subcategory_id                  =     $_POST['sub_cat_id'];
   $subsubcategory_id               =     $_POST['sub_sub_cat_id'];
   $brand                           =     $_POST['brand'];
-  $market_price                    =     $_POST['market_price'];
-  $price                           =     $_POST['price'];
-  $stock                           =     $_POST['quantity'];
   foreach ($_POST['keyword'] as $key => $value) {
             
     $keyword     =  implode(',' , $_POST['keyword']);
 
   }
-  $quantity                        =     $_POST['quantity'];
-  $width                           =     $_POST['width'];
-  $height                          =     $_POST['height'];
-  $length                          =     $_POST['length'];
-  $courier_size                    =     $_POST['courier_size'];
+  if (isset($_POST['width'])) {
+    
+      $width                           =     $_POST['width'];
+      $height                          =     $_POST['height'];
+      $length                          =     $_POST['length'];
+  }
+  if (isset($_POST['courier_size'])) {
+
+       $courier_size                    =     $_POST['courier_size'];
+  }
+  
   $description                     =     $_POST['description'];
   $warranty                        =     $_POST['warranty'];
 
@@ -120,7 +115,7 @@ $description =     $_POST['description'];
 
     foreach ($_POST['sku'] as $key => $value) {
       
-          $vquery = "update product_variations SET quantity='".$_POST['qty'][$key]."',price='".$_POST['price'][$key]."',sku='".$_POST['sku'][$key]."',active='".$_POST['active'][$key]."' Where variation_id='".$_POST['variation_id'][$key]."'";
+          $vquery = "update product_variations SET quantity='".$_POST['qty'][$key]."',mk_price='".$_POST['mk_price'][$key]."',price='".$_POST['price'][$key]."',sku='".$_POST['sku'][$key]."',active='".$_POST['active'][$key]."' Where variation_id='".$_POST['variation_id'][$key]."'";
           mysqli_query($con,$vquery);
 
     }
@@ -435,30 +430,49 @@ $description =     $_POST['description'];
                               </div>  
                           </div> -->
                           <div class="form-group row">
-                            <div class="col-md-3">
-                              <div class="form-group">
+                            <?php 
+                                $sql   = "SELECT * from product_variant_images WHERE product_id='$product_id'";
+                                $query = mysqli_query($con,$sql);
+                                while ( $imageRes = mysqli_fetch_array($query)) {
+                                    
+                                      $image1                = $imageRes['image1'];
+                                      $image2                = $imageRes['image2'];
+                                      $image3                = $imageRes['image3'];
+                                      $image4                = $imageRes['image4'];
+                                 ?>
+                              <div class="col-md-3">
+                                <div class="form-group">
                                   <label>Image1</label>
-                                  <input type="file" name="file1" class="form-control" value="<?=$image1?>">
+                                  <input type="file" name="file1" id="file1" class="form-control" value="<?=$image1?>">
+                                  <span id="uploaded_image1"><img src="../upload/product/200_<?=$image1?>" width="180" height="160"></span>
+                                  <input type="hidden" name="image1[]" id="image1" value="<?=$image1?>">
                                 </div>
                               </div>
                               <div class="col-md-3">
                                 <div class="form-group">
                                   <label>Image2</label>
-                                  <input type="file" name="file2" class="form-control" value="<?=$image2?>">
+                                  <input type="file" name="file2" id="file2" class="form-control" value="<?=$image2?>">
+                                  <span id="uploaded_image1"><img src="../upload/product/200_<?=$image2?>" width="180" height="160"></span>
+                                  <input type="hidden" name="image2[]" id="image2" value="<?=$image2?>">
                                 </div>
                               </div>
                               <div class="col-md-3">
                                 <div class="form-group">
                                   <label>Image3</label>
-                                  <input type="file" name="file3" class="form-control" value="<?=$image3?>">
+                                  <input type="file" name="file3" id="file3" class="form-control" value="<?=$image3?>">
+                                  <span id="uploaded_image1"><img src="../upload/product/200_<?=$image3?>" width="180" height="160"></span>
+                                  <input type="hidden" name="image3[]" id="image3" value="<?=$image3?>">
                                 </div>
                               </div>
                               <div class="col-md-3">
                                 <div class="form-group">
                                   <label>Image4</label>
-                                  <input type="file" name="file4" class="form-control" value="<?=$image4?>">
+                                  <input type="file" name="file4" id="file4" class="form-control" value="<?=$image4?>">
+                                  <span id="uploaded_image1"><img src="../upload/product/200_<?=$image4?>" width="180" height="160"></span>
+                                  <input type="hidden" name="image4[]" id="image4" value="<?=$image4?>">
                                 </div>
-                              </div>  
+                              </div> 
+                             <?php  } ?> 
                           </div>
                         <?php if(!empty($width) && !empty($length) && !empty($height)){?>   
                           <div class="form-group row">
@@ -644,4 +658,159 @@ $description =     $_POST['description'];
         }
       });
     }
+////
+ ////////////////////////////////////////
+    ///--------- upload image1 ----------//
+
+    // $(document).ready(function(){
+    //    $(document).on('change', '#file1', function(){
+    //     var name = document.getElementById("file1").files[0].name;
+    //     var form_data = new FormData();
+    //     var ext = name.split('.').pop().toLowerCase();
+    //     if(jQuery.inArray(ext, ['gif','png','jpg','jpeg']) == -1) 
+    //     {
+    //      alert("Invalid Image File");
+    //     }
+    //     var oFReader = new FileReader();
+    //     oFReader.readAsDataURL(document.getElementById("file1").files[0]);
+    //     var f = document.getElementById("file1").files[0];
+    //     var fsize = f.size||f.fileSize;
+       
+    //      form_data.append("file1", document.getElementById('file1').files[0]);
+    //      $.ajax({
+    //       url:"action/uploadimg1.php",
+    //       method:"POST",
+    //       data: form_data,
+    //       dataType: 'json',
+    //       contentType: false,
+    //       cache: false,
+    //       processData: false,
+    //       beforeSend:function(){
+    //        $('#uploaded_image1').html("<label class='text-success'>Image Uploading...</label>");
+    //       },   
+    //       success:function(data)
+    //       {
+    //         $('#uploaded_image1').html(null);
+    //        $('#uploaded_image1').html(data[0]);
+    //        $('#image1').val(data[1]);
+    //       }
+    //      });
+        
+    //    });
+    // });
+    // ////////////////////////////////////////
+    // ///--------- upload image2 ----------//
+
+    // $(document).ready(function(){
+    //    $(document).on('change', '#file2', function(){
+    //     var name = document.getElementById("file2").files[0].name;
+    //     var form_data = new FormData();
+    //     var ext = name.split('.').pop().toLowerCase();
+    //     if(jQuery.inArray(ext, ['gif','png','jpg','jpeg']) == -1) 
+    //     {
+    //      alert("Invalid Image File");
+    //     }
+    //     var oFReader = new FileReader();
+    //     oFReader.readAsDataURL(document.getElementById("file2").files[0]);
+    //     var f = document.getElementById("file2").files[0];
+    //     var fsize = f.size||f.fileSize;
+       
+    //      form_data.append("file2", document.getElementById('file2').files[0]);
+    //      $.ajax({
+    //       url:"action/uploadimg2.php",
+    //       method:"POST",
+    //       data: form_data,
+    //       dataType: 'json',
+    //       contentType: false,
+    //       cache: false,
+    //       processData: false,
+    //       beforeSend:function(){
+    //        $('#uploaded_image2').html("<label class='text-success'>Image Uploading...</label>");
+    //       },   
+    //       success:function(data)
+    //       {
+    //        $('#uploaded_image2').html(data[0]);
+    //        $('#image2').val(data[1]);
+    //       }
+    //      });
+        
+    //    });
+    // });
+    // ////////////////////////////////////////
+    // ///--------- upload image3 ----------//
+
+    // $(document).ready(function(){
+    //    $(document).on('change', '#file3', function(){
+    //     var name = document.getElementById("file3").files[0].name;
+    //     var form_data = new FormData();
+    //     var ext = name.split('.').pop().toLowerCase();
+    //     if(jQuery.inArray(ext, ['gif','png','jpg','jpeg']) == -1) 
+    //     {
+    //      alert("Invalid Image File");
+    //     }
+    //     var oFReader = new FileReader();
+    //     oFReader.readAsDataURL(document.getElementById("file3").files[0]);
+    //     var f = document.getElementById("file3").files[0];
+    //     var fsize = f.size||f.fileSize;
+       
+    //      form_data.append("file3", document.getElementById('file3').files[0]);
+    //      $.ajax({
+    //       url:"action/uploadimg3.php",
+    //       method:"POST",
+    //       data: form_data,
+    //       dataType: 'json',
+    //       contentType: false,
+    //       cache: false,
+    //       processData: false,
+    //       beforeSend:function(){
+    //        $('#uploaded_image3').html("<label class='text-success'>Image Uploading...</label>");
+    //       },   
+    //       success:function(data)
+    //       {
+    //        $('#uploaded_image3').html(data[0]);
+    //        $('#image3').val(data[1]);
+    //       }
+    //      });
+        
+    //    });
+    // });
+    // ////////////////////////////////////////
+    // ///--------- upload image4 ----------//
+
+    // $(document).ready(function(){
+    //    $(document).on('change', '#file4', function(){
+    //     var name = document.getElementById("file4").files[0].name;
+    //     var form_data = new FormData();
+    //     var ext = name.split('.').pop().toLowerCase();
+    //     if(jQuery.inArray(ext, ['gif','png','jpg','jpeg']) == -1) 
+    //     {
+    //      alert("Invalid Image File");
+    //     }
+    //     var oFReader = new FileReader();
+    //     oFReader.readAsDataURL(document.getElementById("file4").files[0]);
+    //     var f = document.getElementById("file4").files[0];
+    //     var fsize = f.size||f.fileSize;
+       
+    //      form_data.append("file4", document.getElementById('file4').files[0]);
+    //      $.ajax({
+    //       url:"action/uploadimg4.php",
+    //       method:"POST",
+    //       data: form_data,
+    //       dataType: 'json',
+    //       contentType: false,
+    //       cache: false,
+    //       processData: false,
+    //       beforeSend:function(){
+    //        $('#uploaded_image4').html("<label class='text-success'>Image Uploading...</label>");
+    //       },   
+    //       success:function(data)
+    //       {
+    //        $('#uploaded_image4').html(data[0]);
+    //        $('#image4').val(data[1]);
+    //       }
+    //      });
+        
+    //    });
+    // });
+
 </script>

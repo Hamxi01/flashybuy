@@ -15,7 +15,7 @@ if (isset($_POST['product_id'])) {
 	$variation_id = $res[0];
 	$sku = $res[1];
 
-	$vpsql = "SELECT price,quantity,ven_id from vendor_product where prod_id='$product_id' AND variation_id = '$variation_id' AND ven_id ='$vendor_id' AND active='Y'";
+	$vpsql = "SELECT id,price,quantity,ven_id from vendor_product where prod_id='$product_id' AND variation_id = '$variation_id' AND ven_id ='$vendor_id' AND active='Y'";
 	$vpquery = mysqli_query($con,$vpsql);
 	$tRows = mysqli_num_rows($vpquery);
 	if ($tRows>0) {
@@ -36,11 +36,12 @@ if (isset($_POST['product_id'])) {
 
 		
 
-			$price = 0;
-			$quantity = 0;
-			$vendorname = 0;
+			$price        = 0;
+			$quantity     = 0;
+			$vendorname   = 0;
 			$variation_id = 0;
 			$sku          = 0;
+			$v_p_id       = 0;
 	}
 
 	$array = [$price,$quantity,$vendorname,$sku,$variation_id,$v_p_id];

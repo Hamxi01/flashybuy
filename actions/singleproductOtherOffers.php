@@ -3,13 +3,14 @@
 
      function singleProductOtherOffers($productid,$vendorid,$con){
 
-     	$vpsql = "SELECT price,quantity,ven_id,dispatched_days from vendor_product where prod_id='$productid' AND ven_id !='$vendorid' AND active = 'Y'";
+     	$vpsql = "SELECT id,price,quantity,ven_id,dispatched_days from vendor_product where prod_id='$productid' AND ven_id !='$vendorid' AND active = 'Y'";
         $vpquery = mysqli_query($con,$vpsql);
         $tRows = mysqli_num_rows($vpquery);
         // $result   = mysqli_fetch_array($vpquery);
         
          while ($pro = mysqli_fetch_array($vpquery)) {
 
+            $v_p_id = $pro['id'];
             $price = $pro['price'];
             $days = $pro['dispatched_days'];
             $ven_id = $pro['ven_id'];
@@ -20,7 +21,7 @@
             $vendorname = $vres['shop_name'];
                        
             echo '<div class="col-md-12">
-                    <h4><b>R'.$price.'</b><button class="btn btn-warning" style="float: right;color:#fff">Add to cart</button></h4>
+                    <h4><b>R'.$price.'</b><button class="btn btn-warning" style="float: right;color:#fff" onclick="addtoCart('.$productid.','.$ven_id.',0,1,'.$price.','.$v_p_id.')">Add to cart</button></h4>
                     <h5>By: <a href="#">'.$vendorname.'</a></h5>
                     <p>'.$days.'</p>
                   </div>';                     
