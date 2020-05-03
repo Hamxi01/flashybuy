@@ -241,7 +241,7 @@ function variantProductAssign(product_id,variation_id){
 ////////-------- varaint assign to vendor-----/////
 
 function assignVendor(){
- 
+    
       $.ajax({
         type:"post",
         url:"action/assignVariations.php",
@@ -249,7 +249,6 @@ function assignVendor(){
         success:function(data){
             $("#vendorModel").modal('hide');
               alert("Product Assign Successfully");
-              location.reload(true);
         }
       });
 

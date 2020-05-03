@@ -45,8 +45,9 @@ if (isset($_GET['id'])) {
     WHERE
         P.product_id = $product_id
     AND
-        VP.active='Y'";
-    
+        VP.active='Y'
+    AND
+        VP.price = ( SELECT MIN(price) FROM vendor_product where prod_id='$prodcut_id' AND active='Y')";
    $pQuery = mysqli_query($con,$pMain);
    while ( $result = mysqli_fetch_array($pQuery)) {
         
