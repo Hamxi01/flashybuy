@@ -228,7 +228,9 @@
                     <div class="header__actions"><a class="header__extra" href="#"><i class="icon-chart-bars"></i><span><i>0</i></span></a><a class="header__extra" href="#"><i class="icon-heart"></i><span><i>0</i></span></a>
                         <div class="ps-cart--mini"><a class="header__extra" href="#"><i class="icon-bag2"></i><span><i id="total_cart_items">0</i></span></a>
                             <div class="ps-cart__content">
-                                
+                                <div class="ps-cart__items" id="ps-cart__items">
+
+                                </div>
                                     
                             </div>
                         </div>
