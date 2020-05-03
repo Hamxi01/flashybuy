@@ -4,7 +4,9 @@ include("includes/db.php");
 if (isset($_POST['product_id'])) {
 
 	$product_id = $_POST['product_id'];
-	 
+
+  //  =================================   product name ================================ //
+
 	$pSql = mysqli_query($con,"SELECT * FROM products WHERE product_id='$product_id'");
 
 	while ($res = mysqli_fetch_array($pSql)) {
@@ -12,6 +14,8 @@ if (isset($_POST['product_id'])) {
 		$name = $res['name'];
 		$image = $res['image1'];
 
+  //  ==================================== if product have varients ================= //
+		
 		if (empty($image)) {
 			
 			$vSql = mysqli_query($con,"SELECT main_img FROM product_variant_images where product_id='$product_id'");

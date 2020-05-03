@@ -47,7 +47,7 @@ if (isset($_GET['id'])) {
     AND
         VP.active='Y'
     AND
-        VP.price = ( SELECT MIN(price) FROM vendor_product where prod_id='$prodcut_id' AND active='Y')";
+        VP.price = ( SELECT MIN(price) FROM vendor_product where prod_id='$product_id' AND active='Y')";
    $pQuery = mysqli_query($con,$pMain);
    while ( $result = mysqli_fetch_array($pQuery)) {
         
@@ -93,7 +93,10 @@ if (isset($_GET['id'])) {
         $vres   = mysqli_fetch_array($vquery);
         $vendorname = $vres['shop_name'];
 
-           
+        $brand_id  = $result['brand'];
+        $bSql      = mysqli_query($con,"SELECT name from brands where id='$brand_id' AND delte =0");
+        $bRes      = mysqli_fetch_array($bSql);
+        $brand_name = $bRes[0];    
     } 
 }
 ?>
@@ -237,7 +240,7 @@ if (isset($_GET['id'])) {
                             <div class="ps-product__info">
                                 <h1><?=$name?></h1>
                                 <div class="ps-product__meta">
-                                    <p>Brand:<a href="#">Adidas</a></p>
+                                    <p>Brand:<a href="#"><?=$brand_name?></a></p>
                                     <div class="ps-product__rating">
                                         <select class="ps-rating" data-read-only="true">
                                             <option value="1">1</option>
