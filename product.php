@@ -21,6 +21,7 @@ if (isset($_GET['id'])) {
         VP.price as actual_price,
         VP.variation_id,
         VP.quantity as qty,
+        VP.ven_id as vendorid,
         VP.id as v_p_id,
         PV.price,
         PV.quantity as stock,
@@ -44,7 +45,9 @@ if (isset($_GET['id'])) {
     WHERE
         P.product_id = $product_id
     AND
-        VP.active='Y'";
+        VP.active='Y'
+    AND
+        VP.price = ( SELECT MIN(price) FROM vendor_product where prod_id='$product_id' AND active='Y')";
    $pQuery = mysqli_query($con,$pMain);
    while ( $result = mysqli_fetch_array($pQuery)) {
         
@@ -84,11 +87,16 @@ if (isset($_GET['id'])) {
         $v_p_id                = $result['v_p_id'];
         $stock                 = $result['qty'];
 
-        $vendor_id = $result['ven_id'];
+        $vendor_id = $result['vendorid'];
         $vsql ="SELECT shop_name from vendor where id='$vendor_id'";
         $vquery = mysqli_query($con,$vsql);
         $vres   = mysqli_fetch_array($vquery);
-        $vendorname = $vres['shop_name'];     
+        $vendorname = $vres['shop_name'];
+
+        $brand_id  = $result['brand'];
+        $bSql      = mysqli_query($con,"SELECT name from brands where id='$brand_id' AND delte =0");
+        $bRes      = mysqli_fetch_array($bSql);
+        $brand_name = $bRes[0];    
     } 
 }
 ?>
@@ -232,7 +240,7 @@ if (isset($_GET['id'])) {
                             <div class="ps-product__info">
                                 <h1><?=$name?></h1>
                                 <div class="ps-product__meta">
-                                    <p>Brand:<a href="shop-default.html">Adidas</a></p>
+                                    <p>Brand:<a href="#"><?=$brand_name?></a></p>
                                     <div class="ps-product__rating">
                                         <select class="ps-rating" data-read-only="true">
                                             <option value="1">1</option>
@@ -1463,16 +1471,19 @@ function getforthOffers(variation1,variation2,variation3,variation4,prodcut_id,v
                                     },            
                     success     :  function(data){
 
-                    var data = data.split("`");
-                    $('.ps-cart__content').html(data[0]);
-                    $('#total_cart_items').html(data[1]);
-                    // alert(data);
+                        showCartInbox(product_id);
+                        var data = data.split("`");
+                        $('#ps-cart__items').html(data[0]);
+                        $('#total_cart_items').html(data[1]);
+                    
                 }
         });   
     } 
- //================================================================//    
-        ///============= Variation images ========= ////
- //================================================================//
+
+//================================================================//    
+    ///============= Variation image if one variant ========= ////
+//================================================================//
+
 $(document).delegate(".option","click",function(e){
         e.preventDefault();
         if($('.Active').length){
@@ -1494,28 +1505,39 @@ $(document).delegate(".option","click",function(e){
 
                         
                         var img1 = 'upload/product/800_';
-                        $("#img1").attr("src", img1+data[0]);
-                        $("#img2").attr("src", img1+data[1]);
-                        $("#img3").attr("src", img1+data[2]);
-                        $("#img4").attr("src", img1+data[3]);
-                    //  ======== imglink
-                        $("#imglink1").attr("href", img1+data[0]);
-                        $("#imglink2").attr("href", img1+data[1]);
-                        $("#imglink3").attr("href", img1+data[2]);
-                        $("#imglink4").attr("href", img1+data[3]);
-                    // === thumbnaills
-                        $("#imgth1").attr("src", img1+data[0]);
-                        $("#imgth2").attr("src", img1+data[1]);
-                        $("#imgth3").attr("src", img1+data[2]);
-                        $("#imgth4").attr("src", img1+data[3]);
+
+                        if (data[0] != null) {
+
+                            $("#img1").attr("src", img1+data[0]);
+                            $("#imglink1").attr("href", img1+data[0]);
+                            $("#imgth1").attr("src", img1+data[0]);
+                        }
+                        if (data[1] != null) {
+
+                            $("#img2").attr("src", img1+data[1]);
+                            $("#imglink2").attr("href", img1+data[1]);
+                            $("#imgth2").attr("src", img1+data[1]);
+                        }
+                        if (data[2] != null) {
+
+                            $("#img3").attr("src", img1+data[2]);
+                            $("#imglink3").attr("href", img1+data[2]);
+                            $("#imgth3").attr("src", img1+data[2]);
+                        }
+                        if (data[3] != null) { 
+                           
+                            $("#img4").attr("src", img1+data[3]);
+                            $("#imglink4").attr("href", img1+data[3]);
+                            $("#imgth4").attr("src", img1+data[3]);
+                        }
                     }
 
     });
 });
-    
-
-
-////////////////////////////
+ 
+ //================================================================//    
+    ///============= Variation image if two variant ========= ////
+ //================================================================//
 
 $('.option1').click(function(){
         if($('.Active1').length){
@@ -1537,26 +1559,40 @@ $('.option1').click(function(){
 
             
             var img1 = 'upload/product/800_';
-            $("#img1").attr("src", img1+data[0]);
-            $("#img2").attr("src", img1+data[1]);
-            $("#img3").attr("src", img1+data[2]);
-            $("#img4").attr("src", img1+data[3]);
-        //  ======== imglink
-            $("#imglink1").attr("href", img1+data[0]);
-            $("#imglink2").attr("href", img1+data[1]);
-            $("#imglink3").attr("href", img1+data[2]);
-            $("#imglink4").attr("href", img1+data[3]);
-        // === thumbnaills
-            $("#imgth1").attr("src", img1+data[0]);
-            $("#imgth2").attr("src", img1+data[1]);
-            $("#imgth3").attr("src", img1+data[2]);
-            $("#imgth4").attr("src", img1+data[3]);
+
+            if (data[0] != null) {
+
+                $("#img1").attr("src", img1+data[0]);
+                $("#imglink1").attr("href", img1+data[0]);
+                $("#imgth1").attr("src", img1+data[0]);
+            }
+            if (data[1] != null) {
+
+                $("#img2").attr("src", img1+data[1]);
+                $("#imglink2").attr("href", img1+data[1]);
+                $("#imgth2").attr("src", img1+data[1]);
+            }
+            if (data[2] != null) {
+
+                $("#img3").attr("src", img1+data[2]);
+                $("#imglink3").attr("href", img1+data[2]);
+                $("#imgth3").attr("src", img1+data[2]);
+            }
+            if (data[3] != null) { 
+               
+                $("#img4").attr("src", img1+data[3]);
+                $("#imglink4").attr("href", img1+data[3]);
+                $("#imgth4").attr("src", img1+data[3]);
+            }
         }
 
     });
 });
 
-///////////////////////
+ //================================================================//    
+   ///============= Variation image if three variant ========= ////
+ //================================================================//
+
 $('.option2').click(function(){
         if($('.Active2').length){
            $('.Active2').not($(this)).removeClass('Active2').addClass('option2');
@@ -1577,26 +1613,39 @@ $('.option2').click(function(){
 
             
             var img1 = 'upload/product/800_';
-            $("#img1").attr("src", img1+data[0]);
-            $("#img2").attr("src", img1+data[1]);
-            $("#img3").attr("src", img1+data[2]);
-            $("#img4").attr("src", img1+data[3]);
-        //  ======== imglink
-            $("#imglink1").attr("href", img1+data[0]);
-            $("#imglink2").attr("href", img1+data[1]);
-            $("#imglink3").attr("href", img1+data[2]);
-            $("#imglink4").attr("href", img1+data[3]);
-        // === thumbnaills
-            $("#imgth1").attr("src", img1+data[0]);
-            $("#imgth2").attr("src", img1+data[1]);
-            $("#imgth3").attr("src", img1+data[2]);
-            $("#imgth4").attr("src", img1+data[3]);
+
+            if (data[0] != null) {
+
+                $("#img1").attr("src", img1+data[0]);
+                $("#imglink1").attr("href", img1+data[0]);
+                $("#imgth1").attr("src", img1+data[0]);
+            }
+            if (data[1] != null) {
+
+                $("#img2").attr("src", img1+data[1]);
+                $("#imglink2").attr("href", img1+data[1]);
+                $("#imgth2").attr("src", img1+data[1]);
+            }
+            if (data[2] != null) {
+
+                $("#img3").attr("src", img1+data[2]);
+                $("#imglink3").attr("href", img1+data[2]);
+                $("#imgth3").attr("src", img1+data[2]);
+            }
+            if (data[3] != null) { 
+               
+                $("#img4").attr("src", img1+data[3]);
+                $("#imglink4").attr("href", img1+data[3]);
+                $("#imgth4").attr("src", img1+data[3]);
+            }
         }
 
     });
 });
 
-//////////////////
+ //================================================================//    
+    ///============= Variation image if four variant ========= ////
+ //================================================================//
 
 $('.option3').click(function(){
         if($('.Active3').length){
@@ -1618,20 +1667,31 @@ $('.option3').click(function(){
 
             
             var img1 = 'upload/product/800_';
-            $("#img1").attr("src", img1+data[0]);
-            $("#img2").attr("src", img1+data[1]);
-            $("#img3").attr("src", img1+data[2]);
-            $("#img4").attr("src", img1+data[3]);
-        //  ======== imglink
-            $("#imglink1").attr("href", img1+data[0]);
-            $("#imglink2").attr("href", img1+data[1]);
-            $("#imglink3").attr("href", img1+data[2]);
-            $("#imglink4").attr("href", img1+data[3]);
-        // === thumbnaills
-            $("#imgth1").attr("src", img1+data[0]);
-            $("#imgth2").attr("src", img1+data[1]);
-            $("#imgth3").attr("src", img1+data[2]);
-            $("#imgth4").attr("src", img1+data[3]);
+
+            if (data[0] != null) {
+
+                $("#img1").attr("src", img1+data[0]);
+                $("#imglink1").attr("href", img1+data[0]);
+                $("#imgth1").attr("src", img1+data[0]);
+            }
+            if (data[1] != null) {
+
+                $("#img2").attr("src", img1+data[1]);
+                $("#imglink2").attr("href", img1+data[1]);
+                $("#imgth2").attr("src", img1+data[1]);
+            }
+            if (data[2] != null) {
+
+                $("#img3").attr("src", img1+data[2]);
+                $("#imglink3").attr("href", img1+data[2]);
+                $("#imgth3").attr("src", img1+data[2]);
+            }
+            if (data[3] != null) { 
+
+                $("#img4").attr("src", img1+data[3]);
+                $("#imglink4").attr("href", img1+data[3]);
+                $("#imgth4").attr("src", img1+data[3]);
+            }    
         }
 
     });

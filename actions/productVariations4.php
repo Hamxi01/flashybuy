@@ -20,7 +20,7 @@ if (isset($_POST['product_id'])) {
 
 	// ====== Get Vendor Product Price quantity =======  //
 
-	$pvSql = mysqli_query($con,"SELECT id,price,quantity,ven_id FROM vendor_product where prod_id = '$product_id' AND variation_id = '$variation_id'");
+	$pvSql = mysqli_query($con,"SELECT id,price,quantity,ven_id FROM vendor_product where prod_id = '$product_id' AND variation_id = '$variation_id' AND price = ( SELECT MIN(price) FROM vendor_product where prod_id='$product_id' AND variation_id = '$variation_id' AND active='Y')");
 
 	$pvRows = mysqli_num_rows($pvSql);
 	if ($pvRows>0) {

@@ -105,6 +105,18 @@
             </form>
         </div>
     </div> -->
+    <div class="modal fade " id="cartModal" style="margin-top:10%">
+    <div class="modal-dialog modal-sm" role="document">
+      <div class="modal-content">
+        <div class="modal-body" >
+          <div align="center" style="margin:0px !important; padding:0px !important; " > <i class="mdi mdi-checkbox-marked-circle-outline" style="font-size:200px; color:#7A7EE3; line-height:200px;"></i> </div>
+          <div id="div_prod_cart" >
+        
+          </div>   
+        </div>
+      </div>
+    </div>
+  </div>
     <div id="back2top"><i class="pe-7s-angle-up"></i></div>
     <div class="ps-site-overlay"></div>
     <div id="loader-wrapper">
@@ -137,6 +149,8 @@
     <script src="assets/plugins/select2/dist/js/select2.full.min.js"></script>
     <script src="assets/plugins/gmap3.min.js"></script>
     <!-- custom scripts-->
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
     <script src="assets/js/main.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDxflHHc5FlDVI-J71pO7hM1QJNW1dRp4U&amp;region=GB"></script>
     <!-- Data Table -->
@@ -162,7 +176,7 @@ function showCart(){
     success:function(data){
       
       var data = data.split("`");
-      $('.ps-cart__content').html(data[0]);
+      $('#ps-cart__items').html(data[0]);
       $('#total_cart_items').html(data[1]);
     
       
@@ -183,9 +197,26 @@ function remove_cart(p_id){
         success:function(data){
 
             var data = data.split("`");
-            $('.ps-cart__content').html(data[0]);
+            $('#ps-cart__items').html(data[0]);
             $('#total_cart_items').html(data[1]);
         }
     });
+}
+// ================ Cart Product Modal ============================ //
+function showCartInbox(product_id){
+  
+    $.ajax({
+        type:"post",
+        url:"show_cart_product.php",
+        data:{product_id:product_id},
+        success:function(result){
+
+          $("#div_prod_cart").html(result);
+          $("#cartModal").modal('show');
+        
+        }
+    });
+    // 
+  
 }      
 </script>

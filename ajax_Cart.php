@@ -127,14 +127,13 @@ if(isset($_POST['action']) && $_POST['action'] == "empty"){
 				$tquantity 	 += $data['quantity'];
 
 		  
-		 echo '<div class="ps-cart__items">
+		 echo '
 		 								<div class="ps-product--cart-mobile">
 		                                        <div class="ps-product__thumbnail"><a href="#"><img src="upload/product/200_'.$data['image'].'" alt=""></a></div>
  		                                       <div class="ps-product__content"><a class="ps-product__remove" href="#" onclick="remove_cart('.$data['v_p_id'].')"><i class="icon-cross"></i></a><a href="product-default.html">'.$data['name'].'</a>
                                             <p><strong>Sold by:</strong> '.$data['vendor'].'</p><small>'.$data['quantity'].' x '.$data['price'].'</small>
                                         </div>
-                                    </div>
-                                </div>';
+                                    </div>';
 			}
 			if ($tPrice!=0) {
 			 	
