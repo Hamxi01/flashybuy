@@ -72,25 +72,38 @@ $(document).ready(function(){
   oFReader.readAsDataURL(document.getElementById("<?=$num?>1").files[0]);
   var f = document.getElementById("<?=$num?>1").files[0];
   var fsize = f.size||f.fileSize;
- 
-   form_data.append("file", document.getElementById('<?=$num?>1').files[0]);
-   $.ajax({
-    url:"action/variantuploadimg1.php",
-    method:"POST",
-    data: form_data,
-    contentType: false,
-    cache: false,
-    processData: false,
-    beforeSend:function(){
-      $('#<?=$num?>11').html('image is uploading');
-    },   
-    success:function(data)
-    {
-     $('#<?=$num?>11').html(data);
-     
-    }
-   });
-  
+
+ // =========== image Size Check and ajax function ========== //
+
+      if(fsize <=2048000){
+
+         form_data.append("file", document.getElementById('<?=$num?>1').files[0]);
+         $.ajax({
+                  url:"action/variantuploadimg1.php",
+                  method:"POST",
+                  data: form_data,
+                  contentType: false,
+                  cache: false,
+                  processData: false,
+                  beforeSend:function(){
+
+                // ====== Loader ====== //
+                    $('#<?=$num?>11').html('<img src="assets/img/loading.gif" class="img-responsive">');
+                  },   
+                  success:function(data)
+                  {
+                   $('#<?=$num?>11').html(data);
+                   
+                  }
+         });
+
+      }else{
+
+        $('#<?=$num?>11').html('<label class="text-danger">Sorry!Image Size is greater than 2MB</label>');
+      }
+
+ // =========== End image Size Check and ajax function ========== //
+
  });
 });
 $(document).ready(function(){
@@ -106,24 +119,35 @@ $(document).ready(function(){
   oFReader.readAsDataURL(document.getElementById("<?=$num?>2").files[0]);
   var f = document.getElementById("<?=$num?>2").files[0];
   var fsize = f.size||f.fileSize;
- 
-   form_data.append("file", document.getElementById('<?=$num?>2').files[0]);
-   $.ajax({
-    url:"action/variantuploadimg2.php",
-    method:"POST",
-    data: form_data,
-    contentType: false,
-    cache: false,
-    processData: false,
-    beforeSend:function(){
-     
-    },  
-    success:function(data)
-    {
-      $('#<?=$num?>12').html(data);
+
+ // =========== image Size Check and ajax function ========== //
+
+      if (fsize <= 2048000) {
+          form_data.append("file", document.getElementById('<?=$num?>2').files[0]);
+           $.ajax({
+                    url:"action/variantuploadimg2.php",
+                    method:"POST",
+                    data: form_data,
+                    contentType: false,
+                    cache: false,
+                    processData: false,
+                    beforeSend:function(){
+                     
+                     // ============== Loader ========= //
+                      $('#<?=$num?>12').html("<lable class='text-succcess'>Image is uploading</label>")
+                    },  
+                    success:function(data)
+                    {
+                      $('#<?=$num?>12').html(data);
+                    }
+           });
+    }else{
+
+        $('#<?=$num?>12').html('<label class="text-danger">Sorry!Image Size is greater than 2MB</label>');
     }
-   });
-  
+
+ // =========== End image Size Check and ajax function ========== //
+
  });
 });
 $(document).ready(function(){
@@ -139,24 +163,37 @@ $(document).ready(function(){
   oFReader.readAsDataURL(document.getElementById("<?=$num?>3").files[0]);
   var f = document.getElementById("<?=$num?>3").files[0];
   var fsize = f.size||f.fileSize;
- 
-   form_data.append("file", document.getElementById('<?=$num?>3').files[0]);
-   $.ajax({
-    url:"action/variantuploadimg3.php",
-    method:"POST",
-    data: form_data,
-    contentType: false,
-    cache: false,
-    processData: false,
-    beforeSend:function(){
 
-    },   
-    success:function(data)
-    {
-      $('#<?=$num?>13').html(data);
-    }
-   });
-  
+ // =========== image Size Check and ajax function ========== //
+
+      if (fsize <= 2048000) {
+
+          form_data.append("file", document.getElementById('<?=$num?>3').files[0]);
+           $.ajax({
+                  url:"action/variantuploadimg3.php",
+                  method:"POST",
+                  data: form_data,
+                  contentType: false,
+                  cache: false,
+                  processData: false,
+                  beforeSend:function(){
+
+                    // ========== Image Loader =========== //
+
+                    $('#<?=$num?>13').html('<img src="assets/img/loading.gif" class=img-responsive>')
+                  },   
+                  success:function(data)
+                  {
+                    $('#<?=$num?>13').html(data);
+                  }
+           });
+
+      }else{
+
+          $('#<?=$num?>13').html('<label class="text-danger">Sorry! Image Size is greater than 2MB</label>');
+      }
+
+ // =========== End image Size Check and ajax function ========== //      
  });
 });
 $(document).ready(function(){
@@ -172,24 +209,37 @@ $(document).ready(function(){
   oFReader.readAsDataURL(document.getElementById("<?=$num?>4").files[0]);
   var f = document.getElementById("<?=$num?>4").files[0];
   var fsize = f.size||f.fileSize;
- 
-   form_data.append("file", document.getElementById('<?=$num?>4').files[0]);
-   $.ajax({
-    url:"action/variantuploadimg4.php",
-    method:"POST",
-    data: form_data,
-    contentType: false,
-    cache: false,
-    processData: false,
-    beforeSend:function(){
 
-    },   
-    success:function(data)
-    {
-      $('#<?=$num?>14').html(data);
-    }
-   });
-  
+// ====== image size check and ajax function ============= //
+
+      if (fsize <= 2048000) {
+
+           form_data.append("file", document.getElementById('<?=$num?>4').files[0]);
+             $.ajax({
+                      url:"action/variantuploadimg4.php",
+                      method:"POST",
+                      data: form_data,
+                      contentType: false,
+                      cache: false,
+                      processData: false,
+                      beforeSend:function(){
+
+                        // =========== Image Loader ======== //
+
+                        $('#<?=$num?>14').html('<img src="assets/img/loading.gif" class="img-responsive">')
+
+                      },   
+                      success:function(data)
+                      {
+                        $('#<?=$num?>14').html(data);
+                      }
+             });
+
+      }else{
+
+              $('#<?=$num?>14').html('<label class="text-danger">Sorry!Image Size is greater than 2MB</label>');
+      }
+ // =========== End image Size Check and ajax function ========== //       
  });
 });
 </script>

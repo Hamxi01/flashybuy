@@ -103,7 +103,7 @@ $start_from = ($page-1) * $limit;
                         <tr>
                           <td><?= $i++?></td>
                           <td><img alt="image" src="../upload/product/200_<?php echo $image;?>" width="35"
-                              data-toggle="tooltip" title="<?=$res['name']?>">  <span style="margin-left: 5px"> <?=$res['name']?> <?=$res['variant_Sku']?></span> </td>
+                              data-toggle="tooltip" title="<?=$res['name']?>">  <span style="margin-left: 5px"><a style="text-decoration: none;color: black" href="../product.php?id=<?=$id?>&name=<?=str_replace(" ","-",$res['name'])?>"><?=$res['name']?> <?=$res['variant_Sku']?></a></span> </td>
 
                           <td class="align-middle"><?=$stock?></td>
                           <td><b>R</b><?=$price?></td>

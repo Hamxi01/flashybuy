@@ -1,5 +1,5 @@
 <?php
-@session_start();
+include('../includes/db.php');
 if (isset($_SESSION['id'])) 
  {
     $vendor_id=$_SESSION['id'];
@@ -9,7 +9,7 @@ if (isset($_SESSION['id']))
     header("Location:../login.php");
  }
  
-include('../includes/db.php');
+
 ?>
 <!DOCTYPE html>
 <html lang="en">

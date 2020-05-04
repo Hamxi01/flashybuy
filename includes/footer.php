@@ -162,7 +162,8 @@
 <script type="text/javascript">
     $( function() {
 
-        showCart(); 
+        showCart();
+
    } );
 
 ///================ Show items From Cart ======================= ///
@@ -178,7 +179,14 @@ function showCart(){
       var data = data.split("`");
       $('#ps-cart__items').html(data[0]);
       $('#total_cart_items').html(data[1]);
-    
+        
+        if (data[1] == 0) {
+
+            $('#ps-cart__items').css('display','none');
+        }else{
+
+            $('#ps-cart__items').css('display','');
+        }
       
     }
   });
@@ -199,6 +207,13 @@ function remove_cart(p_id){
             var data = data.split("`");
             $('#ps-cart__items').html(data[0]);
             $('#total_cart_items').html(data[1]);
+            if (data[1] == 0) {
+
+            $('#ps-cart__items').css('display','none');
+            }else{
+
+                $('#ps-cart__items').css('display','');
+            }
         }
     });
 }

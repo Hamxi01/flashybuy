@@ -9,26 +9,33 @@ use \Gumlet\ImageResizeException;
 $options = array();
 if (isset($_POST['add-product'])) {
 
-	$name                            =     $_POST['name'];
-	$category_id                     =     $_POST['category_id'];
-	$subcategory_id                  =     $_POST['subcategory_id'];
-	$subsubcategory_id               =     $_POST['subsubcategory_id'];
-	$brand                           =     $_POST['brand'];
-	$market_price                    =     $_POST['market_price'];	
-	$selling_price                   =     $_POST['selling_price'];
-	$quantity                        =     $_POST['quantity'];
-	$width                           =     $_POST['width'];
-	$height                          =     $_POST['height'];
-	$length                          =     $_POST['length'];
-	$ven_id                          =     $_POST['vendor_id'];
-	$courier_size                    =     $_POST['courier_size'];
-	$description                     =     $_POST['description'];
+	$name                            =     addslashes( $_POST['name']);
+	$category_id                     =     addslashes( $_POST['category_id']);
+	$subcategory_id                  =     addslashes( $_POST['subcategory_id']);
+	$subsubcategory_id               =     addslashes( $_POST['subsubcategory_id']);
+	$brand                           =     addslashes( $_POST['brand']);
+	$market_price                    =     addslashes( $_POST['market_price']);	
+	$selling_price                   =     addslashes( $_POST['selling_price']);
+	$quantity                        =     addslashes( $_POST['quantity']);
+	$width                           =     addslashes( $_POST['width']);
+	$height                          =     addslashes( $_POST['height']);
+	$length                          =     addslashes( $_POST['length']);
+	$ven_id                          =     addslashes( $_POST['vendor_id']);
+	
+	if (isset($_POST['courier_size'])) {
+		
+		$courier_size                =     addslashes( $_POST['courier_size']);
+	}else{
+		$courier_size = null;
+	}
+	
+	$description                     =     addslashes( $_POST['description']);
 	$sku                             =     str_replace(" ","-", $name);
 	$image1                          =     $_POST['image1'];
 	$image2                          =     $_POST['image2'];
 	$image3                          =     $_POST['image3'];
 	$image4                          =     $_POST['image4'];
-	$warranty                        =     $_POST['warranty'];
+	$warranty                        =     addslashes( $_POST['warranty']);
 	  if (isset($_POST['exclusive'])) {
 	  
 	  $exclusive = $_POST['exclusive'];
@@ -38,10 +45,9 @@ if (isset($_POST['add-product'])) {
 	  }
 
 
-	$sql = "INSERT into products (name,cat_id,sub_cat_id,sub_sub_cat_id,sku,brand,market_price,selling_price,quantity,ven_id,width,height,length,description,image1,image2,image3,image4,exclusive,warranty,courier_size) VALUES ('$name', '$category_id', '$subcategory_id','$subsubcategory_id','$sku','$brand','$market_price','$selling_price','$quantity','$ven_id','$width','$height','$length','$description','$image1','$image2','$image3','$image4','$exclusive','$warranty','$courier_size')";
+	$sql = "INSERT into products (name,cat_id,sub_cat_id,sub_sub_cat_id,sku,brand,market_price,selling_price,quantity,ven_id,width,height,length,description,image1,image2,image3,image4,exclusive,warranty,courier_size) VALUES ('$name','$category_id', '$subcategory_id','$subsubcategory_id','$sku','$brand','$market_price','$selling_price','$quantity','$ven_id','$width','$height','$length','$description','$image1','$image2','$image3','$image4','$exclusive','$warranty','$courier_size')";
 
-
-
+		
 	if ( mysqli_query($con,$sql)){
 
 		$id = mysqli_insert_id($con);

@@ -63,14 +63,14 @@ if (isset($_GET['id']) && isset($_GET['variant_id'])) {
 }
 if (isset($_POST['update-product'])) {
 
-  $variation_id                    =     $_POST['variation_id'];
-  $product_id                      =     $_POST['id'];
-  $ven_id                          =     $_POST['ven_id'];
-  $name                            =     $_POST['name'];
-  $category_id                     =     $_POST['cat_id'];
-  $subcategory_id                  =     $_POST['sub_cat_id'];
-  $subsubcategory_id               =     $_POST['sub_sub_cat_id'];
-  $brand                           =     $_POST['brand'];
+  // $variation_id                    =     addslashes($_POST['variation_id']);
+  $product_id                      =     addslashes($_POST['id']);
+  $ven_id                          =     addslashes($_POST['ven_id']);
+  $name                            =     addslashes($_POST['name']);
+  $category_id                     =     addslashes($_POST['cat_id']);
+  $subcategory_id                  =     addslashes($_POST['sub_cat_id']);
+  $subsubcategory_id               =     addslashes($_POST['sub_sub_cat_id']);
+  $brand                           =     addslashes($_POST['brand']);
   foreach ($_POST['keyword'] as $key => $value) {
             
     $keyword     =  implode(',' , $_POST['keyword']);
@@ -78,21 +78,21 @@ if (isset($_POST['update-product'])) {
   }
   if (isset($_POST['width'])) {
     
-      $width                           =     $_POST['width'];
-      $height                          =     $_POST['height'];
-      $length                          =     $_POST['length'];
+      $width                           =     addslashes($_POST['width']);
+      $height                          =     addslashes($_POST['height']);
+      $length                          =     addslashes($_POST['length']);
   }
   if (isset($_POST['courier_size'])) {
 
-       $courier_size                    =     $_POST['courier_size'];
+       $courier_size                    =     addslashes($_POST['courier_size']);
   }
   
-  $description                     =     $_POST['description'];
-  $warranty                        =     $_POST['warranty'];
+  $description                     =     addslashes($_POST['description']);
+  $warranty                        =     addslashes($_POST['warranty']);
 
   if (isset($_POST['approved'])) { 
 
-      $approved                        =     $_POST['approved'];
+      $approved                        =     addslashes($_POST['approved']);
       
   }else{
 
@@ -100,14 +100,13 @@ if (isset($_POST['update-product'])) {
   }
   if (isset($_POST['exclusive'])) { 
 
-       $exclusive                       =     $_POST['exclusive'];
+       $exclusive                       =  addslashes($_POST['exclusive']);
        
   }else{
 
     $exclusive = 'N';
   }
 
-$description =     $_POST['description'];
 
 
 

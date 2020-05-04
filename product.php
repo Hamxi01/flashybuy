@@ -16,8 +16,6 @@ if (isset($_GET['id'])) {
         PV.third_variation_name,
         PV.forth_variation_value,
         PV.forth_variation_name,
-        min(VP.price) as min_price,
-        max(VP.price) as max_price,
         VP.price as actual_price,
         VP.variation_id,
         VP.quantity as qty,
@@ -53,8 +51,10 @@ if (isset($_GET['id'])) {
         
         $name = $result['name'];
         if (empty($result['selling_price'])) {
-            
-            $price = $result['min_price'].'-R'.$result['max_price'];
+
+            $priceSql   = mysqli_query($con,"SELECT MIN(price),MAX(price) FROM vendor_product where prod_id='$product_id' AND active='Y'");
+            $priceArray = mysqli_fetch_array($priceSql);
+            $price      = $priceArray[0].'-R'.$priceArray[1];
         }else{
 
             $price = $result['actual_price'];
@@ -63,13 +63,13 @@ if (isset($_GET['id'])) {
 
         if (empty($result['image1'])) {
             
-            $vimg = mysqli_query($con,"SELECT main_img from product_variant_images Where product_id ='$product_id'");
+            $vimg = mysqli_query($con,"SELECT * from product_variant_images Where product_id ='$product_id'");
             while ($res = mysqli_fetch_array($vimg)) {
                     
                     $image1 = $res['main_img'];
-                    // $image2 = $res['image2'];
-                    // $image3 = $res['image3'];
-                    // $image4 = $res['image4'];
+                    $image2 = $res['image2'];
+                    $image3 = $res['image3'];
+                    $image4 = $res['image4'];
             }
         }else{
 
@@ -1453,6 +1453,7 @@ function getforthOffers(variation1,variation2,variation3,variation4,prodcut_id,v
   //==================================================================//  
  //  ========================   Cart Function ===================== ///
 //==================================================================//
+
     function addtoCart(product_id,vendor_id,variation_id,quantity,price,v_p_id){
 
         $.ajax({
@@ -1475,6 +1476,13 @@ function getforthOffers(variation1,variation2,variation3,variation4,prodcut_id,v
                         var data = data.split("`");
                         $('#ps-cart__items').html(data[0]);
                         $('#total_cart_items').html(data[1]);
+                        if (data[1] == 0) {
+
+                            $('#ps-cart__items').css('display','none');
+                        }else{
+
+                            $('#ps-cart__items').css('display','');
+                        }
                     
                 }
         });   

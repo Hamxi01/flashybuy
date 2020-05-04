@@ -42,25 +42,25 @@ if (isset($_GET['id']) && isset($_GET['sku'])) {
 }
 if (isset($_POST['update-product'])) {
 
-  $product_id                      =     $_POST['id'];
-  $name                            =     $_POST['name'];
-  $category_id                     =     $_POST['cat_id'];
-  $subcategory_id                  =     $_POST['sub_cat_id'];
-  $subsubcategory_id               =     $_POST['sub_sub_cat_id'];
-  $brand                           =     $_POST['brand'];
+  $product_id                      =     addslashes($_POST['id']);
+  $name                            =     addslashes($_POST['name']);
+  $category_id                     =     addslashes($_POST['cat_id']);
+  $subcategory_id                  =     addslashes($_POST['sub_cat_id']);
+  $subsubcategory_id               =     addslashes($_POST['sub_sub_cat_id']);
+  $brand                           =     addslashes($_POST['brand']);
   foreach ($_POST['keyword'] as $key => $value) {
             
     $keyword     =  implode(',' , $_POST['keyword']);
 
   }
-  $market_price                    =     $_POST['market_price'];  
-  $selling_price                   =     $_POST['selling_price'];
-  $quantity                        =     $_POST['quantity'];
-  $width                           =     $_POST['width'];
-  $height                          =     $_POST['height'];
-  $length                          =     $_POST['length'];
-  $courier_size                    =     $_POST['courier_size'];
-  $warranty                        =     $_POST['warranty'];
+  $market_price                    =     addslashes($_POST['market_price']);  
+  $selling_price                   =     addslashes($_POST['selling_price']);
+  $quantity                        =     addslashes($_POST['quantity']);
+  $width                           =     addslashes($_POST['width']);
+  $height                          =     addslashes($_POST['height']);
+  $length                          =     addslashes($_POST['length']);
+  $courier_size                    =     addslashes($_POST['courier_size']);
+  $warranty                        =     addslashes($_POST['warranty']);
   if (isset($_POST['approved'])) {
       
       $approved = $_POST['approved'];
@@ -77,7 +77,7 @@ if (isset($_POST['update-product'])) {
     $exclusive = 'N';
   }
   // $courier_size                 =     $_POST['courier_size'];
-  $description                     =     $_POST['description'];
+  $description                     =     addslashes($_POST['description']);
   $sku                             =     str_replace(" ","-", $name);
   $image1                          =     $_POST['image1'];
   $image2                          =     $_POST['image2'];

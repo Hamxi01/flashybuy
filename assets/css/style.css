@@ -11433,7 +11433,7 @@ textarea.form-control {
   padding: 20px;
   background-color: #fff;
   border: 1px solid #e1e1e1;
-  border-bottom: none;
+  border-bottom: 1px solid #e1e1e1;
 }
 
 .ps-cart--mini .ps-cart__items:before {
@@ -11474,7 +11474,7 @@ textarea.form-control {
 .ps-cart--mini .ps-cart__footer {
   padding: 10px 20px 20px;
   background-color: #ffffff;
-  border: 1px solid #e1e1e1;
+  /*border: 1px solid #e1e1e1;*/
   border-top: 0;
 }
 

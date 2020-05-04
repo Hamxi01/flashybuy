@@ -43,7 +43,7 @@ $start_from = ($page-1) * $limit;
     $query = mysqli_query($con,$sql);
  $i=1; 
  while($res = mysqli_fetch_array($query)) {
-
+ $id            = base64_encode($res['prod_id']);
   $p_id = $res['prod_id'];
   $v_id = $res['variation_id'];
   $sku = $res['variant_Sku'];
@@ -81,7 +81,7 @@ $start_from = ($page-1) * $limit;
                         <tr>
                           <td><?= $i++?></td>
                           <td><img alt="image" src="../upload/product/200_<?php echo $image;?>" width="35"
-                              data-toggle="tooltip" title="<?=$res['name']?>">  <span style="margin-left: 5px"> <?=$res['name']?> <?=$res['variant_Sku']?></span> </td>
+                              data-toggle="tooltip" title="<?=$res['name']?>">  <span style="margin-left: 5px"><a style="text-decoration: none;color: black" href="../product.php?id=<?=$id?>&name=<?=str_replace(" ","-",$res['name'])?>"><?=$res['name']?> <?=$res['variant_Sku']?></a></td>
                           <input type="hidden" name="v_p_id[]" value="<?=$res['id']?>">
                           <td class="align-middle">
                             <select name="dispatch_days[]" class="form-control">

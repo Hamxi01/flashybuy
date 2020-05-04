@@ -135,7 +135,7 @@ if (isset($_SESSION['id']))
                             </div>
                             <div class="form-group row">
                               <label>Choose Brands</label>
-                              <input type="text" name="" id="brandkeyword" class="form-control" oninput="searchBrands()">
+                              <input type="search" name="" id="brandkeyword" class="form-control" oninput="searchBrands()">
                               <input type="hidden" name="brand" id="brandid" value="">
                               <ul id="brandslist">
                               </ul>
@@ -516,7 +516,7 @@ if (isset($_SESSION['id']))
                 data: {subsubcategoryid:id},
                 success:function(data){
                         // console.log(data);
-                        $('#variant_options').append(data);
+                        $('#variant_options').html(data);
                         $('#custom_options').val('Y');
                     
                 }
@@ -571,10 +571,10 @@ function variationsName(){
         vari = $(this).val();
         if (vari != null) {
             if(vari == 'Color'){
-                $("#varition-options").append('<div class="form-group row '+vari+'"><div class="col-md-3"><input type="text"  value="'+vari+'" class="form-control" disabled=""><input type="hidden" name="vari[]" value="'+vari+'" class="form-control"><input type="hidden" name="vari_type[]" value="'+i+'" class="form-control"></div><div class="col-md-8"><input type="text" class="form-control tagsInput" onchange="update_sku();imagediv()" id="'+vari+'" name="options_'+i+'[]" value=""></div><div class="col-md-1"><button type="button" onclick="delete_row(this)" class="btn btn-danger text-danger"><i class="fas fa-trash-alt"></i></button></div></div><br>');
+                $("#varition-options").append('<div class="form-group row '+vari+'"><div class="col-md-3"><input type="text"  value="'+vari+'" class="form-control" disabled=""><input type="hidden" name="vari[]" value="'+vari+'" class="form-control"><input type="hidden" name="vari_type[]" value="'+i+'" class="form-control"></div><div class="col-md-8"><input type="text" class="form-control tagsInput" onchange="update_sku();imagediv()" id="'+vari+'" name="options_'+i+'[]" value=""></div><div class="col-md-1"><button type="button" onclick="delete_row(this)" class="btn btn-danger text-danger"><i class="fas fa-trash-alt" style="color:#fff"></i></button></div></div><br>');
             }
             else{
-                $("#varition-options").append('<div class="form-group row '+vari+'"><div class="col-md-3"><input type="text"  value="'+vari+'" class="form-control" disabled=""><input type="hidden" name="vari[]" value="'+vari+'" class="form-control"><input type="hidden" name="vari_type[]" value="'+i+'" class="form-control"></div><div class="col-md-8"><input type="text" class="form-control tagsInput" onchange="update_sku();" id="'+vari+'" name="options_'+i+'[]" value=""></div><div class="col-md-1"><button type="button" onclick="delete_row(this)" class="btn btn-danger text-danger"><i class="fas fa-trash-alt"></i></button></div></div><br>');
+                $("#varition-options").append('<div class="form-group row '+vari+'"><div class="col-md-3"><input type="text"  value="'+vari+'" class="form-control" disabled=""><input type="hidden" name="vari[]" value="'+vari+'" class="form-control"><input type="hidden" name="vari_type[]" value="'+i+'" class="form-control"></div><div class="col-md-8"><input type="text" class="form-control tagsInput" onchange="update_sku();" id="'+vari+'" name="options_'+i+'[]" value=""></div><div class="col-md-1"><button type="button" onclick="delete_row(this)" class="btn btn-danger text-danger"><i class="fas fa-trash-alt" style="color:#fff"></i></button></div></div><br>');
             }
                 i++;
                 $('.tagsInput').tagsinput('items');
@@ -750,26 +750,38 @@ var s = new Array();
         oFReader.readAsDataURL(document.getElementById("file1").files[0]);
         var f = document.getElementById("file1").files[0];
         var fsize = f.size||f.fileSize;
-       
-         form_data.append("file1", document.getElementById('file1').files[0]);
-         $.ajax({
-          url:"action/uploadimg1.php",
-          method:"POST",
-          data: form_data,
-          dataType: 'json',
-          contentType: false,
-          cache: false,
-          processData: false,
-          beforeSend:function(){
-           $('#uploaded_image').html("<label class='text-success'>Image Uploading...</label>");
-          },   
-          success:function(data)
-          {
-           $('#uploaded_image').html(data[0]);
-           $('#image1').val(data[1]);
-          }
-         });
-        
+
+  // ========= Check image Size And ajax function ========= //
+
+        size = this.files[0].size;
+        if (size<=2048000) {
+
+             form_data.append("file1", document.getElementById('file1').files[0]);
+             $.ajax({
+                    url:"action/uploadimg1.php",
+                    method:"POST",
+                    data: form_data,
+                    dataType: 'json',
+                    contentType: false,
+                    cache: false,
+                    processData: false,
+                    beforeSend:function(){
+
+                      // ============ image loader ========= //
+
+                     $('#uploaded_image').html("<img class='img-responsive' src='assets/img/loading.gif'>");
+                    },   
+                    success:function(data)
+                    {
+                     $('#uploaded_image').html(data[0]);
+                     $('#image1').val(data[1]);
+                    }
+             });
+        }else{
+
+          $('#uploaded_image').html("<label class='text-danger'>Image Size is greater then 2MB</label>");
+        }
+  //===== End Image Size validation and ajax ======== // 
        });
     });
     ////////////////////////////////////////
@@ -788,26 +800,36 @@ var s = new Array();
         oFReader.readAsDataURL(document.getElementById("file2").files[0]);
         var f = document.getElementById("file2").files[0];
         var fsize = f.size||f.fileSize;
-       
-         form_data.append("file2", document.getElementById('file2').files[0]);
-         $.ajax({
-          url:"action/uploadimg2.php",
-          method:"POST",
-          data: form_data,
-          dataType: 'json',
-          contentType: false,
-          cache: false,
-          processData: false,
-          beforeSend:function(){
-           $('#uploaded_image2').html("<label class='text-success'>Image Uploading...</label>");
-          },   
-          success:function(data)
-          {
-           $('#uploaded_image2').html(data[0]);
-           $('#image2').val(data[1]);
-          }
-         });
-        
+
+  // ========= Check image Size And ajax function ========= //
+
+        size = this.files[0].size;
+        if (size<=2048000) {
+
+           form_data.append("file2", document.getElementById('file2').files[0]);
+               $.ajax({
+                        url:"action/uploadimg2.php",
+                        method:"POST",
+                        data: form_data,
+                        dataType: 'json',
+                        contentType: false,
+                        cache: false,
+                        processData: false,
+                        beforeSend:function(){
+                          // ============ image loader ========= //
+                         $('#uploaded_image2').html("<img class='img-responsive' src='assets/img/loading.gif'>");
+                        },   
+                        success:function(data)
+                        {
+                         $('#uploaded_image2').html(data[0]);
+                         $('#image2').val(data[1]);
+                        }
+              });
+        }else{
+
+            $('#uploaded_image2').html("<label class='text-danger'>Image Size is greater then 2MB</label>");
+        }
+  // =========End Check image Size And ajax function ========= //        
        });
     });
     ////////////////////////////////////////
@@ -826,26 +848,37 @@ var s = new Array();
         oFReader.readAsDataURL(document.getElementById("file3").files[0]);
         var f = document.getElementById("file3").files[0];
         var fsize = f.size||f.fileSize;
-       
+         
+ //===== Image Size validation and ajax ======== //
+
+        size = this.files[0].size;
+        if (size<=2048000) { 
+
          form_data.append("file3", document.getElementById('file3').files[0]);
-         $.ajax({
-          url:"action/uploadimg3.php",
-          method:"POST",
-          data: form_data,
-          dataType: 'json',
-          contentType: false,
-          cache: false,
-          processData: false,
-          beforeSend:function(){
-           $('#uploaded_image3').html("<label class='text-success'>Image Uploading...</label>");
-          },   
-          success:function(data)
-          {
-           $('#uploaded_image3').html(data[0]);
-           $('#image3').val(data[1]);
-          }
-         });
-        
+             $.ajax({
+                    url:"action/uploadimg3.php",
+                    method:"POST",
+                    data: form_data,
+                    dataType: 'json',
+                    contentType: false,
+                    cache: false,
+                    processData: false,
+                    beforeSend:function(){
+
+                      // =========  Image Loader ========  //
+                     $('#uploaded_image3').html("<img class='img-responsive' src='assets/img/loading.gif'>");
+                    },   
+                    success:function(data)
+                    {
+                     $('#uploaded_image3').html(data[0]);
+                     $('#image3').val(data[1]);
+                    }
+             });
+        }else{
+
+          $('#uploaded_image3').html("<label class='text-danger'>Image Size is greater then 2MB</label>");
+        }
+  //===== End Image Size validation and ajax ======== // 
        });
     });
     ////////////////////////////////////////
@@ -864,26 +897,38 @@ var s = new Array();
         oFReader.readAsDataURL(document.getElementById("file4").files[0]);
         var f = document.getElementById("file4").files[0];
         var fsize = f.size||f.fileSize;
-       
-         form_data.append("file4", document.getElementById('file4').files[0]);
-         $.ajax({
-          url:"action/uploadimg4.php",
-          method:"POST",
-          data: form_data,
-          dataType: 'json',
-          contentType: false,
-          cache: false,
-          processData: false,
-          beforeSend:function(){
-           $('#uploaded_image4').html("<label class='text-success'>Image Uploading...</label>");
-          },   
-          success:function(data)
-          {
-           $('#uploaded_image4').html(data[0]);
-           $('#image4').val(data[1]);
-          }
-         });
-        
+
+  // ========= Check image Size And ajax function ========= //
+
+        size = this.files[0].size;
+        if (size<=2048000) {
+
+            form_data.append("file4", document.getElementById('file4').files[0]);
+             $.ajax({
+                      url:"action/uploadimg4.php",
+                      method:"POST",
+                      data: form_data,
+                      dataType: 'json',
+                      contentType: false,
+                      cache: false,
+                      processData: false,
+                      beforeSend:function(){
+                        // ============ image loader ========= //
+                       $('#uploaded_image4').html("<img class='img-responsive' src='assets/img/loading.gif'>");
+                      },   
+                      success:function(data)
+                      {
+                       $('#uploaded_image4').html(data[0]);
+                       $('#image4').val(data[1]);
+                      }
+             });
+        }else{
+
+          $('#uploaded_image4').html("<label class='text-danger'>Image Size is greater then 2MB</label>");
+        } 
+
+  // ========= End Check image Size And ajax function ========= // 
+
        });
     });
     /////-------brands search ----- ///////
@@ -906,6 +951,7 @@ var s = new Array();
             });
         }
     }
+
     function addBrand(el,id){
 
         var brand = $(el).html();
@@ -913,9 +959,12 @@ var s = new Array();
         $('#brandkeyword').val(brand);
         $('#brandslist').html(null);
         $('#brandslist').hide();
+        $('#brandkeyword').prop('readonly',true);
         
     }
-//---- On press Enter form not submit Fuction --- ////    
+
+//---- On press Enter form not submit Fuction --- //// 
+
 $('#product_form').on('keyup keypress', function(e) {
   var keyCode = e.keyCode || e.which;
   if (keyCode === 13) { 
@@ -923,5 +972,6 @@ $('#product_form').on('keyup keypress', function(e) {
     return false;
   }
 });
+
 //---- On press Enter form not submit Fuction --- //// 
 </script> 
