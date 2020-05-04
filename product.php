@@ -355,7 +355,7 @@ if (isset($_GET['id'])) {
 
                                     <?php }else{?>
 
-                                        <button class="ps-btn ps-btn--black" id="cart" disabled>Add to cart</button>
+                                        <button class="ps-btn ps-btn--black" id="cart" disabled>Select Options</button>
 
                                     <?php } ?>
                                     <!-- <a class="ps-btn" href="#">Buy Now</a> -->
