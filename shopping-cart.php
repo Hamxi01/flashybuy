@@ -1,5 +1,6 @@
 <?php include('includes/db.php') ?>
 <?php include('includes/head.php') ?>
+<?php include('includes/cart_vendorPackges.php') ?>
 
     <div class="ps-page--simple">
         <div class="ps-breadcrumb">
@@ -19,7 +20,7 @@
                 <div class="ps-section__content">
                     <div class="table-responsive">
                         <table class="table ps-table--shopping-cart">
-                            <thead>
+                            <!-- <thead>
                                 <tr>
                                     <th>Product name</th>
                                     <th>PRICE</th>
@@ -27,19 +28,33 @@
                                     <th>TOTAL</th>
                                     <th></th>
                                 </tr>
-                            </thead>
+                            </thead> -->
                             <tbody>
                                 <?php 
                                         if(isset($_SESSION['product_cart'])){
-                                     
+
+                                            $vendorPackage = vendorPackges('vendor',$_SESSION['product_cart'],$con);
+
                                           $tquantity = 0;
                                           $tPrice    = 0;
-                                          foreach($_SESSION['product_cart'] as $data){
+                                          $i=0;
+                                          foreach($vendorPackage as $index => $value){
+
+                                            
+
+                                            foreach ($value as $key => $data) {
+                                             
+                                            
                                                 $priceProduct = $data['price']*$data['quantity'];
                                                 $tPrice      += $priceProduct;
                                                 $tquantity   += $data['quantity'];
-                                                $id           = base64_encode($data['product_id']);?>
+                                                $id           = base64_encode($data['product_id']);
+                                ?>
                                 <tr>
+                                    <thead>
+                                        <th colspan="8"><?=$index?></th>
+                                    </thead>
+                                    
                                     <td>
                                         <div class="ps-product--cart">
                                             <div class="ps-product__thumbnail"><a href="product-default.html"><img src="upload/product/200_<?=$data['image']?>" alt=""></a></div>
@@ -59,7 +74,7 @@
                                     <td><b>R<?php echo $data['price']*$data['quantity'] ?></b></td>
                                     <td><a href="" onclick="remove_cart_items(<?=$data['v_p_id']?>)"><i class="icon-cross"></i></a></td>
                                 </tr>
-                            <?php } } ?>
+                            <?php } } }?>
                                 <!-- <tr>
                                     <td>
                                         <div class="ps-product--cart">
