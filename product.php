@@ -1214,6 +1214,7 @@ if (isset($_GET['id'])) {
                             $("#vendor").html(data[2]);
                             $("#variation_id").val(data[4]);
                             $("#v_p_id").val(data[5]);
+                            $("#vendorid").val(data[6]);
                             $("#cart").prop('disabled', false);
                       }
                       else{
@@ -1264,6 +1265,7 @@ if (isset($_GET['id'])) {
                             $("#vendor").html(data[2]);
                             $("#variation_id").val(data[4]);
                             $("#v_p_id").val(data[5]);
+                            $("#vendorid").val(data[6]);
                             $("#cart").prop('disabled', false);
                       }
                       else{
@@ -1313,6 +1315,7 @@ if (isset($_GET['id'])) {
                             $("#vendor").html(data[2]);
                             $("#variation_id").val(data[4]);
                             $("#v_p_id").val(data[5]);
+                            $("#vendorid").val(data[6]);
                             $("#cart").prop('disabled', false);
                       }
                       else{
@@ -1362,6 +1365,7 @@ if (isset($_GET['id'])) {
                     $("#vendor").html(data[2]);
                     $("#variation_id").val(data[4]);
                     $("#v_p_id").val(data[5]);
+                    $("#vendorid").val(data[6]);
                     $("#cart").prop('disabled', false);
                 }
                 else{

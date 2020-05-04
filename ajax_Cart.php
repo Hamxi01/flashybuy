@@ -47,6 +47,7 @@ if (isset($_POST['action']) && $_POST['action']=='add'){
 						'name'         => $name,
 						'price'        => $price,
 						'quantity'     => $quantity,
+						'vendor_id'    => $vendor_id,
 						'image'	       => $image,
 						'variation_id' => $variation_id,
 						'vendor'       => $vendor
@@ -68,6 +69,7 @@ if (isset($_POST['action']) && $_POST['action']=='add'){
 
 						'v_p_id'       => $v_p_id,
 						'product_id'   => $product_id,
+						'vendor_id'    => $vendor_id,
 						'name'         => $name,
 						'price'        => $price,
 						'quantity'     => $quantity,
@@ -125,12 +127,13 @@ if(isset($_POST['action']) && $_POST['action'] == "empty"){
 		  		$priceProduct = $data['price']*$data['quantity'];
 				$tPrice		 += $priceProduct;
 				$tquantity 	 += $data['quantity'];
+				$id           = base64_encode($data['product_id']);
 
 		  
 		 echo '
 		 								<div class="ps-product--cart-mobile">
-		                                        <div class="ps-product__thumbnail"><a href="#"><img src="upload/product/200_'.$data['image'].'" alt=""></a></div>
- 		                                       <div class="ps-product__content"><a class="ps-product__remove" href="#" onclick="remove_cart('.$data['v_p_id'].')"><i class="icon-cross"></i></a><a href="product-default.html">'.$data['name'].'</a>
+		                                        <div class="ps-product__thumbnail"><a href=""><img src="upload/product/200_'.$data['image'].'" alt=""></a></div>
+ 		                                       <div class="ps-product__content"><a href="" class="ps-product__remove" onclick="remove_cart('.$data['v_p_id'].')"><i class="icon-cross"></i></a><a href="product.php?id='.$id.'&name='.str_replace(" ", "-",$data['name']).'">'.$data['name'].'</a>
                                             <p><strong>Sold by:</strong> '.$data['vendor'].'</p><small>'.$data['quantity'].' x '.$data['price'].'</small>
                                         </div>
                                     </div>';
@@ -140,7 +143,7 @@ if(isset($_POST['action']) && $_POST['action'] == "empty"){
 			  
 					echo  '<div class="ps-cart__footer">
                                     <h3>Sub Total:<strong>R'.$tPrice.'</strong></h3>
-                                    <figure><a class="ps-btn" href="shopping-cart.html">View Cart</a><a class="ps-btn" href="checkout.html">Checkout</a></figure>
+                                    <figure><a class="ps-btn" href="shopping-cart.php">View Cart</a><a class="ps-btn" href="checkout.php">Checkout</a></figure>
                                </div>';
             }                   
             echo '`'.$tquantity;                   

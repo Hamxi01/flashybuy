@@ -179,8 +179,10 @@ function showCart(){
       var data = data.split("`");
       $('#ps-cart__items').html(data[0]);
       $('#total_cart_items').html(data[1]);
-        
-        if (data[1] == 0) {
+
+       var val = $('#total_cart_items').html();
+       
+        if (val == 0) {
 
             $('#ps-cart__items').css('display','none');
         }else{

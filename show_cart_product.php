@@ -42,6 +42,6 @@ if (isset($_POST['product_id'])) {
 		</button>
 	</div>
 	<div align="center" style="padding-top:10px;" >
-		<button class="btn btn-warning" style="background:#FDD922; color:#333333; border:none; padding:10px;width:150px;" onclick="window.location.href='checkout.php'">checkout</button>
+		<button class="btn btn-warning" style="background:#FDD922; color:#333333; border:none; padding:10px;width:150px;" onclick="window.location.href='shopping-cart.php'">View Cart</button>
 	</div>
 </div>
