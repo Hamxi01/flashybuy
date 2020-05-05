@@ -29,10 +29,25 @@ if (isset($_POST['action']) && $_POST['action']=='add'){
 		while ($pvRes = mysqli_fetch_array($pvSql)) {
 		
 			$sku = $pvRes['sku'];
+			$skuu = explode('-', $sku);
+			$color = $skuu[0];
 		}
-		$imgSql = mysqli_query($con,"SELECT main_img FROM product_variant_images WHERE product_id='$product_id'");
-		$imgRes = mysqli_fetch_array($imgSql);
-		$image  = $imgRes[0];
+		$imgSql = mysqli_query($con,"SELECT main_img FROM product_variant_images WHERE product_id='$product_id' AND variation_value = '$color'");
+		$tRows  = mysqli_num_rows($imgSql);
+		if ($tRows>0) {
+
+			$imgRes = mysqli_fetch_array($imgSql);
+			$image  = $imgRes[0];
+		}else{
+
+			$piSql = mysqli_query($con,"SELECT * FROM products WHERE product_id='$product_id'");
+			while($piRes = mysqli_fetch_array($piSql)){
+
+				
+				$image = $piRes['image1'];
+			}
+		}
+		
 
 //=============== Find Vendor Name ========================== ///
 
@@ -45,6 +60,7 @@ if (isset($_POST['action']) && $_POST['action']=='add'){
 						'v_p_id'       => $v_p_id,
 						'product_id'   => $product_id,
 						'name'         => $name,
+						'sku'          => $sku,
 						'price'        => $price,
 						'quantity'     => $quantity,
 						'vendor_id'    => $vendor_id,
@@ -91,8 +107,8 @@ if(isset($_SESSION['product_cart']) && !empty($_SESSION['product_cart']))
 					}
 					else{
 						
-						$_SESSION['product_cart'][$v_p_id]['price'] 	= $_SESSION['product_cart'][$v_p_id]['price'] + ($price*$quantity);
-						$_SESSION['product_cart'][$v_p_id]['quantity'] 	= $_SESSION['product_cart'][$v_p_id]['quantity']+$quantity;
+						$_SESSION['product_cart'][$v_p_id]['price'] 	= $price;
+						$_SESSION['product_cart'][$v_p_id]['quantity'] 	= $quantity;
 					}		
 				}
 				else{
@@ -133,7 +149,7 @@ if(isset($_POST['action']) && $_POST['action'] == "empty"){
 		 echo '
 		 								<div class="ps-product--cart-mobile">
 		                                        <div class="ps-product__thumbnail"><a href=""><img src="upload/product/200_'.$data['image'].'" alt=""></a></div>
- 		                                       <div class="ps-product__content"><a href="" class="ps-product__remove" onclick="remove_cart('.$data['v_p_id'].')"><i class="icon-cross"></i></a><a href="product.php?id='.$id.'&name='.str_replace(" ", "-",$data['name']).'">'.$data['name'].'</a>
+ 		                                       <div class="ps-product__content"><a href="" class="ps-product__remove" onclick="remove_cart('.$data['v_p_id'].')"><i class="icon-cross"></i></a><a href="product.php?id='.$id.'&name='.str_replace(" ", "-",$data['name']).'">'.$data['name'].'('.!empty($data['sku']).')</a>
                                             <p><strong>Sold by:</strong> '.$data['vendor'].'</p><small>'.$data['quantity'].' x '.$data['price'].'</small>
                                         </div>
                                     </div>';

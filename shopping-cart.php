@@ -17,19 +17,29 @@
                 <div class="ps-section__header">
                     <h1>Shopping Cart</h1>
                 </div>
+<!-- Alert Message  -->
+<?php if (isset($_GET['msg_cart']) && $_GET['msg_cart']=='success') { ?>
+<div class="row">
+    <div class="col-lg-6 offset-3">  
+        <div class="alert alert-success">
+            <p class="text text-success" style="font-weight: bold;font-size: 16px;text-align:center">Cart Quantity updated Successfully!</p>
+        </div>
+    </div>    
+ </div>
+<?php } ?>
+<?php  if (isset($_GET['msg_cart']) && $_GET['msg_cart']!='success') { $maxStock = base64_decode($_GET['msg_cart']); ?>
+<div class="row">
+    <div class="col-lg-6 offset-3">
+        <div class="alert alert-danger">
+            <p class="text text-danger" style="font-weight: bold;font-size: 16px;text-align: center">Only <?=$maxStock?> Unites available.Contact support for any inquiry</p>
+        </div>
+    </div>
+</div> 
+<?php } ?>
                 <div class="ps-section__content">
                     <div class="table-responsive">
                         <table class="table ps-table--shopping-cart">
-                            <!-- <thead>
-                                <tr>
-                                    <th>Product name</th>
-                                    <th>PRICE</th>
-                                    <th>QUANTITY</th>
-                                    <th>TOTAL</th>
-                                    <th></th>
-                                </tr>
-                            </thead> -->
-                            <tbody>
+                            
                                 <?php 
                                         if(isset($_SESSION['product_cart'])){
 
@@ -40,7 +50,7 @@
                                           $i=0;
                                           foreach($vendorPackage as $index => $value){
 
-                                            
+                                            echo "<thead><tr><th colspan='4'>Package ".++$i."</th><th colspan='4'>Shipped By : ".$index."</th></tr></thead>";
 
                                             foreach ($value as $key => $data) {
                                              
@@ -51,11 +61,7 @@
                                                 $id           = base64_encode($data['product_id']);
                                 ?>
                                 <tr>
-                                    <thead>
-                                        <th colspan="8"><?=$index?></th>
-                                    </thead>
-                                    
-                                    <td>
+                                    <td colspan="3">
                                         <div class="ps-product--cart">
                                             <div class="ps-product__thumbnail"><a href="product-default.html"><img src="upload/product/200_<?=$data['image']?>" alt=""></a></div>
                                             <div class="ps-product__content"><a href="product-default.html"><?=$data['name']?></a>
@@ -63,42 +69,37 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td class="price"><b>R<?=$data['price']?></b></td>
-                                    <td>
+                                    <td colspan="1" class="price"><b>R<?=$data['price']?></b></td>
+                                    <td colspan="2">
                                         <div class="form-group--number">
-                                            <button class="up" id="up<?=$data['v_p_id']?>" onclick="add(this.id,<?=$data['product_id']?>,<?=$data['v_p_id']?>,<?=$data['price']?>)">+</button>
-                                            <button class="down" id="down<?=$data['v_p_id']?>" onclick="minus(this.id,<?=$data['product_id']?>,<?=$data['v_p_id']?>,<?=$data['price']?>)">-</button>
-                                            <input class="form-control" type="text" placeholder="" value="<?=$data['quantity']?>" id="qty<?=$data['v_p_id']?>">
+
+                                            <!-- Quantity Plus Button -->
+
+                                            <button class="up" id="up<?=$data['v_p_id']?>" onclick="add(this.id,<?=$data['product_id']?>,<?=$data['v_p_id']?>,<?=$data['price']?>,<?=$data['vendor_id']?>)">+</button>
+
+                                            <!-- Quantity Minus Button -->
+
+                                            <button class="down" id="down<?=$data['v_p_id']?>" onclick="minus(this.id,<?=$data['product_id']?>,<?=$data['v_p_id']?>,<?=$data['price']?>,<?=$data['vendor_id']?>)">-</button>
+
+                                            <!-- Quantity Input Box -->
+
+                                            <input class="form-control" type="text" placeholder="" onchange="updateQuantity(<?=$data['product_id']?>,<?=$data['v_p_id']?>,<?=$data['price']?>,<?=$data['vendor_id']?>)" value="<?=$data['quantity']?>" id="qty<?=$data['v_p_id']?>">
                                         </div>
                                     </td>
-                                    <td><b>R<?php echo $data['price']*$data['quantity'] ?></b></td>
-                                    <td><a href="" onclick="remove_cart_items(<?=$data['v_p_id']?>)"><i class="icon-cross"></i></a></td>
+                                    <td colspan="1"><b>R<?php echo $data['price']*$data['quantity'] ?></b></td>
+                                    <td colspan="1"><a href="" onclick="remove_cart_items(<?=$data['v_p_id']?>)"><i class="icon-cross"></i></a></td>
                                 </tr>
-                            <?php } } }?>
-                                <!-- <tr>
-                                    <td>
-                                        <div class="ps-product--cart">
-                                            <div class="ps-product__thumbnail"><a href="product-default.html"><img src="img/products/clothing/2.jpg" alt=""></a></div>
-                                            <div class="ps-product__content"><a href="product-default.html">Unero Military Classical Backpack</a>
-                                                <p>Sold By:<strong> YOUNG SHOP</strong></p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="price">$205.00</td>
-                                    <td>
-                                        <div class="form-group--number">
-                                            <button class="up">+</button>
-                                            <button class="down">-</button>
-                                            <input class="form-control" type="text" placeholder="1" value="1">
-                                        </div>
-                                    </td>
-                                    <td>$205.00</td>
-                                    <td><a href="#"><i class="icon-cross"></i></a></td>
-                                </tr> -->
-                            </tbody>
+                            <?php 
+                                    } 
+                                } 
+                            }
+                            ?>
                         </table>
                     </div>
-                    <div class="ps-section__cart-actions"><a class="ps-btn" href="shop-default.html"><i class="icon-arrow-left"></i> Back to Shop</a><a class="ps-btn ps-btn--outline" href="shop-default.html"><i class="icon-sync"></i> Update cart</a></div>
+                    <div class="ps-section__cart-actions">
+                        <a class="ps-btn" href="index.php"><i class="icon-arrow-left"></i> Back to Shop</a>
+                        <!-- <a class="ps-btn" href="shop-default.html"><i class="icon-arrow-left"></i> Update cart</a> -->
+                    </div>
                 </div>
                 <div class="ps-section__footer">
                     <div class="row">
@@ -136,30 +137,57 @@
                         </div>
                         <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 ">
                             <div class="ps-block--shopping-total">
-                                <div class="ps-block__header">
-                                    <p>Subtotal <span><b>R<?=$tPrice?></b></span></p>
-                                </div>
+                                <!--  -->
                                 <div class="ps-block__content">
                                 
                                     <ul class="ps-block__product">
-                                        <?php    
-                                    if(isset($_SESSION['product_cart'])){
-                                     
+                                    <?php 
+                                        if(isset($_SESSION['product_cart'])){
+
+                                            $vendorPackage = vendorPackges('vendor',$_SESSION['product_cart'],$con);
+
                                           $tquantity = 0;
                                           $tPrice    = 0;
-                                          foreach($_SESSION['product_cart'] as $data){
+                                          $i=0;
+                                          foreach($vendorPackage as $index => $value){
+
+                                            echo '<li><span class="ps-block__shop"><b>'.$index.'</b></span>';
+
+                                            foreach ($value as $key => $data) {
+                                             
+                                            
                                                 $priceProduct = $data['price']*$data['quantity'];
                                                 $tPrice      += $priceProduct;
                                                 $tquantity   += $data['quantity'];
-                                                $id           = base64_encode($data['product_id']);?>
-                                        <li><span class="ps-block__shop"><?=$data['vendor']?></span><span class="ps-block__shipping">Free Shipping</span><span class="ps-block__estimate">Estimate for <strong>Viet Nam</strong><a href="#"> <?=$data['name']?></a></span></li>
-                                        <!-- <li><span class="ps-block__shop">ROBERT’S STORE Shipping</span><span class="ps-block__shipping">Free Shipping</span><span class="ps-block__estimate">Estimate for <strong>Viet Nam</strong><a href="#">Apple Macbook Retina Display 12” ×1</a></span></li> -->
-                                        <?php }} ?> 
+                                                $id           = base64_encode($data['product_id']);
+                                    ?>
+                                        <!-- <span class="ps-block__shipping">Free Shipping</span> -->
+                                        <span class="ps-block__estimate" style="float: left"> 
+                                            <!-- <strong>Viet Nam</strong> -->
+                                            <a href="#"> <?=$data['name']?></a>
+                                        </span>
+                                        <span style="float: right">
+                                            <?=$data['quantity']?> x <?=$data['price']?>
+                                        </span>
+                                    <?php 
+                                            }?>
+                                            </li>
+                                        <?php
+                                          } 
+                                        }
+                                    ?> 
+
                                     </ul>
-                                   
-                                    <h3>Total <span><b>R<?=$tPrice?></b></span></h3>
+                                   <?php if (isset($tPrice)) {
+                                       
+                                       echo '<li>Total <span><b>R'.$tPrice.'</b></span></li>';
+                                   }else{
+
+                                        echo '<li>Total <span><b>R0</b></span></li>';
+                                   }
+                                   ?> 
                                 </div>
-                            </div><a class="ps-btn ps-btn--fullwidth" href="checkout.html">Proceed to checkout</a>
+                            </div><a class="ps-btn ps-btn--fullwidth" href="checkout.php">Proceed to checkout</a>
                         </div>
                     </div>
                 </div>
@@ -173,25 +201,25 @@
 //====== Quantity Box plus  ========= ///
 //====================================///
 
-    function add(id,product_id,v_p_id,price){
+    function add(id,product_id,v_p_id,price,vendor_id){
 
         id = id.match(/\d+/g);
         var val = $('#qty'+id[0]).val();
         $('#qty'+id[0]).val(parseInt(val)+1);
-        updateQuantity(product_id,v_p_id,price);
+        updateQuantity(product_id,v_p_id,price,vendor_id);
     }
 
 //====================================///
 //====== Quantity Box Minus  ======== //
 //====================================//
 
-    function minus(id,product_id,v_p_id,price){
+    function minus(id,product_id,v_p_id,price,vendor_id){
 
         id = id.match(/\d+/g);
         var val = $('#qty'+id[0]).val();
         if (val>1) {
             $('#qty'+id[0]).val(parseInt(val)-1);
-            updateQuantity(product_id,v_p_id,price);
+            updateQuantity(product_id,v_p_id,price,vendor_id);
         }
         
     }
@@ -211,7 +239,7 @@ function remove_cart_items(p_id){
             var data = data.split("`");
             $('#ps-cart__items').html(data[0]);
             $('#total_cart_items').html(data[1]);
-            location.reload();
+            window.location.assign('shopping-cart.php');
             if (data[1] == 0) {
 
             $('#ps-cart__items').css('display','none');
@@ -227,9 +255,29 @@ function remove_cart_items(p_id){
 //=========== Update product Quantity ========== //
 //===============================================//
 
-function updateQuantity(product_id,v_p_id,price){
+function updateQuantity(product_id,v_p_id,price,vendor_id){
 
     var quantity = $('#qty'+v_p_id).val();
-    alert("Quantity is! "+quantity+" & Product id is! "+product_id+" & Price is"+price+" & vendor product id is "+v_p_id);
+    $.ajax({
+
+            type    : "POST",
+            url     : "cartQuantityCheck.php",
+            data    : {product_id:product_id,v_p_id,price,quantity:quantity,vendor_id:vendor_id},
+            success : function(data){
+
+                // console.log(data);
+                if (!$.trim(data)) {
+
+                    window.location.assign('shopping-cart.php?msg=in_stock_set_qty&msg_cart=success');
+                }
+                else{
+
+                    var qty = data;
+                    qty     = btoa(qty);
+                    window.location.assign('shopping-cart.php?msg=in_stock_set_qty&msg_cart='+qty);
+                }
+            }
+
+    });
 }
 </script>

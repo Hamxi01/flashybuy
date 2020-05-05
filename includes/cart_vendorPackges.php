@@ -1,6 +1,6 @@
 <?php 
 
- // ============== Vendor Cart Prodcut Package Function ================ //
+//============== Vendor Cart Prodcut Package Function ================//
 
 	function vendorPackges($key,$data,$con){
 
