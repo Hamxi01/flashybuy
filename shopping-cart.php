@@ -1,7 +1,14 @@
 <?php include('includes/db.php') ?>
 <?php include('includes/head.php') ?>
 <?php include('includes/cart_vendorPackges.php') ?>
+<style type="text/css">
+    .td-custom{
 
+        padding    :  0px !important;
+        max-height :  90px !important;
+        font-size  :  small !important;
+    }
+</style>
     <div class="ps-page--simple">
         <div class="ps-breadcrumb">
             <div class="container">
@@ -61,16 +68,24 @@
                                                 $id           = base64_encode($data['product_id']);
                                 ?>
                                 <tr>
-                                    <td colspan="3">
+                                    <td colspan="3" class="td-custom">
                                         <div class="ps-product--cart">
                                             <div class="ps-product__thumbnail"><a href="product-default.html"><img src="upload/product/200_<?=$data['image']?>" alt=""></a></div>
-                                            <div class="ps-product__content"><a href="product-default.html"><?=$data['name']?></a>
+                                            <div class="ps-product__content"><a href="product-default.html"><?=$data['name']?>
+                                                <?php
+
+                                                    if (isset($data['sku'])) {
+                                                    
+                                                        echo '('.$data['sku'].')';
+                                                    }
+                                                ?>    
+                                                </a>
                                                 <p>Sold By:<strong><?=$data['vendor']?></strong></p>
                                             </div>
                                         </div>
                                     </td>
-                                    <td colspan="1" class="price"><b>R<?=$data['price']?></b></td>
-                                    <td colspan="2">
+                                    <td colspan="1" class="price td-custom"><b>R<?=$data['price']?></b></td>
+                                    <td colspan="2" class="td-custom">
                                         <div class="form-group--number">
 
                                             <!-- Quantity Plus Button -->
@@ -86,8 +101,8 @@
                                             <input class="form-control" type="text" placeholder="" onchange="updateQuantity(<?=$data['product_id']?>,<?=$data['v_p_id']?>,<?=$data['price']?>,<?=$data['vendor_id']?>)" value="<?=$data['quantity']?>" id="qty<?=$data['v_p_id']?>">
                                         </div>
                                     </td>
-                                    <td colspan="1"><b>R<?php echo $data['price']*$data['quantity'] ?></b></td>
-                                    <td colspan="1"><a href="" onclick="remove_cart_items(<?=$data['v_p_id']?>)"><i class="icon-cross"></i></a></td>
+                                    <td colspan="1" class="td-custom"><b>R<?php echo $data['price']*$data['quantity'] ?></b></td>
+                                    <td colspan="1" class="td-custom"><a href="" onclick="remove_cart_items(<?=$data['v_p_id']?>)"><i class="icon-cross"></i></a></td>
                                 </tr>
                             <?php 
                                     } 
@@ -178,15 +193,16 @@
                                     ?> 
 
                                     </ul>
+
+                                </div>
                                    <?php if (isset($tPrice)) {
                                        
-                                       echo '<li>Total <span><b>R'.$tPrice.'</b></span></li>';
+                                       echo '<h3>Total <span><b>R'.$tPrice.'</b></span></h3>';
                                    }else{
 
-                                        echo '<li>Total <span><b>R0</b></span></li>';
+                                        echo '<h3>Total <span><b>R0</b></span></h3>';
                                    }
-                                   ?> 
-                                </div>
+                                   ?>
                             </div><a class="ps-btn ps-btn--fullwidth" href="checkout.php">Proceed to checkout</a>
                         </div>
                     </div>

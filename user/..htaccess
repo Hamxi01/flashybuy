@@ -1,0 +1,2 @@
+RewriteEngine on
+RewriteRule ^product/(.*)/(.*)$ product.php?name=$1&id=$2 [QSA]
