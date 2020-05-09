@@ -159,7 +159,7 @@ if(isset($_POST['action']) && $_POST['action'] == "empty"){
 			  
 					echo  '<div class="ps-cart__footer">
                                     <h3>Sub Total:<strong>R'.$tPrice.'</strong></h3>
-                                    <figure><a class="ps-btn" href="shopping-cart.php">View Cart</a><a class="ps-btn" href="checkout.php">Checkout</a></figure>
+                                    <figure><a class="ps-btn" href="login.php">View Cart</a><a class="ps-btn" href="login.php">Checkout</a></figure>
                                </div>';
             }                   
             echo '`'.$tquantity;                   

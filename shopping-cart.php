@@ -61,9 +61,30 @@
     </div>
 </div> 
 <?php } ?>
-                <div class="ps-section__content">
-                    <div class="table-responsive">
-                        <table class="table ps-table--shopping-cart">
+                <!-- <div class="ps-section__content"> -->
+                    <!-- <div class="table-responsive"> -->
+                        
+                    <!-- </div> -->
+                    <!-- <div class="ps-section__cart-actions"> -->
+                        <!-- <a class="ps-btn" href="index.php"><i class="icon-arrow-left"></i> Back to Shop</a> -->
+                        <!-- <a class="ps-btn" href="shop-default.html"><i class="icon-arrow-left"></i> Update cart</a> -->
+                    <!-- </div>
+                </div> -->
+                <div class="ps-section__footer">
+                    <div class="row">
+                        <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 col-12 ">
+                            <figure>
+                                <figcaption>Coupon Discount</figcaption>
+                                <div class="form-group">
+                                    <input class="form-control" type="text" placeholder="">
+                                </div>
+                                <div class="form-group">
+                                    <button class="ps-btn ps-btn--outline">Apply</button>
+                                </div>
+                            </figure>
+                        </div>
+                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 ">
+                            <table class="table ps-table--shopping-cart">
                             
                                 <?php 
                                         if(isset($_SESSION['product_cart'])){
@@ -128,51 +149,14 @@
                             }
                             ?>
                         </table>
-                    </div>
-                    <div class="ps-section__cart-actions">
-                        <a class="ps-btn" href="index.php"><i class="icon-arrow-left"></i> Back to Shop</a>
-                        <!-- <a class="ps-btn" href="shop-default.html"><i class="icon-arrow-left"></i> Update cart</a> -->
-                    </div>
-                </div>
-                <div class="ps-section__footer">
-                    <div class="row">
-                        <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 ">
-                            <figure>
-                                <figcaption>Coupon Discount</figcaption>
-                                <div class="form-group">
-                                    <input class="form-control" type="text" placeholder="">
-                                </div>
-                                <div class="form-group">
-                                    <button class="ps-btn ps-btn--outline">Apply</button>
-                                </div>
-                            </figure>
-                        </div>
-                        <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 ">
-                            <figure>
-                                <figcaption>Calculate shipping</figcaption>
-                                <div class="form-group">
-                                    <select class="ps-select" id="cities" onchange="calculateShipping()">
-                                        <option selected disabled="">Choose City</option>
-                                        <option value="Faisalabad">Faisalabad</option>
-                                        <option value="Lahore">Lahore</option>
-                                    </select>
-                                </div>
-                                <!-- <div class="form-group">
-                                    <input class="form-control" id="" type="text" placeholder="Town/City">
-                                </div> -->
-                                <div class="form-group">
-                                    <input class="form-control" type="text" placeholder="Postcode/Zip">
-                                </div>
-                                <div class="form-group">
-                                    <button class="ps-btn ps-btn--outline">Update</button>
-                                </div>
-                            </figure>
                         </div>
                         <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 ">
                             <div class="ps-block--shopping-total">
                                 <!--  -->
                                 <div class="ps-block__content">
-                                    <table class="ps-block__product">
+                                    
+                                    <button class="btn btn-warning">add new adress</button>
+                                    <!-- <table class="ps-block__product">
                                         
                                             <thead>
                                                 <?php 
@@ -223,7 +207,7 @@
                                                 </tr>
                                             </thead>
                                     </table>
-                                    
+                                     -->
 
                                 </div>
                                    
