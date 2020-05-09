@@ -60,14 +60,15 @@ if (isset($msg)) { ?>
             <div class="row">
               <div class="col-md-10 offset-md-1">
                 <div class="card">
-                  <form method="post" action="add-variations.php">
+                  <form method="post" action="add-variations.php" onsubmit="return validate()">
                     <div class="card-header">
                       <h4>ADD YOUR VARIATIONS</h4>
                     </div>
                     <div class="card-body">
                       <div class="form-group">
                         <label>Variation Name*</label>
-                        <input type="text" name="variation_name" class="form-control" required="">
+                        <input type="text" name="variation_name" class="form-control" id="variations">
+                        <span class="text text-danger variations"></span>
                       </div>
                       <div class="form-group">
                         <div class="pretty p-switch">
@@ -92,4 +93,14 @@ if (isset($msg)) { ?>
 
         setTimeout(function(){ $(".msg").hide(); }, 5000);
     });
+    function validate(){
+
+      brands = $('#variations').val();
+      if (brands == '') {
+
+        $('.variations').html('variation name is required');
+        return false;
+      }
+      return true;
+    }
 </script>        

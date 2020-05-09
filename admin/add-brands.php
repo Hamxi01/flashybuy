@@ -57,14 +57,15 @@ if (isset($msg)) { ?>
             <div class="row">
               <div class="col-md-10 offset-md-1">
                 <div class="card">
-                  <form action="add-brands.php" method="post">
+                  <form action="add-brands.php" method="post" onsubmit="return validate()">
                     <div class="card-header">
                       <h4>Add new Brands</h4>
                     </div>
                     <div class="card-body">
                       <div class="form-group">
                         <label>Brand Name*</label>
-                        <input type="text" name="name" class="form-control" required="">
+                        <input type="text" name="name" class="form-control"  id="brands">
+                        <span class="text text-danger brands"></span>
                       </div>
                     <div class="card-footer text-right">
                       <button class="btn btn-primary" type="Submit" name="add-brands">Submit</button>
@@ -81,4 +82,14 @@ if (isset($msg)) { ?>
 
         setTimeout(function(){ $(".msg").hide(); }, 5000);
     });
+    function validate(){
+
+      brands = $('#brands').val();
+      if (brands == '') {
+
+        $('.brands').html('brand name is required');
+        return false;
+      }
+return true;
+    }
 </script>        

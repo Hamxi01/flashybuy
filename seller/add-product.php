@@ -71,6 +71,9 @@ include('includes/sidebar.php');
         border-left: 1px solid grey;
         min-height: 300px;
     }
+    span.select2-selection__choice__remove{
+      display: none !important;
+    }
 </style>
       <!-- Main Content -->
       <div class="main-content">
@@ -114,7 +117,7 @@ if (isset($_SESSION['id']))
               <div class="col-md-10 offset-md-1">
                 
                     <div class="card">
-                      <form  action="action/add_product.php" method="post"  enctype="multipart/form-data" id="product_form">
+                      <form  action="action/add_product.php" method="post"  enctype="multipart/form-data" id="product_form"  onsubmit="return Validation()">
                         <div class="card-header">
                           <h4>Add Your Products</h4>
                         </div>
@@ -122,20 +125,22 @@ if (isset($_SESSION['id']))
                           <div class="form-group row">
                             <input type="hidden" name="vendor_id" value="<?=$vendor_id?>">
                               <label class="col-form-label">Product Name</label>
-                                <input type="text" class="form-control" required="" name="name" value="">
-                                
+                                <input type="text" class="form-control" name="name" value="" id="product_name">
+                                <span class="text-danger product_name"></span>
                           </div>  
                             <div class="form-group row"> 
                                 
                                   <label>Choose Categories</label>
-                                  <input type="text" parsley-trigger="change" required  class="form-control" data-toggle="modal" data-target=".bd-example-modal-lg" id="categories_name" value="Select Category">
-                                  <input type="hidden" name="category_id" id="category_id" value="" required>
-                                  <input type="hidden" name="subcategory_id" id="subcategory_id" value="" required>
-                                  <input type="hidden" name="subsubcategory_id" id="subsubcategory_id" value="" required>
+                                  <input type="text" parsley-trigger="change"   class="form-control" data-toggle="modal" data-target=".bd-example-modal-lg" id="categories_name" value="Select Category">
+                                  <span class="text-danger categories_name"></span>
+                                  <input type="hidden" name="category_id" id="category_id" value="" >
+                                  <input type="hidden" name="subcategory_id" id="subcategory_id" value="" >
+                                  <input type="hidden" name="subsubcategory_id" id="subsubcategory_id" value="" >
                             </div>
                             <div class="form-group row">
                               <label>Choose Brands</label>
                               <input type="search" name="" id="brandkeyword" class="form-control" oninput="searchBrands()">
+                              <span class="text-danger brandkeyword"></span>
                               <input type="hidden" name="brand" id="brandid" value="">
                               <ul id="brandslist">
                               </ul>
@@ -143,7 +148,8 @@ if (isset($_SESSION['id']))
                             <div class="form-group row">
                               <div class="col-md-12">
                                 <label class="col-form-label">Description</label>
-                                    <textarea class="form-control" required="" name="description"></textarea>
+                                    <textarea class="form-control" name="description" id="description"></textarea>
+                                    <span class="text-danger description"></span>
                               </div>
                             </div>
                             <div class="form-group row">
@@ -194,35 +200,29 @@ if (isset($_SESSION['id']))
                                 </div>
                               </div> 
                           </div>
-                          <?php 
-
-                                $sql = mysqli_query($con, "SELECT * From vendor where id = $vendor_id");
-                                $row = mysqli_num_rows($sql);
-                                while ($row = mysqli_fetch_array($sql)){
-                                  if($row['courier_permission']!='Y'){
-
-                          ?>
                               <div class="form-group row">
                                 <div class="col-md-4">
                                   <div class="form-group">
                                       <label>Width</label>
-                                      <input type="number" name="width" required="" class="form-control" value="">
+                                      <input type="number" name="width" id="width" class="form-control" value="">
+                                      <span class="text-danger width"></span>
                                     </div>
                                   </div>
                                   <div class="col-md-4">
                                     <div class="form-group">
                                       <label>Height</label>
-                                      <input type="number" name="height" required="" class="form-control" value="">
+                                      <input type="number" name="height" id="height" class="form-control" value="">
+                                      <span class="text-danger height"></span>
                                     </div>
                                   </div>
                                   <div class="col-md-4">
                                     <div class="form-group">
                                       <label>Length</label>
-                                      <input type="number" name="length" required="" class="form-control" value="">
+                                      <input type="number" name="length" id="length" class="form-control" value="">
+                                      <span class="text-danger length"></span>
                                     </div>
                                   </div> 
                               </div>
-                        <?php } } ?>
                           <div class="form-group row">
                             <?php 
 
@@ -252,8 +252,8 @@ if (isset($_SESSION['id']))
                               <div class="col-md-4">
                                 <div class="form-group">
                                   <label>Warranty</label>
-                                  <select name="warranty" required="" class="form-control">
-                                    <option value="">Warranty</option>
+                                  <select name="warranty"  class="form-control" id="warranty" required="">
+                                    <option disabled selected=""> ChooseWarranty</option>
                                     <option value="6 Months">6 Months</option>
                                     <option value="1 Year">1 Year</option>
                                     <option value="2 Years">2 Years</option>
@@ -321,8 +321,8 @@ if (isset($_SESSION['id']))
                           <div class="form-group row" id="varition-options">
                                                     
                           </div>
-                          <div class="form-group row">
-                            <table class="table table-bordered" id="variant_table" style="display: none;">
+                          <div class="form-group row" id="variant_table" style="display: none;">
+                            <table class="table table-bordered" >
                               <thead>
                                   <tr>
                                       <td class="text-center">
@@ -557,8 +557,20 @@ if (isset($_SESSION['id']))
                 $("#variations_heading").css("display","none");
                 $("#price_section").css("display","");
                 $('#variations').val('Y');
+                clearSelected();
             }  
         }
+        function clearSelected(){
+    var elements = document.getElementById("variations_name").options;
+
+    for(var i = 0; i < elements.length; i++){
+      elements[i].selected = false;
+    }
+    $('#varition-options').html(null);
+    $('.select2-selection__rendered').html(null);
+    $('#variation_image').null();
+    // alert('function is working');
+  }
 /////////////////////////////////
     //Append attribute/////
 ////////////////////////////////
@@ -571,10 +583,10 @@ function variationsName(){
         vari = $(this).val();
         if (vari != null) {
             if(vari == 'Color'){
-                $("#varition-options").append('<div class="form-group row '+vari+'"><div class="col-md-3"><input type="text"  value="'+vari+'" class="form-control" disabled=""><input type="hidden" name="vari[]" value="'+vari+'" class="form-control"><input type="hidden" name="vari_type[]" value="'+i+'" class="form-control"></div><div class="col-md-8"><input type="text" class="form-control tagsInput" onchange="update_sku();imagediv()" id="'+vari+'" name="options_'+i+'[]" value=""></div><div class="col-md-1"><button type="button" onclick="delete_row(this)" class="btn btn-danger text-danger"><i class="fas fa-trash-alt" style="color:#fff"></i></button></div></div><br>');
+                $("#varition-options").append('<div class="form-group row '+vari+'"><div class="col-md-3"><input type="text"  value="'+vari+'" class="form-control" disabled=""><input type="hidden" name="vari[]" value="'+vari+'" class="form-control"><input type="hidden" name="vari_type[]" value="'+i+'" class="form-control"></div><div class="col-md-8"><input type="text" class="form-control tagsInput" onchange="update_sku();imagediv()" id="'+vari+'" name="options_'+i+'[]" value=""></div><div class="col-md-1"><button type="button" onclick="delete_row(this)" class="btn btn-danger text-danger select2-selection__choice__remove"><i class="fas fa-trash-alt" style="color:#fff"></i></button></div></div><br>');
             }
             else{
-                $("#varition-options").append('<div class="form-group row '+vari+'"><div class="col-md-3"><input type="text"  value="'+vari+'" class="form-control" disabled=""><input type="hidden" name="vari[]" value="'+vari+'" class="form-control"><input type="hidden" name="vari_type[]" value="'+i+'" class="form-control"></div><div class="col-md-8"><input type="text" class="form-control tagsInput" onchange="update_sku();" id="'+vari+'" name="options_'+i+'[]" value=""></div><div class="col-md-1"><button type="button" onclick="delete_row(this)" class="btn btn-danger text-danger"><i class="fas fa-trash-alt" style="color:#fff"></i></button></div></div><br>');
+                $("#varition-options").append('<div class="form-group row '+vari+'"><div class="col-md-3"><input type="text"  value="'+vari+'" class="form-control" disabled=""><input type="hidden" name="vari[]" value="'+vari+'" class="form-control"><input type="hidden" name="vari_type[]" value="'+i+'" class="form-control"></div><div class="col-md-8"><input type="text" class="form-control tagsInput" onchange="update_sku();" id="'+vari+'" name="options_'+i+'[]" value=""></div><div class="col-md-1"><button type="button" onclick="delete_row(this)" class="btn btn-danger text-danger select2-selection__choice__remove"><i class="fas fa-trash-alt" style="color:#fff"></i></button></div></div><br>');
             }
                 i++;
                 $('.tagsInput').tagsinput('items');
@@ -588,10 +600,19 @@ function variationsName(){
 function delete_row(em){
             
      $(em).closest('.row').remove();
-     var  va =$('.bootstrap-tagsinput').val(); 
-     $("#variant_table").css("display","none");
-     update_sku();
-     imagediv();
+     var  va =$('.select2-selection__choice').attr('title');
+     if ($('.select2-results__option.select2-results__option--highlighted').html() == va) {
+
+        $('.select2-results__option.select2-results__option--highlighted').attr('aria-selected','false');
+     }
+     $('.select2-selection__choice[title="'+va+'"]').remove();
+     var elements = document.getElementById("variations_name").options;
+     elements.selected = false;
+     // alert(va);
+    // $("#variant_table").css("display","none"); 
+    //  update_sku();
+    //  imagediv();
+
 
 }
 function update_sku(){
@@ -973,5 +994,91 @@ $('#product_form').on('keyup keypress', function(e) {
   }
 });
 
-//---- On press Enter form not submit Fuction --- //// 
+//---- On press Enter form not submit Fuction --- ////
+
+function Validation() {
+// Storing Field Values In Variables
+var name = document.getElementById("product_name").value;
+var description = document.getElementById("description").value;
+var brand = document.getElementById("brandkeyword").value;
+var category = document.getElementById("categories_name").value;
+var height = document.getElementById("height").value;
+var width = document.getElementById("width").value;
+var length = document.getElementById("length").value;
+
+if (name == ''){ 
+
+  $('.product_name').html('Product name is required');
+  $('#product_name').css('border','1px solid red');
+  return false;
+
+}
+else{
+  $('.product_name').html(null);
+  $('#product_name').css('border','none');
+}
+if(category == ''){
+
+  $('.categories_name').html('Description is required');
+  $('#categories_name').css('border','1px solid red');
+  return false;
+
+}
+else{
+  $('.categories_name').html(null);
+  $('#categories_name').css('border','none');
+}
+if(brand == ''){
+
+  $('.brandkeyword').html('Brand is required');
+  $('#brandkeyword').css('border','1px solid red');
+  return false;
+
+}
+else{
+  $('.brandkeyword').html(null);
+  $('#brandkeyword').css('border','none');
+}
+if (description == '') {
+
+  $('.description').html('Description is required');
+  $('#description').css('border','1px solid red');
+  return false;
+}
+else{
+  $('.description').html(null);
+  $('#description').css('border','none');
+} 
+if (width == '') {
+
+  $('.width').html('width is required');
+  $('#width').css('border','1px solid red');
+  return false;
+}
+else{
+  $('.width').html(null);
+  $('#width').css('border','none');
+}
+if (height == '') {
+
+  $('.height').html('Height is required');
+  $('#height').css('border','1px solid red');
+  return false;
+}
+else{
+  $('.height').html(null);
+  $('#height').css('border','none');
+}
+
+if (length == '') {
+
+  $('.length').html('Length is required');
+  $('#length').css('border','1px solid red');
+  return false;
+}else{
+  $('.length').html(null);
+  $('#length').css('border','none');
+}
+return true;
+} 
 </script> 

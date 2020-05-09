@@ -8,6 +8,24 @@
         max-height :  90px !important;
         font-size  :  small !important;
     }
+    table.ps-block__product td{
+
+        padding: 0px;
+        border: none;
+    }
+    table.ps-block__product th{
+
+        font-weight: bold;
+        border-bottom: 1px solid #dee2e6 !important;
+    }
+    table.ps-block__product .total{
+
+        font-weight: bold;
+        border-top: 1px solid #dee2e6 !important;
+        border-bottom: none;
+        color: red;
+        font-size: 20px;
+    }
 </style>
     <div class="ps-page--simple">
         <div class="ps-breadcrumb">
@@ -133,15 +151,15 @@
                             <figure>
                                 <figcaption>Calculate shipping</figcaption>
                                 <div class="form-group">
-                                    <select class="ps-select">
-                                        <option value="1">America</option>
-                                        <option value="2">Italia</option>
-                                        <option value="3">Vietnam</option>
+                                    <select class="ps-select" id="cities" onchange="calculateShipping()">
+                                        <option selected disabled="">Choose City</option>
+                                        <option value="Faisalabad">Faisalabad</option>
+                                        <option value="Lahore">Lahore</option>
                                     </select>
                                 </div>
-                                <div class="form-group">
-                                    <input class="form-control" type="text" placeholder="Town/City">
-                                </div>
+                                <!-- <div class="form-group">
+                                    <input class="form-control" id="" type="text" placeholder="Town/City">
+                                </div> -->
                                 <div class="form-group">
                                     <input class="form-control" type="text" placeholder="Postcode/Zip">
                                 </div>
@@ -154,9 +172,10 @@
                             <div class="ps-block--shopping-total">
                                 <!--  -->
                                 <div class="ps-block__content">
-                                
-                                    <ul class="ps-block__product">
-                                    <?php 
+                                    <table class="ps-block__product">
+                                        
+                                            <thead>
+                                                <?php 
                                         if(isset($_SESSION['product_cart'])){
 
                                             $vendorPackage = vendorPackges('vendor',$_SESSION['product_cart'],$con);
@@ -164,45 +183,50 @@
                                           $tquantity = 0;
                                           $tPrice    = 0;
                                           $i=0;
-                                          foreach($vendorPackage as $index => $value){
-
-                                            echo '<li><span class="ps-block__shop"><b>'.$index.'</b></span>';
-
+                                          foreach($vendorPackage as $index => $value){ ?>
+                                                <tr>
+                                                    <th><?=$index?></th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                        <?php 
+                                        
                                             foreach ($value as $key => $data) {
-                                             
-                                            
-                                                $priceProduct = $data['price']*$data['quantity'];
-                                                $tPrice      += $priceProduct;
-                                                $tquantity   += $data['quantity'];
-                                                $id           = base64_encode($data['product_id']);
-                                    ?>
-                                        <!-- <span class="ps-block__shipping">Free Shipping</span> -->
-                                        <span class="ps-block__estimate" style="float: left"> 
-                                            <!-- <strong>Viet Nam</strong> -->
-                                            <a href="#"> <?=$data['name']?></a>
-                                        </span>
-                                        <span style="float: right">
-                                            <?=$data['quantity']?> x <?=$data['price']?>
-                                        </span>
-                                    <?php 
-                                            }?>
-                                            </li>
-                                        <?php
-                                          } 
-                                        }
-                                    ?> 
-
-                                    </ul>
+                                                 
+                                                
+                                                    $priceProduct = $data['price']*$data['quantity'];
+                                                    $tPrice      += $priceProduct;
+                                                    $tquantity   += $data['quantity'];
+                                                    $id           = base64_encode($data['product_id']);
+                                                    $name         = $data['name'];
+                                                    $quantity     = $data['quantity'];
+                                                    $price        = $data['price'];
+                                        ?>
+                                            <tr>
+                                                <td><?=$name?>
+                                                    <?php if (isset($data['sku'])) {
+                                                        echo '('.$data['sku'].')';
+                                                    }
+                                                    ?>    
+                                                </td>
+                                                <td><?=$quantity?> x <?=$price?></td>
+                                            </tr>
+                                        <?php } } } ?>    
+                                            <thead>
+                                                <tr>
+                                                    <th class="total">Total</th>
+                                                <?php if (isset($tPrice)) {?>
+                                                    <th class="total"><?=$tPrice?></th>
+                                                <?php } else{?>
+                                                    <th class="total">R0</th>
+                                                <?php } ?>    
+                                                </tr>
+                                            </thead>
+                                    </table>
+                                    
 
                                 </div>
-                                   <?php if (isset($tPrice)) {
-                                       
-                                       echo '<h3>Total <span><b>R'.$tPrice.'</b></span></h3>';
-                                   }else{
-
-                                        echo '<h3>Total <span><b>R0</b></span></h3>';
-                                   }
-                                   ?>
+                                   
                             </div><a class="ps-btn ps-btn--fullwidth" href="checkout.php">Proceed to checkout</a>
                         </div>
                     </div>
@@ -213,9 +237,9 @@
 <?php include('includes/footer.php'); ?>
 <script type="text/javascript">
 
-//====================================///
-//====== Quantity Box plus  ========= ///
-//====================================///
+//====================================//
+//====== Quantity Box plus  ========= //
+//====================================//
 
     function add(id,product_id,v_p_id,price,vendor_id){
 
@@ -294,6 +318,24 @@ function updateQuantity(product_id,v_p_id,price,vendor_id){
                 }
             }
 
+    });
+}
+//==============================================//
+//================= Calculate Shipping =========//
+//==============================================//
+
+function calculateShipping(){
+
+    var selectedCity = $("#cities").val();
+    $.ajax({
+
+            type    : 'post',
+            url     : 'calculateShipping.php',
+            data    : {city:selectedCity},
+            success : function(data){
+
+                alert(data);
+            }
     });
 }
 </script>
