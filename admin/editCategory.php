@@ -14,12 +14,9 @@ use \Gumlet\ImageResizeException;
 $cat_id = base64_decode($_GET['cat_id']);
 if (isset($_POST['edit-category'])) {
 	
-	 $id        =    $_POST['id'];
-     $name      =    $_POST['name'];
-
-
-
-// /////////Crop image //////////
+   $id        =    $_POST['id'];
+   $commission        =    $_POST['commission'];
+     $name= mysqli_real_escape_string($con,$_POST['name']);
 	if (isset($_FILES['file']["name"]) && !empty($_FILES['file']["name"])) {
 	    $filename = $_FILES["file"]["name"];
 	    $extension = @end(explode('.', $filename)); // explode the image name to get the extension
@@ -43,9 +40,13 @@ if (isset($_POST['edit-category'])) {
 		            return null;
 		        }
 
-		}
-	}
-	$query = "update categories SET name='".$name."',banner='".$pic1we."' Where cat_id='".$id."'";       
+    }
+    $query = "update categories SET name='".$name."',banner='".$pic1we."', commission='".$commission."' Where cat_id='".$id."'"; 
+  }
+  else{
+    $query = "update categories SET name='".$name."',commission='".$commission."' Where cat_id='".$id."'"; 
+  }
+      
         
         if (mysqli_query($con,$query)){	
 
@@ -61,6 +62,7 @@ if (isset($_POST['edit-category'])) {
         while ($row = mysqli_fetch_array($sql)){
 
             $cat_id               = $row['cat_id'];
+            $commission               = $row['commission'];
             $name                 = $row['name'];
             $meta_title           = $row['meta_title'];     
             $meta_description     = $row['meta_description'];
@@ -115,6 +117,11 @@ if (isset($msg)) { ?>
                         <input type="hidden" name="id" value="<?=$cat_id?>">
                         <label>Category Name*</label>
                         <input type="text" name="name" value="<?=$name?>" class="form-control" required="">
+                      </div>
+                      <div class="form-group">
+                        
+                        <label>Commission*</label>
+                        <input type="number"  step ="0.01" name="commission" min="0" max="30" value="<?=$commission?>" class="form-control" required="">
                       </div>
                       <div class="form-group">
                   		<input type='file' id="inputFile" name="file"/>

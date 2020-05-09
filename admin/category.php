@@ -178,6 +178,9 @@ if (isset($_GET['msg'])) { ?>
                           <div class="col-lg-3">
                               <input type="text" name="subsubcategory_name" required="" placeholder="Enter Sub-subcategory name" class="form-control">
                           </div>
+                          <div class="col-lg-3">
+                              <input type="number"  step ="0.01"  name="commission" min="0" max="30" required="" placeholder="Enter Category Commission" class="form-control">
+                          </div>
                           <div class="col-md-3">
                             <div class="form-group">
                               <select class="form-control select2" multiple="" name="variation_id[]" placeholder="choose variations">

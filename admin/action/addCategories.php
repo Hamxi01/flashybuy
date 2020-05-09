@@ -7,7 +7,8 @@ use \Gumlet\ImageResizeException;
 
 if (isset($_POST['addcategory'])) {
 
-		$category_name          = $_POST['category_name'];
+        $category_name          = $_POST['category_name'];
+        $commission        =    $_POST['commission'];
 		$categoryslug           = str_replace(" ","-", $category_name);
 		$subcategory_name       = $_POST['subcategory_name'];
 		$subcategoryslug        = str_replace(" ","-", $subcategory_name);
@@ -23,7 +24,7 @@ if (isset($_FILES['file']["name"])) {
     $extension = @end(explode('.', $filename)); // explode the image name to get the extension
     $pic1extension = strtolower($extension);
     $pic1 = time().rand();
-    $pic1we=$pic1.".".".jpg";
+    $pic1we=$pic1."."."jpg";
     $location = "../../upload/category/".$pic1we;
     
 if(move_uploaded_file($_FILES["file"]["tmp_name"], $location)){
@@ -43,7 +44,7 @@ if(move_uploaded_file($_FILES["file"]["tmp_name"], $location)){
 
 }
 }
-		$sqlCategory = "INSERT into categories (name,slug,banner) VALUES ('$category_name','$categoryslug','$pic1we')";
+		$sqlCategory = "INSERT into categories (name,slug,banner,commission) VALUES ('$category_name','$categoryslug','$pic1we','$pic1we')";
         if ( mysqli_query($con,$sqlCategory)){
 
         	$cat_id = mysqli_insert_id($con);
