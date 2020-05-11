@@ -1,6 +1,13 @@
 <?php include('includes/db.php') ?>
 <?php include('includes/head.php') ?>
 <?php include('includes/cart_vendorPackges.php') ?>
+<?php 
+    if(isset($_SESSION['name'])){
+        
+    }else{
+      header("location: login.php");
+    }
+?>
 <style type="text/css">
     .td-custom{
 
@@ -72,18 +79,8 @@
                 </div> -->
                 <div class="ps-section__footer">
                     <div class="row">
-                        <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 col-12 ">
-                            <figure>
-                                <figcaption>Coupon Discount</figcaption>
-                                <div class="form-group">
-                                    <input class="form-control" type="text" placeholder="">
-                                </div>
-                                <div class="form-group">
-                                    <button class="ps-btn ps-btn--outline">Apply</button>
-                                </div>
-                            </figure>
-                        </div>
-                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 ">
+                        <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-12 ">
+                            <h3><b>My Cart</b></h3>
                             <table class="table ps-table--shopping-cart">
                             
                                 <?php 
@@ -151,73 +148,112 @@
                         </table>
                         </div>
                         <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 ">
+                            <h3><b>Checkout</b></h3>
                             <div class="ps-block--shopping-total">
-                                <!--  -->
-                                <div class="ps-block__content">
+                                <!-- <div class="ps-block__content"> -->
                                     
-                                    <button class="btn btn-warning">add new adress</button>
-                                    <!-- <table class="ps-block__product">
-                                        
-                                            <thead>
-                                                <?php 
-                                        if(isset($_SESSION['product_cart'])){
+                                    <button class="ps-btn btn-warning offset-2" data-toggle="modal" data-target="#addressModel">add new adress</button>
 
-                                            $vendorPackage = vendorPackges('vendor',$_SESSION['product_cart'],$con);
-
-                                          $tquantity = 0;
-                                          $tPrice    = 0;
-                                          $i=0;
-                                          foreach($vendorPackage as $index => $value){ ?>
-                                                <tr>
-                                                    <th><?=$index?></th>
-                                                    <th></th>
-                                                </tr>
-                                            </thead>
-                                        <?php 
-                                        
-                                            foreach ($value as $key => $data) {
-                                                 
-                                                
-                                                    $priceProduct = $data['price']*$data['quantity'];
-                                                    $tPrice      += $priceProduct;
-                                                    $tquantity   += $data['quantity'];
-                                                    $id           = base64_encode($data['product_id']);
-                                                    $name         = $data['name'];
-                                                    $quantity     = $data['quantity'];
-                                                    $price        = $data['price'];
-                                        ?>
-                                            <tr>
-                                                <td><?=$name?>
-                                                    <?php if (isset($data['sku'])) {
-                                                        echo '('.$data['sku'].')';
-                                                    }
-                                                    ?>    
-                                                </td>
-                                                <td><?=$quantity?> x <?=$price?></td>
-                                            </tr>
-                                        <?php } } } ?>    
-                                            <thead>
-                                                <tr>
-                                                    <th class="total">Total</th>
-                                                <?php if (isset($tPrice)) {?>
-                                                    <th class="total"><?=$tPrice?></th>
-                                                <?php } else{?>
-                                                    <th class="total">R0</th>
-                                                <?php } ?>    
-                                                </tr>
-                                            </thead>
-                                    </table>
-                                     -->
-
-                                </div>
+                                <!-- </div> -->
                                    
-                            </div><a class="ps-btn ps-btn--fullwidth" href="checkout.php">Proceed to checkout</a>
+                            </div>
+                            <!-- <a class="ps-btn ps-btn--fullwidth" href="checkout.php">Proceed to checkout</a> -->
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- Address Modal -->
+
+    <div class="modal fade" id="addressModel" tabindex="-1" role="dialog" aria-labelledby="formModal"
+          aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="formModal">Add new Address</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form role="form">
+                    <input type="hidden" name="user_id" value="<?=$_SESSION['id']?>">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input type="text" name="f_name" class="form-control" placeholder="First Name">
+                            </div>
+                        </div>    
+                        <div class="col-md-6">    
+                            <div class="form-group">
+                                <input type="text" name="l_name" class="form-control" placeholder="Last Name">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="mobile" class="form-control" placeholder="Cell Number">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="address" class="form-control" placeholder="Address">
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input type="text" name="city" class="form-control" placeholder="City">
+                            </div>
+                        </div>    
+                        <div class="col-md-6">    
+                            <div class="form-group">
+                                <input type="text" name="state" class="form-control" placeholder="State">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input type="text" name="subrub" class="form-control" placeholder="Subrub">
+                            </div>
+                        </div>    
+                        <div class="col-md-6">    
+                            <div class="form-group">
+                                <input type="text" name="zip" class="form-control" placeholder="Zip">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input type="text" name="street" class="form-control" placeholder="Street">
+                            </div>
+                        </div>    
+                        <div class="col-md-6">    
+                            <div class="form-group">
+                                <input type="text" name="route" class="form-control" placeholder="Route">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input type="text" name="country" class="form-control" placeholder="Country">
+                            </div>
+                        </div>    
+                        <div class="col-md-6">    
+                            <div class="form-group">
+                                <button type="submit" class="form-control btn btn-warning" style="background: #e0a800;border: none;color: white">Save Address</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+
+    <!-- Address Modal -->
+
 <?php include('includes/footer.php'); ?>
 <script type="text/javascript">
 

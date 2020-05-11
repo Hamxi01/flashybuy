@@ -41,7 +41,20 @@ if (isset($_POST['product_id'])) {
 		<button class="btn btn-warning" style="background:#FDD922; color:#333333; border:none; padding:10px; width:150px;" onclick="$('#cartModal').modal('hide');">Conitnue Shopping
 		</button>
 	</div>
+	<?php
+
+	if(isset($_SESSION['name'])){?>
+
 	<div align="center" style="padding-top:10px;" >
 		<button class="btn btn-warning" style="background:#FDD922; color:#333333; border:none; padding:10px;width:150px;" onclick="window.location.href='shopping-cart.php'">View Cart</button>
+	</div>
+
+	<?php  }else{?>
+
+		<div align="center" style="padding-top:10px;" >
+		<button class="btn btn-warning" style="background:#FDD922; color:#333333; border:none; padding:10px;width:150px;" onclick="window.location.href='userlogin.php'">View Cart</button>
+
+	<?php } ?>	
+		
 	</div>
 </div>

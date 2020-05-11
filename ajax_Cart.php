@@ -154,13 +154,23 @@ if(isset($_POST['action']) && $_POST['action'] == "empty"){
                                         </div>
                                     </div>';
 			}
-			if ($tPrice!=0) {
+			if ($tPrice!=0) {?>
 			 	
 			  
-					echo  '<div class="ps-cart__footer">
-                                    <h3>Sub Total:<strong>R'.$tPrice.'</strong></h3>
-                                    <figure><a class="ps-btn" href="login.php">View Cart</a><a class="ps-btn" href="login.php">Checkout</a></figure>
-                               </div>';
+					<div class="ps-cart__footer">
+                                    <h3>Sub Total:<strong>R<?=$tPrice?></strong></h3>
+                                    <?php
+									    if(isset($_SESSION['name'])){?>
+
+									    	<figure><a class="ps-btn" href="shopping-cart.php">View Cart</a><a class="ps-btn" href="shopping-cart.php">Checkout</a></figure>
+									        
+									   <?php  }else{?>
+									      <figure><a class="ps-btn" href="userlogin.php">View Cart</a><a class="ps-btn" href="userlogin.php">Checkout</a></figure>
+									    <?php }
+									?>
+                                    
+                               </div>
+    <?php                           
             }                   
             echo '`'.$tquantity;                   
 		}
