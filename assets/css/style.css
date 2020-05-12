@@ -2582,7 +2582,8 @@ textarea.form-control {
 
 .form-group--number .form-control {
   border: 1px solid #ccc;
-  height: 40px;
+  height: 35px;
+  width: -webkit-fill-available;
   padding: 0 25px;
   text-align: center;
   font-size: 14px;
@@ -10941,7 +10942,7 @@ textarea.form-control {
 }
 
 .ps-table--shopping-cart tbody tr td .form-group--number input {
-  border-radius: 0;
+  /*border-radius: 0;*/
 }
 
 .ps-table--shopping-cart tbody tr td .ps-product--cart {
@@ -10950,6 +10951,7 @@ textarea.form-control {
 
 .ps-table--shopping-cart tbody tr td:last-child {
   text-align: right;
+  max-width: 35px;
 }
 
 .ps-table--shopping-cart tbody tr td:last-child a {

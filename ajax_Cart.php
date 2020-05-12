@@ -166,8 +166,7 @@ if(isset($_POST['action']) && $_POST['action'] == "empty"){
 									        
 									   <?php  }else{?>
 									      <figure><a class="ps-btn" href="userlogin.php">View Cart</a><a class="ps-btn" href="userlogin.php">Checkout</a></figure>
-									    <?php }
-									?>
+									    <?php } ?>
                                     
                                </div>
     <?php                           
