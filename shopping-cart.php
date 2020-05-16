@@ -8,6 +8,18 @@
       header("location: login.php");
     }
 ?>
+
+<!-- Submit Order new -->
+
+<?php 
+// if (isset($_POST['action']) && $_POST['action'] == 'submit_order') {
+    
+//     echo $_POST['total_order_price'];
+//     return;
+// }
+
+?>
+<!-- Code End Submit Order -->
 <style type="text/css">
     .td-custom{
 
@@ -52,6 +64,26 @@
         background: #ffb7b76e;
         padding: 5px;
     }
+    .debit_visa {
+
+        position: relative;
+        top: 10px;
+    }
+    .master {
+
+        position: relative;
+        top: 20px;
+    }
+    .ozow {
+
+        position: relative;
+        top: 18px;
+    }
+    .visa {
+
+        position: relative;
+        top: 15px;
+    }
 </style>
     <div class="ps-page--simple">
         <div class="ps-breadcrumb">
@@ -68,34 +100,6 @@
                 <!-- <div class="ps-section__header">
                     <h1>Shopping Cart</h1>
                 </div> -->
-<!-- Alert Message  -->
-<?php if (isset($_GET['msg_cart']) && $_GET['msg_cart']=='success') { ?>
-<div class="row">
-    <div class="col-lg-6 offset-3">  
-        <div class="alert alert-success">
-            <p class="text text-success" style="font-weight: bold;font-size: 16px;text-align:center">Cart Quantity updated Successfully!</p>
-        </div>
-    </div>    
- </div>
-<?php } ?>
-<?php  if (isset($_GET['msg_cart']) && $_GET['msg_cart']!='success') { $maxStock = base64_decode($_GET['msg_cart']); ?>
-<div class="row">
-    <div class="col-lg-6 offset-3">
-        <div class="alert alert-danger">
-            <p class="text text-danger" style="font-weight: bold;font-size: 16px;text-align: center">Only <?=$maxStock?> Unites available.Contact support for any inquiry</p>
-        </div>
-    </div>
-</div> 
-<?php } ?>
-<?php  if (isset($_GET['msg']) && $_GET['msg']=='error') { ?>
-<div class="row">
-    <div class="col-lg-6 offset-3">
-        <div class="alert alert-danger">
-            <p class="text text-danger" style="font-weight: bold;font-size: 16px;text-align: center">opps! Address is not added Successfully.</p>
-        </div>
-    </div>
-</div> 
-<?php } ?>
 <?php 
                                         if(isset($_SESSION['product_cart'])){
 
@@ -126,25 +130,29 @@
                                 <p><b>SubTotal:</b>  R<?=$tPrice?></p>
                             </div>
                             <div class="col-xl-4 text-center">
-                                <p><b>Shipping:</b>  TBC</p>
+                                <p class="shippPrice"><b>Shipping:</b>  TBC</p>
                             </div>
-                            <div class="col-xl-4 text-right">
-                                <p>Total: <b style="font-size:20px">  R<?=$tPrice?></b></p>
+                            <div class="col-xl-4 text-right" >
+                                <p>Grand Total: <b style="font-size:20px" class="grandTotal">  R<?=$tPrice?></b></p>
                             </div>
                         </div>
-
-                        <!-- <div class="ps-block__content"> -->
-                            
-                            <!-- <button class="ps-btn btn-warning offset-2" data-toggle="modal" data-target="#addressModel">add new adress</button> -->
-
-                        <!-- </div> -->
-                           
                     </div>
-                    <!-- <a class="ps-btn ps-btn--fullwidth" href="checkout.php">Proceed to checkout</a> -->
                 </div>
+            <form action="shopping-cart.php"  method="post" id="order-form"> 
+                <input type="hidden" name="action" value="submit_order">   
                 <div class="ps-section__footer">
                     <div class="row">
                         <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-12 ">
+<?php if (isset($_GET['msg_cart']) && $_GET['msg_cart']=='success') { ?> 
+<div class="alert alert-success">
+    <p class="text text-success" style="font-weight: bold;font-size: 16px;text-align:center">Cart Quantity updated Successfully!</p>
+</div>
+<?php } ?>
+<?php  if (isset($_GET['msg_cart']) && $_GET['msg_cart']!='success') { $maxStock = base64_decode($_GET['msg_cart']); ?>
+<div class="alert alert-danger">
+    <p class="text text-danger" style="font-weight: bold;font-size: 16px;text-align: center">Only <?=$maxStock?> Unites available.Contact support for any inquiry</p>
+</div>
+<?php } ?>                            
                             <h3><b>My Cart</b></h3>
                             <table class="table ps-table--shopping-cart">
                             
@@ -211,16 +219,21 @@
                             }
                             ?>
                             <tr>
-                                <td colspan="7" class="text-right">Shipping</td>
-                                <td colspan="1">TBC</td>
+                                <td colspan="7" class="text-right">Shipping:</td>
+                                <td colspan="1" class="ShippingPrice">TBC</td>
                             </tr>
                             <tr>
-                                <td colspan="7" class="text-right">Total</td>
-                                <td colspan="1"><b>R<?=$tPrice?></b></td>
+                                <td colspan="7" class="text-right">Total:</td>
+                                <td colspan="1"><b class="grandTotal">R<?=$tPrice?></b></td>
                             </tr>
                         </table>
                         </div>
                         <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 ">
+<?php  if (isset($_GET['msg']) && $_GET['msg']=='error') { ?>
+<div class="alert alert-danger">
+    <p class="text text-danger" style="font-weight: bold;font-size: 16px;text-align: center">opps! Address is not added Successfully.</p>
+</div>
+<?php } ?>
                             <h3><b>Checkout</b></h3>
                             <div class="ps-block--shopping-total">
                                 <h2><span style="font-weight: 800">1.</span>Delivery</h2><br>
@@ -239,10 +252,10 @@
                                         $state                  =   $rU['state'];
                                         $subrub                 =   $rU['subrub'];
                                         $zip_code               =   $rU['zip_code'];
-                                   
                             ?>
                                         <tr>
-                                            <td colspan="1"><input type="radio" name="address" value="<?=$u_a_id?>"></td>
+                                            <td colspan="1"><input type="radio"  name="address" value="<?=$u_a_id?>" onclick="calculateShipping(<?=$u_a_id?>,<?=$tPrice?>)"></td>
+                                            <input type="hidden" name="" id="address<?=$u_a_id?>" value="<?=$city?>">
                                             <td colspan="4" class="address"><?=$address?> ,<?=$city?> ,<?=ucfirst($state)?> ,<?=$subrub?> ,<?=$zip_code?> </td>
                                         </tr>
                             <?php } ?> 
@@ -250,7 +263,7 @@
                                     </tbody>
                                 </table><br>
                                         <p class="text-center">
-                                            <button class="ps-btn btn-warning offset-2" data-toggle="modal" data-target="#addressModel">update address</button>
+                                            <button class="ps-btn btn-warning offset-2" data-toggle="modal" data-target="#addressModel" style="color: #fff">update address</button>
                                         </p>
                                 <?php }else{ ?> 
                                     <div class="none-address">
@@ -259,7 +272,7 @@
                                         </p>
                                         <p class="text-center">Your saved addresses will appear here.</p>
                                         <p class="text-center">
-                                            <button class="ps-btn btn-warning offset-2" data-toggle="modal" data-target="#addressModel"> + add new address</button>
+                                            <button class="ps-btn btn-warning offset-2" data-toggle="modal" data-target="#addressModel" style="color: #fff"> + add new address</button>
                                         </p>
                                     </div><br>
                                <?php } ?>
@@ -293,16 +306,40 @@
                                <table  class="payment">
                                    <tbody>
                                        <tr>
-                                           <td><input type="radio" name=""></td>
-                                           <td><img src="img/banktransfer.png" width="50"></td>
-                                           <td>Our recommended: Send proof of payment within immediately to avoid cancellation</td>
+                                           <td class="eft"><input type="radio" name="payment_options" value="EFT"></td>
+                                           <td class="eft"><img src="img/banktransfer.png" width="60"></td>
+                                           <!-- <td>Our recommended: Send proof of payment within immediately to avoid cancellation</td> -->
+                                       </tr>
+                                       <tr>
+                                           <td class="debit_visa"><input type="radio" name="payment_options" value="Debit"></td>
+                                           <td class="debit_visa"><img src="img/visa_debit.jpg" width="60"></td>
+                                       </tr>
+                                       <tr>
+                                           <td class="visa"><input type="radio" name="payment_options" value="Visa"></td>
+                                           <td class="visa"><img src="img/visa.png" width="60"></td>
+                                       </tr>
+                                       <tr>
+                                           <td class="master"><input type="radio" name="payment_options" value="Master"></td>
+                                           <td class="master"><img src="img/mastercard.png" width="60"></td>
+                                       </tr>
+                                       <tr>
+                                           <td class="ozow"><input type="radio" name="payment_options" value="Ozow_ipay"></td>
+                                           <td class="ozow"><img src="img/ozow_ipay.png" width="60"></td>
                                        </tr>
                                    </tbody>
                                </table>  
                             </div>
                         </div>
                     </div>
+                    <input type="hidden" name="total_order_price" id="orderGrandTotal">
+                    <input type="hidden" name="total_shipping_price" id="orderShippingPrice">
+                    <div class="row">
+                        <div class="col-xl-3 offset-10">
+                            <button class="ps-btn btn-warning btn-lg" onclick="return checkValidation()"  style="color: #fff;position:relative;top:15px;right:20px">Submit Order</button>
+                        </div>
+                    </div>
                 </div>
+            </form>    
             </div>
         </div>
     </div>
@@ -384,7 +421,7 @@
                         </div>    
                         <div class="col-md-6">    
                             <div class="form-group">
-                                <button type="submit" name="saveAddress" class="form-control btn btn-warning" style="background: #e0a800;border: none;color: white">Save Address</button>
+                                <button  name="saveAddress" class="form-control btn btn-warning"  style="background: #e0a800;border: none;color: white">Save Address</button>
                             </div>
                         </div>
                     </div>
@@ -486,18 +523,46 @@ function updateQuantity(product_id,v_p_id,price,vendor_id){
 //================= Calculate Shipping =========//
 //==============================================//
 
-function calculateShipping(){
+function calculateShipping(id,subTotal){
 
-    var selectedCity = $("#cities").val();
+    var selectedCity = $("#address"+id).val();
     $.ajax({
 
-            type    : 'post',
-            url     : 'calculateShipping.php',
-            data    : {city:selectedCity},
-            success : function(data){
+            type      : 'post',
+            url       : 'calculateShipping.php',
+            data      : {city:selectedCity,subTotal:subTotal},
+            dataType  : 'json',
+            success   : function(data){
 
-                alert(data);
+                $('.shippPrice').html('<b>Shipping:</b> R'+data[0]);
+                $('.ShippingPrice').html('<b>R'+data[0]+'</b>');
+                $('#orderShippingPrice').val(data[0]);
+                $('.grandTotal').html('R'+data[1]);
+                $('#orderGrandTotal').val(data[1]);
             }
     });
+}
+
+//====================================================//
+//========= Check validation for order  =============//
+//==================================================//
+
+function checkValidation(){
+
+    if ($("input:radio[name='address']").is(":checked")) {
+        //its checked
+    } else {
+
+        swal("Please select delivery address or add new address");
+        return false;
+    }
+    if ($("input:radio[name='payment_options']").is(":checked")) {
+        
+
+    } else {
+        swal("Please select a Payment Method!");
+        return false;
+    }
+    $('#order-form').submit();
 }
 </script>
