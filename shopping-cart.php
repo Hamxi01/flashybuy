@@ -12,11 +12,14 @@
 <!-- Submit Order new -->
 
 <?php 
-// if (isset($_POST['action']) && $_POST['action'] == 'submit_order') {
+if (isset($_POST['action']) && $_POST['action'] == 'submit_order') {
     
-//     echo $_POST['total_order_price'];
-//     return;
-// }
+    $totalOrderPrice          = $_POST['total_order_price'];
+    $totalOrderShippingPrice  = $_POST['total_shipping_price'];
+    $uiaddress                = $_POST['address'];
+    echo $uiaddress;
+    return;
+}
 
 ?>
 <!-- Code End Submit Order -->
@@ -263,7 +266,7 @@
                                     </tbody>
                                 </table><br>
                                         <p class="text-center">
-                                            <button class="ps-btn btn-warning offset-2" data-toggle="modal" data-target="#addressModel" style="color: #fff">update address</button>
+                                            <button class="ps-btn btn-warning offset-2" data-toggle="modal" type="button" data-target="#addressModel" style="color: #fff">update address</button>
                                         </p>
                                 <?php }else{ ?> 
                                     <div class="none-address">
@@ -272,7 +275,7 @@
                                         </p>
                                         <p class="text-center">Your saved addresses will appear here.</p>
                                         <p class="text-center">
-                                            <button class="ps-btn btn-warning offset-2" data-toggle="modal" data-target="#addressModel" style="color: #fff"> + add new address</button>
+                                            <button class="ps-btn btn-warning offset-2" data-toggle="modal" type="button" data-target="#addressModel" style="color: #fff"> + add new address</button>
                                         </p>
                                     </div><br>
                                <?php } ?>
@@ -291,10 +294,11 @@
                                <table>
                                    <tbody>
                                        <tr>
-                                           <td><input type="checkbox" name=""></td>
+                                           <td><input type="checkbox" name="check_wallet_payment" value="wallet"></td>
                                            <td class="wallet"><img src="img/wallet.png" width="50"></td>
                                            <td class="wallet">
                                             <p>Buy from your own Wallet : <b style="font-size: 23px;">R<?=$wallet_price?></b></p>
+                                            <input type="hidden" name="user_wallet" value="<?=$wallet_price?>">
                                            </td>
                                        </tr>
                                    </tbody>
