@@ -20,8 +20,6 @@
 
       	   		$quantity = $vendorQuantity;
 
-      	   		echo $vendorQuantity;
-
       	   }
       	   if (!empty($variation_id) && !empty($product_id)) {
 

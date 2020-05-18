@@ -1,5 +1,6 @@
 <?php include('includes/db.php') ?>
 <?php include('includes/head.php') ?>
+<?php include('includes/courier_Packages.php'); ?>
 <?php include('includes/cart_vendorPackges.php') ?>
 <?php 
     if(isset($_SESSION['name'])){
@@ -7,18 +8,235 @@
     }else{
       header("location: login.php");
     }
+
+
 ?>
 
 <!-- Submit Order new -->
 
 <?php 
 if (isset($_POST['action']) && $_POST['action'] == 'submit_order') {
+
+    $digits = 6;
+    $order_ids = rand(pow(10, $digits-1), pow(10, $digits)-1);
+    $order_ids = "OR".$order_ids;
     
     $totalOrderPrice          = $_POST['total_order_price'];
     $totalOrderShippingPrice  = $_POST['total_shipping_price'];
     $uiaddress                = $_POST['address'];
-    echo $uiaddress;
-    return;
+
+    $sU                     =   mysqli_query( $con ,  " SELECT * FROM user_addresses  where u_a_id = '$uiaddress'" );
+    $rU                     =   mysqli_fetch_array( $sU ); 
+    $mobile                 =   $rU['mobile'];
+    $name                   =   mysqli_real_escape_string($con,$rU['name']);
+    $address                =   mysqli_real_escape_string($con,$rU['address']);
+    $city                   =   mysqli_real_escape_string($con,$rU['city']);
+    $state                  =   mysqli_real_escape_string($con,$rU['state']);
+    $subrub                 =   mysqli_real_escape_string($con,$rU['subrub']);
+    $zip_code               =   mysqli_real_escape_string($con,$rU['zip_code']);
+
+        $user_id = $user_id = $_SESSION['id'];
+        $sL   = " SELECT * FROM customers WHERE id = '$user_id' ";
+        $sQry = mysqli_query( $con , $sL );
+        $rQry = mysqli_fetch_array( $sQry );
+
+        $user_email         = $rQry["email"];
+        $user_phone         = $rQry["mobile"];
+        $wallet_price       = $rQry["wallet_price"];
+
+    if(isset($_SESSION['product_cart'])){
+
+            foreach( $_SESSION['product_cart'] as $cartProducts){ 
+
+                $v_p_id = $cartProducts["v_p_id"];
+                $vQ = "SELECT V.id as ven_id,VP.id as v_p_id,VP.price,V.shop_name,VP.dispatched_days,VP.quantity FROM vendor_product AS VP 
+                                    INNER JOIN vendor AS V ON VP.ven_id = V.id WHERE VP.id = '$v_p_id'";
+                $vpSql = mysqli_query( $con , $vQ );
+                $sV = mysqli_fetch_array(  $vpSql );
+                $ven_id        = $sV["ven_id"];
+                $ven_quantity  = $sV["quantity"];
+                $v_p_id        = $sV["v_p_id"];
+                $ven_price     = $sV["price"];
+                $vendor        = $sV['shop_name'];
+
+
+                $cartArr[$ven_id][$cartProducts["v_p_id"]]["vendor_id"]             = $ven_id;
+                $cartArr[$ven_id][$cartProducts["v_p_id"]]["vendor"]                = $vendor;
+                $cartArr[$ven_id][$cartProducts["v_p_id"]]["v_p_id"]                = $v_p_id;
+                $cartArr[$ven_id][$cartProducts["v_p_id"]]["product_id"]            = $cartProducts["product_id"];
+                $cartArr[$ven_id][$cartProducts["v_p_id"]]["name"]                  = $cartProducts["name"];
+                $cartArr[$ven_id][$cartProducts["v_p_id"]]["price"]                 = $cartProducts["price"];
+                $cartArr[$ven_id][$cartProducts["v_p_id"]]["image"]                 = $cartProducts["image"];
+                $cartArr[$ven_id][$cartProducts["v_p_id"]]["quantity"]              = $cartProducts["quantity"];
+                $cartArr[$ven_id][$cartProducts["v_p_id"]]["ven_qty"]               = $ven_quantity;
+                $cartArr[$ven_id][$cartProducts["v_p_id"]]["ven_price"]             = $ven_price;
+                $cartArr[$ven_id][$cartProducts["v_p_id"]]["order_delivery_date"]   = $sV["dispatched_days"];
+                
+            }
+            foreach($cartArr as $data){
+                $i = 1;
+                foreach( $data as $dt){
+                    
+                    
+
+                    $order_ven_prod     = $dt["v_p_id"];        
+                    $order_vendor_id    = $dt["vendor_id"];                    
+                    $order_prod_price   = $dt["price"];     
+                    $order_vendor_name  = $dt["vendor"];  
+                    $quantity           = $dt["quantity"];
+                    $order_prod_name    = $dt["name"];
+                    // $order_prod_name     = mysqli_real_escape_string($order_prod_name );
+                    $order_prod_id      = $dt["product_id"];
+                    $order_price        = $dt["price"];
+                    $order_price        = $quantity * $order_price;
+                    $order_price_exact  = $dt["price"];
+                    $order_prod_img     = $dt["image"];
+                    $ven_price          = $dt["ven_price"];
+                    
+                    
+                    
+                    $order_pay_price    = $order_price;
+                    
+
+                    $order_delivery_date    = (time()+((2+2)*86400));
+                    
+                    $order_token        = $order_ids.'-'.$order_prod_id;
+                    
+                
+                    
+                    
+                    $pW           = "SELECT courier_size,width,height,length FROM products where product_id='$order_prod_id'"; 
+                    $sPW          = mysqli_query( $con , $pW );
+                    $rPW          = mysqli_fetch_array( $sPW );
+                    $width        = $rPW['width']; 
+                    $height       = $rPW['height'];
+                    $length       = $rPW['length'];
+                    $courier_size = $rPW['courier_size'];
+
+                    $shippingPrice =0;
+                    $weightChrg = 0;
+                    $weightExtraItem = '';
+                    $csql = mysqli_query($con,"SELECT courier_permission FROM vendor where id='$order_vendor_id'");
+                    while ($cpres = mysqli_fetch_array($csql)) {
+                     
+                        $courier_permission = $cpres['courier_permission'];
+                    }
+                    if ($courier_permission == 'Y') {
+                     
+                        $shipSql = mysqli_query($con,"SELECT price FROM vendor_courier_sizes where size='$courier_size' AND city ='$city' AND vendor_id ='$order_vendor_id'");
+
+                        $shippPrice     = mysqli_fetch_array($shipSql);
+
+                        $shippingPrice  = $shippPrice[0];
+                    }
+                    else{
+
+                        $dimension    = ($width*$height*$length);
+                        $wg           = ($dimension)/5000;
+                        $weightExtraItem  = '';
+                        
+                            
+                        if( $wg <= 5 ){
+                            $weightChrg = $courWArr[5]; 
+                            if( $quantity > 1){
+                                $weightExtraItem = ( $quantity-1)*$courWEArr[5];
+                            }
+                            
+                            
+                        }elseif( $wg <= 10 ){
+                            $weightChrg = $courWArr[10];    
+                            if( $quantity > 1){
+                                $weightExtraItem = ( $quantity-1)*$courWEArr[10];
+                            }
+                        }
+                        elseif( $wg <= 15 ){
+                            $weightChrg = $courWArr[15];    
+                            if( $quantity > 1){
+                                $weightExtraItem = ( $quantity-1)*$courWEArr[15];
+                            }
+                        }
+                        elseif( $wg <= 20 ){
+                            $weightChrg = $courWArr[20];    
+                            if( $quantity > 1){
+                                $weightExtraItem = ( $quantity-1)*$courWEArr[20];
+                            }
+                        }
+                        elseif( $wg <= 25 ){
+                            $weightChrg = $courWArr[25];    
+                            if( $quantity > 1){
+                                $weightExtraItem = ( $quantity-1)*$courWEArr[25];
+                            }                       
+                        }
+                        elseif( $wg <= 30 ){
+                            $weightChrg = $courWArr[30];    
+                            if( $quantity > 1){
+                                $weightExtraItem = ( $quantity-1)*$courWEArr[30];
+                            }   
+                        }
+                        elseif( $wg <= 35 ){
+                            $weightChrg = $courWArr[35];    
+                            if( $quantity > 1){
+                                $weightExtraItem = ( $quantity-1)*$courWEArr[35];
+                            }   
+                        }else{
+
+                            $weightChrg = $courWArr[35];    
+                            if( $quantity > 1){
+                                $weightExtraItem = ( $quantity-1)*$courWEArr[35];
+                            }
+
+                        }
+                    }
+                    
+                    $totalDeliveryPrice = (intval($weightChrg)+intval($weightExtraItem)+intval($shippingPrice)); 
+                    
+                    $order_price_exact         = $order_pay_price+$totalDeliveryPrice; 
+                    $total_order_price         = $order_pay_price+$totalDeliveryPrice;
+
+                   //courier_fees   
+                   $sO = " INSERT INTO orders SET time_id = UNIX_TIMESTAMP(),
+                                                                order_ids           = '$order_ids',
+                                                                order_user          = '$user_id',
+                                                                order_user_name     = '$name',
+                                                                order_user_phone    = '$mobile',
+                                                                order_usr_address   = '$address',
+                                                                order_user_subrub   = '$subrub',
+                                                                order_user_city     = '$city',
+                                                                order_user_zipcode  = '$zip_code',
+                                                                order_ven_prod      = '$order_ven_prod',
+                                                                order_vendor_id     = '$order_vendor_id',               
+                                                                order_prod_price    = '$ven_price', 
+                                                                order_vendor_name   = '$order_vendor_name',
+                                                                order_delivery_date = '$order_delivery_date',
+                                                                quantity            = '$quantity',
+                                                                order_prod_name     = '$order_prod_name',
+                                                                order_prod_id       = '$order_prod_id',
+                                                                order_price         = '$order_price',
+                                                                order_token         = '$order_token', 
+                                                                courier_fees        = '$totalDeliveryPrice',
+                                                                total_courier_price  = '$totalOrderShippingPrice',
+                                                                order_pay_price     = '$total_order_price',
+                                                                total_order_price   = '$totalOrderPrice',
+                                                                order_prod_img      = '$order_prod_img'";
+                    
+
+                        mysqli_query( $con , $sO );
+
+                        $sO = "UPDATE vendor_product SET quantity = ( quantity-$quantity ) WHERE v_p_id = '$v_p_id'" ;
+                        mysqli_query( $con , $sO );
+                    
+                        $i++;
+                        $_SESSION['product_cart'] = '';
+                        unset( $_SESSION['product_cart'] );
+                    
+                    
+               }
+            }
+
+
+    }
+
+    echo "<script>window.location.assign('submit-order.php')</script>";
 }
 
 ?>
@@ -198,11 +416,11 @@ if (isset($_POST['action']) && $_POST['action'] == 'submit_order') {
 
                                                     <!-- Quantity Plus Button -->
 
-                                                    <button class="up" id="up<?=$data['v_p_id']?>" onclick="add(this.id,<?=$data['product_id']?>,<?=$data['v_p_id']?>,<?=$data['price']?>,<?=$data['vendor_id']?>)">+</button>
+                                                    <button class="up" id="up<?=$data['v_p_id']?>" type="button" onclick="add(this.id,<?=$data['product_id']?>,<?=$data['v_p_id']?>,<?=$data['price']?>,<?=$data['vendor_id']?>)">+</button>
 
                                                     <!-- Quantity Minus Button -->
 
-                                                    <button class="down" id="down<?=$data['v_p_id']?>" onclick="minus(this.id,<?=$data['product_id']?>,<?=$data['v_p_id']?>,<?=$data['price']?>,<?=$data['vendor_id']?>)">-</button>
+                                                    <button class="down" id="down<?=$data['v_p_id']?>" type="button" onclick="minus(this.id,<?=$data['product_id']?>,<?=$data['v_p_id']?>,<?=$data['price']?>,<?=$data['vendor_id']?>)">-</button>
 
                                                     <!-- Quantity Input Box -->
 
