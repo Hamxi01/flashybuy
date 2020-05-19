@@ -1,6 +1,7 @@
 <?php
-include('include/header.php'); 
-include('include/nav.php');
+include('../includes/db.php'); 
+include('includes/header.php');
+include('includes/sidebar.php');
 ?>  <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
 <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
 <style>
@@ -270,4 +271,4 @@ $('#sunday').on('change', function(){
 
 
 </script>
-      <?php include('include/footer.php'); ?>
+      <?php include('includes/footer.php'); ?>
