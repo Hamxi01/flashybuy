@@ -36,11 +36,11 @@ if (isset($_GET['id']) && isset($_GET['variant_id'])) {
         $keyword               = $result['keyword'];
         $description           = $result['description'];
         $ven_id                = $result['ven_id'];
-        $keyword               = explode(',',$keyword);
+        $keywordid              = explode(',',$keyword);
   }
    
 }
-if (isset($_POST['update-product'])) {
+if (isset($_POST['action'])&& $_POST['action'] == "rejectproduct") {
 
   // $variation_id                    =     addslashes($_POST['variation_id']);
   $product_id                      =     addslashes($_POST['id']);
@@ -68,15 +68,182 @@ if (isset($_POST['update-product'])) {
   
   $description                     =     addslashes($_POST['description']);
   $warranty                        =     addslashes($_POST['warranty']);
-
-  if (isset($_POST['approved'])) { 
-
-      $approved                        =     addslashes($_POST['approved']);
+  $approved                        =     'N';
       
+  if (isset($_POST['exclusive'])) { 
+
+       $exclusive                       =  addslashes($_POST['exclusive']);
+       
   }else{
 
-    $approved = 'N';
+    $exclusive = 'N';
   }
+
+
+
+
+     $query = "update products SET name='".$name."',cat_id='".$category_id."',sub_cat_id='".$subcategory_id."',sub_sub_cat_id='".$subsubcategory_id."',brand='".$brand."',length='".$length."',width='".$width."',height='".$height."',keyword='".$keyword."',approved='".$approved."',exclusive='".$exclusive."',courier_size='".$courier_size."',warranty='".$warranty."' Where product_id='".$product_id."'";
+
+    foreach ($_POST['sku'] as $key => $value) {
+      
+          $vquery = "update product_variations SET quantity='".$_POST['qty'][$key]."',mk_price='".$_POST['mk_price'][$key]."',price='".$_POST['price'][$key]."',sku='".$_POST['sku'][$key]."',active='".$_POST['active'][$key]."' Where variation_id='".$_POST['variation_id'][$key]."'";
+          mysqli_query($con,$vquery);
+
+    }
+foreach ($_POST['vi_id'] as $key => $vImageid) {
+
+     $imagequery = "update product_variant_images SET image1='".$_POST['variant_img1'][$key]."',image2='".$_POST['variant_img2'][$key]."',image3='".$_POST['variant_img3'][$key]."',image4='".$_POST['variant_img4'][$key]."' where product_id='".$product_id."'";
+     mysqli_query($con,$imagequery);
+}
+      ///// Check product is already in vendors products or not////
+      foreach ($_POST['variation_id'] as $key => $id) {
+        
+          $vpSql   = "SELECT * from vendor_product where variation_id = '".$_POST['variation_id'][$key]."'  AND prod_id = '".$product_id."'  AND ven_id ='".$ven_id."'";
+          $vpQuery = mysqli_query($con,$vpSql);
+          $vpRows  = mysqli_num_rows($vpQuery);
+          if ($vpRows>0) {
+              if (isset($_POST['active'])) {
+                  
+                  $active = $_POST['active'];
+                }else{
+
+                  $active = 'N';
+                }  
+                $approvquery = "update vendor_product SET quantity='".$_POST['qty'][$key]."',price='".$_POST['price'][$key]."',mk_price='".$_POST['mk_price'][$key]."',active='".$active[$key]."' where prod_id ='".$product_id."' AND variation_id='".$_POST['variation_id'][$key]."' AND ven_id ='".$ven_id."'";
+                mysqli_query($con,$approvquery);
+
+          }else{
+
+            $approvquery = "INSERT into vendor_product (prod_id,ven_id,variation_id,quantity,price,mk_price,active) VALUES ('".$product_id."','".$ven_id."','".$_POST['variation_id'][$key]."','".$_POST['qty'][$key]."','".$_POST['price'][$key]."','".$_POST['mk_price'][$key]."','".$_POST['active'][$key]."')";
+            mysqli_query($con,$approvquery);
+          }
+      }
+      
+  //----- Vendor product update and insert new data end ----////////////
+
+     if (mysqli_query($con,$query)){
+
+            echo "<script>window.location.assign('product.php');</script>";
+        }
+}
+if (isset($_POST['action'])&& $_POST['action'] == "saveproduct") {
+
+  // $variation_id                    =     addslashes($_POST['variation_id']);
+  $product_id                      =     addslashes($_POST['id']);
+  $ven_id                          =     addslashes($_POST['ven_id']);
+  $name                            =     addslashes($_POST['name']);
+  $category_id                     =     addslashes($_POST['cat_id']);
+  $subcategory_id                  =     addslashes($_POST['sub_cat_id']);
+  $subsubcategory_id               =     addslashes($_POST['sub_sub_cat_id']);
+  $brand                           =     addslashes($_POST['brand']);
+  foreach ($_POST['keyword'] as $key => $value) {
+            
+    $keyword     =  implode(',' , $_POST['keyword']);
+
+  }
+  if (isset($_POST['width'])) {
+    
+      $width                           =     addslashes($_POST['width']);
+      $height                          =     addslashes($_POST['height']);
+      $length                          =     addslashes($_POST['length']);
+  }
+  if (isset($_POST['courier_size'])) {
+
+       $courier_size                    =     addslashes($_POST['courier_size']);
+  }
+  
+  $description                     =     addslashes($_POST['description']);
+  $warranty                        =     addslashes($_POST['warranty']);
+  $approved                        =     'Y';
+      
+  if (isset($_POST['exclusive'])) { 
+
+       $exclusive                       =  addslashes($_POST['exclusive']);
+       
+  }else{
+
+    $exclusive = 'N';
+  }
+
+
+
+
+     $query = "update products SET name='".$name."',cat_id='".$category_id."',sub_cat_id='".$subcategory_id."',sub_sub_cat_id='".$subsubcategory_id."',brand='".$brand."',length='".$length."',width='".$width."',height='".$height."',keyword='".$keyword."',approved='".$approved."',exclusive='".$exclusive."',courier_size='".$courier_size."',warranty='".$warranty."' Where product_id='".$product_id."'";
+
+    foreach ($_POST['sku'] as $key => $value) {
+      
+          $vquery = "update product_variations SET quantity='".$_POST['qty'][$key]."',mk_price='".$_POST['mk_price'][$key]."',price='".$_POST['price'][$key]."',sku='".$_POST['sku'][$key]."',active='".$_POST['active'][$key]."' Where variation_id='".$_POST['variation_id'][$key]."'";
+          mysqli_query($con,$vquery);
+
+    }
+foreach ($_POST['vi_id'] as $key => $vImageid) {
+
+     $imagequery = "update product_variant_images SET image1='".$_POST['variant_img1'][$key]."',image2='".$_POST['variant_img2'][$key]."',image3='".$_POST['variant_img3'][$key]."',image4='".$_POST['variant_img4'][$key]."' where product_id='".$product_id."'";
+     mysqli_query($con,$imagequery);
+}
+      ///// Check product is already in vendors products or not////
+      foreach ($_POST['variation_id'] as $key => $id) {
+        
+          $vpSql   = "SELECT * from vendor_product where variation_id = '".$_POST['variation_id'][$key]."'  AND prod_id = '".$product_id."'  AND ven_id ='".$ven_id."'";
+          $vpQuery = mysqli_query($con,$vpSql);
+          $vpRows  = mysqli_num_rows($vpQuery);
+          if ($vpRows>0) {
+              if (isset($_POST['active'])) {
+                  
+                  $active = $_POST['active'];
+                }else{
+
+                  $active = 'N';
+                }  
+                $approvquery = "update vendor_product SET quantity='".$_POST['qty'][$key]."',price='".$_POST['price'][$key]."',mk_price='".$_POST['mk_price'][$key]."',active='".$active[$key]."' where prod_id ='".$product_id."' AND variation_id='".$_POST['variation_id'][$key]."' AND ven_id ='".$ven_id."'";
+                mysqli_query($con,$approvquery);
+
+          }else{
+
+            $approvquery = "INSERT into vendor_product (prod_id,ven_id,variation_id,quantity,price,mk_price,active) VALUES ('".$product_id."','".$ven_id."','".$_POST['variation_id'][$key]."','".$_POST['qty'][$key]."','".$_POST['price'][$key]."','".$_POST['mk_price'][$key]."','".$_POST['active'][$key]."')";
+            mysqli_query($con,$approvquery);
+          }
+      }
+      
+  //----- Vendor product update and insert new data end ----////////////
+
+     if (mysqli_query($con,$query)){
+
+            echo "<script>window.location.assign('product.php');</script>";
+        }
+}
+
+
+if (isset($_POST['action']) && $_POST['action'] == "acceptproduct") {
+
+  // $variation_id                    =     addslashes($_POST['variation_id']);
+  $product_id                      =     addslashes($_POST['id']);
+  $ven_id                          =     addslashes($_POST['ven_id']);
+  $name                            =     addslashes($_POST['name']);
+  $category_id                     =     addslashes($_POST['cat_id']);
+  $subcategory_id                  =     addslashes($_POST['sub_cat_id']);
+  $subsubcategory_id               =     addslashes($_POST['sub_sub_cat_id']);
+  $brand                           =     addslashes($_POST['brand']);
+  foreach ($_POST['keyword'] as $key => $value) {
+            
+    $keyword     =  implode(',' , $_POST['keyword']);
+
+  }
+  if (isset($_POST['width'])) {
+    
+      $width                           =     addslashes($_POST['width']);
+      $height                          =     addslashes($_POST['height']);
+      $length                          =     addslashes($_POST['length']);
+  }
+  if (isset($_POST['courier_size'])) {
+
+       $courier_size                    =     addslashes($_POST['courier_size']);
+  }
+  
+  $description                     =     addslashes($_POST['description']);
+  $warranty                        =     addslashes($_POST['warranty']);
+  $approved                        =     'Y';
+      
   if (isset($_POST['exclusive'])) { 
 
        $exclusive                       =  addslashes($_POST['exclusive']);
@@ -142,7 +309,7 @@ foreach ($_POST['vi_id'] as $key => $vImageid) {
               <div class="col-md-10 offset-md-1">
                 
                     <div class="card">
-                      <form class="needs-validation" novalidate="" method="post" action="" enctype="multipart/form-data">
+                      <form class="needs-validation" novalidate=""  method="post" action="" enctype="multipart/form-data" id="productForm">
                         <div class="card-header">
                           <h4>Edit Your Products</h4>
                         </div>
@@ -288,7 +455,7 @@ foreach ($_POST['vi_id'] as $key => $vImageid) {
                                       <?php 
                                         foreach ($keyword as $key => $value) {
                                             
-                                          $sql = mysqli_query($con, "SELECT * From keywords where delte = 0 AND keyword_id ='$keyword[$key]'");
+                                          $sql = mysqli_query($con, "SELECT * From keywords where delte = 0 AND keyword_id ='$keywordid[$key]'");
                                           
                                           while ($res = mysqli_fetch_array($sql)) {?>
 
@@ -432,7 +599,191 @@ foreach ($_POST['vi_id'] as $key => $vImageid) {
                                   </span>
                                 </div>
                               </div>
+<script type="text/javascript">
+  $(document).ready(function(){
+ $(document).on('change', '#<?=$num?>1', function(){
+  var name = document.getElementById("<?=$num?>1").files[0].name;
+  var form_data = new FormData();
+  var ext = name.split('.').pop().toLowerCase();
+  if(jQuery.inArray(ext, ['gif','png','jpg','jpeg']) == -1) 
+  {
+   alert("Invalid Image File");
+  }
+  var oFReader = new FileReader();
+  oFReader.readAsDataURL(document.getElementById("<?=$num?>1").files[0]);
+  var f = document.getElementById("<?=$num?>1").files[0];
+  var fsize = f.size||f.fileSize;
 
+ // =========== image Size Check and ajax function ========== //
+
+      if(fsize <=2048000){
+
+         form_data.append("file", document.getElementById('<?=$num?>1').files[0]);
+         $.ajax({
+                  url:"action/variantuploadimg1.php",
+                  method:"POST",
+                  data: form_data,
+                  contentType: false,
+                  cache: false,
+                  processData: false,
+                  beforeSend:function(){
+
+                // ====== Loader ====== //
+                    $('#<?=$num?>11').html('<img src="assets/img/loading.gif" class="img-responsive">');
+                  },   
+                  success:function(data)
+                  {
+                   $('#<?=$num?>11').html(data);
+                   
+                  }
+         });
+
+      }else{
+
+        $('#<?=$num?>11').html('<label class="text-danger">Sorry!Image Size is greater than 2MB</label>');
+      }
+
+ // =========== End image Size Check and ajax function ========== //
+
+ });
+});
+$(document).ready(function(){
+ $(document).on('change', '#<?=$num?>2', function(){
+  var name = document.getElementById("<?=$num?>2").files[0].name;
+  var form_data = new FormData();
+  var ext = name.split('.').pop().toLowerCase();
+  if(jQuery.inArray(ext, ['gif','png','jpg','jpeg']) == -1) 
+  {
+   alert("Invalid Image File");
+  }
+  var oFReader = new FileReader();
+  oFReader.readAsDataURL(document.getElementById("<?=$num?>2").files[0]);
+  var f = document.getElementById("<?=$num?>2").files[0];
+  var fsize = f.size||f.fileSize;
+
+ // =========== image Size Check and ajax function ========== //
+
+      if (fsize <= 2048000) {
+          form_data.append("file", document.getElementById('<?=$num?>2').files[0]);
+           $.ajax({
+                    url:"action/variantuploadimg2.php",
+                    method:"POST",
+                    data: form_data,
+                    contentType: false,
+                    cache: false,
+                    processData: false,
+                    beforeSend:function(){
+                     
+                     // ============== Loader ========= //
+                      $('#<?=$num?>12').html('<img src="assets/img/loading.gif" class="img-responsive">')
+                    },  
+                    success:function(data)
+                    {
+                      $('#<?=$num?>12').html(data);
+                    }
+           });
+    }else{
+
+        $('#<?=$num?>12').html('<label class="text-danger">Sorry!Image Size is greater than 2MB</label>');
+    }
+
+ // =========== End image Size Check and ajax function ========== //
+
+ });
+});
+$(document).ready(function(){
+ $(document).on('change', '#<?=$num?>3', function(){
+  var name = document.getElementById("<?=$num?>3").files[0].name;
+  var form_data = new FormData();
+  var ext = name.split('.').pop().toLowerCase();
+  if(jQuery.inArray(ext, ['gif','png','jpg','jpeg']) == -1) 
+  {
+   alert("Invalid Image File");
+  }
+  var oFReader = new FileReader();
+  oFReader.readAsDataURL(document.getElementById("<?=$num?>3").files[0]);
+  var f = document.getElementById("<?=$num?>3").files[0];
+  var fsize = f.size||f.fileSize;
+
+ // =========== image Size Check and ajax function ========== //
+
+      if (fsize <= 2048000) {
+
+          form_data.append("file", document.getElementById('<?=$num?>3').files[0]);
+           $.ajax({
+                  url:"action/variantuploadimg3.php",
+                  method:"POST",
+                  data: form_data,
+                  contentType: false,
+                  cache: false,
+                  processData: false,
+                  beforeSend:function(){
+
+                    // ========== Image Loader =========== //
+
+                    $('#<?=$num?>13').html('<img src="assets/img/loading.gif" class=img-responsive>')
+                  },   
+                  success:function(data)
+                  {
+                    $('#<?=$num?>13').html(data);
+                  }
+           });
+
+      }else{
+
+          $('#<?=$num?>13').html('<label class="text-danger">Sorry! Image Size is greater than 2MB</label>');
+      }
+
+ // =========== End image Size Check and ajax function ========== //      
+ });
+});
+$(document).ready(function(){
+ $(document).on('change', '#<?=$num?>4', function(){
+  var name = document.getElementById("<?=$num?>4").files[0].name;
+  var form_data = new FormData();
+  var ext = name.split('.').pop().toLowerCase();
+  if(jQuery.inArray(ext, ['gif','png','jpg','jpeg']) == -1) 
+  {
+   alert("Invalid Image File");
+  }
+  var oFReader = new FileReader();
+  oFReader.readAsDataURL(document.getElementById("<?=$num?>4").files[0]);
+  var f = document.getElementById("<?=$num?>4").files[0];
+  var fsize = f.size||f.fileSize;
+
+// ====== image size check and ajax function ============= //
+
+      if (fsize <= 2048000) {
+
+           form_data.append("file", document.getElementById('<?=$num?>4').files[0]);
+             $.ajax({
+                      url:"action/variantuploadimg4.php",
+                      method:"POST",
+                      data: form_data,
+                      contentType: false,
+                      cache: false,
+                      processData: false,
+                      beforeSend:function(){
+
+                        // =========== Image Loader ======== //
+
+                        $('#<?=$num?>14').html('<img src="assets/img/loading.gif" class="img-responsive">')
+
+                      },   
+                      success:function(data)
+                      {
+                        $('#<?=$num?>14').html(data);
+                      }
+             });
+
+      }else{
+
+              $('#<?=$num?>14').html('<label class="text-danger">Sorry!Image Size is greater than 2MB</label>');
+      }
+ // =========== End image Size Check and ajax function ========== //       
+ });
+});
+</script>
                              <?php  } ?> 
                           </div>  
                           <div class="form-group row">
@@ -498,18 +849,26 @@ foreach ($_POST['vi_id'] as $key => $vImageid) {
                                   </div>
                                 </div>
                             </div> 
-                            <div class="col-md-4">
+                            <!-- <div class="col-md-4">
                                 <div class="pretty p-switch">
                                   <input type="checkbox" value="Y" name="approved" <?php if($approved == 'Y'){ ?> checked <?php }?>  />
                                   <div class="state p-warning">
                                       <label>Product Approved</label>
                                   </div>
                                 </div>
-                            </div> 
+                            </div> --> 
                           </div>
                         </div>
+                        <input type="hidden" name="action" id="action">
                         <div class="card-footer text-right">
-                          <button class="btn btn-warning" type="submit" name="update-product">Submit</button>
+                          <?php if($approved == 'N'){ ?>
+                          <input type="button" class="btn btn-primary" type="submit" name="reject-product" onclick="rejectSubmit()" value="Reject your Product">  
+                          <input type="button" class="btn btn-danger" type="submit" name="acceptproduct" onclick="formSubmit()" value="Approve your Product">
+                        <?php }else{?>
+                          <input type="button" class="btn btn-info" type="submit" name="update-product" value="Product is approved">
+                        <?php } ?>
+                          <input type="button" class="btn btn-warning" type="submit" name="update-product" onclick="submitBtn()" value="Submit"></button>
+                        
                         </div>
                       </form>  
                     </div>
@@ -575,6 +934,22 @@ foreach ($_POST['vi_id'] as $key => $vImageid) {
   <!-- Page Specific JS File -->
   <script src="assets/js/page/toastr.js"></script>
 <script>
+function submitBtn(){
+
+  $('#action').val('saveproduct');
+  $('#productForm').submit();
+}
+function formSubmit(){
+
+    $('#action').val('acceptproduct');
+    $('#productForm').submit();
+
+}
+function rejectSubmit(){
+
+  $('#action').val('rejectproduct');
+    $('#productForm').submit();
+}
     ///////-----------------Brands Add Function ------------////////
 
     function saveBrands(){
@@ -765,201 +1140,3 @@ foreach ($_POST['vi_id'] as $key => $vImageid) {
     // });
 
 </script>
-<script>
-  <?php 
-    $sql   = "SELECT * from product_variant_images WHERE product_id='$product_id'";
-    $query = mysqli_query($con,$sql);
-    while ( $imageRes = mysqli_fetch_array($query)) {
-        
-          $image1                = $imageRes['image1'];
-          $image2                = $imageRes['image2'];
-          $image3                = $imageRes['image3'];
-          $image4                = $imageRes['image4'];
-          $id                    = $imageRes['id'];
-          $num=rand();
-     ?>
-$(document).ready(function(){
- $(document).on('change', '#<?=$num?>1', function(){
-  var name = document.getElementById("<?=$num?>1").files[0].name;
-  var form_data = new FormData();
-  var ext = name.split('.').pop().toLowerCase();
-  if(jQuery.inArray(ext, ['gif','png','jpg','jpeg']) == -1) 
-  {
-   alert("Invalid Image File");
-  }
-  var oFReader = new FileReader();
-  oFReader.readAsDataURL(document.getElementById("<?=$num?>1").files[0]);
-  var f = document.getElementById("<?=$num?>1").files[0];
-  var fsize = f.size||f.fileSize;
-
- // =========== image Size Check and ajax function ========== //
-
-      if(fsize <=2048000){
-
-         form_data.append("file", document.getElementById('<?=$num?>1').files[0]);
-         $.ajax({
-                  url:"action/variantuploadimg1.php",
-                  method:"POST",
-                  data: form_data,
-                  contentType: false,
-                  cache: false,
-                  processData: false,
-                  beforeSend:function(){
-
-                // ====== Loader ====== //
-                    $('#<?=$num?>11').html('<img src="assets/img/loading.gif" class="img-responsive">');
-                  },   
-                  success:function(data)
-                  {
-                   $('#<?=$num?>11').html(data);
-                   
-                  }
-         });
-
-      }else{
-
-        $('#<?=$num?>11').html('<label class="text-danger">Sorry!Image Size is greater than 2MB</label>');
-      }
-
- // =========== End image Size Check and ajax function ========== //
-
- });
-});
-$(document).ready(function(){
- $(document).on('change', '#<?=$num?>2', function(){
-  var name = document.getElementById("<?=$num?>2").files[0].name;
-  var form_data = new FormData();
-  var ext = name.split('.').pop().toLowerCase();
-  if(jQuery.inArray(ext, ['gif','png','jpg','jpeg']) == -1) 
-  {
-   alert("Invalid Image File");
-  }
-  var oFReader = new FileReader();
-  oFReader.readAsDataURL(document.getElementById("<?=$num?>2").files[0]);
-  var f = document.getElementById("<?=$num?>2").files[0];
-  var fsize = f.size||f.fileSize;
-
- // =========== image Size Check and ajax function ========== //
-
-      if (fsize <= 2048000) {
-          form_data.append("file", document.getElementById('<?=$num?>2').files[0]);
-           $.ajax({
-                    url:"action/variantuploadimg2.php",
-                    method:"POST",
-                    data: form_data,
-                    contentType: false,
-                    cache: false,
-                    processData: false,
-                    beforeSend:function(){
-                     
-                     // ============== Loader ========= //
-                      $('#<?=$num?>12').html('<img src="assets/img/loading.gif" class="img-responsive">')
-                    },  
-                    success:function(data)
-                    {
-                      $('#<?=$num?>12').html(data);
-                    }
-           });
-    }else{
-
-        $('#<?=$num?>12').html('<label class="text-danger">Sorry!Image Size is greater than 2MB</label>');
-    }
-
- // =========== End image Size Check and ajax function ========== //
-
- });
-});
-$(document).ready(function(){
- $(document).on('change', '#<?=$num?>3', function(){
-  var name = document.getElementById("<?=$num?>3").files[0].name;
-  var form_data = new FormData();
-  var ext = name.split('.').pop().toLowerCase();
-  if(jQuery.inArray(ext, ['gif','png','jpg','jpeg']) == -1) 
-  {
-   alert("Invalid Image File");
-  }
-  var oFReader = new FileReader();
-  oFReader.readAsDataURL(document.getElementById("<?=$num?>3").files[0]);
-  var f = document.getElementById("<?=$num?>3").files[0];
-  var fsize = f.size||f.fileSize;
-
- // =========== image Size Check and ajax function ========== //
-
-      if (fsize <= 2048000) {
-
-          form_data.append("file", document.getElementById('<?=$num?>3').files[0]);
-           $.ajax({
-                  url:"action/variantuploadimg3.php",
-                  method:"POST",
-                  data: form_data,
-                  contentType: false,
-                  cache: false,
-                  processData: false,
-                  beforeSend:function(){
-
-                    // ========== Image Loader =========== //
-
-                    $('#<?=$num?>13').html('<img src="assets/img/loading.gif" class=img-responsive>')
-                  },   
-                  success:function(data)
-                  {
-                    $('#<?=$num?>13').html(data);
-                  }
-           });
-
-      }else{
-
-          $('#<?=$num?>13').html('<label class="text-danger">Sorry! Image Size is greater than 2MB</label>');
-      }
-
- // =========== End image Size Check and ajax function ========== //      
- });
-});
-$(document).ready(function(){
- $(document).on('change', '#<?=$num?>4', function(){
-  var name = document.getElementById("<?=$num?>4").files[0].name;
-  var form_data = new FormData();
-  var ext = name.split('.').pop().toLowerCase();
-  if(jQuery.inArray(ext, ['gif','png','jpg','jpeg']) == -1) 
-  {
-   alert("Invalid Image File");
-  }
-  var oFReader = new FileReader();
-  oFReader.readAsDataURL(document.getElementById("<?=$num?>4").files[0]);
-  var f = document.getElementById("<?=$num?>4").files[0];
-  var fsize = f.size||f.fileSize;
-
-// ====== image size check and ajax function ============= //
-
-      if (fsize <= 2048000) {
-
-           form_data.append("file", document.getElementById('<?=$num?>4').files[0]);
-             $.ajax({
-                      url:"action/variantuploadimg4.php",
-                      method:"POST",
-                      data: form_data,
-                      contentType: false,
-                      cache: false,
-                      processData: false,
-                      beforeSend:function(){
-
-                        // =========== Image Loader ======== //
-
-                        $('#<?=$num?>14').html('<img src="assets/img/loading.gif" class="img-responsive">')
-
-                      },   
-                      success:function(data)
-                      {
-                        $('#<?=$num?>14').html(data);
-                      }
-             });
-
-      }else{
-
-              $('#<?=$num?>14').html('<label class="text-danger">Sorry!Image Size is greater than 2MB</label>');
-      }
- // =========== End image Size Check and ajax function ========== //       
- });
-});
-<?php } ?>
-</script> 

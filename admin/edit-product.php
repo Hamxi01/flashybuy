@@ -40,7 +40,7 @@ if (isset($_GET['id']) && isset($_GET['sku'])) {
         $keyword               = explode(',',$keyword);
   }
 }
-if (isset($_POST['update-product'])) {
+if (isset($_POST['action']) && $_POST['action'] == 'saveproduct') {
 
   $product_id                      =     addslashes($_POST['id']);
   $name                            =     addslashes($_POST['name']);
@@ -61,13 +61,78 @@ if (isset($_POST['update-product'])) {
   $length                          =     addslashes($_POST['length']);
   $courier_size                    =     addslashes($_POST['courier_size']);
   $warranty                        =     addslashes($_POST['warranty']);
-  if (isset($_POST['approved'])) {
+  
+ 
+  if (isset($_POST['exclusive'])) {
       
-      $approved = $_POST['approved'];
+      $exclusive = $_POST['exclusive'];
   }else{
 
-    $approved = 'N';
+    $exclusive = 'N';
   }
+  // $courier_size                 =     $_POST['courier_size'];
+  $description                     =     addslashes($_POST['description']);
+  $sku                             =     str_replace(" ","-", $name);
+  $image1                          =     $_POST['image1'];
+  $image2                          =     $_POST['image2'];
+  $image3                          =     $_POST['image3'];
+  $image4                          =     $_POST['image4'];
+
+
+
+     $query = "update products SET name='".$name."',cat_id='".$category_id."',sub_cat_id='".$subcategory_id."',sub_sub_cat_id='".$subsubcategory_id."',brand='".$brand."',quantity='".$quantity."',market_price='".$market_price."',selling_price='".$selling_price."',length='".$length."',width='".$width."',height='".$height."',keyword='".$keyword."',sku='".$sku."',description='".$description."',image1='".$image1."',image2='".$image2."',image3='".$image3."',image4='".$image4."',exclusive='".$exclusive."',courier_size='".$courier_size."',warranty='".$warranty."' Where product_id='".$product_id."'";
+     ///// Check product is already in vendors products or not////
+
+      $vpSql   = "SELECT * from vendor_product where prod_id = '$product_id'  AND ven_id='$ven_id'";
+      $vpQuery = mysqli_query($con,$vpSql);
+      $vpRows  = mysqli_num_rows($vpQuery);
+
+      if ($vpRows>0) {
+            
+        $approvquery = "update vendor_product SET quantity='".$quantity."',price='".$selling_price."',mk_price='".$market_price."' where prod_id ='".$product_id."' AND ven_id ='".$ven_id."'";
+        mysqli_query($con,$approvquery);
+
+      }else{
+
+        $approvquery = "INSERT into vendor_product (prod_id,ven_id,quantity,price,mk_price) VALUES ('$product_id','$ven_id','$quantity','$selling_price','$market_price')";
+        mysqli_query($con,$approvquery);
+      }
+  //----- Vendor product update and insert new data end ----////////////
+
+     if (mysqli_query($con,$query)){
+
+            echo "<script>window.location.assign('product.php');</script>";
+    }else{
+
+      echo "EROOR";
+    }
+}
+
+if (isset($_POST['action']) && $_POST['action'] == 'acceptproduct') {
+
+  $product_id                      =     addslashes($_POST['id']);
+  $name                            =     addslashes($_POST['name']);
+  $category_id                     =     addslashes($_POST['cat_id']);
+  $subcategory_id                  =     addslashes($_POST['sub_cat_id']);
+  $subsubcategory_id               =     addslashes($_POST['sub_sub_cat_id']);
+  $brand                           =     addslashes($_POST['brand']);
+  foreach ($_POST['keyword'] as $key => $value) {
+            
+    $keyword     =  implode(',' , $_POST['keyword']);
+
+  }
+  $market_price                    =     addslashes($_POST['market_price']);  
+  $selling_price                   =     addslashes($_POST['selling_price']);
+  $quantity                        =     addslashes($_POST['quantity']);
+  $width                           =     addslashes($_POST['width']);
+  $height                          =     addslashes($_POST['height']);
+  $length                          =     addslashes($_POST['length']);
+  $courier_size                    =     addslashes($_POST['courier_size']);
+  $warranty                        =     addslashes($_POST['warranty']);
+  
+
+    $approved = 'Y';
+  
  
   if (isset($_POST['exclusive'])) {
       
@@ -112,7 +177,78 @@ if (isset($_POST['update-product'])) {
 
       echo "EROOR";
     }
-}  
+} 
+
+if (isset($_POST['action']) && $_POST['action'] == 'rejectproduct') {
+
+  $product_id                      =     addslashes($_POST['id']);
+  $name                            =     addslashes($_POST['name']);
+  $category_id                     =     addslashes($_POST['cat_id']);
+  $subcategory_id                  =     addslashes($_POST['sub_cat_id']);
+  $subsubcategory_id               =     addslashes($_POST['sub_sub_cat_id']);
+  $brand                           =     addslashes($_POST['brand']);
+  foreach ($_POST['keyword'] as $key => $value) {
+            
+    $keyword     =  implode(',' , $_POST['keyword']);
+
+  }
+  $market_price                    =     addslashes($_POST['market_price']);  
+  $selling_price                   =     addslashes($_POST['selling_price']);
+  $quantity                        =     addslashes($_POST['quantity']);
+  $width                           =     addslashes($_POST['width']);
+  $height                          =     addslashes($_POST['height']);
+  $length                          =     addslashes($_POST['length']);
+  $courier_size                    =     addslashes($_POST['courier_size']);
+  $warranty                        =     addslashes($_POST['warranty']);
+  
+
+    $approved = 'N';
+  
+ 
+  if (isset($_POST['exclusive'])) {
+      
+      $exclusive = $_POST['exclusive'];
+  }else{
+
+    $exclusive = 'N';
+  }
+  // $courier_size                 =     $_POST['courier_size'];
+  $description                     =     addslashes($_POST['description']);
+  $sku                             =     str_replace(" ","-", $name);
+  $image1                          =     $_POST['image1'];
+  $image2                          =     $_POST['image2'];
+  $image3                          =     $_POST['image3'];
+  $image4                          =     $_POST['image4'];
+
+
+
+     $query = "update products SET name='".$name."',cat_id='".$category_id."',sub_cat_id='".$subcategory_id."',sub_sub_cat_id='".$subsubcategory_id."',brand='".$brand."',quantity='".$quantity."',market_price='".$market_price."',selling_price='".$selling_price."',length='".$length."',width='".$width."',height='".$height."',keyword='".$keyword."',sku='".$sku."',description='".$description."',image1='".$image1."',image2='".$image2."',image3='".$image3."',image4='".$image4."',approved='".$approved."',exclusive='".$exclusive."',courier_size='".$courier_size."',warranty='".$warranty."' Where product_id='".$product_id."'";
+     ///// Check product is already in vendors products or not////
+
+      $vpSql   = "SELECT * from vendor_product where prod_id = '$product_id'  AND ven_id='$ven_id'";
+      $vpQuery = mysqli_query($con,$vpSql);
+      $vpRows  = mysqli_num_rows($vpQuery);
+
+      if ($vpRows>0) {
+            
+        $approvquery = "update vendor_product SET quantity='".$quantity."',price='".$selling_price."',mk_price='".$market_price."',active='".$approved."' where prod_id ='".$product_id."' AND ven_id ='".$ven_id."'";
+        mysqli_query($con,$approvquery);
+
+      }else{
+
+        $approvquery = "INSERT into vendor_product (prod_id,ven_id,quantity,price,mk_price,active) VALUES ('$product_id','$ven_id','$quantity','$selling_price','$market_price','$approved')";
+        mysqli_query($con,$approvquery);
+      }
+  //----- Vendor product update and insert new data end ----////////////
+
+     if (mysqli_query($con,$query)){
+
+            echo "<script>window.location.assign('product.php');</script>";
+    }else{
+
+      echo "EROOR";
+    }
+}
 ?>
       <!-- Main Content -->
       <div class="main-content">
@@ -122,7 +258,7 @@ if (isset($_POST['update-product'])) {
               <div class="col-md-10 offset-md-1">
                 
                     <div class="card">
-                      <form class="needs-validation" novalidate="" method="post" action="" enctype="multipart/form-data">
+                      <form class="needs-validation" novalidate="" method="post" action="" enctype="multipart/form-data" id="productForm">
                         <div class="card-header">
                           <h4>Edit Your Products</h4>
                         </div>
@@ -137,6 +273,7 @@ if (isset($_POST['update-product'])) {
                                 </div>
                             </div>
                           </div>  
+                          <input type="hidden" name="action" id="action">
                           <div class="form-group row">
                             <div class="col-md-4">
                               <div class="form-group">
@@ -404,19 +541,17 @@ if (isset($_POST['update-product'])) {
                                   </div>
                                 </div>
                             </div> 
-                            <div class="col-md-4">
-                                <div class="pretty p-switch">
-                                  <input type="checkbox" value="Y" name="approved" id="approved" <?php if($approved == 'Y'){ ?> checked <?php }?>  />
-                                  <div class="state p-warning">
-                                      <label>Approved</label>
-                                  </div>
-                                </div>
-                            </div>
                             <div class="col-md-2"></div>   
                           </div>
                         </div>
                         <div class="card-footer text-right">
-                          <button class="btn btn-warning" type="submit" name="update-product">Submit</button>
+                          <?php if($approved == 'N'){ ?>
+                          <input type="button" class="btn btn-primary" type="submit" name="reject-product" onclick="rejectSubmit()" value="Reject your Product">  
+                          <input type="button" class="btn btn-danger" type="submit" name="acceptproduct" onclick="formSubmit()" value="Approve your Product">
+                        <?php }else{?>
+                          <input type="button" class="btn btn-info" type="submit" name="update-product" value="Product is approved">
+                        <?php } ?>
+                          <input type="button" class="btn btn-warning" type="submit" name="update-product" onclick="submitBtn()" value="Submit"></button>
                         </div>
                       </form>  
                     </div>
@@ -482,6 +617,22 @@ if (isset($_POST['update-product'])) {
   <!-- Page Specific JS File -->
   <script src="assets/js/page/toastr.js"></script>
 <script>
+  function submitBtn(){
+
+  $('#action').val('saveproduct');
+  $('#productForm').submit();
+}
+function formSubmit(){
+
+    $('#action').val('acceptproduct');
+    $('#productForm').submit();
+
+}
+function rejectSubmit(){
+
+  $('#action').val('rejectproduct');
+    $('#productForm').submit();
+}
     ///////-----------------Brands Add Function ------------////////
 
     function saveBrands(){
