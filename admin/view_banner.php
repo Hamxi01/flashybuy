@@ -1,6 +1,7 @@
 <?php
-include('include/header.php');
-include('include/nav.php'); 
+include('../includes/db.php'); 
+include('includes/header.php');
+include('includes/sidebar.php');
  ?>
  <style>
    .switch {
@@ -118,8 +119,7 @@ input:checked + .slider:before {
         </section>
 
       </div>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>  
-<?php include('include/footer.php');?>      
+<?php include('includes/footer.php');?>      
 <script>
     $(document).ready(function(){
         $('.ck').change(function(){

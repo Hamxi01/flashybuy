@@ -1,7 +1,8 @@
 <?php
    $id = $_GET['id'];
-   include('include/header.php'); 
-   include('include/nav.php');
+   include('../includes/db.php'); 
+   include('includes/header.php');
+   include('includes/sidebar.php');
    $query = mysqli_query($con,"select * from tbl_slider where id = $id");
    $row = mysqli_fetch_array($query);
    ?>
@@ -207,10 +208,6 @@
       </div>
 
 
-
-
-
-
 </div>
 </section>
 
@@ -276,4 +273,4 @@
         readURL(this);
     });
 </script>
-<?php include('include/footer.php'); ?>
+<?php include('includes/footer.php'); ?>

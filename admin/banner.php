@@ -1,7 +1,8 @@
 <?php
    $id = $_GET['id'];
-include('include/header.php'); 
-include('include/nav.php');
+   include('../includes/db.php'); 
+   include('includes/header.php');
+   include('includes/sidebar.php');
 $query = mysqli_query($con,"select * from tbl_banner where id = $id");
 while($row = mysqli_fetch_assoc($query)){
 
@@ -83,13 +84,15 @@ input:checked + .slider:before {
                 <div class="card">
                   <form method="post" action="actions/banner.php" enctype="multipart/form-data" autocomplete="off">
                   <div class="card-header">
-                    <h4>Banner Management</h4>
+                    <h4>Banner Size Width: <?= $row['width'];?> &  Height: <?= $row['height'];?></h4>
                   </div>
                   <div class="card-body">
                     <div class="form-group row mb-4">
                     <input type="hidden" name="id" value="<?php echo $row['id'] ?>">
                       <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Title</label>
                       <div class="col-sm-12 col-md-7">
+                      <input type="hidden"  name="width"  value="<?php echo $row['width'] ?>"  >
+                      <input type="hidden"  name="height"  value="<?php echo $row['height'] ?>" >
                         <input type="text" placeholder="Enter Title" name="title"  value="<?php echo $row['title'] ?>"  class="form-control">
                       </div>  
                     </div>
@@ -300,4 +303,4 @@ $('#sunday').on('change', function(){
         readUR1L(this);
     });
 </script>
-      <?php include('include/footer.php'); ?>
+      <?php include('includes/footer.php'); ?>

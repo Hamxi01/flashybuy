@@ -120,7 +120,12 @@ data-c_id='".$fetch[0]."'name='chk_status'>
                         ?>
                         <tbody>
                             <tr>
-                              <td class="text-center"><?php echo $fetch[3]?></td>
+                            <td class="text-center"><?php if($fetch[3] == '0'){
+                                echo 'No Order';
+                                }
+                                else{
+                                  echo $fetch[3];
+                                }?></td>
                               <td class="text-center"><?php echo $fetch[1] ?></td>
                               <td class="text-center"><img src="../img/crousel/800_<?php echo $fetch[4] ?>"></td>
                              <td><?=$status?></td>
@@ -145,7 +150,7 @@ data-c_id='".$fetch[0]."'name='chk_status'>
         </section>
 
       </div>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>  
+    
 <?php include('includes/footer.php');?>      
 <script>
     $(document).ready(function(){

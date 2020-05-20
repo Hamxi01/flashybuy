@@ -43,11 +43,11 @@
               <ul class="dropdown-menu">
                 <li><a class="nav-link" href="view_crousel.php">Main Banners</a></li>
                 <li><a class="nav-link" href="view_banner.php">Banner</a></li>
-                <li><a class="nav-link" href="view_social.php">Social Media</a></li>
+                <!-- <li><a class="nav-link" href="view_social.php">Social Media</a></li>
                 <li><a class="nav-link" href="signup_page_content.php">Signup Form Content</a></li>
                 
-                <li><a class="nav-link" href="manage_footer.php">Footer</a></li>
-              </ul>
+                <li><a class="nav-link" href="manage_footer.php">Footer</a></li>-->
+              </ul> 
             </li>
           </ul>
         </aside>
