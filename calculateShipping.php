@@ -81,7 +81,7 @@ $shippingPrice =0;
 
                                  if( $tProducts == $productsT){
                                      
-                                    if( $tweight  > 35 ){
+                                    if( $tweight  > 50 ){
 
                                           $total_weight_counted = $tweight;
                                           while($x <= $tweight ) {
@@ -120,25 +120,25 @@ $shippingPrice =0;
                                                 $weightChrg_all = $courWArr[35];
                                                 $weightCounted = 35; 
                                              }
-                                             // elseif( $total_weight_counted <= 40 ){
-                                             //    $set_wait = 40;
-                                             //    $weightChrg_all = $courWArr[40];
-                                             //    $weightCounted = 40; 
-                                             // }
-                                             // elseif( $total_weight_counted <= 45 ){
-                                             //    $set_wait = 45;
-                                             //    $weightChrg_all = $courWArr[45];
-                                             //    $weightCounted = 45; 
-                                             // }
-                                             // elseif( $total_weight_counted <= 50 ){
-                                             //    $set_wait = 50;
-                                             //    $weightChrg_all = $courWArr[50];
-                                             //    $weightCounted = 50; 
-                                             // }
+                                             elseif( $total_weight_counted <= 40 ){
+                                                $set_wait = 40;
+                                                $weightChrg_all = $courWArr[40];
+                                                $weightCounted = 40; 
+                                             }
+                                             elseif( $total_weight_counted <= 45 ){
+                                                $set_wait = 45;
+                                                $weightChrg_all = $courWArr[45];
+                                                $weightCounted = 45; 
+                                             }
+                                             elseif( $total_weight_counted <= 50 ){
+                                                $set_wait = 50;
+                                                $weightChrg_all = $courWArr[50];
+                                                $weightCounted = 50; 
+                                             }
                                              else{
-                                                $set_wait = 35;
-                                                $weightChrg_all = $courWArr[35];
-                                                $weightCounted = 35; 
+                                                $set_wait = 50;
+                                                $weightChrg_all = $courWArr[50];
+                                                $weightCounted = 50; 
                                              }
                                              
                                              $t_w_ct               = $weightCounted;
@@ -171,15 +171,15 @@ $shippingPrice =0;
                                        elseif( $tweight <= 35 ){
                                           $weightChrg = $courWArr[35];
                                        }
-                                       // elseif( $tweight <= 40 ){
-                                       //    $weightChrg = $courWArr[40];
-                                       // }
-                                       // elseif( $tweight <= 45 ){
-                                       //    $weightChrg = $courWArr[45];
-                                       // }
-                                       // elseif( $tweight <= 50 ){
-                                       //    $weightChrg = $courWArr[50];
-                                       // }
+                                       elseif( $tweight <= 40 ){
+                                          $weightChrg = $courWArr[40];
+                                       }
+                                       elseif( $tweight <= 45 ){
+                                          $weightChrg = $courWArr[45];
+                                       }
+                                       elseif( $tweight <= 50 ){
+                                          $weightChrg = $courWArr[50];
+                                       }
                                     }
                                  $totalDeliveryPrice += ($weightChrg+$total_amount_charged );
                                    
