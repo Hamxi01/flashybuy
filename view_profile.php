@@ -1,5 +1,6 @@
-<?php include('include/hader.php') ;
-	  include('include/nav.php');
+<?php 
+     include('includes/db.php');
+     include('includes/head.php');
 ?>
 
  <div class="content-page">
@@ -279,4 +280,4 @@
 
             </div>
 
-<?php include('include/nav.php') ?>
+<?php include('includes/footer.php') ?>

@@ -1,14 +1,12 @@
 <?php include('includes/db.php') ?>
 <?php include('includes/head.php') ?>
 <?php 
-    if(isset($_SESSION['name'])){
+    if(isset($_GET['id'])){
         
-    }else{
-      header("location: login.php");
+        $orderId = $_GET['id'];
     }
-
-
 ?>
+
 <style type="text/css">
     .td-custom{
 
@@ -90,7 +88,7 @@
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
                     
                     <div class="ps-block--shopping-total">
-                        <h3><b>Your order Submitted successfully!</b></h3><br>
+                        <h3><b>Your order <?=$orderId?> Submitted successfully!</b></h3><br>
                     </div>
                 </div>  
             </div>

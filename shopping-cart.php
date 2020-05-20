@@ -1,12 +1,12 @@
 <?php include('includes/db.php') ?>
-<?php include('includes/head.php') ?>
-<?php include('includes/courier_Packages.php'); ?>
-<?php include('includes/cart_vendorPackges.php') ?>
+<?php require('includes/head.php') ?>
+<?php require('includes/courier_Packages.php'); ?>
+<?php require('includes/cart_vendorPackges.php') ?>
 <?php 
     if(isset($_SESSION['name'])){
         
     }else{
-      header("location: login.php");
+      header("Location: login.php");
     }
 
 
@@ -15,11 +15,12 @@
 <!-- Submit Order new -->
 
 <?php 
+$totalDeliveryPrice = [];
 if (isset($_POST['action']) && $_POST['action'] == 'submit_order') {
 
     $digits = 6;
     $order_ids = rand(pow(10, $digits-1), pow(10, $digits)-1);
-    $order_ids = "OR".$order_ids;
+    $order_ids = "OR-".$order_ids;
     
     $totalOrderPrice          = $_POST['total_order_price'];
     $totalOrderShippingPrice  = $_POST['total_shipping_price'];
@@ -34,6 +35,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'submit_order') {
     $state                  =   mysqli_real_escape_string($con,$rU['state']);
     $subrub                 =   mysqli_real_escape_string($con,$rU['subrub']);
     $zip_code               =   mysqli_real_escape_string($con,$rU['zip_code']);
+
 
         $user_id = $user_id = $_SESSION['id'];
         $sL   = " SELECT * FROM customers WHERE id = '$user_id' ";
@@ -73,9 +75,10 @@ if (isset($_POST['action']) && $_POST['action'] == 'submit_order') {
                 $cartArr[$ven_id][$cartProducts["v_p_id"]]["order_delivery_date"]   = $sV["dispatched_days"];
                 
             }
-            foreach($cartArr as $data){
-                $i = 1;
-                foreach( $data as $dt){
+
+            foreach($cartArr as $key => $data){
+                $a = 1;
+                foreach( $data as  $dt){
                     
                     
 
@@ -93,108 +96,195 @@ if (isset($_POST['action']) && $_POST['action'] == 'submit_order') {
                     $order_prod_img     = $dt["image"];
                     $ven_price          = $dt["ven_price"];
                     
-                    
+                    $date = date("d-m-Y")." ".date("h:i:sa");
                     
                     $order_pay_price    = $order_price;
                     
 
-                    $order_delivery_date    = (time()+((2+2)*86400));
+                    $order_delivery_date    = $dt["order_delivery_date"];
                     
                     $order_token        = $order_ids.'-'.$order_prod_id;
                     
                 
                     
-                    
-                    $pW           = "SELECT courier_size,width,height,length FROM products where product_id='$order_prod_id'"; 
-                    $sPW          = mysqli_query( $con , $pW );
-                    $rPW          = mysqli_fetch_array( $sPW );
-                    $width        = $rPW['width']; 
-                    $height       = $rPW['height'];
-                    $length       = $rPW['length'];
-                    $courier_size = $rPW['courier_size'];
+                    $vendorPackges = vendorPackges('vendor',$_SESSION['product_cart'],$con);
 
-                    $shippingPrice =0;
-                    $weightChrg = 0;
-                    $weightExtraItem = '';
-                    $csql = mysqli_query($con,"SELECT courier_permission FROM vendor where id='$order_vendor_id'");
-                    while ($cpres = mysqli_fetch_array($csql)) {
-                     
-                        $courier_permission = $cpres['courier_permission'];
-                    }
-                    if ($courier_permission == 'Y') {
-                     
-                        $shipSql = mysqli_query($con,"SELECT price FROM vendor_courier_sizes where size='$courier_size' AND city ='$city' AND vendor_id ='$order_vendor_id'");
-
-                        $shippPrice     = mysqli_fetch_array($shipSql);
-
-                        $shippingPrice  = $shippPrice[0];
-                    }
-                    else{
-
-                        $dimension    = ($width*$height*$length);
-                        $wg           = ($dimension)/5000;
-                        $weightExtraItem  = '';
+                    $tquantity  = 0;
+                    $tPrice     = 0;
+                    $cart       = 0;
+                    $j          = 0;
+                    $ven_change = 0;
+                    $x =0;
+                    foreach ($vendorPackges as $index => $value) {
                         
-                            
-                        if( $wg <= 5 ){
-                            $weightChrg = $courWArr[5]; 
-                            if( $quantity > 1){
-                                $weightExtraItem = ( $quantity-1)*$courWEArr[5];
-                            }
-                            
-                            
-                        }elseif( $wg <= 10 ){
-                            $weightChrg = $courWArr[10];    
-                            if( $quantity > 1){
-                                $weightExtraItem = ( $quantity-1)*$courWEArr[10];
-                            }
-                        }
-                        elseif( $wg <= 15 ){
-                            $weightChrg = $courWArr[15];    
-                            if( $quantity > 1){
-                                $weightExtraItem = ( $quantity-1)*$courWEArr[15];
-                            }
-                        }
-                        elseif( $wg <= 20 ){
-                            $weightChrg = $courWArr[20];    
-                            if( $quantity > 1){
-                                $weightExtraItem = ( $quantity-1)*$courWEArr[20];
-                            }
-                        }
-                        elseif( $wg <= 25 ){
-                            $weightChrg = $courWArr[25];    
-                            if( $quantity > 1){
-                                $weightExtraItem = ( $quantity-1)*$courWEArr[25];
-                            }                       
-                        }
-                        elseif( $wg <= 30 ){
-                            $weightChrg = $courWArr[30];    
-                            if( $quantity > 1){
-                                $weightExtraItem = ( $quantity-1)*$courWEArr[30];
-                            }   
-                        }
-                        elseif( $wg <= 35 ){
-                            $weightChrg = $courWArr[35];    
-                            if( $quantity > 1){
-                                $weightExtraItem = ( $quantity-1)*$courWEArr[35];
-                            }   
-                        }else{
+                        $i = 1;
+                     $productsT = 0;
+                     $j++;
+                     $tweight = 0;
+                     $tProducts = count( $value  );
 
-                            $weightChrg = $courWArr[35];    
-                            if( $quantity > 1){
-                                $weightExtraItem = ( $quantity-1)*$courWEArr[35];
-                            }
+                        foreach ($value as $key => $data) {
+
+                            $productsT++;
+                        $cartProdArr[] = $data;
+                        $ven_change++;
+                            $cart        = 1;
+                            $product_id = $data['product_id'];
+                            $vendor_id  = $data['vendor_id'];
+                            $quantity   = $data['quantity'];
+                            
+                            $pcw = mysqli_query($con,"SELECT courier_size,width,height,length FROM products where product_id='$product_id'");
+                            
+                                    while ($pwRes = mysqli_fetch_array($pcw)) {
+                                        
+                                        $width        = $pwRes['width'];
+                                        $length       = $pwRes['length'];
+                                        $height       = $pwRes['height'];
+                                        $courier_size = $pwRes['courier_size'];
+
+                                    
+                                    }
+                              $csql = mysqli_query($con,"SELECT courier_permission FROM vendor where id='$vendor_id'");
+                              while ($cpres = mysqli_fetch_array($csql)) {
+                                 
+                                 $courier_permission = $cpres['courier_permission'];
+                              }
+                              if ($courier_permission == 'Y') {
+                                 
+                                 $shipSql = mysqli_query($con,"SELECT price FROM vendor_courier_sizes where size='$courier_size' AND city ='$city' AND vendor_id ='$vendor_id'");
+
+                                 $shippPrice         = mysqli_fetch_array($shipSql);
+
+                                 
+                                 $totalDeliveryPrice[$vendor_id] = $shippPrice[0];
+
+                              }
+                              else{
+
+                                 $dimension       = ($width*$height*$length);
+                                 $weightExtraItem = 0;
+                                 $weight          = ($dimension)/5000;
+                                 $tweight        += ($weight*$quantity);
+
+                                 $total_weight_counted = 0;
+                                 $total_amount_charged = 0;
+
+                                 if( $tProducts == $productsT){
+                                     
+                                    if( $tweight  > 50 ){
+
+                                          $total_weight_counted = $tweight;
+                                          while($x <= $tweight ) {
+                                                
+                                             if( $total_weight_counted <= 5 ){
+                                                $set_wait = 5;
+                                                $weightChrg_all = $courWArr[5];
+                                                $weightCounted = 5;
+                                                   
+                                             }elseif( $total_weight_counted <= 10 ){
+                                                $set_wait = 10;
+                                                $weightChrg_all = $courWArr[10]; 
+                                                $weightCounted = 10;
+                                             }
+                                             elseif( $total_weight_counted <= 15 ){
+                                                $set_wait = 15;
+                                                $weightChrg_all = $courWArr[15];
+                                                $weightCounted = 15;
+                                             }
+                                             elseif( $total_weight_counted <= 20 ){
+                                                $set_wait = 20;
+                                                $weightChrg_all = $courWArr[20]; 
+                                                $weightCounted = 20;       }
+                                             elseif( $total_weight_counted <= 25 ){
+                                                $set_wait = 25;
+                                                $weightChrg_all = $courWArr[25];
+                                                $weightCounted = 25;       
+                                             }
+                                             elseif( $total_weight_counted <= 30 ){
+                                                $set_wait = 30;
+                                                $weightChrg_all = $courWArr[30];
+                                                $weightCounted = 30;    
+                                             }
+                                             elseif( $total_weight_counted <= 35 ){
+                                                $set_wait = 35;
+                                                $weightChrg_all = $courWArr[35];
+                                                $weightCounted = 35; 
+                                             }
+                                             elseif( $total_weight_counted <= 40 ){
+                                                $set_wait = 40;
+                                                $weightChrg_all = $courWArr[40];
+                                                $weightCounted = 40; 
+                                             }
+                                             elseif( $total_weight_counted <= 45 ){
+                                                $set_wait = 45;
+                                                $weightChrg_all = $courWArr[45];
+                                                $weightCounted = 45; 
+                                             }
+                                             elseif( $total_weight_counted <= 50 ){
+                                                $set_wait = 50;
+                                                $weightChrg_all = $courWArr[50];
+                                                $weightCounted = 50; 
+                                             }
+                                             else{
+                                                $set_wait = 50;
+                                                $weightChrg_all = $courWArr[50];
+                                                $weightCounted = 50; 
+                                             }
+                                             
+                                             $t_w_ct               = $weightCounted;
+                                             $total_amount_charged += $weightChrg_all;
+                                             $total_weight_counted = ($total_weight_counted-$set_wait);
+                                             
+                                             $x += $t_w_ct;
+
+                                          }
+                                    }
+                                    else{
+         
+                                       if( $tweight <= 5 ){
+                                          $weightChrg = $courWArr[5];   
+                                       }elseif( $tweight <= 10 ){
+                                          $weightChrg = $courWArr[10];  
+                                       }
+                                       elseif( $tweight <= 15 ){
+                                          $weightChrg = $courWArr[15];
+                                       }
+                                       elseif( $tweight <= 20 ){
+                                          $weightChrg = $courWArr[20];           
+                                       }
+                                       elseif( $tweight <= 25 ){
+                                          $weightChrg = $courWArr[25];
+                                       }
+                                       elseif( $tweight <= 30 ){
+                                          $weightChrg = $courWArr[30];
+                                       }
+                                       elseif( $tweight <= 35 ){
+                                          $weightChrg = $courWArr[35];
+                                       }
+                                       elseif( $tweight <= 40 ){
+                                          $weightChrg = $courWArr[40];
+                                       }
+                                       elseif( $tweight <= 45 ){
+                                          $weightChrg = $courWArr[45];
+                                       }
+                                       elseif( $tweight <= 50 ){
+                                          $weightChrg = $courWArr[50];
+                                       }
+                                    }
+                                 $DeliveryPrice[$vendor_id] = ($weightChrg+$total_amount_charged);
+                                 
+                                  $totalDeliveryPrice = $totalDeliveryPrice + $DeliveryPrice; 
+                                 }
+                                 
+                              }
 
                         }
                     }
-                    
-                    $totalDeliveryPrice = (intval($weightChrg)+intval($weightExtraItem)+intval($shippingPrice)); 
-                    
-                    $order_price_exact         = $order_pay_price+$totalDeliveryPrice; 
-                    $total_order_price         = $order_pay_price+$totalDeliveryPrice;
+                    // print_r($totalDeliveryPrice);
+                    // return;
+                    $order_pay_price =  $order_price + $totalDeliveryPrice[$order_vendor_id];
 
-                   //courier_fees   
-                   $sO = " INSERT INTO orders SET time_id = UNIX_TIMESTAMP(),
+                   $sO = " INSERT INTO orders SET               time_id             = '$date',
                                                                 order_ids           = '$order_ids',
                                                                 order_user          = '$user_id',
                                                                 order_user_name     = '$name',
@@ -209,34 +299,32 @@ if (isset($_POST['action']) && $_POST['action'] == 'submit_order') {
                                                                 order_vendor_name   = '$order_vendor_name',
                                                                 order_delivery_date = '$order_delivery_date',
                                                                 quantity            = '$quantity',
-                                                                order_prod_name     = '$order_prod_name',
                                                                 order_prod_id       = '$order_prod_id',
                                                                 order_price         = '$order_price',
+                                                                order_pay_price     = '$order_pay_price',
                                                                 order_token         = '$order_token', 
-                                                                courier_fees        = '$totalDeliveryPrice',
-                                                                total_courier_price  = '$totalOrderShippingPrice',
-                                                                order_pay_price     = '$total_order_price',
-                                                                total_order_price   = '$totalOrderPrice',
-                                                                order_prod_img      = '$order_prod_img'";
+                                                                courier_fees        = '$totalDeliveryPrice[$order_vendor_id]',
+                                                                total_courier_price = '$totalOrderShippingPrice',
+                                                                total_order_price   = '$totalOrderPrice'";
                     
 
-                        mysqli_query( $con , $sO );
+                        if(mysqli_query( $con , $sO )){
 
-                        $sO = "UPDATE vendor_product SET quantity = ( quantity-$quantity ) WHERE v_p_id = '$v_p_id'" ;
-                        mysqli_query( $con , $sO );
-                    
-                        $i++;
-                        $_SESSION['product_cart'] = '';
-                        unset( $_SESSION['product_cart'] );
-                    
-                    
+                            $sVP = "UPDATE vendor_product SET quantity = ( quantity-$quantity ) WHERE id = '$v_p_id'" ;
+                            mysqli_query( $con , $sVP );
+                            $_SESSION['product_cart'] = '';
+                            unset( $_SESSION['product_cart'] );
+                                                                
+                        } 
                }
             }
 
 
     }
 
-    echo "<script>window.location.assign('submit-order.php')</script>";
+     echo '<script type="text/javascript">window.location.href = "submit-order.php?id='.$order_ids.'"</script>';
+    
+
 }
 
 ?>
