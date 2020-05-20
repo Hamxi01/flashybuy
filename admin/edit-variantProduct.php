@@ -438,39 +438,225 @@ if (isset($_POST['update-product'])) {
                                       $image2                = $imageRes['image2'];
                                       $image3                = $imageRes['image3'];
                                       $image4                = $imageRes['image4'];
+                                      $num=rand();
                                  ?>
                               <div class="col-md-3">
                                 <div class="form-group">
                                   <label>Image1</label>
-                                  <input type="file" name="file1" id="file1" class="form-control" value="<?=$image1?>">
-                                  <span id="uploaded_image1"><img src="../upload/product/200_<?=$image1?>" width="180" height="160"></span>
+                                  <input type="file" name="<?=$num?>1" id="<?=$num?>1" class="form-control" value="<?=$image1?>">
+                                  <span id="<?=$num?>11"><img src="../upload/product/200_<?=$image1?>" width="180" height="160"></span>
                                   <input type="hidden" name="image1[]" id="image1" value="<?=$image1?>">
                                 </div>
                               </div>
                               <div class="col-md-3">
                                 <div class="form-group">
                                   <label>Image2</label>
-                                  <input type="file" name="file2" id="file2" class="form-control" value="<?=$image2?>">
-                                  <span id="uploaded_image1"><img src="../upload/product/200_<?=$image2?>" width="180" height="160"></span>
+                                  <input type="file" name="<?=$num?>2" id="<?=$num?>2"  class="form-control" value="<?=$image2?>">
+                                  <span id="<?=$num?>12"><img src="../upload/product/200_<?=$image2?>" width="180" height="160"></span>
                                   <input type="hidden" name="image2[]" id="image2" value="<?=$image2?>">
                                 </div>
                               </div>
                               <div class="col-md-3">
                                 <div class="form-group">
                                   <label>Image3</label>
-                                  <input type="file" name="file3" id="file3" class="form-control" value="<?=$image3?>">
-                                  <span id="uploaded_image1"><img src="../upload/product/200_<?=$image3?>" width="180" height="160"></span>
+                                  <input type="file" name="<?=$num?>3" id="<?=$num?>3"  class="form-control" value="<?=$image3?>">
+                                  <span id="<?=$num?>13"><img src="../upload/product/200_<?=$image3?>" width="180" height="160"></span>
                                   <input type="hidden" name="image3[]" id="image3" value="<?=$image3?>">
                                 </div>
                               </div>
                               <div class="col-md-3">
                                 <div class="form-group">
                                   <label>Image4</label>
-                                  <input type="file" name="file4" id="file4" class="form-control" value="<?=$image4?>">
-                                  <span id="uploaded_image1"><img src="../upload/product/200_<?=$image4?>" width="180" height="160"></span>
+                                  <input type="file" name="<?=$num?>4" id="<?=$num?>4"  class="form-control" value="<?=$image4?>">
+                                  <span id="<?=$num?>14"><img src="../upload/product/200_<?=$image4?>" width="180" height="160"></span>
                                   <input type="hidden" name="image4[]" id="image4" value="<?=$image4?>">
                                 </div>
-                              </div> 
+                              </div>
+                              <script>
+$(document).ready(function(){
+ $(document).on('change', '#<?=$num?>1', function(){
+  var name = document.getElementById("<?=$num?>1").files[0].name;
+  var form_data = new FormData();
+  var ext = name.split('.').pop().toLowerCase();
+  if(jQuery.inArray(ext, ['gif','png','jpg','jpeg']) == -1) 
+  {
+   alert("Invalid Image File");
+  }
+  var oFReader = new FileReader();
+  oFReader.readAsDataURL(document.getElementById("<?=$num?>1").files[0]);
+  var f = document.getElementById("<?=$num?>1").files[0];
+  var fsize = f.size||f.fileSize;
+
+ // =========== image Size Check and ajax function ========== //
+
+      if(fsize <=2048000){
+
+         form_data.append("file", document.getElementById('<?=$num?>1').files[0]);
+         $.ajax({
+                  url:"action/variantuploadimg1.php",
+                  method:"POST",
+                  data: form_data,
+                  contentType: false,
+                  cache: false,
+                  processData: false,
+                  beforeSend:function(){
+
+                // ====== Loader ====== //
+                    $('#<?=$num?>11').html('<img src="assets/img/loading.gif" class="img-responsive">');
+                  },   
+                  success:function(data)
+                  {
+                   $('#<?=$num?>11').html(data);
+                   
+                  }
+         });
+
+      }else{
+
+        $('#<?=$num?>11').html('<label class="text-danger">Sorry!Image Size is greater than 2MB</label>');
+      }
+
+ // =========== End image Size Check and ajax function ========== //
+
+ });
+});
+$(document).ready(function(){
+ $(document).on('change', '#<?=$num?>2', function(){
+  var name = document.getElementById("<?=$num?>2").files[0].name;
+  var form_data = new FormData();
+  var ext = name.split('.').pop().toLowerCase();
+  if(jQuery.inArray(ext, ['gif','png','jpg','jpeg']) == -1) 
+  {
+   alert("Invalid Image File");
+  }
+  var oFReader = new FileReader();
+  oFReader.readAsDataURL(document.getElementById("<?=$num?>2").files[0]);
+  var f = document.getElementById("<?=$num?>2").files[0];
+  var fsize = f.size||f.fileSize;
+
+ // =========== image Size Check and ajax function ========== //
+
+      if (fsize <= 2048000) {
+          form_data.append("file", document.getElementById('<?=$num?>2').files[0]);
+           $.ajax({
+                    url:"action/variantuploadimg2.php",
+                    method:"POST",
+                    data: form_data,
+                    contentType: false,
+                    cache: false,
+                    processData: false,
+                    beforeSend:function(){
+                     
+                     // ============== Loader ========= //
+                      $('#<?=$num?>12').html("<lable class='text-succcess'>Image is uploading</label>")
+                    },  
+                    success:function(data)
+                    {
+                      $('#<?=$num?>12').html(data);
+                    }
+           });
+    }else{
+
+        $('#<?=$num?>12').html('<label class="text-danger">Sorry!Image Size is greater than 2MB</label>');
+    }
+
+ // =========== End image Size Check and ajax function ========== //
+
+ });
+});
+$(document).ready(function(){
+ $(document).on('change', '#<?=$num?>3', function(){
+  var name = document.getElementById("<?=$num?>3").files[0].name;
+  var form_data = new FormData();
+  var ext = name.split('.').pop().toLowerCase();
+  if(jQuery.inArray(ext, ['gif','png','jpg','jpeg']) == -1) 
+  {
+   alert("Invalid Image File");
+  }
+  var oFReader = new FileReader();
+  oFReader.readAsDataURL(document.getElementById("<?=$num?>3").files[0]);
+  var f = document.getElementById("<?=$num?>3").files[0];
+  var fsize = f.size||f.fileSize;
+
+ // =========== image Size Check and ajax function ========== //
+
+      if (fsize <= 2048000) {
+
+          form_data.append("file", document.getElementById('<?=$num?>3').files[0]);
+           $.ajax({
+                  url:"action/variantuploadimg3.php",
+                  method:"POST",
+                  data: form_data,
+                  contentType: false,
+                  cache: false,
+                  processData: false,
+                  beforeSend:function(){
+
+                    // ========== Image Loader =========== //
+
+                    $('#<?=$num?>13').html('<img src="assets/img/loading.gif" class=img-responsive>')
+                  },   
+                  success:function(data)
+                  {
+                    $('#<?=$num?>13').html(data);
+                  }
+           });
+
+      }else{
+
+          $('#<?=$num?>13').html('<label class="text-danger">Sorry! Image Size is greater than 2MB</label>');
+      }
+
+ // =========== End image Size Check and ajax function ========== //      
+ });
+});
+$(document).ready(function(){
+ $(document).on('change', '#<?=$num?>4', function(){
+  var name = document.getElementById("<?=$num?>4").files[0].name;
+  var form_data = new FormData();
+  var ext = name.split('.').pop().toLowerCase();
+  if(jQuery.inArray(ext, ['gif','png','jpg','jpeg']) == -1) 
+  {
+   alert("Invalid Image File");
+  }
+  var oFReader = new FileReader();
+  oFReader.readAsDataURL(document.getElementById("<?=$num?>4").files[0]);
+  var f = document.getElementById("<?=$num?>4").files[0];
+  var fsize = f.size||f.fileSize;
+
+// ====== image size check and ajax function ============= //
+
+      if (fsize <= 2048000) {
+
+           form_data.append("file", document.getElementById('<?=$num?>4').files[0]);
+             $.ajax({
+                      url:"action/variantuploadimg4.php",
+                      method:"POST",
+                      data: form_data,
+                      contentType: false,
+                      cache: false,
+                      processData: false,
+                      beforeSend:function(){
+
+                        // =========== Image Loader ======== //
+
+                        $('#<?=$num?>14').html('<img src="assets/img/loading.gif" class="img-responsive">')
+
+                      },   
+                      success:function(data)
+                      {
+                        $('#<?=$num?>14').html(data);
+                      }
+             });
+
+      }else{
+
+              $('#<?=$num?>14').html('<label class="text-danger">Sorry!Image Size is greater than 2MB</label>');
+      }
+ // =========== End image Size Check and ajax function ========== //       
+ });
+});
+</script> 
                              <?php  } ?> 
                           </div>
                         <?php if(!empty($width) && !empty($length) && !empty($height)){?>   
