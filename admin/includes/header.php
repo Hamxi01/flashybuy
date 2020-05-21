@@ -20,6 +20,8 @@
   <link rel="stylesheet" href="assets/bundles/summernote/summernote-bs4.css">
   <link rel="stylesheet" href="assets/bundles/codemirror/lib/codemirror.css">
   <link rel="stylesheet" href="assets/bundles/codemirror/theme/duotone-dark.css">
+  
+  <link rel="stylesheet" href="assets/bundles/bootstrap-daterangepicker/daterangepicker.css">
   <link rel="stylesheet" href="assets/bundles/select2/dist/css/select2.min.css">
   <link rel="stylesheet" href="assets/bundles/jquery-selectric/selectric.css">
   <link rel="stylesheet" href="assets/bundles/pretty-checkbox/pretty-checkbox.min.css">

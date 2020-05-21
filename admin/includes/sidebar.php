@@ -39,6 +39,14 @@
               </ul>
             </li>
             <li class="dropdown">
+              <a href="#" class="menu-toggle nav-link has-dropdown"><i data-feather="mail"></i><span>Deals</span></a>
+              <ul class="dropdown-menu">
+                <li><a class="nav-link" href="dealblock1.php">Deal Block 1</a></li>
+                <li><a class="nav-link" href="dealblock2.php">Deal Block 2</a></li>
+                <li><a class="nav-link" href="dealblock3.php">Deal Block 3</a></li>
+              </ul>
+            </li>
+            <li class="dropdown">
               <a href="#" class="menu-toggle nav-link has-dropdown"><i data-feather="command"></i><span>Front End</span></a>
               <ul class="dropdown-menu">
                 <li><a class="nav-link" href="view_crousel.php">Main Banners</a></li>

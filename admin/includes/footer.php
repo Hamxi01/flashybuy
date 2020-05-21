@@ -113,6 +113,8 @@
   <script src="assets/bundles/codemirror/mode/javascript/javascript.js"></script>
   <script src="assets/bundles/jquery-selectric/jquery.selectric.min.js"></script>
   <!-- Page Specific JS File -->
+  
+  <script src="assets/bundles/bootstrap-daterangepicker/daterangepicker.js"></script>
   <script src="assets/js/page/owl-carousel.js"></script>
   <script src="assets/bundles/sweetalert/sweetalert.min.js"></script>
   <!-- Page Specific JS File -->
