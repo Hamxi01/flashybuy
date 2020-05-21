@@ -40,7 +40,7 @@
 
         $p  = "INSERT INTO vendor_product_deals SET product_id = '$product_id' , deal_NO = 10050 , v_p_id = '$v_p_id' , start_date = '$start_date' , end_date = '$end_date', deal_price = '$deal_price', deal_quantity = '$deal_quantity', market_price = '$deal_market_price' ,variation_id='$variation_id'";
         $sP = mysqli_query( $con , $p  );
-        echo "<script>window.location.assign('dealblock1.php?msg=success');</script>";
+        echo "<script>window.location.assign('dealblock3.php?msg=success');</script>";
         exit;
  }     
 ?>
