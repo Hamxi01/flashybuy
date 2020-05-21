@@ -4,7 +4,8 @@
      function singleProductOtherOffers($productid,$vendorid,$con){
 
      	$vpsql = "SELECT id,price,quantity,ven_id,dispatched_days from vendor_product where prod_id='$productid' AND
-             price != ( SELECT MIN(price) FROM vendor_product where prod_id=$productid AND active='Y')";
+             price != ( SELECT MIN(price)  FROM vendor_product where prod_id=$productid AND active='Y') OR
+             price = ( SELECT MIN(price)  FROM vendor_product where prod_id=$productid AND active='Y')";
         $vpquery = mysqli_query($con,$vpsql);
         $tRows = mysqli_num_rows($vpquery);
         // $result   = mysqli_fetch_array($vpquery);

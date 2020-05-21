@@ -23,7 +23,7 @@
               <a href="#" class="menu-toggle nav-link has-dropdown"><i data-feather="command"></i><span>Products</span></a>
               <ul class="dropdown-menu">
                 <li><a class="nav-link" href="products.php">Products</a></li>
-                <li><a class="nav-link" href="add-product.php">Add new Products</a></li>
+                <li><a class="nav-link" href="addingproduct.php">Add new Products</a></li>
                 <li><a class="nav-link" href="pendingProduct.php">Pending Products</a></li>
               </ul>
             </li>
