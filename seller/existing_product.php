@@ -151,3 +151,9 @@ if (isset($_GET['msg']) && $_GET['msg'] =="success") { ?>
         
               
       <?php include('includes/footer.php'); ?>
+<script type="text/javascript">
+   $(document).ready(function() {
+
+        setTimeout(function(){ $(".msg").hide(); }, 5000);
+    });
+</script>

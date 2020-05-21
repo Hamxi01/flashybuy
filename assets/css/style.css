@@ -13974,13 +13974,15 @@ textarea.form-control {
 .ps-vendor-dashboard .ps-section__links {
   background-color: #f5f5f5;
   text-align: center;
-  padding: 20px 0;
+  padding: 20px;
   margin-bottom: 45px;
+  display: inline-grid;
 }
 
 .ps-vendor-dashboard .ps-section__links li {
   display: inline-block;
   margin-right: 30px;
+   padding: 10px;
 }
 
 .ps-vendor-dashboard .ps-section__links li a {
