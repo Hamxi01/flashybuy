@@ -10,6 +10,11 @@
       header("Location: login.php");
     }
 
+$action     = $_REQUEST['action'];    
+if( isset( $action  ) && $action  == "delete" ){
+    $u_a_id     = $_REQUEST['ui'];
+    mysqli_query( $con,"DELETE FROM user_addresses WHERE u_a_id = '$u_a_id'" );
+}
 
 ?>
     <div class="ps-page--single">
