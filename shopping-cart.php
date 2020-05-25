@@ -739,7 +739,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'submit_order') {
               </div>
             </div>
           </div>
-        </div>
+    </div>
 
     <!-- Address Modal -->
 
@@ -875,4 +875,8 @@ function checkValidation(){
     }
     $('#order-form').submit();
 }
+    $(document).ready(function() {
+
+        setTimeout(function(){ $(".msg").hide(); }, 5000);
+    });
 </script>

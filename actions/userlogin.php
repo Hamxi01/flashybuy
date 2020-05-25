@@ -24,7 +24,13 @@ if (isset($_POST['btnsub']))
 				$insert = "insert into login_log(user_id,login_time,ip) values('$id','$time','$ip')";
 				if( mysqli_query($con,$insert)){
 
-					header("Location:../shopping-cart.php");
+					if (isset($_SESSION['product_cart'])) {
+						
+						header("Location:../shopping-cart.php");
+					}else{
+
+						header("Location:../index.php");
+					}		
 				}
 			}
 		}

@@ -236,7 +236,16 @@
                         </div>
                         <div class="ps-block--user-header">
                             <div class="ps-block__left"><i class="icon-user"></i></div>
-                            <div class="ps-block__right"><a href="my-account.html">Login</a><a href="my-account.html">Register</a></div>
+                            <?php 
+                                if (isset($_SESSION['name'])) {
+                            ?>        
+                            <div class="ps-block__right"><a href="my-account.php">my accounts</a><!-- <a href="my-account.html">Register</a> --></div>
+                        <?php }else{ ?>
+
+                            <div class="ps-block__right"><a href="userlogin.php">Login</a><a href="userlogin.php">Register</a></div>
+                        <?php    
+                            }
+                        ?>
                         </div>
                     </div>
                 </div>
