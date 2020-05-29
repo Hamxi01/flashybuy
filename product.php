@@ -21,6 +21,9 @@ if (isset($_GET['id'])) {
         VP.quantity as qty,
         VP.ven_id as vendorid,
         VP.id as v_p_id,
+        VPD.v_p_d_id,
+        VPD.deal_price,
+        VPD.v_p_id as p_v_id, 
         PV.price,
         PV.quantity as stock,
         PV.sku,
@@ -36,11 +39,16 @@ if (isset($_GET['id'])) {
             ON PV.product_id = P.product_id
     LEFT JOIN
         vendor_product AS VP 
-            ON VP.prod_id = P.product_id 
+            ON VP.prod_id = P.product_id
+    LEFT JOIN
+        vendor_product_deals AS VPD 
+            ON VPD.product_id = P.product_id 
     LEFT JOIN
         product_variant_images AS PVS 
-            ON PV.product_id = PVS.product_id 
-    WHERE
+            ON PV.product_id = PVS.product_id
+    WHERE 
+        start_date < UNIX_TIMESTAMP() AND end_date > UNIX_TIMESTAMP() 
+    AND
         P.product_id = $product_id
     AND
         VP.active='Y'
@@ -49,16 +57,30 @@ if (isset($_GET['id'])) {
    $pQuery = mysqli_query($con,$pMain);
    while ( $result = mysqli_fetch_array($pQuery)) {
         
-        $name = $result['name'];
-        if (empty($result['selling_price'])) {
+        $name      = $result['name'];
+        $v_p_d_id  = $result['v_p_d_id'];
+        $p_v_id  = $result['p_v_id'];
+
+        if (!empty($v_p_d_id)) {
+
+            $price = $result['deal_price'];
+            
+        }
+        else{
+
+            if (empty($result['selling_price'])) {
 
             $priceSql   = mysqli_query($con,"SELECT MIN(price),MAX(price) FROM vendor_product where prod_id='$product_id' AND active='Y'");
             $priceArray = mysqli_fetch_array($priceSql);
             $price      = $priceArray[0].'-R'.$priceArray[1];
-        }else{
+            }
+            else{
 
-            $price = $result['actual_price'];
+                $price = $result['actual_price'];
+            }
+
         }
+
         $quantity = $result['quantity'];
 
         if (empty($result['image1'])) {
@@ -84,14 +106,30 @@ if (isset($_GET['id'])) {
         $forth_variation_name  = $result['forth_variation_name'];
         $description           = $result['description'];
         $variationid           = $result['variation_id'];
-        $v_p_id                = $result['v_p_id'];
         $stock                 = $result['qty'];
 
-        $vendor_id = $result['vendorid'];
-        $vsql ="SELECT shop_name from vendor where id='$vendor_id'";
-        $vquery = mysqli_query($con,$vsql);
-        $vres   = mysqli_fetch_array($vquery);
-        $vendorname = $vres['shop_name'];
+        if (!empty($v_p_d_id)) {
+
+            $vdrpSql = mysqli_query($con,"SELECT * FROM vendor_product where id='$p_v_id'");
+            while ($vdrpRes = mysqli_fetch_array($vdrpSql)) {
+                
+                $v_p_id    = $vdrpRes['id'];
+                $vendor_id = $vdrpRes['ven_id'];
+                $vsql ="SELECT shop_name from vendor where id='$vendor_id'";
+                $vquery = mysqli_query($con,$vsql);
+                $vres   = mysqli_fetch_array($vquery);
+                $vendorname = $vres['shop_name'];
+            }
+            
+        }else{
+
+            $v_p_id = $result['v_p_id'];
+            $vendor_id = $result['vendorid'];
+            $vsql ="SELECT shop_name from vendor where id='$vendor_id'";
+            $vquery = mysqli_query($con,$vsql);
+            $vres   = mysqli_fetch_array($vquery);
+            $vendorname = $vres['shop_name'];
+        }    
 
         $brand_id  = $result['brand'];
         $bSql      = mysqli_query($con,"SELECT name from brands where id='$brand_id' AND delte =0");

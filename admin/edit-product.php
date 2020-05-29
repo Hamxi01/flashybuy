@@ -380,9 +380,11 @@ if (isset($_POST['action']) && $_POST['action'] == 'rejectproduct') {
 
                                             
                                             
-                                      <input type="text" class="form-control" name="" value="<?=$res['name']?>" id="brandkeyword" oninput="brandSearch()"> 
-                                      <input type="hidden" name="brand" value="<?=$res['id']?>">
+                                      <input type="text" class="form-control"  value="<?=$res['name']?>" id="brandkeyword" oninput="searchBrands()"> 
+                                      <input type="hidden" name="brand" id="brandid" value="<?=$res['id']?>">
                                       <?php  }?>
+                                      <ul id="brandslist">
+                                      </ul>
                                   </div>
                                 </div>  
                                 <div class="invalid-feedback">
@@ -824,11 +826,39 @@ function rejectSubmit(){
     });
 
 
-    //////////------------------- Brands Search Function -------------------- //////////////////
+ //////////------------------- Brands Search Function -------------------- //////////////////
 
-    function brandSearch(){
 
-      console.log($("#brandkeyword").val());
+    function searchBrands(){
+
+        var keyword = $('#brandkeyword').val();
+        if (keyword.length>=3) {
+
+            $.ajax({
+              type: "POST",
+              url: 'action/brandSearch.php',
+              data: {keyword:keyword},
+              success:function(data){
+
+                  // console.log(data);
+                  $('#brandslist').show();
+                  $('#brandslist').html(data);
+              }
+            });
+        }
     }
+
+    function addBrand(el,id){
+
+        var brand = $(el).html();
+        $('#brandid').val(id);
+        $('#brandkeyword').val(brand);
+        $('#brandslist').html(null);
+        $('#brandslist').hide();
+        $('#brandkeyword').prop('readonly',true);
+        
+    }
+    
+///////////////////////////////////////////////////
 
 </script>

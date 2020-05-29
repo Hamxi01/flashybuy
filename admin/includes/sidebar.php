@@ -26,6 +26,12 @@
               </ul>
             </li>
             <li class="dropdown">
+              <a href="#" class="menu-toggle nav-link has-dropdown"><i data-feather="command"></i><span>Orders</span></a>
+              <ul class="dropdown-menu">
+                <li><a class="nav-link" href="view-orders.php">View Orders</a></li>
+              </ul>
+            </li>
+            <li class="dropdown">
               <a href="#" class="menu-toggle nav-link has-dropdown"><i data-feather="command"></i><span>Products</span></a>
               <ul class="dropdown-menu">
                 <li><a class="nav-link" href="product.php">Products</a></li>

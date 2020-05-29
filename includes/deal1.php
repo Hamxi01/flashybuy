@@ -19,6 +19,7 @@ if ($dRows>0) {
 while ( $dRes = mysqli_fetch_array($dSql)) {
     
     $deal_price = $dRes['deal_price'];
+    $mk_price = $dRes['market_price'];
     $product_id = $dRes['product_id'];
     $name       = $dRes['name'];
     $image = $dRes['image1'];
@@ -44,7 +45,7 @@ while ( $dRes = mysqli_fetch_array($dSql)) {
                                 </ul>
                             </div>
                             <div class="ps-product__container">
-                                <p class="ps-product__price sale">R<?=$deal_price?> <del>R<?=$deal_price?> </del><small>18% off</small></p>
+                                <p class="ps-product__price sale">R<?=$deal_price?> <del>R<?=$mk_price?> </del><small>18% off</small></p>
                                 <div class="ps-product__content"><a class="ps-product__title" href="product.php?id=<?=base64_encode($product_id)?>&name=<?=str_replace(' ','-',$name)?>"><?=$name?></a>
                                     <div class="ps-product__rating">
                                         <select class="ps-rating" data-read-only="true">

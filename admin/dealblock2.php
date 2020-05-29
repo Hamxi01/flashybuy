@@ -24,8 +24,8 @@
         
 
         $v_p_id            = intval( $_REQUEST['v_p_id']);
-        $start_date        = $_REQUEST['start_date'];
-        $end_date          =  $_REQUEST['end_date'];
+        $start_date        = strtotime($_REQUEST['start_date']);
+        $end_date          =  (strtotime($_REQUEST['end_date'])+86000);
         $deal_price        = ( $_REQUEST['deal_price']);
         $deal_quantity     = ( $_REQUEST['deal_quantity']);
         $deal_market_price = ( $_REQUEST['mk_price']);
@@ -146,7 +146,7 @@ while ($rV = mysqli_fetch_array( $sV )){
   $v_p_id   = $rV['id'];
   $vendorName .= '<input type="radio" value="'.$rV["id"].'" name="ven_p_'.$product_id.'" >&nbsp;&nbsp;'.$rV["shop_name"] .'(Qty-'.$rV["quantity"]. ')<br />';
 }
-$s = "SELECT * FROM vendor_product_deals WHERE product_id = '$product_id' AND deal_NO = '10040'";
+$s = "SELECT * FROM vendor_product_deals WHERE product_id = '$product_id'";
 $sPV = mysqli_query( $con , $s);
 $rPV = mysqli_fetch_array( $sPV );
 if( $rPV > 0 ){
@@ -164,7 +164,7 @@ if( $rPV > 0 ){
                             <td><input type="text" min="1" name="mk_price_<?=$product_id?>" class="form-control" value="" id="mk_price<?=$product_id?>"></td>
                             <td><input type="text" min="1" name="deal_price_<?=$product_id?>" class="form-control" value="" id="price<?=$product_id?>"></td>
                             <td><input type="text" min="1" name="deal_quantity_<?=$product_id?>" value="<?=$quantity?>"  class="form-control" id="qty<?=$product_id?>"></td>
-                            <?php if(!$notShow){?>
+                            <?php if(!isset($notShow)){?>
                             <td colspan="3"><button type="button" class="btn btn-warning" onclick="addDealProduct(<?=$product_id?>)">import</button></td>
                             <?php }else{ ?>
                               <td><button type="button" id="" name="" class="btn btn-danger btn-xs">Accepted</td>
@@ -221,8 +221,8 @@ $vendor = $vRes[0];
                             <td><?=$dpR['name']?></td>
                             <td><?=$dpR['product_id']?></td>
                             <td><?=$vendor?></td>
-                            <td><?=$dpR['start_date']?></td>
-                            <td><?=$dpR['end_date']?></td>
+                            <td><?php echo date("d-m-Y" ,$dpR['start_date'])?></td>
+                            <td><?php echo date("d-m-Y" ,$dpR['end_date'])?></td>
                             <td><?=$dpR['market_price']?></td>
                             <td><?=$dpR['deal_price']?></td>
                             <td><?=$dpR['deal_quantity']?></td><!-- 
