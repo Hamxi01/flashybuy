@@ -3,6 +3,7 @@
       include('includes/header.php');
       include('includes/sidebar.php');
      
+      $newOrderids ='OR';
 ?>
       <!-- Main Content -->
       <div class="main-content">
@@ -55,40 +56,59 @@ if (isset($_GET['msg']) && $_GET['msg'] == 'success') { ?>
                         <tbody>
 <?php 
 
-    $ordrSql = "SELECT time_id , order_usr_address , order_usr_address , order_token,order_status,order_id,order_ids,
-             order_delivered,order_vendor_name,order_ven_prod,order_vendor_id,order_prod_id,order_prod_price,order_price,quantity,order_transaction
-            FROM orders AS O 
-            LEFT JOIN
-                     products AS P 
-            ON O.product_id = P.product_id
-            ORDER BY order_id DESC";
+    $ordrSql = "SELECT O.time_id , O.order_usr_address ,O.order_user_phone , O.order_user_name,O.order_token,O.order_status,O.order_id,O.order_ids, O.order_delivered,O.order_vendor_name,O.order_ven_prod,O.order_vendor_id,O.order_prod_id,O.order_prod_price,O.order_price,O.quantity,O.order_transaction,P.name,P.image1,C.email,C.mobile FROM orders AS O LEFT JOIN products AS P ON O.order_prod_id = P.product_id LEFT JOIN customers AS C ON O.order_user = C.id ORDER BY order_id DESC";
 
     $ordrQry = mysqli_query($con,$ordrSql);
-    $ordrRes = mysqli_fetch_array($ordrQry);
-    echo "<pre>";
-    print($ordrRes);
+
+    while ( $ordrRes = mysqli_fetch_array($ordrQry)){
+
+      $order_ids           = $ordrRes['order_ids'];
+      $order_token         = $ordrRes['order_token'];
+      $order_user_name     = $ordrRes['order_user_name'];
+      $order_qty           = $ordrRes['quantity'];
+      $order_user_address  = $ordrRes['order_usr_address'];
+      $user_mobile         = $ordrRes['order_user_phone'];
+      $order_vendor_name   = $ordrRes['order_vendor_name'];
+      $order_price         = $ordrRes['order_price'];
+      $user_email          = $ordrRes['email'];
+
+      $image               = $ordrRes['image1'];
+      if (empty($image)) {
+        
+          
+      }
+
+      $setClose            = 0;
+      if( $order_ids != $newOrderids ){
 ?>
-                          <tr>
-                            <td colspan="8" style="text-align: center;font-weight: bold;">Order No : OR_895671</td>
+                          <tr style="background: aliceblue">
+                            <td colspan="8" style="text-align: center;font-weight: bold;">Order No : <?=$order_ids?></td>
                           </tr>
-                          <tr>
+<?php
+
+    $newOrderids = $order_ids;
+    $setClose = 1;
+}             
+?>                          
+                          <tr style="background:#cbdae6 !important;">
                             <td colspan="8"><b>Customer information</b><br>
-                                <p>Customer : khaya Dlabane Address: 121 St. Lucia road  City: Mtubatuba Subrbu: Mtubatuba Phone No: 0726177354  Zipcode: 3935 Email: khayadlabane@gmail.com</p>
+                                <p style="color:#e83c0a;">Customer : <?=$order_user_name?> Address: <?=$order_user_address?>  City: Mtubatuba Subrbu: Mtubatuba Phone No: <?=$user_mobile?>  Zipcode: 3935 Email: <?=$user_email?></p>
                             </td>
                           </tr>
-                          <tr>
+                          <tr style="background: #e2dada80 !important">
                             <td>15-12-2019</td>
                             <td> 
                               <a href="">Mini LED Projector with LCD Image System - White</a> <br>
-                              <img src="ddd.jpg"> token : 14-4-543
+                              <img src="../upload/product/200_<?=$image?>" width="60"> token : <?=$order_token?>
                             </td>
-                            <td>12</td>
+                            <td><?=$order_qty?></td>
                             <td>PayFast</td>
-                            <td>799.0</td>
+                            <td><?=$order_price?></td>
                             <td>2 days</td>
-                            <td>Seller : MULTIJUNCTION</td>
+                            <td>Seller : <b style="color:#e83c0a; "><?=$order_vendor_name?></b></td>
                             <td><div class="badge badge-success">Completed</div></td>
                           </tr>
+<?php    }  ?>                          
                         </tbody>
                       </table>
                   </div>
