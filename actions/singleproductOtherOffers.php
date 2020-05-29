@@ -13,7 +13,22 @@
          while ($pro = mysqli_fetch_array($vpquery)) {
 
             $v_p_id = $pro['id'];
-            $price = $pro['price'];
+
+    // ================= Check product is in deal ===================== //
+
+            $vpdSql = mysqli_query($con,"SELECT * FROM vendor_product_deals WHERE start_date < UNIX_TIMESTAMP() AND end_date > UNIX_TIMESTAMP() AND v_p_id = '$v_p_id' ");
+            while($vpdRes = mysqli_fetch_array($vpdSql)){
+
+                $price = $vpdRes['deal_price'];
+            }
+
+    // ================ end checking product is in deal or not ======= //
+
+            if (empty($price)) {
+                
+                $price = $pro['price'];
+            }
+            
             $days = $pro['dispatched_days'];
             $ven_id = $pro['ven_id'];
 
@@ -26,7 +41,9 @@
                     <h4><b>R'.$price.'</b><button class="btn btn-warning" style="float: right;color:#fff" onclick="addtoCart('.$productid.','.$ven_id.',0,1,'.$price.','.$v_p_id.')">Add to cart</button></h4>
                     <h5>By: <a href="#">'.$vendorname.'</a></h5>
                     <p>'.$days.'</p>
-                  </div>';                     
+                  </div>'; 
+
+                  $price = '';                    
          }
      }
 

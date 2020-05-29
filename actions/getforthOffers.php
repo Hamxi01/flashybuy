@@ -28,6 +28,26 @@ if (isset($_POST['product_id'])) {
 	 	while($vpRes = mysqli_fetch_array($vpSql)){
 
 	 		$v_p_id  = $vpRes['id'];
+
+	//============================================================================//
+	// ================== Check prodcut variant is in deal ====================== //
+	//============================================================================//
+
+	 		$vpdSql = mysqli_query($con,"SELECT * FROM vendor_product_deals WHERE start_date < UNIX_TIMESTAMP() AND end_date > UNIX_TIMESTAMP() AND  product_id='$product_id' AND variation_id = '$variation_id' AND deal_price != ( SELECT MIN(deal_price) FROM vendor_product_deals where product_id='$product_id' AND variation_id = '$variation_id')");
+            while($vpdRes = mysqli_fetch_array($vpdSql)){
+
+                $price = $vpdRes['deal_price'];
+            }
+            
+    //============================================================================//
+    // ================== End check product is in deal or not =================== //
+    //============================================================================//
+
+            if (empty($price)) {
+                
+                $price = $vpRes['price'];
+            }
+            
 	 		$price  = $vpRes['price'];
 	 		$days   = $vpRes['dispatched_days'];
 	 		$ven_id = $vpRes['ven_id'];
