@@ -553,9 +553,9 @@
         <div class="ps-home-ads">
             <div class="ps-container">
                 <div class="row">
-                    <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-12 "><a class="ps-collection" href="#"><img src="img/collection/home-1/ad-1.jpg" alt=""></a>
+                    <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-12 ">  <?php include('includes/banner6.php'); ?> 
                     </div>
-                    <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 "><a class="ps-collection" href="#"><img src="img/collection/home-1/ad-2.jpg" alt=""></a>
+                    <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 ">  <?php include('includes/banner7.php'); ?> 
                     </div>
                 </div>
             </div>
