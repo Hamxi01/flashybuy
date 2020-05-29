@@ -984,6 +984,8 @@ var s = new Array();
         $('#brandkeyword').prop('readonly',true);
         
     }
+    
+///////////////////////////////////////////////////
 //---- On press Enter form not submit Fuction --- //// 
 
 $('#product_form').on('keyup keypress', function(e) {
