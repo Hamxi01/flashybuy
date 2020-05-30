@@ -27,6 +27,12 @@
                 <li><a class="nav-link" href="pendingProduct.php">Pending Products</a></li>
               </ul>
             </li>
+            <li class="dropdown">
+              <a href="#" class="menu-toggle nav-link has-dropdown"><i data-feather="command"></i><span>Orders</span></a>
+              <ul class="dropdown-menu">
+                <li><a class="nav-link" href="view-orders.php">Order</a></li>
+              </ul>
+            </li>
               <li class="dropdown">
               <a href="#" class="menu-toggle nav-link has-dropdown"><i data-feather="command"></i><span>Admin</span></a>
               <ul class="dropdown-menu">
