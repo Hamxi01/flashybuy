@@ -168,6 +168,25 @@ if (isset($_GET['msg'])) { ?>
             </div>
           </div>
         </div>
+        <!-- Deal Modal -->
+        <div class="modal fade" id="dealModel" tabindex="-1" role="dialog" aria-labelledby="dealModal"
+          aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="<!-- formModal -->">Add new variation in this Product</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form id="deal-form">
+                  
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
       <?php include('includes/footer.php'); ?>
       <script>
 $(document).ready(function() {
@@ -239,6 +258,16 @@ function variantProductAssign(product_id,variation_id){
       $("#variation_id").val(variation_id);
 }
 ////////-------- varaint assign to vendor-----/////
+
+///////---------- import varient into Deal -------///////
+
+function variantProductDeal(product_id,variation_id){
+
+      $("#product_id").val(product_id);
+      $("#variation_id").val(variation_id);
+}
+
+///////-------------End importing--------------------////
 
 function assignVendor(){
     

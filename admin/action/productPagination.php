@@ -162,11 +162,18 @@ $start_from = ($page-1) * $limit;
                                     <a href="edit-variantProduct.php?id=<?=$id?>&variant_id=<?=$variation_id?>" class="dropdown-item has-icon"><i class="far fa-edit"></i>Edit</a>
                                 <?php }else{ ?>
                                     <a href="edit-product.php?id=<?=$id?>&sku=<?=$res['sku']?>" class="dropdown-item has-icon"><i class="far fa-edit"></i>Edit</a>
-                                <?php } ?>        
-                                <div class="dropdown-divider"></div>
-                                <a href="#" class="dropdown-item has-icon text-danger"><i class="far fa-trash-alt"></i>
-                                  Delete</a>
-                              </div>
+                                <?php } ?>
+                                <?php if (!empty($res['variant_Sku'])) { ?>        
+                                    <div class="dropdown-divider"></div>
+                                      <a href="#" class="dropdown-item has-icon text-danger" onclick="variantProductDeal('<?=$id?>','<?=$variation_id?>')"><i class="fas fa-plus-circle"></i>
+                                        import into Deals</a>
+                                    </div>
+                              <?php }else{ ?>
+                                    <div class="dropdown-divider"></div>
+                                      <a href="#" class="dropdown-item has-icon text-danger" onclick="productDeal('<?=$id?>','<?=$variation_id?>')"><i class="fas fa-plus-circle"></i>
+                                        import into Deals</a>
+                                    </div>
+                                <?php } ?>
                             </div>
                           </td>
                         </tr>
