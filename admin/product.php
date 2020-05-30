@@ -263,8 +263,8 @@ function variantProductAssign(product_id,variation_id){
 
 function variantProductDeal(product_id,variation_id){
 
-      $("#product_id").val(product_id);
-      $("#variation_id").val(variation_id);
+      alert(product_id);
+      alert(variation_id);
 }
 
 ///////-------------End importing--------------------////
