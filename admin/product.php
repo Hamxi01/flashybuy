@@ -259,7 +259,7 @@ function variantProductAssign(product_id,variation_id){
 }
 ////////-------- varaint assign to vendor-----/////
 
-///////---------- import varient into Deal -------///////
+///////---------- import products into Deal -------///////
 
 function variantProductDeal(product_id,variation_id){
 
@@ -267,8 +267,13 @@ function variantProductDeal(product_id,variation_id){
       alert(variation_id);
 }
 
-///////-------------End importing--------------------////
+function productDeal(product_id){
 
+      alert(product_id);
+}
+
+
+///////-------------End importing--------------------////
 function assignVendor(){
     
       $.ajax({
