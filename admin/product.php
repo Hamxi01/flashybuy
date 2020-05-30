@@ -174,7 +174,7 @@ if (isset($_GET['msg'])) { ?>
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title" id="<!-- formModal -->">Add new variation in this Product</h5>
+                <h5 class="modal-title" id="formModal">Import this Variant into Deal</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
