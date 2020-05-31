@@ -1,7 +1,7 @@
 <?php include('includes/db.php') ?>
-<?php require('includes/head.php') ?>
-<?php require('includes/courier_Packages.php'); ?>
-<?php require('includes/cart_vendorPackges.php') ?>
+<?php include('includes/head.php') ?>
+<?php include('includes/courier_Packages.php'); ?>
+<?php include('includes/cart_vendorPackges.php') ?>
 <?php 
     if(isset($_SESSION['name'])){
         

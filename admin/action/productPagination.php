@@ -165,12 +165,12 @@ $start_from = ($page-1) * $limit;
                                 <?php } ?>
                                 <?php if (!empty($res['variant_Sku'])) { ?>        
                                     <div class="dropdown-divider"></div>
-                                      <a href="#" class="dropdown-item has-icon text-danger" data-toggle="modal" data-target="#dealModel" onclick="variantProductDeal('<?=$id?>','<?=$variation_id?>')"><i class="fas fa-plus-circle"></i>
+                                      <a href="import-variantProductDeal.php?id=<?=$id?>&variation_id=<?=$variation_id?>" class="dropdown-item has-icon text-danger" ><i class="fas fa-plus-circle"></i>
                                         import into Deals</a>
                                     </div>
                               <?php }else{ ?>
                                     <div class="dropdown-divider"></div>
-                                      <a href="#" class="dropdown-item has-icon text-danger" data-toggle="modal" data-target="#dealModel" onclick="productDeal('<?=$id?>','<?=$variation_id?>')"><i class="fas fa-plus-circle"></i>
+                                      <a href="import-productDeal.php?id=<?=$id?>" class="dropdown-item has-icon text-danger" ><i class="fas fa-plus-circle"></i>
                                         import into Deals</a>
                                     </div>
                                 <?php } ?>

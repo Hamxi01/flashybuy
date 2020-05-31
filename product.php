@@ -521,13 +521,41 @@ if (isset($_GET['id'])) {
                                                 </div>
                                             </div>
                                         </div>
+
+                                    <!-- Submit Reveiw for product  -->
+                                    <?php 
+                                            if(isset($_SESSION['id'])){
+                                                $user_id = $_SESSION['id'];
+
+                                            $oSql = mysqli_query($con,"SELECT * FROM orders WHERE order_user ='$user_id' AND order_prod_id ='$product_id' AND order_status = 'comp'");
+                                            while ($oRes = mysqli_fetch_array($oSql)) {
+                                                
+                                                $date      = $oRes['time_id'];
+                                                $date      = explode(' ', $date);
+                                                $exactDate = $date[0];
+
+                                                $newDate = date("m-d-Y", strtotime($exactDate));
+                                                $expiry_date = $exactDate;
+                                                $today = time();
+                                                $interval = $today - strtotime($expiry_date);
+                                                $days = floor($interval / 86400);
+                                                
+                                                if($days >= 1 && $days < 7) {
+
+                                                    $urSql = mysqli_query($con,"SELECT * FROM product_reviews WHERE user_id = '$user_id' AND product_id ='$product_id'");
+                                                    $urRows = mysqli_num_rows($urSql);
+                                                    if ($urRows == 0) {
+                                                    
+                                                
+                                                
+                                    ?>            
                                         <div class="col-xl-7 col-lg-7 col-md-12 col-sm-12 col-12 ">
-                                            <form class="ps-form--review" action="index.html" method="get">
+                                            <form class="ps-form--review" action="actions/insertproductReview.php" method="post">
                                                 <h4>Submit Your Review</h4>
                                                 <p>Your email address will not be published. Required fields are marked<sup>*</sup></p>
                                                 <div class="form-group form-group__rating">
                                                     <label>Your rating of this product</label>
-                                                    <select class="ps-rating" data-read-only="false">
+                                                    <select class="ps-rating" data-read-only="false" name="rating">
                                                         <option value="0">0</option>
                                                         <option value="1">1</option>
                                                         <option value="2">2</option>
@@ -536,26 +564,32 @@ if (isset($_GET['id'])) {
                                                         <option value="5">5</option>
                                                     </select>
                                                 </div>
+                                                <input type="hidden" name="user_id"    value="<?=$user_id?>">
+                                                <input type="hidden" name="product_id" value="<?=$product_id?>">
                                                 <div class="form-group">
-                                                    <textarea class="form-control" rows="6" placeholder="Write your review here"></textarea>
+                                                    <textarea class="form-control" name="description" rows="6" placeholder="Write your review here"></textarea>
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12  ">
                                                         <div class="form-group">
-                                                            <input class="form-control" type="text" placeholder="Your Name">
+                                                            <input class="form-control" name="user_name" type="text" placeholder="Your Name">
                                                         </div>
                                                     </div>
                                                     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12  ">
                                                         <div class="form-group">
-                                                            <input class="form-control" type="email" placeholder="Your Email">
+                                                            <input class="form-control" name="email" type="email" placeholder="Your Email">
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group submit">
-                                                    <button class="ps-btn">Submit Review</button>
+                                                    <button class="ps-btn" type="submit" name="insertReview">Submit Review</button>
                                                 </div>
                                             </form>
                                         </div>
+
+                                    <?php } } } }?>    
+                                    <!-- Submit Reveiw for product  -->
+
                                     </div>
                                 </div>
                                 <div class="ps-tab" id="tab-5">
@@ -1739,5 +1773,11 @@ $('.option3').click(function(){
         }
 
     });
+});
+
+$(document).ready(function() {
+
+  setTimeout(function(){ $(".msg").hide(); }, 3000);
+
 });
     </script>

@@ -250,27 +250,7 @@ function productSearch(){
       }
     });
 }
-///////--------------variantProduct value pass to modal////////
 
-function variantProductAssign(product_id,variation_id){
-
-      $("#product_id").val(product_id);
-      $("#variation_id").val(variation_id);
-}
-////////-------- varaint assign to vendor-----/////
-
-///////---------- import products into Deal -------///////
-
-function variantProductDeal(product_id,variation_id){
-
-      alert(product_id);
-      alert(variation_id);
-}
-
-function productDeal(product_id){
-
-      alert(product_id);
-}
 
 
 ///////-------------End importing--------------------////
