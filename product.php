@@ -297,7 +297,7 @@ if (isset($_GET['id'])) {
                                 <div class="ps-product__variations">
                                     <?php if(!empty($first_variation_name)){?>
                                     <figure>
-                                        <figcaption><strong><?=$first_variation_name?>:</strong>  Choose an option</figcaption>
+                                        <figcaption><strong><?=$first_variation_name?>:  Choose an option</strong></figcaption>
                                         <?php if ($quantity==0) {
                                                 
                                                 $variants = "SELECT DISTINCT first_variation_value from product_variations where product_id = '$product_id' AND active='Y'";
@@ -317,7 +317,7 @@ if (isset($_GET['id'])) {
                                 <?php } ?>
                                 <?php if(!empty($second_variation_name)){?>
                                     <figure>
-                                        <figcaption><strong><?=$second_variation_name?>: </strong> Choose an option</figcaption>
+                                        <figcaption><strong><?=$second_variation_name?>:  Choose an option</strong></figcaption>
                                         <?php if ($quantity==0) {
                                                 
                                                 $variants = "SELECT DISTINCT second_variation_value from product_variations where product_id = '$product_id' AND active='Y'";
@@ -335,7 +335,7 @@ if (isset($_GET['id'])) {
                                 <?php } ?>
                                 <?php if(!empty($third_variation_name)){?>
                                     <figure>
-                                        <figcaption><strong><?=$third_variation_name?>: </strong> Choose an option</figcaption>
+                                        <figcaption><strong><?=$third_variation_name?>:  Choose an option</strong></figcaption>
                                         <?php if ($quantity==0) {
                                                 
                                                 $variants = "SELECT DISTINCT third_variation_value from product_variations where product_id = '$product_id' AND active='Y'";
@@ -353,7 +353,7 @@ if (isset($_GET['id'])) {
                                 <?php } ?>
                                 <?php if(!empty($forth_variation_name)){?>
                                     <figure>
-                                        <figcaption><strong><?=$forth_variation_name?>: </strong> Choose an option</figcaption>
+                                        <figcaption><strong><?=$forth_variation_name?>:  Choose an option</strong></figcaption>
                                         <?php if ($quantity==0) {
                                                 
                                                 $variants = "SELECT DISTINCT forth_variation_value from product_variations where product_id = '$product_id' AND active='Y'";
@@ -566,7 +566,7 @@ while($prRes = mysqli_fetch_array($prSql)){
                                                 $interval = $today - strtotime($expiry_date);
                                                 $days = floor($interval / 86400);
                                                 
-                                                if($days >= 1 && $days < 7) {
+                                                // if($days >= 1 && $days < 7) {
 
                                                     $urSql = mysqli_query($con,"SELECT * FROM product_reviews WHERE user_id = '$user_id' AND product_id ='$product_id'");
                                                     $urRows = mysqli_num_rows($urSql);
@@ -613,7 +613,7 @@ while($prRes = mysqli_fetch_array($prSql)){
                                             </form>
                                         </div>
 
-                                    <?php } } } }?>    
+                                    <?php } }  }?>    
                                     <!-- Submit Reveiw for product  -->
 
                                     </div>
@@ -644,74 +644,13 @@ while($prRes = mysqli_fetch_array($prSql)){
                         <p><i class="icon-store"></i> Sell on Martfury?<a href="#"> Register Now !</a></p>
                     </aside>
                     <aside class="widget widget_ads"><a href="#"><img src="img/ads/product-ads.png" alt=""></a></aside>
-                    <aside class="widget widget_same-brand">
-                        <h3>Other Offers</h3>
-                        <div class="widget__content">
-                            <div id="other-offers" class="row">
+                    
                                 <?php if(empty($variationid)){
 
                                     echo singleProductOtherOffers($product_id,$vendor_id,$con);
                                     }     
                                 ?>
-                            </div>
-                            <!-- <div class="ps-product">
-                                <div class="ps-product__thumbnail"><a href="product-default.html"><img src="img/products/shop/5.jpg" alt=""></a>
-                                    <div class="ps-product__badge">-37%</div>
-                                    <ul class="ps-product__actions">
-                                        <li><a href="#" data-toggle="tooltip" data-placement="top" title="Read More"><i class="icon-bag2"></i></a></li>
-                                        <li><a href="#" data-toggle="tooltip" data-placement="top" title="Quick View"><i class="icon-eye"></i></a></li>
-                                        <li><a href="#" data-toggle="tooltip" data-placement="top" title="Add to Whishlist"><i class="icon-heart"></i></a></li>
-                                        <li><a href="#" data-toggle="tooltip" data-placement="top" title="Compare"><i class="icon-chart-bars"></i></a></li>
-                                    </ul>
-                                </div>
-                                <div class="ps-product__container"><a class="ps-product__vendor" href="#">Robert's Store</a>
-                                    <div class="ps-product__content"><a class="ps-product__title" href="product-default.html">Grand Slam Indoor Of Show Jumping Novel</a>
-                                        <div class="ps-product__rating">
-                                            <select class="ps-rating" data-read-only="true">
-                                                <option value="1">1</option>
-                                                <option value="1">2</option>
-                                                <option value="1">3</option>
-                                                <option value="1">4</option>
-                                                <option value="2">5</option>
-                                            </select><span>01</span>
-                                        </div>
-                                        <p class="ps-product__price sale">$32.99 <del>$41.00 </del></p>
-                                    </div>
-                                    <div class="ps-product__content hover"><a class="ps-product__title" href="product-default.html">Grand Slam Indoor Of Show Jumping Novel</a>
-                                        <p class="ps-product__price sale">$32.99 <del>$41.00 </del></p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="ps-product">
-                                <div class="ps-product__thumbnail"><a href="product-default.html"><img src="img/products/shop/6.jpg" alt=""></a>
-                                    <div class="ps-product__badge">-5%</div>
-                                    <ul class="ps-product__actions">
-                                        <li><a href="#" data-toggle="tooltip" data-placement="top" title="Read More"><i class="icon-bag2"></i></a></li>
-                                        <li><a href="#" data-toggle="tooltip" data-placement="top" title="Quick View"><i class="icon-eye"></i></a></li>
-                                        <li><a href="#" data-toggle="tooltip" data-placement="top" title="Add to Whishlist"><i class="icon-heart"></i></a></li>
-                                        <li><a href="#" data-toggle="tooltip" data-placement="top" title="Compare"><i class="icon-chart-bars"></i></a></li>
-                                    </ul>
-                                </div>
-                                <div class="ps-product__container"><a class="ps-product__vendor" href="#">Youngshop</a>
-                                    <div class="ps-product__content"><a class="ps-product__title" href="product-default.html">Sound Intone I65 Earphone White Version</a>
-                                        <div class="ps-product__rating">
-                                            <select class="ps-rating" data-read-only="true">
-                                                <option value="1">1</option>
-                                                <option value="1">2</option>
-                                                <option value="1">3</option>
-                                                <option value="1">4</option>
-                                                <option value="2">5</option>
-                                            </select><span>01</span>
-                                        </div>
-                                        <p class="ps-product__price sale">$100.99 <del>$106.00 </del></p>
-                                    </div>
-                                    <div class="ps-product__content hover"><a class="ps-product__title" href="product-default.html">Sound Intone I65 Earphone White Version</a>
-                                        <p class="ps-product__price sale">$100.99 <del>$106.00 </del></p>
-                                    </div>
-                                </div>
-                            </div> -->
-                        </div>
-                    </aside>
+                            
                 </div>
             </div>
             <div class="ps-section--default ps-customer-bought">
@@ -1308,6 +1247,7 @@ while($prRes = mysqli_fetch_array($prSql)){
                             $("#v_p_id").val(data[5]);
                             $("#vendorid").val(data[6]);
                             $("#cart").prop('disabled', false);
+                            $("#cart").html('Buy Now');
                       }
                       else{
                             $('#ps-product__price').html("out Of Stock");
@@ -1330,8 +1270,8 @@ while($prRes = mysqli_fetch_array($prSql)){
                   success:function(data){
 
                       // console.log(data);
-                      $("#other-offers").html(null);
-                      $("#other-offers").html(data);
+                      $(".widget_same-brand").remove();
+                      $(".ps-page__right").append(data);
                   }
             });
        }
@@ -1359,6 +1299,7 @@ while($prRes = mysqli_fetch_array($prSql)){
                             $("#v_p_id").val(data[5]);
                             $("#vendorid").val(data[6]);
                             $("#cart").prop('disabled', false);
+                            $("#cart").html('Buy Now');
                       }
                       else{
                             $('#ps-product__price').html("out Of Stock");
@@ -1382,8 +1323,8 @@ while($prRes = mysqli_fetch_array($prSql)){
                   success:function(data){
 
                       // console.log(data);
-                      $("#other-offers").html(null);
-                      $("#other-offers").html(data);
+                      $(".widget_same-brand").remove();
+                      $(".ps-page__right").append(data);
                   }
             });
        }
@@ -1409,6 +1350,7 @@ while($prRes = mysqli_fetch_array($prSql)){
                             $("#v_p_id").val(data[5]);
                             $("#vendorid").val(data[6]);
                             $("#cart").prop('disabled', false);
+                            $("#cart").html('Buy Now');
                       }
                       else{
                             $('#ps-product__price').html("out Of Stock");
@@ -1432,8 +1374,8 @@ while($prRes = mysqli_fetch_array($prSql)){
                 success   : function(data){
 
                     // console.log(data);
-                    $('#other-offers').html(null);
-                    $('#other-offers').html(data);
+                    $(".widget_same-brand").remove();
+                    $(".ps-page__right").append(data);
                 }
 
             });
@@ -1459,6 +1401,7 @@ while($prRes = mysqli_fetch_array($prSql)){
                     $("#v_p_id").val(data[5]);
                     $("#vendorid").val(data[6]);
                     $("#cart").prop('disabled', false);
+                    $("#cart").html('Buy Now');
                 }
                 else{
                     $('#ps-product__price').html("out Of Stock");
@@ -1481,8 +1424,8 @@ function getforthOffers(variation1,variation2,variation3,variation4,prodcut_id,v
         success : function(data){
 
             // console.log(data);
-            $('#other-offers').html(null);
-            $('#other-offers').html(data);
+            $(".widget_same-brand").remove();
+            $(".ps-page__right").append(data);
         }
     });
 }

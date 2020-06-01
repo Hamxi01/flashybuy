@@ -1,3 +1,4 @@
+
 <?php
      
 
@@ -7,9 +8,13 @@
              price != ( SELECT MIN(price)  FROM vendor_product where prod_id=$productid AND active='Y') OR
              price = ( SELECT MIN(price)  FROM vendor_product where prod_id=$productid AND active='Y')";
         $vpquery = mysqli_query($con,$vpsql);
-        $tRows = mysqli_num_rows($vpquery);
-        // $result   = mysqli_fetch_array($vpquery);
-        
+        $tRows = mysqli_num_rows($vpquery); ?>
+
+        <aside class="widget widget_same-brand">
+                        <h3>Other Offers</h3>
+                        <div class="widget__content">
+                            <div id="other-offers" class="row">
+    <?php                            
          while ($pro = mysqli_fetch_array($vpquery)) {
 
             $v_p_id = $pro['id'];
@@ -45,6 +50,11 @@
 
                   $price = '';                    
          }
+         ?>
+         </div>
+                        </div>
+                    </aside>
+<?php
      }
 
 

@@ -51,11 +51,17 @@ if (isset($_POST['product_id'])) {
 			$vres   = mysqli_fetch_array($vquery);
 			$vendorname = $vres['shop_name'];
 			           
-			echo '<div class="col-md-12">
+			echo '<aside class="widget widget_same-brand">
+                        <h3>Other Offers</h3>
+                        <div class="widget__content">
+                            <div id="other-offers" class="row"><div class="col-md-12">
 	                                    <h4><b>R'.$price.'</b><button class="btn btn-warning" style="float: right;color:#fff" onclick="addtoCart('.$product_id.','.$ven_id.','.$variation_id.',1,'.$price.','.$v_p_id.')">Add to cart</button></h4>
 	                                    <h5>By: <a href="#">'.$vendorname.'</a></h5>
 	                                    <p><b>'.$days.'</b></p>
-	                                </div>';
+	                                </div>
+         </div>
+                        </div>
+                    </aside>';
 	                               
 		 }
 	} 
