@@ -2,6 +2,20 @@
       include('includes/header.php');
       include('includes/sidebar.php');
 
+      if (isset($_GET['id']) && $_GET['action']) {
+        
+          $p_r_id = $_GET['id'];
+          $action = $_GET['action'];
+
+          if ($action == 'delete') {
+            
+              $prSql = "DELETE FROM product_reviews WHERE p_r_id = '$p_r_id'";
+              if (mysqli_query($con,$prSql)) {
+                
+                echo "<script>window.location.assign('all-reviews.php?msg=delete');</script>";
+              }
+          }
+      }    
 
 ?>
 
@@ -10,6 +24,18 @@
         <section class="section">
           <div class="section-body"> 
 
+<?php
+if (isset($_GET['msg']) && $_GET['msg'] == 'delete') { ?>
+<div class="row">
+    <div class="col-lg-6 col-sm-offset-3">
+        <div class="alert alert-info msg">    
+    <?php echo "<span>Review Deleted...!!</span>"; ?>
+
+        </div>
+    </div>
+</div>
+<?php 
+}?>
 <?php
 if (isset($_GET['msg']) && $_GET['msg'] == 'success') { ?>
 <div class="row">
@@ -53,7 +79,7 @@ if (isset($_GET['msg']) && $_GET['msg'] == 'reject') { ?>
                             <th>User Name</th>
                             <th>Description</th>
                             <th>Rating</th>
-                            <!-- <th></th> -->
+                            <th></th>
                             <!-- <th></th> -->
                           </tr>
                         </thead>
@@ -120,9 +146,9 @@ while($prRes = mysqli_fetch_array($prSql)){
                                 </div>
                                 
                              <?php } ?>
-                            </td><!-- 
-                            <td><button class="btn btn-success"><a href="pending-reviews.php?id=<?=$prid?>&action=accept" style="color:#fff"><i class="fas fa-check"></i></a></button></td>
-                            <td><button class="btn btn-danger"><a href="pending-reviews.php?id=<?=$prid?>&action=reject" style="color:#fff"><i class="fas fa-window-close"></i></a></button></td> -->
+                            </td>
+                            <!-- <td><button class="btn btn-success"><a href="pending-reviews.php?id=<?=$prid?>&action=accept" style="color:#fff"><i class="fas fa-check"></i></a></button></td> -->
+                            <td><button class="btn btn-danger"><a href="all-reviews.php?id=<?=$prid?>&action=delete" style="color:#fff"><i class="fas fa-window-close"></i></a></button></td>
                           </tr>
 <?php } ?>                            
                         </tbody>

@@ -11,6 +11,8 @@
         $deal_price        = ( $_REQUEST['deal_price']);
         $deal_quantity     = ( $_REQUEST['deal_quantity']);
         $deal_market_price = ( $_REQUEST['mk_price']);
+        
+        $deal_NO           = ( $_REQUEST['deal_NO']);
 
         $vpq = mysqli_query($con,"SELECT * FROM vendor_product where id='$v_p_id'");
          while( $rpq = mysqli_fetch_array($vpq)){
@@ -20,7 +22,7 @@
          }
 
 
-        $p  = "INSERT INTO vendor_product_deals SET product_id = '$product_id' , deal_NO = 10030 , v_p_id = '$v_p_id' , start_date = '$start_date' , end_date = '$end_date', deal_price = '$deal_price', deal_quantity = '$deal_quantity', market_price = '$deal_market_price' ,variation_id='$variation_id'";
+        $p  = "INSERT INTO vendor_product_deals SET product_id = '$product_id' , deal_NO = '$deal_NO' , v_p_id = '$v_p_id' , start_date = '$start_date' , end_date = '$end_date', deal_price = '$deal_price', deal_quantity = '$deal_quantity', market_price = '$deal_market_price' ,variation_id='$variation_id'";
         $sP = mysqli_query( $con , $p  );
         echo "<script>window.location.assign('product.php?msg=success');</script>";
         exit;
@@ -93,7 +95,20 @@ $rPV = mysqli_fetch_array( $sPV );
 if( $rPV > 0 ){
   $notShow = 1;
 }
-?>                        	
+?>                        <tr>
+                          <td colspan="4"> Select Deal</td>
+                          <td colspan="6">
+<?php 
+$dSql = mysqli_query($con,"SELECT * FROM deals_links");
+while ($dRes = mysqli_fetch_array($dSql)) {
+ 
+$deal_No =  filter_var($dRes['deal_url'], FILTER_SANITIZE_NUMBER_INT);
+                              
+                            echo  '<input type="radio" value="'.$deal_No.'" name="dealno_'.$product_id.'" >&nbsp;&nbsp;'.$dRes['deal_name'] .')<br />';
+ } ?>                              
+                            
+                          </td>
+                        </tr><br>	
                         	<tr style="font-size:13px !important; font-weight:bold ">
                             <td></td>
                             <td><?=$rPd['name']?> <?=$rPd['variant_Sku']?></td>
@@ -140,6 +155,7 @@ if( $rPV > 0 ){
     var deal_price          = $("input[name='deal_price_"+v_p_id+"']" ).val();
     var deal_quantity       = $("input[name='deal_quantity_"+v_p_id+"']").val();
     var deal_market_price   = $("input[name='mk_price_"+v_p_id+"']").val();
+    var deal_NO             = $("input[name='dealno_"+v_p_id+"']").val();
 
     if(start_date == "" ){
       swal("Enter Start Date");
@@ -154,7 +170,7 @@ if( $rPV > 0 ){
       return false;
     }
 
-    var url_link = "?prod_id="+v_p_id+"&action=insert&v_p_id="+v_pid + "&start_date=" + start_date + "&end_date=" + end_date + "&deal_price=" + deal_price + "&deal_quantity=" + deal_quantity+ "&mk_price=" + deal_market_price;
+    var url_link = "?prod_id="+v_p_id+"&action=insert&v_p_id="+v_pid + "&start_date=" + start_date + "&end_date=" + end_date + "&deal_price=" + deal_price + "&deal_quantity=" + deal_quantity+ "&mk_price=" + deal_market_price+ "&deal_NO=" + deal_NO;
     window.location.href = url_link;
     return false; 
   }

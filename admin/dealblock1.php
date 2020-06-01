@@ -29,6 +29,7 @@
         $deal_price        = ( $_REQUEST['deal_price']);
         $deal_quantity     = ( $_REQUEST['deal_quantity']);
         $deal_market_price = ( $_REQUEST['mk_price']);
+        $deal_NO           = ( $_REQUEST['deal_NO']);
 
         $vpq = mysqli_query($con,"SELECT * FROM vendor_product where id='$v_p_id'");
          while( $rpq = mysqli_fetch_array($vpq)){
@@ -38,9 +39,9 @@
          }
 
 
-        $p  = "INSERT INTO vendor_product_deals SET product_id = '$product_id' , deal_NO = 10030 , v_p_id = '$v_p_id' , start_date = '$start_date' , end_date = '$end_date', deal_price = '$deal_price', deal_quantity = '$deal_quantity', market_price = '$deal_market_price' ,variation_id='$variation_id'";
+        $p  = "INSERT INTO vendor_product_deals SET product_id = '$product_id' , deal_NO = '$deal_NO' , v_p_id = '$v_p_id' , start_date = '$start_date' , end_date = '$end_date', deal_price = '$deal_price', deal_quantity = '$deal_quantity', market_price = '$deal_market_price' ,variation_id='$variation_id'";
         $sP = mysqli_query( $con , $p  );
-        echo "<script>window.location.assign('dealblock1.php?msg=success');</script>";
+        echo "<script>window.location.assign('dealblock1.php?msg=success&deal_No".$deal_NO."');</script>";
         exit;
  }     
 ?>
@@ -240,8 +241,13 @@ $vendor = $vRes[0];
           </div>
         </section>
       </div>
+<?php 
+      if (isset($_GET['deal_No'])) {
         
-              
+        $deal_No = $_GET['deal_No'];
+      }
+?>
+      <input type="hidden" name="" value="<?=$deal_No?>" id="deal_NO">        
       <?php include('includes/footer.php'); ?>
 <script type="text/javascript">
   function addDealProduct(v_p_id){
@@ -257,6 +263,7 @@ $vendor = $vRes[0];
     var deal_price          = $("input[name='deal_price_"+v_p_id+"']" ).val();
     var deal_quantity       = $("input[name='deal_quantity_"+v_p_id+"']").val();
     var deal_market_price   = $("input[name='mk_price_"+v_p_id+"']").val();
+    var deal_NO             = $("#deal_NO").val();
 
     if(start_date == "" ){
       swal("Enter Start Date");
@@ -271,7 +278,7 @@ $vendor = $vRes[0];
       return false;
     }
 
-    var url_link = "?prod_id="+v_p_id+"&action=insert&v_p_id="+v_pid + "&start_date=" + start_date + "&end_date=" + end_date + "&deal_price=" + deal_price + "&deal_quantity=" + deal_quantity+ "&mk_price=" + deal_market_price;
+    var url_link = "?prod_id="+v_p_id+"&action=insert&v_p_id="+v_pid + "&start_date=" + start_date + "&end_date=" + end_date + "&deal_price=" + deal_price + "&deal_quantity=" + deal_quantity+ "&mk_price=" + deal_market_price+ "&deal_NO=" + deal_NO;
     window.location.href = url_link;
     return false; 
   }

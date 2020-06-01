@@ -494,31 +494,57 @@ if (isset($_GET['id'])) {
                                     <div class="row">
                                         <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12 col-12 ">
                                             <div class="ps-block--average-rating">
+<?php 
+$prSql = mysqli_query($con,"SELECT * FROM product_reviews WHERE approved ='Y' AND reject = 'N' AND product_id = '$product_id' ORDER BY p_r_id DESC");
+while($prRes = mysqli_fetch_array($prSql)){
+
+  
+  $user_name   = $prRes['user_name'];
+  $description = $prRes['description'];
+  $rating      = $prRes['rating'];
+?>
                                                 <div class="ps-block__header">
-                                                    <h3>4.00</h3>
+                                                    
+                                                    <h4><?=$user_name?></h4>
                                                     <select class="ps-rating" data-read-only="true">
+                                                    <?php if ($rating == 5) { ?>    
+                                                        <option value="1">1</option>
+                                                        <option value="1">2</option>
+                                                        <option value="1">3</option>
+                                                        <option value="1">4</option>
+                                                        <option value="1">5</option>
+                                                    <?php } ?>
+                                                    <?php if ($rating == 4) { ?>    
                                                         <option value="1">1</option>
                                                         <option value="1">2</option>
                                                         <option value="1">3</option>
                                                         <option value="1">4</option>
                                                         <option value="2">5</option>
-                                                    </select><span>1 Review</span>
+                                                    <?php } ?>
+                                                    <?php if ($rating == 3) { ?>    
+                                                        <option value="1">1</option>
+                                                        <option value="1">2</option>
+                                                        <option value="1">3</option>
+                                                        <option value="2">4</option>
+                                                        <option value="2">5</option>
+                                                    <?php } ?>    
+                                                    <?php if ($rating == 2) { ?>    
+                                                        <option value="1">1</option>
+                                                        <option value="1">2</option>
+                                                        <option value="2">3</option>
+                                                        <option value="2">4</option>
+                                                        <option value="2">5</option>
+                                                    <?php } ?>
+                                                    <?php if ($rating == 1) { ?>    
+                                                        <option value="1">1</option>
+                                                        <option value="2">2</option>
+                                                        <option value="2">3</option>
+                                                        <option value="2">4</option>
+                                                        <option value="2">5</option>
+                                                    <?php } ?>
+                                                    </select><span><?=$description?></span>
                                                 </div>
-                                                <div class="ps-block__star"><span>5 Star</span>
-                                                    <div class="ps-progress" data-value="100"><span></span></div><span>100%</span>
-                                                </div>
-                                                <div class="ps-block__star"><span>4 Star</span>
-                                                    <div class="ps-progress" data-value="0"><span></span></div><span>0</span>
-                                                </div>
-                                                <div class="ps-block__star"><span>3 Star</span>
-                                                    <div class="ps-progress" data-value="0"><span></span></div><span>0</span>
-                                                </div>
-                                                <div class="ps-block__star"><span>2 Star</span>
-                                                    <div class="ps-progress" data-value="0"><span></span></div><span>0</span>
-                                                </div>
-                                                <div class="ps-block__star"><span>1 Star</span>
-                                                    <div class="ps-progress" data-value="0"><span></span></div><span>0</span>
-                                                </div>
+<?php } ?>                                      
                                             </div>
                                         </div>
 

@@ -49,12 +49,13 @@ if (isset($_GET['msg']) && $_GET['msg'] == 'success') { ?>
 $dSql = mysqli_query($con,"SELECT * FROM deals_links");
 while ($dRes = mysqli_fetch_array($dSql)) {
  
-
+$deal_No =  filter_var($dRes['deal_url'], FILTER_SANITIZE_NUMBER_INT);
 ?>                                                    
                             <tr style="font-size:13px !important; font-weight:bold ">
                               <td><?=$dRes['deal_name']?></td>
                               <td><?=$dRes['deal_url']?></td>
-                              <td><button class="btn btn-warning"><a href="deals.php?id=<?=$dRes['d_l_id']?>&action=remove">remove</a></button></td>
+                              <td><button class="btn btn-warning"><a style="color: white" href="dealblock1.php?deal_No=<?=$deal_No?>">Add products</a></button></td>
+                              <td><button class="btn btn-warning"><a style="color: white" href="deals.php?id=<?=$dRes['d_l_id']?>&action=remove">remove</a></button></td>
                             </tr>
 <?php } ?>                            
                           </tbody>
