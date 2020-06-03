@@ -1,3 +1,67 @@
+<style>
+    /********US-changes*****/
+.ps-page--my-account.sell-pages a.logo-lg span {
+  font-size: 24px;
+  color: #000;
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-weight: 700;
+  display: block;
+}
+.ps-page--my-account.sell-pages form .form-holder {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  margin: 0 -10px;
+}
+.ps-page--my-account.sell-pages form .form-holder .form-control {
+    padding-left: 30px;
+}
+.ps-page--my-account.sell-pages form .form-holder .form-group {
+  width: 50%;
+  padding: 0 10px;
+}
+.ps-page--my-account.sell-pages form .form-holder .form-group .col-xs-12 {
+    position: relative;
+}
+.ps-page--my-account.sell-pages form .form-holder .form-group i {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 11px;
+}
+.ps-page--my-account.sell-pages form .heading {
+    margin-bottom: 10px;
+}
+.radio-holder .form-group .radio-area {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+}
+.radio-holder .form-group .radio-area .radio {
+    width: 25%;
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 5px;
+}
+.radio-holder .form-group .radio-area .radio label {
+    margin: 0;
+    padding-left: 7px;
+}
+@media (max-width:767.98px){
+    .ps-page--my-account.sell-pages form .form-holder .form-group {
+    width: 100%;
+}
+.ps-page--my-account.sell-pages .radio-holder .form-group .radio-area .radio {
+    width: 50%;
+}
+.ps-page--my-account.sell-pages .form-group.submit {
+    text-align: center;
+}
+}
+</style>
 <?php 
  include('includes/head.php');
 include('includes/db.php');
@@ -5,7 +69,7 @@ include('includes/db.php');
     <body>
 
 
-    <div class="ps-page--my-account">
+    <div class="ps-page--my-account sell-pages">
      <div class="ps-my-account-2">
             <div class="container">
             <div class="ps-section__right">
@@ -16,6 +80,7 @@ include('includes/db.php');
             </div>
 
             <form class="ps-form--checkout" id="form_register" method="post" action="actions/seller_register.php">
+                <div class="form-holder">
                 <div class="form-group">
                     <div class="col-xs-12">
                         
@@ -57,26 +122,28 @@ include('includes/db.php');
                     </div>
                 </div>
 
-
                 <div class="form-group">
-                    <div class="col-xs-6">
+                    <div class="col-xs-12">
 
 
 
                         <input class="form-control" type="text" data-mask="+27 000 000" id="mobile_number" name="mobile_number"  placeholder="Cell Phone Number (optional)">
                         <i class="fa fa-mobile form-control-feedback l-h-34"></i>
                     </div>
+                </div>
+                <div class="form-group">
 
-                    <div class="col-xs-6">
+                    <div class="col-xs-12">
                         <input class="form-control" type="text"  id="phone_number" name="phone_number" placeholder="Phone Number (optional)">
                         <i class="fa fa-phone form-control-feedback l-h-34"></i>
                     </div>
                 </div>
-                <br>
+                </div>
+                <div class="heading">
                 <h4>Tell us about your business</h4>
-
-               
-                  <div class="form-group">
+                </div>
+                <div class="form-holder">
+                <div class="form-group">
                     <div class="col-xs-12">
                         
                         <input class="form-control" type="text"  id="company" name="company" placeholder="Company Name">
@@ -118,26 +185,29 @@ include('includes/db.php');
                         <i class="fa fa-circle form-control-feedback l-h-34"></i>
                     </div>
                 </div>
-
-
-               <div class="form-group">
-                    <div class="col-xs-12">
-                        <label>Are you VAT registered?</label><br>
-                      <div class="radio">
-                      <input type="radio" name="radio1" id="radio11" value="YES" >
-                      <label for="radio11">
-                      YES
-                      </label>
-                      </div>
-
-                      <div class="radio">
-                      <input type="radio" name="radio1" id="radio11" value="NO" >
-                      <label for="radio11">
-                      NO
-                      </label>
-                      </div>
-                    </div>
                 </div>
+               <div class="radio-holder">
+                    <div class="form-group">
+                        <div class="col-xs-12">
+                            <label>Are you VAT registered?</label>
+                        <div class="radio-area">
+                        <div class="radio">
+                        <input type="radio" name="radio1" id="radio11" value="YES" >
+                        <label for="radio11">
+                        YES
+                        </label>
+                        </div>
+
+                        <div class="radio">
+                        <input type="radio" name="radio1" id="radio11" value="NO" >
+                        <label for="radio11">
+                        NO
+                        </label>
+                        </div>
+                        </div>
+                        </div>
+                    </div>
+               </div>
 
                 <div class="form-group" style="display:none" id="vat">
                     <div class="col-xs-12">
@@ -148,9 +218,11 @@ include('includes/db.php');
                 </div>
 
 
-                 <div class="form-group">
+                <div class="radio-holder">
+                <div class="form-group">
                     <div class="col-xs-12">
                         <label>Monthly Revenue</label><br>
+                      <div class="radio-area">
                       <div class="radio">
                       
                       <input type="radio" name="r_amount" id="r_amount" value="YES" >
@@ -193,7 +265,9 @@ include('includes/db.php');
                       Less than R20k
                       </label>
                       </div>
+                      </div>
                     </div>
+                </div>
                 </div>
 
 
@@ -211,7 +285,7 @@ include('includes/db.php');
                 </div>
 
                                     <div class="form-group submit">      
-                        <button style="margin-top: 20px; margin-right: 120px;" class="ps-btn" id="btnsub" name="btnsub" type="submit">Apply To Sell</button>
+                        <button style="margin-top: 20px;" class="ps-btn" id="btnsub" name="btnsub" type="submit">Apply To Sell</button>
                     
                         </div>  
 

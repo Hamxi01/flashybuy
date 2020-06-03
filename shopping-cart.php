@@ -1,3 +1,59 @@
+<style>
+    /********cart-page*****/
+table.payment {
+  width: 100%;
+}
+table.payment tbody {
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+  align-items: flex-end;
+}
+table.payment tbody tr {
+  display: block;
+  width: 50%;
+  margin-bottom: 10px;
+
+}
+table.payment tbody tr td {
+  padding: 0 4px;
+}
+form#order-form .ps-table--shopping-cart thead tr th {
+    background-color: #fcb800;
+}
+form#order-form .ps-product--cart .ps-product__content a {
+    color: #000;
+    font-weight: bold;
+}
+.order-sumry {
+    padding: 0 !important;
+}
+@media (max-width: 991.98px){
+    .shoping-table {
+    overflow-x: auto;
+}
+.col-xl-3.offset-10.submit-order {
+    margin: 0;
+}
+.col-xl-3.offset-10.submit-order button {
+    right: inherit !important;
+    top: inherit !important;
+    position: inherit !important;
+}
+form#order-form .ps-table--shopping-cart tbody tr td {
+    min-width: 110px;
+}
+}
+@media (max-width: 767.98px){
+    .ps-block--shopping-total .col-xl-4.col-12.col-md-4 {
+    text-align: center !important;
+}
+form#order-form .ps-table--shopping-cart tbody tr td.td-custom.cart-image {
+    min-width: 300px;
+}
+}
+</style>
+
 <?php include('includes/db.php') ?>
 <?php include('includes/head.php') ?>
 <?php include('includes/courier_Packages.php'); ?>
@@ -557,18 +613,18 @@ if (isset($_POST['action']) && $_POST['action'] == 'submit_order') {
                                            }
                                         }        
                                 ?>
-                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 order-sumry">
                     
                     <div class="ps-block--shopping-total">
                         <h3><b>Order Summary</b></h3><br>
                         <div class="row">
-                            <div class="col-xl-4">
+                            <div class="col-xl-4 col-12 col-md-4">
                                 <p><b>SubTotal:</b>  R<?=$tPrice?></p>
                             </div>
-                            <div class="col-xl-4 text-center">
+                            <div class="col-xl-4 text-center col-12 col-md-4">
                                 <p class="shippPrice"><b>Shipping:</b>  TBC</p>
                             </div>
-                            <div class="col-xl-4 text-right" >
+                            <div class="col-xl-4 text-right col-12 col-md-4" >
                                 <p>Grand Total: <b style="font-size:20px" class="grandTotal">  R<?=$tPrice?></b></p>
                             </div>
                         </div>
@@ -590,79 +646,81 @@ if (isset($_POST['action']) && $_POST['action'] == 'submit_order') {
 </div>
 <?php } ?>                            
                             <h3><b>My Cart</b></h3>
+                            <div class="shoping-table">
                             <table class="table ps-table--shopping-cart">
                             
-                                <?php 
-                                        if(isset($_SESSION['product_cart'])){
-
-                                            $vendorPackage = vendorPackges('vendor',$_SESSION['product_cart'],$con);
-
-                                          $tquantity = 0;
-                                          $tPrice    = 0;
-                                          $i=0;
-                                          foreach($vendorPackage as $index => $value){
-
-                                            echo "<thead><tr><th colspan='4'>Package ".++$i."</th><th colspan='4'>Shipped By : ".$index."</th></tr></thead>";
-
-                                            foreach ($value as $key => $data) {
-                                             
-                                            
-                                                $priceProduct = $data['price']*$data['quantity'];
-                                                $tPrice      += $priceProduct;
-                                                $tquantity   += $data['quantity'];
-                                                $id           = base64_encode($data['product_id']);
-                                ?>
-                                <tr>
-                                    <td colspan="2" class="td-custom">
-                                        <div class="ps-product--cart">
-                                            <div class="ps-product__thumbnail"><a href="product-default.html"><img src="upload/product/200_<?=$data['image']?>" alt=""></a></div>
-                                            <div class="ps-product__content"><a href="product-default.html"><?=$data['name']?>
-                                                    
-                                                </a>
-                                                <p><?php
-
-                                                    if (isset($data['sku'])) {
-                                                    
-                                                        echo '('.$data['sku'].')';
-                                                    }
-                                                ?></p>
-                                                <p>
-                                                    <div class="form-group--number">
-
-                                                    <!-- Quantity Plus Button -->
-
-                                                    <button class="up" id="up<?=$data['v_p_id']?>" type="button" onclick="add(this.id,<?=$data['product_id']?>,<?=$data['v_p_id']?>,<?=$data['price']?>,<?=$data['vendor_id']?>)">+</button>
-
-                                                    <!-- Quantity Minus Button -->
-
-                                                    <button class="down" id="down<?=$data['v_p_id']?>" type="button" onclick="minus(this.id,<?=$data['product_id']?>,<?=$data['v_p_id']?>,<?=$data['price']?>,<?=$data['vendor_id']?>)">-</button>
-
-                                                    <!-- Quantity Input Box -->
-
-                                                    <input class="form-control" type="text" placeholder="" onchange="updateQuantity(<?=$data['product_id']?>,<?=$data['v_p_id']?>,<?=$data['price']?>,<?=$data['vendor_id']?>)" value="<?=$data['quantity']?>" id="qty<?=$data['v_p_id']?>">
-                                                    </div>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td colspan="2" class="price td-custom text-right"><b>R<?=$data['price']?></b></td>
-                                    <td colspan="3" class="td-custom text-right"><b>R<?php echo $data['price']*$data['quantity'] ?></b></td>
-                                    <td colspan="1" class="td-custom"><a href="" onclick="remove_cart_items(<?=$data['v_p_id']?>)"><i class="icon-cross"></i></a></td>
-                                </tr>
                             <?php 
-                                    } 
-                                } 
-                            }
+                                    if(isset($_SESSION['product_cart'])){
+
+                                        $vendorPackage = vendorPackges('vendor',$_SESSION['product_cart'],$con);
+
+                                      $tquantity = 0;
+                                      $tPrice    = 0;
+                                      $i=0;
+                                      foreach($vendorPackage as $index => $value){
+
+                                        echo "<thead><tr><th colspan='4'>Package ".++$i."</th><th colspan='4'>Shipped By : ".$index."</th></tr></thead>";
+
+                                        foreach ($value as $key => $data) {
+                                         
+                                        
+                                            $priceProduct = $data['price']*$data['quantity'];
+                                            $tPrice      += $priceProduct;
+                                            $tquantity   += $data['quantity'];
+                                            $id           = base64_encode($data['product_id']);
                             ?>
                             <tr>
-                                <td colspan="7" class="text-right">Shipping:</td>
-                                <td colspan="1" class="ShippingPrice">TBC</td>
+                                <td colspan="2" class="td-custom cart-image">
+                                    <div class="ps-product--cart">
+                                        <div class="ps-product__thumbnail"><a href="product-default.html"><img src="upload/product/200_<?=$data['image']?>" alt=""></a></div>
+                                        <div class="ps-product__content"><a href="product-default.html"><?=$data['name']?>
+                                                
+                                            </a>
+                                            <p><?php
+
+                                                if (isset($data['sku'])) {
+                                                
+                                                    echo '('.$data['sku'].')';
+                                                }
+                                            ?></p>
+                                            <p>
+                                                <div class="form-group--number">
+
+                                                <!-- Quantity Plus Button -->
+
+                                                <button class="up" id="up<?=$data['v_p_id']?>" type="button" onclick="add(this.id,<?=$data['product_id']?>,<?=$data['v_p_id']?>,<?=$data['price']?>,<?=$data['vendor_id']?>)">+</button>
+
+                                                <!-- Quantity Minus Button -->
+
+                                                <button class="down" id="down<?=$data['v_p_id']?>" type="button" onclick="minus(this.id,<?=$data['product_id']?>,<?=$data['v_p_id']?>,<?=$data['price']?>,<?=$data['vendor_id']?>)">-</button>
+
+                                                <!-- Quantity Input Box -->
+
+                                                <input class="form-control" type="text" placeholder="" onchange="updateQuantity(<?=$data['product_id']?>,<?=$data['v_p_id']?>,<?=$data['price']?>,<?=$data['vendor_id']?>)" value="<?=$data['quantity']?>" id="qty<?=$data['v_p_id']?>">
+                                                </div>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td colspan="2" class="price td-custom text-right"><b>R<?=$data['price']?></b></td>
+                                <td colspan="3" class="td-custom text-right"><b>R<?php echo $data['price']*$data['quantity'] ?></b></td>
+                                <td colspan="1" class="td-custom"><a href="" onclick="remove_cart_items(<?=$data['v_p_id']?>)"><i class="icon-cross"></i></a></td>
                             </tr>
-                            <tr>
-                                <td colspan="7" class="text-right">Total:</td>
-                                <td colspan="1"><b class="grandTotal">R<?=$tPrice?></b></td>
-                            </tr>
-                        </table>
+                        <?php 
+                                } 
+                            } 
+                        }
+                        ?>
+                        <tr>
+                            <td colspan="7" class="text-right">Shipping:</td>
+                            <td colspan="1" class="ShippingPrice">TBC</td>
+                        </tr>
+                        <tr>
+                            <td colspan="7" class="text-right">Total:</td>
+                            <td colspan="1"><b class="grandTotal">R<?=$tPrice?></b></td>
+                        </tr>
+                    </table>
+                            </div>
                         </div>
                         <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 ">
 <?php  if (isset($_GET['msg']) && $_GET['msg']=='error') { ?>
@@ -771,7 +829,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'submit_order') {
                     <input type="hidden" name="total_order_price" id="orderGrandTotal">
                     <input type="hidden" name="total_shipping_price" id="orderShippingPrice">
                     <div class="row">
-                        <div class="col-xl-3 offset-10">
+                        <div class="col-xl-3 offset-10 submit-order">
                             <button class="ps-btn btn-warning btn-lg" onclick="return checkValidation()"  style="color: #fff;position:relative;top:15px;right:20px">Submit Order</button>
                         </div>
                     </div>
