@@ -566,7 +566,7 @@ while($prRes = mysqli_fetch_array($prSql)){
                                                 $interval = $today - strtotime($expiry_date);
                                                 $days = floor($interval / 86400);
                                                 
-                                                if($days >= 1 && $days < 7) {
+                                             
 
                                                     $urSql = mysqli_query($con,"SELECT * FROM product_reviews WHERE user_id = '$user_id' AND product_id ='$product_id'");
                                                     $urRows = mysqli_num_rows($urSql);
@@ -613,7 +613,7 @@ while($prRes = mysqli_fetch_array($prSql)){
                                             </form>
                                         </div>
 
-                                    <?php } } } }?>    
+                                    <?php }  } }?>    
                                     <!-- Submit Reveiw for product  -->
 
                                     </div>
