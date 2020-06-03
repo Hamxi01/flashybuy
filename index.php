@@ -18,7 +18,7 @@
         </div>
         <div class="ps-site-features">
             <div class="ps-container">
-                <div class="ps-block--site-features">
+                <div class="ps-block--site-features new">
                     <div class="ps-block__item">
                         <div class="ps-block__left"><i class="icon-rocket"></i></div>
                         <div class="ps-block__right">
