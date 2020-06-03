@@ -9,6 +9,20 @@ if (isset($_SESSION['id']))
     $vendor_id = $_SESSION['id'];
  }
 ?>
+<?php
+if (isset($_GET['order_ids'])) {
+  
+    $order_ids = $_GET['order_ids'];
+
+    $oSql  = " UPDATE orders SET order_req_waybill = 'Y',set_req_waybill = unix_timestamp() WHERE order_ids = '$order_ids'" ;
+
+  if ($oQuery = mysqli_query( $con , $oSql )) {
+      
+      echo '<script type="text/javascript">window.location.href = "view-order-waybill.php?msg=success"</script>';
+  }  
+    
+}
+?>
       <!-- Main Content -->
       <div class="main-content">
         <section class="section">
@@ -17,8 +31,8 @@ if (isset($_SESSION['id']))
 if (isset($_GET['msg']) && $_GET['msg'] == 'success') { ?>
 <div class="row">
     <div class="col-lg-6 col-sm-offset-3">
-        <div class="alert alert-success msg">    
-    <?php echo "<span>Data Inserted successfully...!!</span>"; ?>
+        <div class="alert alert-dark msg">    
+    <?php echo "<span>WayBill request Successfully!...!!</span>"; ?>
 
         </div>
     </div>
@@ -38,7 +52,7 @@ if (isset($_GET['msg']) && $_GET['msg'] == 'success') { ?>
                         
 <?php 
 
-    $ordrSql = "SELECT O.time_id , O.order_usr_address, O.order_status ,O.order_user_phone , O.order_user_name,O.order_token,O.order_status,O.order_id,O.order_ids, O.order_delivered,O.order_delivery_date,O.order_vendor_name,O.order_ven_prod,O.order_vendor_id,O.order_prod_id,O.order_prod_price,O.order_price,O.quantity,O.order_transaction,O.order_transaction_id,P.name,P.image1,C.email,C.mobile FROM orders AS O LEFT JOIN products AS P ON O.order_prod_id = P.product_id LEFT JOIN customers AS C ON O.order_user = C.id WHERE O.order_vendor_id = '$vendor_id' ORDER BY order_id DESC";
+    $ordrSql = "SELECT O.time_id , O.order_usr_address, O.order_status ,O.order_user_phone , O.order_user_name,O.order_token,O.order_status,O.order_id,O.order_ids, O.order_delivered,O.order_delivery_date,O.order_vendor_name,O.order_ven_prod,O.order_vendor_id,O.order_prod_id,O.order_prod_price,O.order_price,O.quantity,O.order_transaction,O.order_transaction_id,P.name,P.image1,C.email,C.mobile FROM orders AS O LEFT JOIN products AS P ON O.order_prod_id = P.product_id LEFT JOIN customers AS C ON O.order_user = C.id WHERE O.order_vendor_id = '$vendor_id' AND O.order_ship_draft = 'Y' ORDER BY order_id DESC";
 
     $ordrQry = mysqli_query($con,$ordrSql);
     while( $ordrRes = mysqli_fetch_array($ordrQry)){
@@ -132,7 +146,6 @@ if (isset($_GET['msg']) && $_GET['msg'] == 'success') { ?>
                             <th><?=$order_qty?></th>
                             <th><?=$order_price?></th>
                             <th><?=$orderStatus?></th>
-                            <th><button class="btn btn-dark"><a style="color: white;text-decoration: none" href="view-order-draft.php?order_ids=<?=$order_ids?>">Ready To Ship</a></button></th>
                           </tr>
 <?php } ?>                      
                       </table>

@@ -22,9 +22,11 @@ if (isset($_POST['action']) && $_POST['action'] == 'submit_order') {
     $order_ids = rand(pow(10, $digits-1), pow(10, $digits)-1);
     $order_ids = "OR-".$order_ids;
     
-    $totalOrderPrice          = $_POST['total_order_price'];
-    $totalOrderShippingPrice  = $_POST['total_shipping_price'];
-    $uiaddress                = $_POST['address'];
+    $totalOrderPrice          = addslashes($_POST['total_order_price']);
+    $totalOrderShippingPrice  = addslashes($_POST['total_shipping_price']);
+    $uiaddress                = addslashes($_POST['address']);
+
+    $check_wallet_payment     = addslashes($_POST['check_wallet_payment']);
 
     $sU                     =   mysqli_query( $con ,  " SELECT * FROM user_addresses  where u_a_id = '$uiaddress'" );
     $rU                     =   mysqli_fetch_array( $sU ); 
@@ -36,6 +38,11 @@ if (isset($_POST['action']) && $_POST['action'] == 'submit_order') {
     $subrub                 =   mysqli_real_escape_string($con,$rU['subrub']);
     $zip_code               =   mysqli_real_escape_string($con,$rU['zip_code']);
 
+    $total_price_get    = $_REQUEST['total_order_price'];
+    $order_pay_price    = 0;
+
+    $order_wallet_price = 0;
+    $_SESSION['total_wallet_price'] = 0;
 
         $user_id = $user_id = $_SESSION['id'];
         $sL   = " SELECT * FROM customers WHERE id = '$user_id' ";
@@ -78,6 +85,13 @@ if (isset($_POST['action']) && $_POST['action'] == 'submit_order') {
 
             foreach($cartArr as $key => $data){
                 $a = 1;
+
+                $sOi = mysqli_query( $con , "SELECT order_id FROM orders ORDER BY order_id DESC LIMIT 1" );
+                $rOi = mysqli_fetch_array( $sOi);
+                $order_id = $rOi["order_id"]; 
+                $o_set_id = $order_id+1;
+                // echo $o_set_id;
+                // return;
                 foreach( $data as  $dt){
                     
                     
@@ -103,7 +117,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'submit_order') {
 
                     $order_delivery_date    = $dt["order_delivery_date"];
                     
-                    $order_token        = $order_ids.'-'.$order_prod_id;
+                    $order_token            = $o_set_id.'-'.$order_prod_id;
                     
                 
                     
@@ -283,6 +297,28 @@ if (isset($_POST['action']) && $_POST['action'] == 'submit_order') {
                     // print_r($totalDeliveryPrice);
                     // return;
                     $order_pay_price =  $order_price + $totalDeliveryPrice[$order_vendor_id];
+                    $t_o_price = $order_price;
+
+                    if( $check_wallet_payment == 'wallet'){
+        
+                            $user_wallet = $_POST['user_wallet'];
+                            $user_wallet = $user_wallet-$_SESSION['total_wallet_price'];
+                        
+                            if( $user_wallet > 0 ){
+                                    if( $user_wallet >= $t_o_price  ){
+
+                                        $order_wallet_price = ($t_o_price); $order_pay_price = 0; $wallet_amount_subtract = $t_o_price;
+
+
+                                    }else{
+                                        $order_wallet_price = $user_wallet ; $order_pay_price =  ($t_o_price-$user_wallet); 
+                                    }
+                                    
+                                    $no_total_price = 1;
+                                    
+                                    $_SESSION['total_wallet_price'] += $order_wallet_price;
+                            }
+                    }
 
                    $sO = " INSERT INTO orders SET               time_id             = '$date',
                                                                 order_ids           = '$order_ids',
@@ -294,7 +330,8 @@ if (isset($_POST['action']) && $_POST['action'] == 'submit_order') {
                                                                 order_user_city     = '$city',
                                                                 order_user_zipcode  = '$zip_code',
                                                                 order_ven_prod      = '$order_ven_prod',
-                                                                order_vendor_id     = '$order_vendor_id',               
+                                                                order_vendor_id     = '$order_vendor_id',
+                                                                order_transaction   = '$o_set_id',               
                                                                 order_prod_price    = '$ven_price', 
                                                                 order_vendor_name   = '$order_vendor_name',
                                                                 order_delivery_date = '$order_delivery_date',
@@ -302,6 +339,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'submit_order') {
                                                                 order_prod_id       = '$order_prod_id',
                                                                 order_price         = '$order_price',
                                                                 order_pay_price     = '$order_pay_price',
+                                                                order_wallet_price  = '$order_wallet_price',
                                                                 order_token         = '$order_token', 
                                                                 courier_fees        = '$totalDeliveryPrice[$order_vendor_id]',
                                                                 total_courier_price = '$totalOrderShippingPrice',
@@ -312,9 +350,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'submit_order') {
 
                             $sVP = "UPDATE vendor_product SET quantity = ( quantity-$quantity ) WHERE id = '$v_p_id'" ;
                             mysqli_query( $con , $sVP );
-                            $_SESSION['product_cart'] = '';
-                            unset( $_SESSION['product_cart'] );
-                                                                
+
                         } 
                }
             }
@@ -322,8 +358,99 @@ if (isset($_POST['action']) && $_POST['action'] == 'submit_order') {
 
     }
 
-     echo '<script type="text/javascript">window.location.href = "submit-order.php?id='.$order_ids.'"</script>';
-    
+    $_SESSION['order_ids'] = $order_ids;
+
+    if( $order_pay_price > 0 ){
+
+        $_SESSION['total_price_get'] = ( $total_price_get-$_SESSION['total_wallet_price'] );
+        
+    }elseif($no_total_price == 0 ){  
+
+        $_SESSION['total_price_get'] = $total_price_get; 
+    }else{
+
+        $sP = "UPDATE orders SET order_status = 'inprog' , order_payment_time = UNIX_TIMESTAMP() WHERE order_ids = '$order_ids'";
+        mysqli_query( $con , $sP );
+        
+        $total_wallet_price = $_SESSION['total_wallet_price'];
+        $sU = "UPDATE customers SET wallet_price = (wallet_price-$total_wallet_price) WHERE id = '$user_id' ";
+        mysqli_query( $con , $sU );
+
+        $order_ids  = $_SESSION['order_ids'];
+
+        $tc = " SELECT * FROM orders WHERE order_ids = '$order_ids' ";
+        $sTc = mysqli_query( $con , $tc );
+        while( $rTc = mysqli_fetch_array( $sTc ) ){
+        
+            $order_wallet_price =  $rTc["order_wallet_price"];  
+            $order_pay_price    =  $rTc["order_pay_price"];
+            
+            // $order_prod_name    =  $rTc["order_prod_name"];
+            $order_token        =  $rTc["order_token"]; 
+            
+            $courier_fees       =  $rTc["courier_fees"];    
+            $order_price        =  $rTc["order_price"]; 
+            
+            
+            
+            
+            
+            $orderDetail = 'Order Detail - ' . $order_prod_name . ' - ' . $order_token . '<br />' . 'Courier Fees : ' . $courier_fees . '<br /> Order Price : ' . $order_price;
+            $orderDetail_wallet = 'Wallet : Order Detail - ' . $order_prod_name . ' - ' . $order_token . '<br />' . 'Courier Fees : ' . $courier_fees . '<br /> Order Price : ' . $order_price;
+
+            if( $order_wallet_price > 0 ){
+
+                $t  = " select * from transaction where user_id = '$user_id' AND trans_type_user  = 'customer' order by transaction_id DESC LIMIT 1 ";
+                $sT = mysqli_query( $con , $t);
+                $rT = mysqli_fetch_array( $sT );
+                $lb = intval( $rT["user_transaction"] );
+
+                $user_transaction = intval($lb)-intval($order_wallet_price);    
+                
+                $sT = " INSERT INTO transaction SET time_id = unix_timestamp(), 
+                                                    user_id             = '$user_id',
+                                                    trans_type          = '$orderDetail',
+                                                    order_transaction   = '$order_ids',
+                                                    order_token         = '$order_token',
+                                                    trans_type_user     = 'customer',
+                                                    order_refund        = 'Y',
+                                                    transaction_type    = 'auto',
+                                                    user_transaction    = '$user_transaction',
+                                                    user_t_amount       = '$order_wallet_price'";
+                mysqli_query( $con , $sT );
+                                                    
+                                                   
+            }
+            if( $order_pay_price > 0 ){
+            
+
+                $t  = " select * from transaction where user_id = '$user_id' AND trans_type_user  = 'customer' order by transaction_id DESC LIMIT 1 ";
+                $sT = mysqli_query( $con , $t);
+                $rT = mysqli_fetch_array( $sT );
+                $lb = intval( $rT["user_transaction"] );
+                
+                $user_transaction = intval($lb)-intval($order_wallet_price);
+                
+                $sT = " INSERT INTO transaction SET time_id = unix_timestamp(), 
+                                                    user_id             = '$user_id',
+                                                    trans_type          = '$orderDetail',
+                                                    note                = '$orderDetail',
+                                                    order_transaction   = '$order_ids',
+                                                    order_token         = '$order_token',
+                                                    trans_type_user     = 'customer',
+                                                    order_refund        = 'Y',
+                                                    transaction_type    = 'auto',
+                                                    user_transaction    = '$user_transaction',
+                                                    user_t_amount       = '$order_wallet_price'";
+                
+                mysqli_query( $con , $sT );
+                    
+            }    
+        }
+    }
+    $_SESSION['product_cart'] = '';
+    unset( $_SESSION['product_cart'] );    
+    echo '<script type="text/javascript">window.location.href = "submit-order.php?id='.$order_ids.'"</script>';
 
 }
 
