@@ -235,5 +235,60 @@ function showCartInbox(product_id){
     });
     // 
   
-}      
+}   
+
+// ===================== Search Product =================== //  
+$(document).ready(function(){
+
+      // var width=$('.upper_search').width();
+      // var position = $('.top-search-holder').position();
+      //    $('.Search_model').css({'left':position.left+12});
+      // $('.Search_model').css({'left':position.left+16,'top':position.top+57,'width':width-1});
+          
+      // $(document).on("click", function(e) {
+      //     if ($(e.target).parents(".Search_model").length === 0)  {
+      //        $('.search-field').val('');
+      //          $('.Search_model').hide();
+               
+
+      //     }
+      //   });
+
+
+
+         $('.close').click(function(){
+           $('.search-field').val('');
+           $('.Search_model').hide();
+           
+         });
+
+            $("#search_box").on("paste keyup", function() {
+                 if($(this).val().length >= 3) {
+                 var keyword=$(this).val();
+                 var oldkeyword = $("#oldkeyword").val();
+                 if (keyword!=oldkeyword) {
+
+                     $('#products').animate({ scrollTop: 0 }, 0);
+                     $('#row').val('0');
+                     $("#oldkeyword").val(keyword);
+                 }
+
+                       $.ajax({
+                          type:"post",
+                          url:"search_ajax.php",
+                          data:{keyword:keyword},
+                          success:function(result){
+                            // console.log(result);    
+                              $("#products").html(result);
+                              $('.Search_model').show();
+                            
+                          }
+                        });
+                   } else {
+
+                     $('.Search_model').hide();
+
+                   }
+           });
+    }); 
 </script>

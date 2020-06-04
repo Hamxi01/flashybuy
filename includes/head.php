@@ -22,6 +22,77 @@
     <link rel="stylesheet" href="assets/plugins/select2/dist/css/select2.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <style type="text/css">
+        .Search_model{
+     position: absolute;
+     width: 44%; 
+    left: 367.682px;
+    top: 67.0739px;
+    height: 90%;
+    min-height: 400px;
+    border: 1px solid #eee;
+    background: #fff;
+    z-index: 100000;
+    display: none;
+}
+#products{
+    height: 90%;
+    overflow-y: scroll;
+    width: 100%;
+    margin: auto;
+}
+.caption{
+    text-align: center;
+}
+.lead{
+    text-align: center;
+}
+.upper_image{
+    text-align: center;
+    width: 60%;
+    margin: auto;
+    background: white;
+    margin-top: 25px;
+    margin-bottom: 25px;
+}
+
+
+.thumbnail:hover{
+    
+  background: #f5efef;
+}
+
+.caption-for-search h4{
+  min-height:73px !important;
+}
+
+@media (min-width: 320px) and (max-width: 767px) {
+
+.caption-for-search h4{
+  font-size: 11px;
+}
+
+}
+
+.item.col-xs-4.col-lg-4{
+  padding-left: 4px !important;
+  padding-right: 4px !important;
+
+}
+div#result {
+    position: absolute;
+    top: 10px;
+    left: 280px;
+}
+div#resultcount {
+    position: absolute;
+    top: 10px;
+    left: 245px;
+}
+.item.list-group-item a .thumbnail .upper_image img{
+max-width: 130px !important;
+}
+    </style>
 </head>
 <body>
 <!-- <header class="header header--product" data-sticky="true">
@@ -220,7 +291,7 @@
                                 <option class="level-1" value="wine-cabinets">   Wine Cabinets</option>
                             </select>
                         </div>
-                        <input class="form-control" type="text" placeholder="I'm shopping for...">
+                        <input class="form-control" type="text" id="search_box" placeholder="I'm shopping for...">
                         <button>Search</button>
                     </form>
                 </div>
@@ -940,3 +1011,20 @@
             </ul>
         </div>
     </div>
+    <!-- Search Modal -->
+    <div class="Search_model" style="" >
+    <div class="well well-sm">
+        <div class="btn-group">
+            <a  id="list" class=""><span class="glyphicon glyphicon-th-list">
+            </span></a> <a  id="grid" class=""><span
+                class="glyphicon glyphicon-th"></span></a>
+
+        </div>
+         <div class="close" style="float: right;"><img src="https://img.icons8.com/material/24/000000/delete-sign--v1.png"></div>
+    </div>
+    <div id="products" style="overflow-x: hidden;" class="row list-group">
+           
+    
+    </div>
+</div>
+<input type="hidden" id="row" value="0">
