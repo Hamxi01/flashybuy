@@ -21,9 +21,9 @@
   <link rel="stylesheet" href="assets/bundles/codemirror/lib/codemirror.css">
   <link rel="stylesheet" href="assets/bundles/codemirror/theme/duotone-dark.css">
   
+  <!-- <link rel="stylesheet" href="assets/bundles/jquery-selectric/selectric.css"> -->
   <link rel="stylesheet" href="assets/bundles/bootstrap-daterangepicker/daterangepicker.css">
   <link rel="stylesheet" href="assets/bundles/select2/dist/css/select2.min.css">
-  <link rel="stylesheet" href="assets/bundles/jquery-selectric/selectric.css">
   <link rel="stylesheet" href="assets/bundles/pretty-checkbox/pretty-checkbox.min.css">
   <link rel="stylesheet" href="assets/bundles/bootstrap-tagsinput/dist/bootstrap-tagsinput.css">
   <link rel="stylesheet" href="assets/bundles/owlcarousel2/dist/assets/owl.carousel.min.css">
