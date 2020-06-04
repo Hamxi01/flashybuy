@@ -92,7 +92,7 @@ if (isset($_POST['action'])&& $_POST['action'] == "rejectproduct") {
     }
 foreach ($_POST['vi_id'] as $key => $vImageid) {
 
-     $imagequery = "update product_variant_images SET image1='".$_POST['variant_img1'][$key]."',image2='".$_POST['variant_img2'][$key]."',image3='".$_POST['variant_img3'][$key]."',image4='".$_POST['variant_img4'][$key]."' where product_id='".$product_id."'";
+     $imagequery = "update product_variant_images SET image1='".$_POST['variant_img1'][$key]."',image2='".$_POST['variant_img2'][$key]."',image3='".$_POST['variant_img3'][$key]."',image4='".$_POST['variant_img4'][$key]."' where id='".$_POST['vi_id'][$key]."'";
      mysqli_query($con,$imagequery);
 }
       ///// Check product is already in vendors products or not////
@@ -178,7 +178,8 @@ if (isset($_POST['action'])&& $_POST['action'] == "saveproduct") {
     }
 foreach ($_POST['vi_id'] as $key => $vImageid) {
 
-     $imagequery = "update product_variant_images SET image1='".$_POST['variant_img1'][$key]."',image2='".$_POST['variant_img2'][$key]."',image3='".$_POST['variant_img3'][$key]."',image4='".$_POST['variant_img4'][$key]."' where product_id='".$product_id."'";
+     $imagequery = "update product_variant_images SET image1='".$_POST['variant_img1'][$key]."',image2='".$_POST['variant_img2'][$key]."',image3='".$_POST['variant_img3'][$key]."',image4='".$_POST['variant_img4'][$key]."' where id='".$_POST['vi_id'][$key]."'";
+     // return;
      mysqli_query($con,$imagequery);
 }
       ///// Check product is already in vendors products or not////
@@ -266,7 +267,7 @@ if (isset($_POST['action']) && $_POST['action'] == "acceptproduct") {
     }
 foreach ($_POST['vi_id'] as $key => $vImageid) {
 
-     $imagequery = "update product_variant_images SET image1='".$_POST['variant_img1'][$key]."',image2='".$_POST['variant_img2'][$key]."',image3='".$_POST['variant_img3'][$key]."',image4='".$_POST['variant_img4'][$key]."' where product_id='".$product_id."'";
+     $imagequery = "update product_variant_images SET image1='".$_POST['variant_img1'][$key]."',image2='".$_POST['variant_img2'][$key]."',image3='".$_POST['variant_img3'][$key]."',image4='".$_POST['variant_img4'][$key]."' where id='".$_POST['vi_id'][$key]."'";
      mysqli_query($con,$imagequery);
 }
       ///// Check product is already in vendors products or not////
@@ -544,7 +545,7 @@ foreach ($_POST['vi_id'] as $key => $vImageid) {
                           </div>
                           <div class="form-group row">
                             <?php 
-                                $sql   = "SELECT * from product_variant_images WHERE product_id='$product_id'";
+                                $sql   = "SELECT * from product_variant_images WHERE product_id='$product_id' GROUP BY id";
                                 $query = mysqli_query($con,$sql);
                                 while ( $imageRes = mysqli_fetch_array($query)) {
                                     
@@ -559,36 +560,36 @@ foreach ($_POST['vi_id'] as $key => $vImageid) {
                               <div class="col-md-3">
                                 <div class="form-group">
                                   <label>Image1</label>
-                                  <input type="file" name="<?=$num?>1" id="<?=$num?>1" class="form-control" value="<?=$image1?>">
+                                  <input type="file" name="<?=$num?>1" id="<?=$num?>1" class="form-control" value="">
                                   <span id="<?=$num?>11"><img src="../upload/product/200_<?=$image1?>" width="180" height="160">
-                                    <input type="file" name="variant_img1" value="<?=$image1?>">
+                                    <input type="hidden" name="variant_img1[]" value="<?=$image1?>">
                                   </span>
                                 </div>
                               </div>
                               <div class="col-md-3">
                                 <div class="form-group">
                                   <label>Image2</label>
-                                  <input type="file" name="<?=$num?>2" id="<?=$num?>2"  class="form-control" value="<?=$image2?>">
+                                  <input type="file" name="<?=$num?>2" id="<?=$num?>2"  class="form-control" value="">
                                   <span id="<?=$num?>12"><img src="../upload/product/200_<?=$image2?>" width="180" height="160">
-                                    <input type="file" name="variant_img2" value="<?=$image2?>">
+                                    <input type="hidden" name="variant_img2[]" value="<?=$image2?>">
                                   </span>
                                 </div>
                               </div>
                               <div class="col-md-3">
                                 <div class="form-group">
                                   <label>Image3</label>
-                                  <input type="file" name="<?=$num?>3" id="<?=$num?>3"  class="form-control" value="<?=$image3?>">
+                                  <input type="file" name="<?=$num?>3" id="<?=$num?>3"  class="form-control" value="">
                                   <span id="<?=$num?>13"><img src="../upload/product/200_<?=$image3?>" width="180" height="160">
-                                    <input type="file" name="variant_img3" value="<?=$image3?>">
+                                    <input type="hidden" name="variant_img3[]" value="<?=$image3?>">
                                   </span>
                                 </div>
                               </div>
                               <div class="col-md-3">
                                 <div class="form-group">
                                   <label>Image4</label>
-                                  <input type="file" name="<?=$num?>4" id="<?=$num?>4"  class="form-control" value="<?=$image4?>">
+                                  <input type="file" name="<?=$num?>4" id="<?=$num?>4"  class="form-control" value="">
                                   <span id="<?=$num?>14"><img src="../upload/product/200_<?=$image4?>" width="180" height="160">
-                                    <input type="file" name="variant_img4" value="<?=$image4?>">
+                                    <input type="hidden" name="variant_img4[]" value="<?=$image4?>">
                                   </span>
                                 </div>
                               </div>
