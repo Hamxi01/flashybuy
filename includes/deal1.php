@@ -10,7 +10,7 @@ $dSql = mysqli_query($con,"SELECT P.*,VPD.v_p_id,VPD.deal_price,VPD.start_date,V
                     WHERE   1 = 1  
                             AND VP.active = 'Y'
                             AND VP.price > 0
-                            AND deal_NO='10030'
+                            AND deal_NO ='10030'
                             AND start_date < UNIX_TIMESTAMP()
                             AND end_date   > UNIX_TIMESTAMP()  
                             group by product_id
