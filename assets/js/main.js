@@ -96,6 +96,8 @@
         });
     }
 
+    
+
     function subMenuToggle() {
         $('.menu--mobile .menu-item-has-children > .sub-toggle').on('click', function(e) {
             e.preventDefault();

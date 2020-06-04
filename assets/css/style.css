@@ -3119,6 +3119,9 @@ table.payment tbody tr td {
   .ps-post--small-thumbnail .ps-post__bottom {
     margin-top: 10px;
   }
+  .ps-cart--mini .ps-cart__content {
+    display: none;
+}
 }
 
 .ps-post--horizontal {

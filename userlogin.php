@@ -1,3 +1,14 @@
+<style>
+    @media (max-width: 767.98px){
+        .ps-cart--mini .ps-cart__content{
+            display: none;
+        }
+        .ps-site-overlay.new-active {
+            display: none;
+        }
+    }
+</style>
+
 <?php 
  include('includes/db.php');
  include('includes/head.php');
@@ -95,4 +106,14 @@
         }
         return true;
     }
+</script>
+<script>
+    $(document).ready(function() {
+        $('.ps-cart--mini .header__extra').on('click', function(){
+            $('div#cart-mobile').addClass('active');
+        });
+        $('.ps-cart--mini .header__extra').on('click', function(){
+            $('.ps-site-overlay').addClass('new-active');
+        });
+});
 </script>
