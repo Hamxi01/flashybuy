@@ -121,7 +121,20 @@ if (isset($_POST['action']) && $_POST['action'] == 'submit_order') {
                 $ven_id        = $sV["ven_id"];
                 $ven_quantity  = $sV["quantity"];
                 $v_p_id        = $sV["v_p_id"];
-                $ven_price     = $sV["price"];
+
+                $dPSql = mysqli_query($con,"SELECT * FROM vendor_product_deals where v_p_id = '$v_p_id' AND start_date < UNIX_TIMESTAMP() AND end_date > UNIX_TIMESTAMP()");
+                while ($dpRes = mysqli_fetch_array($dPSql)) {
+
+                    if (!empty($dpRes['deal_price'])) {
+                        
+                        $ven_price = $dpRes['deal_price'];
+                    }else{
+
+
+                            $ven_price     = $sV["price"];
+                    }
+                    
+                }
                 $vendor        = $sV['shop_name'];
 
 
