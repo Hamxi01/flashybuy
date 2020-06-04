@@ -404,9 +404,8 @@ if (isset($_POST['action']) && $_POST['action'] == 'submit_order') {
 
                         if(mysqli_query( $con , $sO )){
 
-                            $sVP = "UPDATE vendor_product SET quantity = ( quantity-$quantity ) WHERE id = '$v_p_id'" ;
+                            $sVP = "UPDATE vendor_product SET quantity = ( quantity-$quantity ) WHERE id = '$order_ven_prod'" ;
                             mysqli_query( $con , $sVP );
-
                         } 
                }
             }

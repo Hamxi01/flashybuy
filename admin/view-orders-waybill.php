@@ -50,35 +50,35 @@ if( isset( $_POST['action'] ) && $_POST['action'] == 'order_save' ){
 
 ////=================== order delivered ========================= //
 
-// if( isset($_REQUEST['order_deliver']) &&  isset($_REQUEST['order_deliver'])  == 'Y'){
+if( isset($_REQUEST['order_deliver']) &&  isset($_REQUEST['order_deliver'])  == 'Y'){
 
-//   $order_transaction     = $_REQUEST['order_transaction'];
+  $order_transaction     = $_REQUEST['order_transaction'];
   
-//   $orderQ = " SELECT
-//           O.order_ids,
-//           P.cat_id,
-//           O.order_id,
-//           O.order_prod_price,
-//           O.order_price,
+  $orderQ = " SELECT
+          O.order_ids,
+          P.cat_id,
+          O.order_id,
+          O.order_prod_price,
+          O.order_price,
           
-//           O.order_transaction,
-//           O.order_token,
+          O.order_transaction,
+          O.order_token,
           
-//           O.order_user_name ,
+          O.order_user_name ,
           
-//           order_prod_id,
-//           order_user,
-//           order_vendor_name,
-//           order_vendor_id,
-//           courier_fees
-//         FROM 
-//             orders AS O
-//               INNER JOIN products  AS P 
-//             ON O.order_prod_id = P.product_id
-//         WHERE order_transaction = '$order_transaction'  AND order_status != 'cancel'
-//            ";
-//   $sOd   = mysqli_query( $con , $orderQ );
-//   while( $rOd   = mysqli_fetch_array( $sOd )){
+          order_prod_id,
+          order_user,
+          order_vendor_name,
+          order_vendor_id,
+          courier_fees
+        FROM 
+            orders AS O
+              INNER JOIN products  AS P 
+            ON O.order_prod_id = P.product_id
+        WHERE order_transaction = '$order_transaction'  AND order_status != 'cancel'
+           ";
+  $sOd   = mysqli_query( $con , $orderQ );
+  while( $rOd   = mysqli_fetch_array( $sOd )){
   
     
 //     // $oBoxSize       = $rOd["prod_box_size"];
@@ -87,105 +87,115 @@ if( isset( $_POST['action'] ) && $_POST['action'] == 'order_save' ){
     
     
      
-//     $cat_id         = $rOd["cat_id"];
-//     $order_user_name  = $rOd["order_user_name"];
+    $cat_id         = $rOd["cat_id"];
+    $order_user_name  = $rOd["order_user_name"];
     
     
-//     $sCtP = mysqli_query( $con , " SELECT commission FROM `categories` WHERE `cat_id` = '$cat_id' ;");
-//     $rCtP = mysqli_fetch_array( $sCtP );
-//     $category_perc     =  $rCtP["commission"];
+    $sCtP = mysqli_query( $con , " SELECT commission,name FROM `categories` WHERE `cat_id` = '$cat_id' ;");
+    $rCtP = mysqli_fetch_array( $sCtP );
+    $category_perc   =  $rCtP["commission"];
+    $category_name   =  $rCtP["name"];
     
-
+    $oPrice              = $rOd["order_price"];
+    $order_vendor_id     = $rOd["order_vendor_id"];
+    $order_user          = $rOd["order_user"];
+    $cat_id              = $rOd["cat_id"];
+    $prod_id             = $rOd["order_prod_id"];
+    $ven_name            = $rOd["order_vendor_name"];
+    $courier_fees        = $rOd["courier_fees"];
+    $order_id            = $rOd["order_id"];
     
-    
-//     // $oCat_id             = $catP[$category_perc];
-//     $oPrice              = $rOd["order_price"];
-//     $order_vendor_id     = $rOd["order_vendor_id"];
-//     $order_user          = $rOd["order_user"];
-//     $cat_id              = $rOd["cat_id"];
-//     $prod_id             = $rOd["order_prod_id"];
-//     $ven_name            = $rOd["order_vendor_name"];
-//     $courier_fees        = $rOd["courier_fees"];
-//     $order_id            = $rOd["order_id"];
-    
-//     $order_transaction   = $rOd["order_transaction"];
-//     $order_token         = $rOd["order_token"];
-//     $order_ids           = $rOd["order_ids"];
+    $order_transaction   = $rOd["order_transaction"];
+    $order_token         = $rOd["order_token"];
+    $order_ids           = $rOd["order_ids"];
     
     
      
     
-//     $price_cat      = ($oPrice*$category_perc/100);
-//     $price_cat_vat  = (($price_cat*15)/100);
-//     $price_cat      = $price_cat+$price_cat_vat;
-    
-//     //cat_price
-    
-    
-//     $t  = " select * from transaction where ven_id = '$order_vendor_id' order by transaction_id DESC LIMIT 1 ";
-//     $sT = mysqli_query( $con , $t);
-//     $rT = mysqli_fetch_array( $sT );
-//     $lb = ( $rT["user_transaction"] );
-    
-    
+    $price_cat      = ($oPrice*$category_perc/100);
 
-//     $vBalance = " user_transaction = ( $lb ) , "; $user_t_amount = " user_t_amount = $courier_fees,";
+    $price_cat_vat  = (($price_cat*15)/100);
+
+    $price_cat      = $price_cat+$price_cat_vat;
+
     
-//     $transaction_note = 'Courier Fees for (' . $order_ids . ')';
     
-//     $sDelivery = " INSERT INTO transaction SET time_id = unix_timestamp(), product_id = '$prod_id', prod_pirce = '$oPrice', ven_id = '$order_vendor_id', $vBalance $user_t_amount  
-//                             deduct_amount = '0',ven_name = '$ven_name',   order_transaction  = '$order_ids',order_token  = '$order_token',
-//                             note        = '$transaction_note',trans_type        = 'courier',user_name = '$order_user_name',
-//             order_id = '$order_id', box_size = '',box_price = '$courier_fees',user_id = '$order_user'" ;
+    $t  = " select * from transaction where ven_id = '$order_vendor_id' order by transaction_id DESC LIMIT 1 ";
+    $sT = mysqli_query( $con , $t);
+    $rT = mysqli_fetch_array( $sT );
+    $lb = ( $rT["user_transaction"] );
+    
+    $lb = intval($lb);
+
+    $vBalance = " user_transaction = ( $lb ) , "; $user_t_amount = " user_t_amount = $courier_fees,";
+    
+    $transaction_note = 'Courier Fees for (' . $order_ids . ')';
+    
+    $sDelivery = " INSERT INTO transaction SET time_id = unix_timestamp(), 
+                     product_id         = '$prod_id',
+                     product_price      = '$oPrice', 
+                     ven_id             = '$order_vendor_id', 
+                     $vBalance 
+                     $user_t_amount  
+                     deduct_amount      = '0',
+                     vend_name          = '$ven_name',
+                     order_transaction  = '$order_ids',
+                     order_token        = '$order_token',
+                     note               = '$transaction_note',
+                     trans_type         = 'courier',
+                     user_name          = '$order_user_name',
+                     order_id           = '$order_id',
+                     box_price          = '$courier_fees',
+                     user_id            = '$order_user'" ;
             
 
-//     mysqli_query( $con , $sDelivery );   
+    mysqli_query( $con , $sDelivery );   
+   
     
     
+    $t  = " select * from transaction where ven_id = '$order_vendor_id' order by transaction_id DESC LIMIT 1 ";
+    $sT = mysqli_query( $con , $t);
+    $rT = mysqli_fetch_array( $sT );
+    $lb = ( $rT["user_transaction"] );
     
-//     $t  = " select * from transaction where ven_id = '$order_vendor_id' order by transaction_id DESC LIMIT 1 ";
-//     $sT = mysqli_query( $con , $t);
-//     $rT = mysqli_fetch_array( $sT );
-//     $lb = ( $rT["user_transaction"] );
+    $lb = intval($lb);
+    $vBalance = " user_transaction = ( $lb-$price_cat) , "; $user_t_amount = " user_t_amount = -$price_cat,"; 
     
-    
-//     $vBalance = " user_transaction = ( $lb-$price_cat) , "; $user_t_amount = " user_t_amount = -$price_cat,"; 
-    
-//     $transaction_note = 'Success Fees for ' . $catArr[$category_perc] . ' - ' . $oCat_id . '%' . '- (' . $order_ids . ')' ;
-//     $sCategory  = " INSERT INTO transaction SET time_id = unix_timestamp(), prod_id = '$prod_id', prod_pirce = '$oPrice', ven_id = '$order_vendor_id', $vBalance $user_t_amount  
-//                                 deduct_amount = '$price_cat',ven_name = '$ven_name',order_transaction  = '$order_ids',order_token  = '$order_token',
-//                                 note        = '$transaction_note',trans_type        = '$transaction_note',user_name = '$order_user_name',
-//                   order_id = '$order_id',cat_id = '$category_perc',cat_perc = '$oCat_id', cat_price = '$price_cat' , transaction_vat = '$price_cat_vat' , user_id = '$order_user'" ;
+    $transaction_note = 'Success Fees for ' . $category_name . ' - ' . $category_perc . '%' . '- (' . $order_ids . ')' ;
+    $sCategory  = " INSERT INTO transaction SET time_id = unix_timestamp(), product_id = '$prod_id', product_price = '$oPrice', ven_id = '$order_vendor_id', $vBalance $user_t_amount  
+                                deduct_amount = '$price_cat',vend_name = '$ven_name',order_transaction  = '$order_ids',order_token  = '$order_token',
+                                note        = '$transaction_note',trans_type = '$transaction_note',user_name = '$order_user_name',
+                  order_id = '$order_id',cat_id = '$cat_id',cat_percent = '$category_perc', cat_price = '$price_cat' , transaction_vat = '$price_cat_vat' , user_id = '$order_user'" ;
     
     
 
-//     mysqli_query( $con , $sCategory ); 
+    mysqli_query( $con , $sCategory ); 
     
     
-//     $t  = " select * from transaction where ven_id = '$order_vendor_id' order by transaction_id DESC LIMIT 1 ";
-//     $sT = mysqli_query( $con , $t);
-//     $rT = mysqli_fetch_array( $sT );
-//     $lb = ( $rT["user_transaction"] );
+    $t  = " select * from transaction where ven_id = '$order_vendor_id' order by transaction_id DESC LIMIT 1 ";
+    $sT = mysqli_query( $con , $t);
+    $rT = mysqli_fetch_array( $sT );
+    $lb = ( $rT["user_transaction"] );
+    $lb = ( $rT["user_transaction"] );
     
-    
-//     $vBalance = " user_transaction = ( $lb+$oPrice) , "; $user_t_amount = " user_t_amount=$oPrice,";
-//     $transaction_note = 'Order Amount for (' . $order_ids . ')';
+    $vBalance = " user_transaction = ( $lb+$oPrice) , "; $user_t_amount = " user_t_amount=$oPrice,";
+    $transaction_note = 'Order Amount for (' . $order_ids . ')';
 
-//     $sAmount  = " INSERT INTO transaction SET time_id = unix_timestamp(), prod_id = '$prod_id', prod_pirce = '$oPrice', transfer_amount = '$oPrice', $vBalance $user_t_amount  
-//                     ven_id = '$order_vendor_id',ven_name = '$ven_name',order_transaction  = '$order_ids',order_token  = '$order_token',user_name = '$order_user_name',
-//                     note        = '$transaction_note', trans_type = 'vend_payment',
-//                 order_id = '$order_id',user_id = '$order_user'" ;
+    $sAmount  = " INSERT INTO transaction SET time_id = unix_timestamp(), product_id = '$prod_id', product_price = '$oPrice', transfer_amount = '$oPrice', $vBalance $user_t_amount  
+                    ven_id = '$order_vendor_id',vend_name = '$ven_name',order_transaction  = '$order_ids',order_token  = '$order_token',user_name = '$order_user_name',
+                    note        = '$transaction_note', trans_type = 'vend_payment',
+                order_id = '$order_id',user_id = '$order_user'" ;
     
-//     mysqli_query( $con , $sAmount );                         
+    mysqli_query( $con , $sAmount );                         
     
     
-//     $sO = "UPDATE orders SET order_delivered = 'Y', order_status = 'comp' WHERE order_id = '$order_id'";
-//     mysqli_query( $con , $sO);
+    $sO = "UPDATE orders SET order_delivered = 'Y', order_status = 'comp' WHERE order_id = '$order_id'";
+    mysqli_query( $con , $sO);
   
-//   }
-//     echo '<script type="text/javascript">window.location.href = "view-orders-waybill.php?msg=order-deliver"</script>';
-//     exit;
-//   }
+  }
+    echo '<script type="text/javascript">window.location.href = "view-orders-waybill.php?msg=order-deliver"</script>';
+    exit;
+  }
 
 ?>
       <!-- Main Content -->
@@ -517,7 +527,7 @@ if( $order_transaction != $prev_transaction  ){
 
 // =========================== Delivered Order Function ============================= ///
   function getOD( order_id ){
-    window.location.href='view-order-waybill.php?order_deliver=Y&deliver=Y&status_dispatch=collect&order_transaction=' + order_id;
+    window.location.href='view-orders-waybill.php?order_deliver=Y&deliver=Y&status_dispatch=collect&order_transaction=' + order_id;
   }
 
 </script>
