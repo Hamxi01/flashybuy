@@ -90,14 +90,14 @@ if( isset($_REQUEST['order_deliver']) &&  isset($_REQUEST['order_deliver'])  == 
     $order_user_name  = $rOd["order_user_name"];
     
     
-    $sCtP = mysqli_query( $con , " SELECT commission FROM `categories` WHERE `subcat_id` = '$cat_perc' ;");
+    $sCtP = mysqli_query( $con , " SELECT commission FROM `categories` WHERE `cat_id` = '$cat_id' ;");
     $rCtP = mysqli_fetch_array( $sCtP );
     $category_perc     =  $rCtP["commission"];
     
 
     
     
-    $oCat_id             = $catP[$category_perc];
+    // $oCat_id             = $catP[$category_perc];
     $oPrice              = $rOd["order_price"];
     $order_vendor_id     = $rOd["order_vendor_id"];
     $order_user          = $rOd["order_user"];
@@ -114,7 +114,7 @@ if( isset($_REQUEST['order_deliver']) &&  isset($_REQUEST['order_deliver'])  == 
     
      
     
-    $price_cat      = ($oPrice*$oCat_id/100);
+    $price_cat      = ($oPrice*$category_perc/100);
     $price_cat_vat  = (($price_cat*15)/100);
     $price_cat      = $price_cat+$price_cat_vat;
     
