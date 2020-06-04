@@ -54,17 +54,16 @@ if( isset($_REQUEST['order_deliver']) &&  isset($_REQUEST['order_deliver'])  == 
   $order_transaction     = $_REQUEST['order_transaction'];
   
   $orderQ = " SELECT
-          SP.prod_box_size,
-          SO.order_ids,
-          SP.cat_perc,
-          SO.order_id,
-          SO.order_prod_price,
-          SO.order_price,
+          O.order_ids,
+          P.cat_id,
+          O.order_id,
+          O.order_prod_price,
+          O.order_price,
           
-          SO.order_transaction,
-          SO.order_token,
+          O.order_transaction,
+          O.order_token,
           
-          SO.order_user_name ,
+          O.order_user_name ,
           
           order_prod_id,
           order_user,
@@ -81,19 +80,19 @@ if( isset($_REQUEST['order_deliver']) &&  isset($_REQUEST['order_deliver'])  == 
   while( $rOd   = mysqli_fetch_array( $sOd )){
   
     
-    $oBoxSize       = $rOd["prod_box_size"];
-    $oBoxPrice      = intval( $shpBoxPriceArr[$rOd["prod_box_size"]] );
+    // $oBoxSize       = $rOd["prod_box_size"];
+    // $oBoxPrice      = intval( $shpBoxPriceArr[$rOd["prod_box_size"]] );
     
     
     
      
-    $cat_perc         = $rOd["cat_perc"];
+    $cat_id         = $rOd["cat_id"];
     $order_user_name  = $rOd["order_user_name"];
     
     
-    $sCtP = mysqli_query( $con , " SELECT cat_id FROM `subcategories` WHERE `subcat_id` = '$cat_perc' ;");
+    $sCtP = mysqli_query( $con , " SELECT commission FROM `categories` WHERE `subcat_id` = '$cat_perc' ;");
     $rCtP = mysqli_fetch_array( $sCtP );
-    $category_perc     =  $rCtP["cat_id"];
+    $category_perc     =  $rCtP["commission"];
     
 
     
@@ -133,7 +132,7 @@ if( isset($_REQUEST['order_deliver']) &&  isset($_REQUEST['order_deliver'])  == 
     
     $transaction_note = 'Courier Fees for (' . $order_ids . ')';
     
-    $sDelivery = " INSERT INTO transaction SET time_id = unix_timestamp(), prod_id = '$prod_id', prod_pirce = '$oPrice', ven_id = '$order_vendor_id', $vBalance $user_t_amount  
+    $sDelivery = " INSERT INTO transaction SET time_id = unix_timestamp(), product_id = '$prod_id', prod_pirce = '$oPrice', ven_id = '$order_vendor_id', $vBalance $user_t_amount  
                             deduct_amount = '0',ven_name = '$ven_name',   order_transaction  = '$order_ids',order_token  = '$order_token',
                             note        = '$transaction_note',trans_type        = 'courier',user_name = '$order_user_name',
             order_id = '$order_id', box_size = '',box_price = '$courier_fees',user_id = '$order_user'" ;
