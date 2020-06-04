@@ -1,9 +1,9 @@
 <style>
-    @media (max-width: 767.98px){
-        .ps-cart--mini .ps-cart__content{
+    .ps-site-overlay.new-active {
             display: none;
         }
-        .ps-site-overlay.new-active {
+    @media (max-width: 767.98px){
+        .ps-cart--mini .ps-cart__content{
             display: none;
         }
     }
