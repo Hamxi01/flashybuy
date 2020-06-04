@@ -2,7 +2,14 @@
       include("../includes/db.php");
       include('includes/header.php');
       include('includes/sidebar.php');
-
+?>      
+<?php 
+      if (isset($_GET['deal_No'])) {
+        
+        $deal_No = $_GET['deal_No'];
+      }
+?>
+<?php
       if (isset($_POST['searchProduct'])) {
         
           $searchproductName = $_POST['p_name'];
@@ -147,12 +154,23 @@ while ($rV = mysqli_fetch_array( $sV )){
   $v_p_id   = $rV['id'];
   $vendorName .= '<input type="radio" value="'.$rV["id"].'" name="ven_p_'.$product_id.'" >&nbsp;&nbsp;'.$rV["shop_name"] .'(Qty-'.$rV["quantity"]. ')<br />';
 }
-$s = "SELECT * FROM vendor_product_deals WHERE product_id = '$product_id' ";
+if (!empty($variation_id)) {
+$s = "SELECT * FROM vendor_product_deals WHERE product_id = '$product_id' AND variation_id ='$variation_id'";
 
 $sPV = mysqli_query( $con , $s);
 $rPV = mysqli_fetch_array( $sPV );
 if( $rPV > 0 ){
   $notShow = 1;
+}
+}else{
+
+  $s = "SELECT * FROM vendor_product_deals WHERE product_id = '$product_id'";
+
+$sPV = mysqli_query( $con , $s);
+$rPV = mysqli_fetch_array( $sPV );
+if( $rPV > 0 ){
+  $notShow = 1;
+}
 }
 ?> 
 
@@ -204,7 +222,7 @@ if( $rPV > 0 ){
                           </tr>
                         <tbody> 
 <?php
-$pQ =  "SELECT P.*,VPD.v_p_id,VPD.start_date,VPD.end_date,VPD.deal_price,VPD.deal_quantity,VPD.market_price   FROM products AS P INNER JOIN vendor_product_deals AS VPD ON P.product_id = VPD.product_id  WHERE VPD.deal_NO = 10030  ";
+$pQ =  "SELECT P.*,VPD.v_p_id,VPD.start_date,VPD.end_date,VPD.deal_price,VPD.deal_quantity,VPD.market_price   FROM products AS P INNER JOIN vendor_product_deals AS VPD ON P.product_id = VPD.product_id  WHERE VPD.deal_NO = '$deal_No'  ";
 $sPd =   mysqli_query( $con ,$pQ);
 while ($dpR = mysqli_fetch_array($sPd)) {
   
@@ -241,12 +259,7 @@ $vendor = $vRes[0];
           </div>
         </section>
       </div>
-<?php 
-      if (isset($_GET['deal_No'])) {
-        
-        $deal_No = $_GET['deal_No'];
-      }
-?>
+
       <input type="hidden" name="" value="<?=$deal_No?>" id="deal_NO">        
       <?php include('includes/footer.php'); ?>
 <script type="text/javascript">

@@ -49,6 +49,7 @@ if( isset( $_POST['action'] ) && $_POST['action'] == 'order_save' ){
 }
 
 ////=================== order delivered ========================= //
+
 if( isset($_REQUEST['order_deliver']) &&  isset($_REQUEST['order_deliver'])  == 'Y'){
 
   $order_transaction     = $_REQUEST['order_transaction'];
@@ -185,15 +186,6 @@ if( isset($_REQUEST['order_deliver']) &&  isset($_REQUEST['order_deliver'])  == 
     echo '<script type="text/javascript">window.location.href = "view-orders-waybill.php?msg=order-deliver"</script>';
     exit;
   }
-
-
-
-
-
-
-
-
-
 
 ?>
       <!-- Main Content -->
