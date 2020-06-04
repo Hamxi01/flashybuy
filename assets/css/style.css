@@ -2520,7 +2520,24 @@ textarea.form-control {
 .form-group--inline .form-group__content {
   width: 100%;
 }
-
+/********US-changes*****/
+/********cart-page*****/
+table.payment {
+  width: 100%;
+}
+table.payment tbody {
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+  align-items: flex-end;
+}
+table.payment tbody tr {
+  display: block;
+  width: 50%;
+}
+table.payment tbody tr td {
+  padding: 0 4px;
+}
 @media (max-width: 1199px) {
   .form-group--inline {
     padding-left: 0;
