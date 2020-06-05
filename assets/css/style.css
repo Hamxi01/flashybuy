@@ -4409,7 +4409,68 @@ table.payment tbody tr td {
     display: none;
   }
 }
-
+    /********US-changes*****/
+    .ps-page--my-account.sell-pages a.logo-lg span {
+      font-size: 24px;
+      color: #000;
+      margin-top: 0;
+      margin-bottom: 20px;
+      font-weight: 700;
+      display: block;
+    }
+    .ps-page--my-account.sell-pages form .form-holder {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      margin: 0 -10px;
+    }
+    .ps-page--my-account.sell-pages form .form-holder .form-control {
+        padding-left: 30px;
+    }
+    .ps-page--my-account.sell-pages form .form-holder .form-group {
+      width: 50%;
+      padding: 0 10px;
+    }
+    .ps-page--my-account.sell-pages form .form-holder .form-group .col-xs-12 {
+        position: relative;
+    }
+    .ps-page--my-account.sell-pages form .form-holder .form-group i {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        left: 11px;
+    }
+    .ps-page--my-account.sell-pages form .heading {
+        margin-bottom: 10px;
+    }
+    .radio-holder .form-group .radio-area {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+    }
+    .radio-holder .form-group .radio-area .radio {
+        width: 25%;
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 5px;
+    }
+    .radio-holder .form-group .radio-area .radio label {
+        margin: 0;
+        padding-left: 7px;
+    }
+    @media (max-width:767.98px){
+        .ps-page--my-account.sell-pages form .form-holder .form-group {
+        width: 100%;
+    }
+    .ps-page--my-account.sell-pages .radio-holder .form-group .radio-area .radio {
+        width: 50%;
+    }
+    .ps-page--my-account.sell-pages .form-group.submit {
+        text-align: center;
+    }
+    }
 @media (max-width: 991px) {
   .ps-block--products-of-category {
     -webkit-box-orient: horizontal;
