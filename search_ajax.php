@@ -51,16 +51,18 @@ $sql_fetch="SELECT VP.*,VP.id,VP.quantity,VP.price,P.name,P.product_id,P.image1 
                     $prod_id   = $rC['product_id'];
                     $prod_name = $rC['name'];
                     $img = $rC['image1'];
+                    $price = $rC['price'];
+
                     // $price = $rC['price'];
                     // if( $img == "" ){  $img  = "../img/no_img.png"; }else{ $img = "../upload_images/".$img;}
                     // $imgName = file_ext_strip($img).'_130.'.file_ext($img);
 
                 ?>
             <div class="item  col-xs-4 col-lg-4">
-            <a href="<?=WEBSITE_URL;?>product/<?=str_replace(" ", "-" , $prod_name)?>/<?php echo $prod_id;?>/">
+            <a href="">
             <div class="thumbnail">
                 <div class="upper_image">
-                <img class="group list-group-image" width="100%" src="<?php echo WEBSITE_URL."upload_images/".$imgName;?>" alt="" />
+                <img class="group list-group-image" width="100%" src="upload/product/200_<?=$img?>" alt="" />
                 </div>
                 <div class="caption caption-for-search">
                     <?php if (strlen($prod_name) > 40){
