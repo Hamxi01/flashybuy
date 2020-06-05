@@ -14,11 +14,11 @@ $x =count($keywords);
 foreach( $keywords as $search_each ) {
 if( $x == 1 ){
 
-  $construct .= "AND (name like '%$keyword%'  OR description like '%$keyword1%')";
+  $construct .= "AND (P.name like '%$keyword%'  OR P.description like '%$keyword1%')";
 
    }else{ 
 
-    $construct .= "AND  (name like '%$search_each%'  OR description like '%$keyword1%')";
+    $construct .= "AND  (P.name like '%$search_each%'  OR P.description like '%$keyword1%')";
 
     } 
 }
@@ -59,7 +59,7 @@ $sql_fetch="SELECT VP.*,VP.id,VP.quantity,VP.price,P.name,P.product_id,P.image1 
 
                 ?>
             <div class="item  col-xs-4 col-lg-4">
-            <a href="">
+            <a href="product.php?id=<?=base64_encode($prod_id)?>&name=<?=str_replace(' ','-',$prod_name)?>">
             <div class="thumbnail">
                 <div class="upper_image">
                 <img class="group list-group-image" width="100%" src="upload/product/200_<?=$img?>" alt="" />
