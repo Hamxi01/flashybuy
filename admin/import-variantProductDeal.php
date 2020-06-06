@@ -155,7 +155,7 @@ $deal_No =  filter_var($dRes['deal_url'], FILTER_SANITIZE_NUMBER_INT);
     var deal_price          = $("input[name='deal_price_"+v_p_id+"']" ).val();
     var deal_quantity       = $("input[name='deal_quantity_"+v_p_id+"']").val();
     var deal_market_price   = $("input[name='mk_price_"+v_p_id+"']").val();
-    var deal_NO             = $("input[name='dealno_"+v_p_id+"']").val();
+    var deal_NO             = $("input[name='dealno_"+v_p_id+"']:checked").val();
 
     if(start_date == "" ){
       swal("Enter Start Date");

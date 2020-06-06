@@ -31,6 +31,7 @@ $pDCnt ="SELECT COUNT(*) as total FROM vendor_product AS VP LEFT JOIN products A
                                     AND VP.active = 'Y'
                                     AND VP.quantity > 0
                                     AND VP.price > 0
+                                    GROUP BY prod_id
                                     ";
          
 $sPdCt      =   mysqli_query( $con ,  $pDCnt  );
@@ -51,6 +52,15 @@ $sql_fetch="SELECT VP.*,VP.id,VP.quantity,VP.price,P.name,P.product_id,P.image1 
                     $prod_id   = $rC['product_id'];
                     $prod_name = $rC['name'];
                     $img = $rC['image1'];
+                    if (empty($img)) {
+    
+                      $varaintImgQuery = "SELECT main_img from product_variant_images where product_id ='$prod_id'";
+                      $varaintImgSql   = mysqli_query($con,$varaintImgQuery);
+                      while ($productVaraintImg = mysqli_fetch_array($varaintImgSql)) {
+
+                        $img = $productVaraintImg['main_img'];
+                      }
+                    }
                     $price = $rC['price'];
 
                     // $price = $rC['price'];
@@ -58,7 +68,7 @@ $sql_fetch="SELECT VP.*,VP.id,VP.quantity,VP.price,P.name,P.product_id,P.image1 
                     // $imgName = file_ext_strip($img).'_130.'.file_ext($img);
 
                 ?>
-            <div class="item  col-xs-4 col-lg-4">
+            <div class="item  col-sm-4">
             <a href="product.php?id=<?=base64_encode($prod_id)?>&name=<?=str_replace(' ','-',$prod_name)?>">
             <div class="thumbnail">
                 <div class="upper_image">
