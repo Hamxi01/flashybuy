@@ -1,5 +1,5 @@
 <?php
-$con = mysqli_connect("localhost", "root","" , "flashybuy") or die("No server found here");
+$con = mysqli_connect("localhost", "root","" , "new_flashybuy") or die("No server found here");
 session_start();
 
 
