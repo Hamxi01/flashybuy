@@ -14,12 +14,12 @@
  include('includes/head.php');
 //  Login and Sign Up
 
-    if(isset($_POST('btnsignup'))) {
-        // login related check
-        } 
-        if (isset($_POST('submit_registration'))) {
-        // registration related check
-        } 
+    // if(isset($_POST('btnsignup'))) {
+    //     // login related check
+    //     } 
+    //     if (isset($_POST('submit_registration'))) {
+    //     // registration related check
+    //     } 
  ?>
 
 <body>
