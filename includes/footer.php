@@ -147,12 +147,11 @@
     <script src="assets/plugins/sticky-sidebar/dist/sticky-sidebar.min.js"></script>
     <script src="assets/plugins/jquery.slimscroll.min.js"></script>
     <script src="assets/plugins/select2/dist/js/select2.full.min.js"></script>
-    <script src="assets/plugins/gmap3.min.js"></script>
     <!-- custom scripts-->
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
     <script src="assets/js/main.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDxflHHc5FlDVI-J71pO7hM1QJNW1dRp4U&amp;region=GB"></script>
+  
     <!-- Data Table -->
 
 
