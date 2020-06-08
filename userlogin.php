@@ -12,14 +12,7 @@
 <?php 
  include('includes/db.php');
  include('includes/head.php');
-//  Login and Sign Up
-
-    // if(isset($_POST('btnsignup'))) {
-    //     // login related check
-    //     } 
-    //     if (isset($_POST('submit_registration'))) {
-    //     // registration related check
-    //     } 
+ 
  ?>
 
 <body>
@@ -27,7 +20,7 @@
      <div class="ps-my-account-2">
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-12 text-center">
+                    <div class="col-lg-12 offset-1">
                         <h2>Log in or sign up</h2>
                     </div>
                 </div><br>
@@ -38,7 +31,7 @@
                          action="actions/sellerlogin.php" >
                             <ul class="ps-tab-list">
                                 <li class="active"><a href="#sign-in">Login</a></li>
-                                <li><a href="#register">Register</a></li>
+                                <li><a href="#sign-up">Register</a></li>
                             </ul>
                             <div class="ps-tabs">
                                 <div class="ps-tab active" id="sign-in">
@@ -61,34 +54,11 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="ps-tab" id="register">
-                                    <div class="ps-form__content">
-                                        <h5>New User? Create Account</h5>
-                                        <div class="form-group">
-                                            <input class="form-control" name="f_name" type="text" placeholder="First Name" required="">
-                                        </div>
-                                        <div class="form-group form-forgot">
-                                            <input class="form-control" name="l_name" type="text" placeholder="Last Name" required="">
-                                        </div>
-                                        <div class="form-group form-forgot">
-                                            <input class="form-control" name="email" type="text" placeholder="Enter Email" required="">
-                                        </div>
-                                        <div class="form-group form-forgot">
-                                            <input class="form-control" name="password" type="password" id="txtPassword" placeholder="Enter password">
-                                        </div>
-                                        <div class="form-group form-forgot">
-                                            <input class="form-control" name="confirmpassword" type="password" id="txtConfirmPassword" placeholder="Confirm password">
-                                            <span class="text text-danger not"></span>
-                                        </div>
-                                        <div class="form-group submit">
-                                            <button type="submit" name="btnsignup" class="ps-btn ps-btn--fullwidth">Sign Up</button>
-                                        </div>
-                                    </div>
-                                </div>
+                                
                             </div>
                         </form>
 
-                        <!-- <div class="col-lg-6 col-md-6 col-sm-6">
+                        <div class="col-lg-6 col-md-6 col-sm-6">
                                 <form class="ps-form--account ps-tab-root" method="post"
                                  action="actions/userlogin.php" >
                                     <ul class="ps-tab-list">
@@ -153,28 +123,13 @@
                                     
                                 </div>
                             </form>
-                        </div> -->
+                        </div>
                     </div>
             </div>
         </div>
     </div>
     <?php include('includes/footer.php'); ?>
-
-
-
-    
-
-
     <script type="text/javascript">
-
-
-
-    // Login and Sign up
-
-    console.log("Sign up and Login");
-
-
-
     function Validate() {
         var password = document.getElementById("txtPassword").value;
         var confirmPassword = document.getElementById("txtConfirmPassword").value;
