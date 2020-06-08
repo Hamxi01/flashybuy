@@ -5,6 +5,8 @@ $limit = 4;
 if (isset($_GET["page"])) { $page  = $_GET["page"]; } else { $page=1; };  
 $start_from = ($page-1) * $limit;
 
+ // ================== Categories ==================== //
+
 if (isset($_GET['cat_id'])) {
 	
 	$cat_id = $_GET['cat_id'];
@@ -28,6 +30,8 @@ if (isset($_GET['cat_id'])) {
                     GROUP BY 
                       VP.prod_id LIMIT $start_from, $limit";
 }
+
+//============ Subcategories ============================ //
 
 if (isset($_GET['subcat_id'])) {
 
@@ -76,6 +80,159 @@ if (isset($_GET['brand_id'])) {
                       AND P.brand = '$brand_id'
                     GROUP BY 
                       VP.prod_id LIMIT $start_from, $limit";
+}
+
+//================ Price Range ================ //
+
+if (isset($_GET['price_range'])) {
+    
+    $price_range = $_GET['price_range'];
+    if ($price_range == '0_100') {
+
+    	$productQuery = "SELECT 
+                      VP.*, 
+                      P.name, 
+                      P.image1, 
+                      min(VP.price) as min, 
+                      max(VP.price) as max, 
+                      PV.sku as variant_Sku 
+                    FROM 
+                      vendor_product AS VP 
+                      LEFT JOIN product_variations AS PV ON PV.variation_id = VP.variation_id 
+                      INNER JOIN products AS P ON P.product_id = VP.prod_id 
+                    where 
+                      VP.active = 'Y'
+                      AND VP.quantity > 0 
+                      AND VP.price > 0
+                      AND VP.price < 100
+                    GROUP BY 
+                      VP.prod_id LIMIT $start_from, $limit";
+    }
+    if ($price_range == '0_100') {
+
+    	$productQuery = "SELECT 
+                      VP.*, 
+                      P.name, 
+                      P.image1, 
+                      min(VP.price) as min, 
+                      max(VP.price) as max, 
+                      PV.sku as variant_Sku 
+                    FROM 
+                      vendor_product AS VP 
+                      LEFT JOIN product_variations AS PV ON PV.variation_id = VP.variation_id 
+                      INNER JOIN products AS P ON P.product_id = VP.prod_id 
+                    where 
+                      VP.active = 'Y'
+                      AND VP.quantity > 0 
+                      AND VP.price > 0
+                      AND VP.price < 100
+                    GROUP BY 
+                      VP.prod_id LIMIT $start_from, $limit";
+    }
+    if ($price_range == '100_250') {
+
+    	$productQuery = "SELECT 
+                      VP.*, 
+                      P.name, 
+                      P.image1, 
+                      min(VP.price) as min, 
+                      max(VP.price) as max, 
+                      PV.sku as variant_Sku 
+                    FROM 
+                      vendor_product AS VP 
+                      LEFT JOIN product_variations AS PV ON PV.variation_id = VP.variation_id 
+                      INNER JOIN products AS P ON P.product_id = VP.prod_id 
+                    where 
+                      VP.active = 'Y'
+                      AND VP.quantity > 0 
+                      AND VP.price > 100
+                      AND VP.price < 250
+                    GROUP BY 
+                      VP.prod_id LIMIT $start_from, $limit";
+    }
+    if ($price_range == '250_500') {
+
+    	$productQuery = "SELECT 
+                      VP.*, 
+                      P.name, 
+                      P.image1, 
+                      min(VP.price) as min, 
+                      max(VP.price) as max, 
+                      PV.sku as variant_Sku 
+                    FROM 
+                      vendor_product AS VP 
+                      LEFT JOIN product_variations AS PV ON PV.variation_id = VP.variation_id 
+                      INNER JOIN products AS P ON P.product_id = VP.prod_id 
+                    where 
+                      VP.active = 'Y'
+                      AND VP.quantity > 0 
+                      AND VP.price > 250
+                      AND VP.price < 500
+                    GROUP BY 
+                      VP.prod_id LIMIT $start_from, $limit";
+    }
+    if ($price_range == '500_750') {
+
+    	$productQuery = "SELECT 
+                      VP.*, 
+                      P.name, 
+                      P.image1, 
+                      min(VP.price) as min, 
+                      max(VP.price) as max, 
+                      PV.sku as variant_Sku 
+                    FROM 
+                      vendor_product AS VP 
+                      LEFT JOIN product_variations AS PV ON PV.variation_id = VP.variation_id 
+                      INNER JOIN products AS P ON P.product_id = VP.prod_id 
+                    where 
+                      VP.active = 'Y'
+                      AND VP.quantity > 0 
+                      AND VP.price > 500
+                      AND VP.price < 750
+                    GROUP BY 
+                      VP.prod_id LIMIT $start_from, $limit";
+    }
+    if ($price_range == '750_1000') {
+
+    	$productQuery = "SELECT 
+                      VP.*, 
+                      P.name, 
+                      P.image1, 
+                      min(VP.price) as min, 
+                      max(VP.price) as max, 
+                      PV.sku as variant_Sku 
+                    FROM 
+                      vendor_product AS VP 
+                      LEFT JOIN product_variations AS PV ON PV.variation_id = VP.variation_id 
+                      INNER JOIN products AS P ON P.product_id = VP.prod_id 
+                    where 
+                      VP.active = 'Y'
+                      AND VP.quantity > 0 
+                      AND VP.price > 750
+                      AND VP.price < 1000
+                    GROUP BY 
+                      VP.prod_id LIMIT $start_from, $limit";
+    }
+    if ($price_range == '=>1000') {
+
+    	$productQuery = "SELECT 
+                      VP.*, 
+                      P.name, 
+                      P.image1, 
+                      min(VP.price) as min, 
+                      max(VP.price) as max, 
+                      PV.sku as variant_Sku 
+                    FROM 
+                      vendor_product AS VP 
+                      LEFT JOIN product_variations AS PV ON PV.variation_id = VP.variation_id 
+                      INNER JOIN products AS P ON P.product_id = VP.prod_id 
+                    where 
+                      VP.active = 'Y'
+                      AND VP.quantity > 0
+                      AND VP.price > 1000
+                    GROUP BY 
+                      VP.prod_id LIMIT $start_from, $limit";
+    }
 }
   $productSql = mysqli_query($con,$productQuery);
   while ( $productResult = mysqli_fetch_array($productSql)) {

@@ -58,8 +58,102 @@ if (isset($_GET['brand_id'])) {
                       AND VP.quantity > 0 
                       AND VP.price > 0
                       AND P.brand = '$brand_id'";
-                       
+
   $link = "&brand_id=".$brand_id;
+    
+}
+
+if (isset($_GET['price_range'])) {
+    
+    $price_range = $_GET['price_range'];
+    if ($price_range == '0_100') {
+
+        $countSql =  "SELECT
+                    COUNT(DISTINCT(VP.prod_id)) as total 
+                    FROM 
+                      vendor_product AS VP
+
+                      INNER JOIN products AS P ON P.product_id = VP.prod_id 
+                      LEFT JOIN product_variations AS PV ON PV.variation_id = VP.variation_id 
+                    where 
+                      VP.active = 'Y'
+                      AND VP.quantity > 0 
+                      AND VP.price > 0
+                      AND VP.price < 100";
+
+    }
+    if ($price_range == '100_250') {
+        $countSql =  "SELECT
+                    COUNT(DISTINCT(VP.prod_id)) as total 
+                    FROM 
+                      vendor_product AS VP
+
+                      INNER JOIN products AS P ON P.product_id = VP.prod_id 
+                      LEFT JOIN product_variations AS PV ON PV.variation_id = VP.variation_id 
+                    where 
+                      VP.active = 'Y'
+                      AND VP.quantity > 0 
+                      AND VP.price > 100
+                      AND VP.price < 250";
+    }
+    if ($price_range == '250_500') {
+        $countSql =  "SELECT
+                    COUNT(DISTINCT(VP.prod_id)) as total 
+                    FROM 
+                      vendor_product AS VP
+
+                      INNER JOIN products AS P ON P.product_id = VP.prod_id 
+                      LEFT JOIN product_variations AS PV ON PV.variation_id = VP.variation_id 
+                    where 
+                      VP.active = 'Y'
+                      AND VP.quantity > 0 
+                      AND VP.price > 250
+                      AND VP.price < 500";
+    }
+    if ($price_range == '500_750') {
+        $countSql =  "SELECT
+                    COUNT(DISTINCT(VP.prod_id)) as total 
+                    FROM 
+                      vendor_product AS VP
+
+                      INNER JOIN products AS P ON P.product_id = VP.prod_id 
+                      LEFT JOIN product_variations AS PV ON PV.variation_id = VP.variation_id 
+                    where 
+                      VP.active = 'Y'
+                      AND VP.quantity > 0 
+                      AND VP.price > 500
+                      AND VP.price < 750";
+    }
+    if ($price_range == '750_1000') {
+        $countSql =  "SELECT
+                    COUNT(DISTINCT(VP.prod_id)) as total 
+                    FROM 
+                      vendor_product AS VP
+
+                      INNER JOIN products AS P ON P.product_id = VP.prod_id 
+                      LEFT JOIN product_variations AS PV ON PV.variation_id = VP.variation_id 
+                    where 
+                      VP.active = 'Y'
+                      AND VP.quantity > 0 
+                      AND VP.price > 750
+                      AND VP.price < 1000";
+    }
+    if ($price_range == '=>1000') {
+        $countSql =  "SELECT
+                    COUNT(DISTINCT(VP.prod_id)) as total 
+                    FROM 
+                      vendor_product AS VP
+
+                      INNER JOIN products AS P ON P.product_id = VP.prod_id 
+                      LEFT JOIN product_variations AS PV ON PV.variation_id = VP.variation_id 
+                    where 
+                      VP.active = 'Y'
+                      AND VP.quantity > 0
+                      AND VP.price > 1000";
+    }
+    
+
+  $link = "&price_range=".$price_range;
     
 }
 $totalCount = 0;
@@ -116,7 +210,16 @@ while ($catRes = mysqli_fetch_array($catQuery)) {
                         <figure>
                             <h4 class="widget-title">By Price</h4>
                             <div id="nonlinear"></div>
-                            <p class="ps-slider__meta">Price:<span class="ps-slider__value">$<span class="ps-slider__min"></span></span>-<span class="ps-slider__value">$<span class="ps-slider__max"></span></span></p>
+                            <ul>
+                                <li><a onclick="productPriceSeacrh(100)" id="R100">R0-R100</a></li>
+                                <li><a onclick="productPriceSeacrh(250)" id="R250">R100-R250</a></li>
+                                <li><a onclick="productPriceSeacrh(500)" id="R500">R250-R500</a></li>
+                                <li><a onclick="productPriceSeacrh(750)" id="R750">R500-R750</a></li>
+                                <li><a onclick="productPriceSeacrh(900)" id="R900">R750-R1000</a></li>
+                                <li><a onclick="productPriceSeacrh(1000)" id="R1000">Above R1000</a></li>
+                            </ul>
+                            
+                            <!-- <p class="ps-slider__meta">Price:<span class="ps-slider__value">R0<span class="ps-slider__min"></span></span>-<span class="ps-slider__value">R100<span class="ps-slider__max"></span></span></p> -->
                         </figure>
                         <!-- <figure>
                             <h4 class="widget-title">By Price</h4>
@@ -176,9 +279,9 @@ while ($catRes = mysqli_fetch_array($catQuery)) {
                                 <label for="color-8"></label>
                             </div>
                         </figure> -->
-                        <figure class="sizes">
+                        <!-- <figure class="sizes">
                             <h4 class="widget-title">BY SIZE</h4><a href="#">L</a><a href="#">M</a><a href="#">S</a><a href="#">XL</a>
-                        </figure>
+                        </figure> -->
                     </aside>
                 </div>
                 <div class="ps-layout__right">
@@ -681,6 +784,39 @@ while ($catRes = mysqli_fetch_array($catQuery)) {
 
         window.location.assign('product-list.php?brand_id='+brand_id);
     }
+    function productPriceSeacrh(val){
+
+        if (val == '100') {
+
+
+            window.location.assign('product-list.php?price_range='+'0_100');
+        }
+        if (val == '250') {
+
+
+            window.location.assign('product-list.php?price_range='+'100_250');
+        }
+        if (val == '500') {
+
+
+            window.location.assign('product-list.php?price_range='+'250_500');
+        }
+        if (val == '750') {
+
+
+            window.location.assign('product-list.php?price_range='+'500_750');
+        }
+        if (val == '900') {
+
+
+            window.location.assign('product-list.php?price_range='+'750_1000');
+        }
+        if (val == '1000') {
+
+
+            window.location.assign('product-list.php?price_range='+'=>1000');
+        }
+    }
 <?php 
 if (isset($_GET['cat_id'])) { $cat_id = $_GET['cat_id'];?>
 
@@ -730,6 +866,24 @@ if (isset($_GET['brand_id'])) { $brand_id = $_GET['brand_id'];?>
           $(this).addClass('active');
           var pageNum = this.id;
           $(".list").load("actions/productlistPagination.php?page=" + pageNum+"&brand_id=<?=$brand_id?>");
+        });
+    });
+
+<?php } ?>
+
+<?php 
+if (isset($_GET['price_range'])) { $brand_id = $_GET['price_range'];?>
+
+
+    $(document).ready(function() {
+
+        $(".list").load("actions/productlistPagination.php?page=1&price_range=<?=$price_range?>");
+            $("#pagination li").on('click',function(e){
+          e.preventDefault();
+          $("#pagination li").removeClass('active');
+          $(this).addClass('active');
+          var pageNum = this.id;
+          $(".list").load("actions/productlistPagination.php?page=" + pageNum+"&price_range=<?=$price_range?>");
         });
     });
 
