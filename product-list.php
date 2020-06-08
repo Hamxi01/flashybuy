@@ -43,6 +43,25 @@ if (isset($_GET['subcat_id'])) {
   $link = "&subcat_id=".$subcat_id;
     
 }
+if (isset($_GET['brand_id'])) {
+    
+    $brand_id = $_GET['brand_id'];
+    $countSql =  "SELECT
+                    COUNT(DISTINCT(VP.prod_id)) as total 
+                    FROM 
+                      vendor_product AS VP
+
+                      INNER JOIN products AS P ON P.product_id = VP.prod_id 
+                      LEFT JOIN product_variations AS PV ON PV.variation_id = VP.variation_id 
+                    where 
+                      VP.active = 'Y'
+                      AND VP.quantity > 0 
+                      AND VP.price > 0
+                      AND P.brand = '$brand_id'";
+                       
+  $link = "&brand_id=".$brand_id;
+    
+}
 $totalCount = 0;
 
 
@@ -68,7 +87,7 @@ $totalCount = 0;
                         <ul class="ps-list--categories">
 <?php 
 
-$catSql = "SELECT DISTINCT C.cat_id as category_id,C.name FROM vendor_product AS VP LEFT JOIN products AS P ON P.product_id = VP.prod_id LEFT JOIN categories AS C ON P.cat_id = C.cat_id WHERE 1 = 1 AND VP.active = 'Y' AND VP.quantity > 0 AND VP.price > 0";
+$catSql = "SELECT DISTINCT C.cat_id as category_id,C.name FROM vendor_product AS VP LEFT JOIN products AS P ON P.product_id = VP.prod_id LEFT JOIN categories AS C ON P.cat_id = C.cat_id WHERE 1 = 1 AND VP.active = 'Y' AND VP.quantity > 0 AND VP.price > 0 AND C.name IS NOT NULL";
 $catQuery = mysqli_query($con,$catSql);
 while ($catRes = mysqli_fetch_array($catQuery)) {
      
@@ -658,7 +677,10 @@ while ($catRes = mysqli_fetch_array($catQuery)) {
 
         window.location.assign('product-list.php?subcat_id='+sub_cat_id);
     }
+    function brandproductSearch(brand_id){
 
+        window.location.assign('product-list.php?brand_id='+brand_id);
+    }
 <?php 
 if (isset($_GET['cat_id'])) { $cat_id = $_GET['cat_id'];?>
 
@@ -690,6 +712,24 @@ if (isset($_GET['subcat_id'])) { $subcat_id = $_GET['subcat_id'];?>
           $(this).addClass('active');
           var pageNum = this.id;
           $(".list").load("actions/productlistPagination.php?page=" + pageNum+"&subcat_id=<?=$subcat_id?>");
+        });
+    });
+
+<?php } ?>
+
+<?php 
+if (isset($_GET['brand_id'])) { $brand_id = $_GET['brand_id'];?>
+
+
+    $(document).ready(function() {
+
+        $(".list").load("actions/productlistPagination.php?page=1&brand_id=<?=$brand_id?>");
+            $("#pagination li").on('click',function(e){
+          e.preventDefault();
+          $("#pagination li").removeClass('active');
+          $(this).addClass('active');
+          var pageNum = this.id;
+          $(".list").load("actions/productlistPagination.php?page=" + pageNum+"&brand_id=<?=$brand_id?>");
         });
     });
 

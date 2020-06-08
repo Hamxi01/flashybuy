@@ -53,7 +53,30 @@ if (isset($_GET['subcat_id'])) {
                       VP.prod_id LIMIT $start_from, $limit";
 }
 
+// =========== Brands list query =============== //
+if (isset($_GET['brand_id'])) {
 
+	$brand_id = $_GET['brand_id'];
+
+	$productQuery = "SELECT 
+                      VP.*, 
+                      P.name, 
+                      P.image1, 
+                      min(VP.price) as min, 
+                      max(VP.price) as max, 
+                      PV.sku as variant_Sku 
+                    FROM 
+                      vendor_product AS VP 
+                      LEFT JOIN product_variations AS PV ON PV.variation_id = VP.variation_id 
+                      INNER JOIN products AS P ON P.product_id = VP.prod_id 
+                    where 
+                      VP.active = 'Y'
+                      AND VP.quantity > 0 
+                      AND VP.price > 0
+                      AND P.brand = '$brand_id'
+                    GROUP BY 
+                      VP.prod_id LIMIT $start_from, $limit";
+}
   $productSql = mysqli_query($con,$productQuery);
   while ( $productResult = mysqli_fetch_array($productSql)) {
 
