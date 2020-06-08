@@ -34,7 +34,7 @@ $new_order_ids = 'OR';
                         <ul class="ps-section__links">
                             <li class="active"><a href="#">Dashboard</a></li>
                             <li><a href="view-addresses.php">My Addresses</a></li>
-                            <li><a href="#">view Orders</a></li>
+                            <li><a href="view-orders.php">view Orders</a></li>
                             <!-- <li><a href="#">Setting</a></li> -->
                             <li><a href="logout.php">Logout</a></li>
                         </ul>
