@@ -1,7 +1,9 @@
-<?php  include('includes/db.php') ?>
-<?php  
+<?php  include('includes/db.php'); 
        include('includes/head.php');  
-       include('subcategories.php')
+       include('subcategories.php');
+       include('brandslist.php');
+
+$limit=4;
 ?>
 
 <?php 
@@ -18,26 +20,10 @@ if (isset($_GET['cat_id'])) {
                       VP.active = 'Y'
                       AND VP.quantity > 0 
                       AND VP.price > 0
-                      AND P.cat_id = '$cat_id'"; 
+                      AND P.cat_id = '$cat_id'";
 
-    $productQuery = "SELECT 
-                      VP.*, 
-                      P.name, 
-                      P.image1, 
-                      min(VP.price) as min, 
-                      max(VP.price) as max, 
-                      PV.sku as variant_Sku 
-                    FROM 
-                      vendor_product AS VP 
-                      LEFT JOIN product_variations AS PV ON PV.variation_id = VP.variation_id 
-                      INNER JOIN products AS P ON P.product_id = VP.prod_id 
-                    where 
-                      VP.active = 'Y'
-                      AND VP.quantity > 0 
-                      AND VP.price > 0
-                      AND P.cat_id = '$cat_id'
-                    GROUP BY 
-                      VP.prod_id";
+    $link = "&cat_id=".$cat_id;                   
+
 }
 if (isset($_GET['subcat_id'])) {
     
@@ -54,25 +40,121 @@ if (isset($_GET['subcat_id'])) {
                       AND VP.quantity > 0 
                       AND VP.price > 0
                       AND P.sub_cat_id = '$subcat_id'"; 
-
-    $productQuery = "SELECT 
-                      VP.*, 
-                      P.name, 
-                      P.image1, 
-                      min(VP.price) as min, 
-                      max(VP.price) as max, 
-                      PV.sku as variant_Sku 
+  $link = "&subcat_id=".$subcat_id;
+    
+}
+if (isset($_GET['brand_id'])) {
+    
+    $brand_id = $_GET['brand_id'];
+    $countSql =  "SELECT
+                    COUNT(DISTINCT(VP.prod_id)) as total 
                     FROM 
-                      vendor_product AS VP 
-                      LEFT JOIN product_variations AS PV ON PV.variation_id = VP.variation_id 
+                      vendor_product AS VP
+
                       INNER JOIN products AS P ON P.product_id = VP.prod_id 
+                      LEFT JOIN product_variations AS PV ON PV.variation_id = VP.variation_id 
                     where 
                       VP.active = 'Y'
                       AND VP.quantity > 0 
                       AND VP.price > 0
-                      AND P.sub_cat_id = '$subcat_id'
-                    GROUP BY 
-                      VP.prod_id";
+                      AND P.brand = '$brand_id'";
+
+  $link = "&brand_id=".$brand_id;
+    
+}
+
+if (isset($_GET['price_range'])) {
+    
+    $price_range = $_GET['price_range'];
+    if ($price_range == '0_100') {
+
+        $countSql =  "SELECT
+                    COUNT(DISTINCT(VP.prod_id)) as total 
+                    FROM 
+                      vendor_product AS VP
+
+                      INNER JOIN products AS P ON P.product_id = VP.prod_id 
+                      LEFT JOIN product_variations AS PV ON PV.variation_id = VP.variation_id 
+                    where 
+                      VP.active = 'Y'
+                      AND VP.quantity > 0 
+                      AND VP.price > 0
+                      AND VP.price < 100";
+
+    }
+    if ($price_range == '100_250') {
+        $countSql =  "SELECT
+                    COUNT(DISTINCT(VP.prod_id)) as total 
+                    FROM 
+                      vendor_product AS VP
+
+                      INNER JOIN products AS P ON P.product_id = VP.prod_id 
+                      LEFT JOIN product_variations AS PV ON PV.variation_id = VP.variation_id 
+                    where 
+                      VP.active = 'Y'
+                      AND VP.quantity > 0 
+                      AND VP.price > 100
+                      AND VP.price < 250";
+    }
+    if ($price_range == '250_500') {
+        $countSql =  "SELECT
+                    COUNT(DISTINCT(VP.prod_id)) as total 
+                    FROM 
+                      vendor_product AS VP
+
+                      INNER JOIN products AS P ON P.product_id = VP.prod_id 
+                      LEFT JOIN product_variations AS PV ON PV.variation_id = VP.variation_id 
+                    where 
+                      VP.active = 'Y'
+                      AND VP.quantity > 0 
+                      AND VP.price > 250
+                      AND VP.price < 500";
+    }
+    if ($price_range == '500_750') {
+        $countSql =  "SELECT
+                    COUNT(DISTINCT(VP.prod_id)) as total 
+                    FROM 
+                      vendor_product AS VP
+
+                      INNER JOIN products AS P ON P.product_id = VP.prod_id 
+                      LEFT JOIN product_variations AS PV ON PV.variation_id = VP.variation_id 
+                    where 
+                      VP.active = 'Y'
+                      AND VP.quantity > 0 
+                      AND VP.price > 500
+                      AND VP.price < 750";
+    }
+    if ($price_range == '750_1000') {
+        $countSql =  "SELECT
+                    COUNT(DISTINCT(VP.prod_id)) as total 
+                    FROM 
+                      vendor_product AS VP
+
+                      INNER JOIN products AS P ON P.product_id = VP.prod_id 
+                      LEFT JOIN product_variations AS PV ON PV.variation_id = VP.variation_id 
+                    where 
+                      VP.active = 'Y'
+                      AND VP.quantity > 0 
+                      AND VP.price > 750
+                      AND VP.price < 1000";
+    }
+    if ($price_range == '=>1000') {
+        $countSql =  "SELECT
+                    COUNT(DISTINCT(VP.prod_id)) as total 
+                    FROM 
+                      vendor_product AS VP
+
+                      INNER JOIN products AS P ON P.product_id = VP.prod_id 
+                      LEFT JOIN product_variations AS PV ON PV.variation_id = VP.variation_id 
+                    where 
+                      VP.active = 'Y'
+                      AND VP.quantity > 0
+                      AND VP.price > 1000";
+    }
+    
+
+  $link = "&price_range=".$price_range;
+    
 }
 $totalCount = 0;
 
@@ -99,7 +181,7 @@ $totalCount = 0;
                         <ul class="ps-list--categories">
 <?php 
 
-$catSql = "SELECT DISTINCT C.cat_id as category_id,C.name FROM vendor_product AS VP LEFT JOIN products AS P ON P.product_id = VP.prod_id LEFT JOIN categories AS C ON P.cat_id = C.cat_id WHERE 1 = 1 AND VP.active = 'Y' AND VP.quantity > 0 AND VP.price > 0";
+$catSql = "SELECT DISTINCT C.cat_id as category_id,C.name FROM vendor_product AS VP LEFT JOIN products AS P ON P.product_id = VP.prod_id LEFT JOIN categories AS C ON P.cat_id = C.cat_id WHERE 1 = 1 AND VP.active = 'Y' AND VP.quantity > 0 AND VP.price > 0 AND C.name IS NOT NULL";
 $catQuery = mysqli_query($con,$catSql);
 while ($catRes = mysqli_fetch_array($catQuery)) {
      
@@ -112,215 +194,34 @@ while ($catRes = mysqli_fetch_array($catQuery)) {
                                     <?php echo subCategories($category_id,$con); ?>
                                 </ul>
                             </li>
-<?php }  ?>                             
-                            <!-- <li class="current-menu-item menu-item-has-children"><a href="shop-default.html">Garden &amp; Kitchen</a><span class="sub-toggle"><i class="fa fa-angle-down"></i></span>
-                                <ul class="sub-menu">
-                                    <li class="current-menu-item "><a href="shop-default.html">Cookware</a>
-                                    </li>
-                                    <li class="current-menu-item "><a href="shop-default.html">Decoration</a>
-                                    </li>
-                                    <li class="current-menu-item "><a href="shop-default.html">Furniture</a>
-                                    </li>
-                                    <li class="current-menu-item "><a href="shop-default.html">Garden Tools</a>
-                                    </li>
-                                    <li class="current-menu-item "><a href="shop-default.html">Home Improvement</a>
-                                    </li>
-                                    <li class="current-menu-item "><a href="shop-default.html">Powers And Hand Tools</a>
-                                    </li>
-                                    <li class="current-menu-item "><a href="shop-default.html">Utensil &amp; Gadget</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="current-menu-item menu-item-has-children"><a href="shop-default.html">Consumer Electrics</a><span class="sub-toggle"><i class="fa fa-angle-down"></i></span>
-                                <ul class="sub-menu">
-                                    <li class="current-menu-item menu-item-has-children"><a href="shop-default.html">Air Conditioners</a><span class="sub-toggle"><i class="fa fa-angle-down"></i></span>
-                                        <ul class="sub-menu">
-                                            <li class="current-menu-item "><a href="shop-default.html">Accessories</a>
-                                            </li>
-                                            <li class="current-menu-item "><a href="shop-default.html">Type Hanging Cell</a>
-                                            </li>
-                                            <li class="current-menu-item "><a href="shop-default.html">Type Hanging Wall</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li class="current-menu-item menu-item-has-children"><a href="shop-default.html">Audios &amp; Theaters</a><span class="sub-toggle"><i class="fa fa-angle-down"></i></span>
-                                        <ul class="sub-menu">
-                                            <li class="current-menu-item "><a href="shop-default.html">Headphone</a>
-                                            </li>
-                                            <li class="current-menu-item "><a href="shop-default.html">Home Theater System</a>
-                                            </li>
-                                            <li class="current-menu-item "><a href="shop-default.html">Speakers</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li class="current-menu-item menu-item-has-children"><a href="shop-default.html">Car Electronics</a><span class="sub-toggle"><i class="fa fa-angle-down"></i></span>
-                                        <ul class="sub-menu">
-                                            <li class="current-menu-item "><a href="shop-default.html">Audio &amp; Video</a>
-                                            </li>
-                                            <li class="current-menu-item "><a href="shop-default.html">Car Security</a>
-                                            </li>
-                                            <li class="current-menu-item "><a href="shop-default.html">Radar Detector</a>
-                                            </li>
-                                            <li class="current-menu-item "><a href="shop-default.html">Vehicle GPS</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li class="current-menu-item menu-item-has-children"><a href="shop-default.html">Office Electronics</a><span class="sub-toggle"><i class="fa fa-angle-down"></i></span>
-                                        <ul class="sub-menu">
-                                            <li class="current-menu-item "><a href="shop-default.html">Printers</a>
-                                            </li>
-                                            <li class="current-menu-item "><a href="shop-default.html">Projectors</a>
-                                            </li>
-                                            <li class="current-menu-item "><a href="shop-default.html">Scanners</a>
-                                            </li>
-                                            <li class="current-menu-item "><a href="shop-default.html">Store &amp; Business</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li class="current-menu-item menu-item-has-children"><a href="shop-default.html">TV Televisions</a><span class="sub-toggle"><i class="fa fa-angle-down"></i></span>
-                                        <ul class="sub-menu">
-                                            <li class="current-menu-item "><a href="shop-default.html">4K Ultra HD TVs</a>
-                                            </li>
-                                            <li class="current-menu-item "><a href="shop-default.html">LED TVs</a>
-                                            </li>
-                                            <li class="current-menu-item "><a href="shop-default.html">OLED TVs</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li class="current-menu-item menu-item-has-children"><a href="shop-default.html">Washing Machines</a><span class="sub-toggle"><i class="fa fa-angle-down"></i></span>
-                                        <ul class="sub-menu">
-                                            <li class="current-menu-item "><a href="shop-default.html">Type Drying Clothes</a>
-                                            </li>
-                                            <li class="current-menu-item "><a href="shop-default.html">Type Horizontal</a>
-                                            </li>
-                                            <li class="current-menu-item "><a href="shop-default.html">Type Vertical</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li class="current-menu-item "><a href="shop-default.html">Refrigerators</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="current-menu-item menu-item-has-children"><a href="shop-default.html">Health &amp; Beauty</a><span class="sub-toggle"><i class="fa fa-angle-down"></i></span>
-                                <ul class="sub-menu">
-                                    <li class="current-menu-item "><a href="shop-default.html">Equipments</a>
-                                    </li>
-                                    <li class="current-menu-item "><a href="shop-default.html">Hair Care</a>
-                                    </li>
-                                    <li class="current-menu-item "><a href="shop-default.html">Perfumer</a>
-                                    </li>
-                                    <li class="current-menu-item "><a href="shop-default.html">Skin Care</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="current-menu-item menu-item-has-children"><a href="shop-default.html">Computers &amp; Technologies</a><span class="sub-toggle"><i class="fa fa-angle-down"></i></span>
-                                <ul class="sub-menu">
-                                    <li class="current-menu-item "><a href="shop-default.html">Desktop PC</a>
-                                    </li>
-                                    <li class="current-menu-item "><a href="shop-default.html">Laptop</a>
-                                    </li>
-                                    <li class="current-menu-item "><a href="shop-default.html">Smartphones</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="current-menu-item menu-item-has-children"><a href="shop-default.html">Jewelry &amp; Watches</a><span class="sub-toggle"><i class="fa fa-angle-down"></i></span>
-                                <ul class="sub-menu">
-                                    <li class="current-menu-item "><a href="shop-default.html">Gemstone Jewelry</a>
-                                    </li>
-                                    <li class="current-menu-item "><a href="shop-default.html">Men's Watches</a>
-                                    </li>
-                                    <li class="current-menu-item "><a href="shop-default.html">Women's Watches</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="current-menu-item menu-item-has-children"><a href="shop-default.html">Phones &amp; Accessories</a><span class="sub-toggle"><i class="fa fa-angle-down"></i></span>
-                                <ul class="sub-menu">
-                                    <li class="current-menu-item "><a href="shop-default.html">Iphone 8</a>
-                                    </li>
-                                    <li class="current-menu-item "><a href="shop-default.html">Iphone X</a>
-                                    </li>
-                                    <li class="current-menu-item "><a href="shop-default.html">Sam Sung Note 8</a>
-                                    </li>
-                                    <li class="current-menu-item "><a href="shop-default.html">Sam Sung S8</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="current-menu-item menu-item-has-children"><a href="shop-default.html">Sport &amp; Outdoor</a><span class="sub-toggle"><i class="fa fa-angle-down"></i></span>
-                                <ul class="sub-menu">
-                                    <li class="current-menu-item "><a href="shop-default.html">Freezer Burn</a>
-                                    </li>
-                                    <li class="current-menu-item "><a href="shop-default.html">Fridge Cooler</a>
-                                    </li>
-                                    <li class="current-menu-item "><a href="shop-default.html">Wine Cabinets</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="current-menu-item "><a href="shop-default.html">Babies &amp; Moms</a>
-                            </li>
-                            <li class="current-menu-item "><a href="shop-default.html">Books &amp; Office</a>
-                            </li>
-                            <li class="current-menu-item "><a href="shop-default.html">Cars &amp; Motocycles</a>
-                            </li> -->
+<?php }  ?>                
                         </ul>
                     </aside>
                     <aside class="widget widget_shop">
                         <h4 class="widget-title">BY BRANDS</h4>
-                        <form class="ps-form--widget-search" action="do_action" method="get">
+                        <!-- <form class="ps-form--widget-search" action="do_action" method="get">
                             <input class="form-control" type="text" placeholder="">
                             <button><i class="icon-magnifier"></i></button>
-                        </form>
+                        </form> -->
                         <figure class="ps-custom-scrollbar" data-height="250">
-                            <div class="ps-checkbox">
-                                <input class="form-control" type="checkbox" id="brand-1" name="brand">
-                                <label for="brand-1">Adidas (3)</label>
-                            </div>
-                            <div class="ps-checkbox">
-                                <input class="form-control" type="checkbox" id="brand-2" name="brand">
-                                <label for="brand-2">Amcrest (1)</label>
-                            </div>
-                            <div class="ps-checkbox">
-                                <input class="form-control" type="checkbox" id="brand-3" name="brand">
-                                <label for="brand-3">Apple (2)</label>
-                            </div>
-                            <div class="ps-checkbox">
-                                <input class="form-control" type="checkbox" id="brand-4" name="brand">
-                                <label for="brand-4">Asus (19)</label>
-                            </div>
-                            <div class="ps-checkbox">
-                                <input class="form-control" type="checkbox" id="brand-5" name="brand">
-                                <label for="brand-5">Baxtex (20)</label>
-                            </div>
-                            <div class="ps-checkbox">
-                                <input class="form-control" type="checkbox" id="brand-6" name="brand">
-                                <label for="brand-6">Adidas (11)</label>
-                            </div>
-                            <div class="ps-checkbox">
-                                <input class="form-control" type="checkbox" id="brand-7" name="brand">
-                                <label for="brand-7">Casio (9)</label>
-                            </div>
-                            <div class="ps-checkbox">
-                                <input class="form-control" type="checkbox" id="brand-8" name="brand">
-                                <label for="brand-8">Electrolux (0)</label>
-                            </div>
-                            <div class="ps-checkbox">
-                                <input class="form-control" type="checkbox" id="brand-9" name="brand">
-                                <label for="brand-9">Gallaxy (0)</label>
-                            </div>
-                            <div class="ps-checkbox">
-                                <input class="form-control" type="checkbox" id="brand-10" name="brand">
-                                <label for="brand-10">Samsung (0)</label>
-                            </div>
-                            <div class="ps-checkbox">
-                                <input class="form-control" type="checkbox" id="brand-11" name="brand">
-                                <label for="brand-11">Sony (0)</label>
-                            </div>
+                            
+                            <?php echo brandsList($con); ?>
                         </figure>
                         <figure>
                             <h4 class="widget-title">By Price</h4>
                             <div id="nonlinear"></div>
-                            <p class="ps-slider__meta">Price:<span class="ps-slider__value">$<span class="ps-slider__min"></span></span>-<span class="ps-slider__value">$<span class="ps-slider__max"></span></span></p>
+                            <ul>
+                                <li><a onclick="productPriceSeacrh(100)" id="R100">R0-R100</a></li>
+                                <li><a onclick="productPriceSeacrh(250)" id="R250">R100-R250</a></li>
+                                <li><a onclick="productPriceSeacrh(500)" id="R500">R250-R500</a></li>
+                                <li><a onclick="productPriceSeacrh(750)" id="R750">R500-R750</a></li>
+                                <li><a onclick="productPriceSeacrh(900)" id="R900">R750-R1000</a></li>
+                                <li><a onclick="productPriceSeacrh(1000)" id="R1000">Above R1000</a></li>
+                            </ul>
+                            
+                            <!-- <p class="ps-slider__meta">Price:<span class="ps-slider__value">R0<span class="ps-slider__min"></span></span>-<span class="ps-slider__value">R100<span class="ps-slider__max"></span></span></p> -->
                         </figure>
-                        <figure>
+                        <!-- <figure>
                             <h4 class="widget-title">By Price</h4>
                             <div class="ps-checkbox">
                                 <input class="form-control" type="checkbox" id="review-1" name="review">
@@ -342,8 +243,8 @@ while ($catRes = mysqli_fetch_array($catQuery)) {
                                 <input class="form-control" type="checkbox" id="review-5" name="review">
                                 <label for="review-5"><span><i class="fa fa-star rate"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></span><small>(1)</small></label>
                             </div>
-                        </figure>
-                        <figure>
+                        </figure> -->
+                        <!-- <figure>
                             <h4 class="widget-title">By Color</h4>
                             <div class="ps-checkbox ps-checkbox--color color-1 ps-checkbox--inline">
                                 <input class="form-control" type="checkbox" id="color-1" name="size">
@@ -377,10 +278,10 @@ while ($catRes = mysqli_fetch_array($catQuery)) {
                                 <input class="form-control" type="checkbox" id="color-8" name="size">
                                 <label for="color-8"></label>
                             </div>
-                        </figure>
-                        <figure class="sizes">
+                        </figure> -->
+                        <!-- <figure class="sizes">
                             <h4 class="widget-title">BY SIZE</h4><a href="#">L</a><a href="#">M</a><a href="#">S</a><a href="#">XL</a>
-                        </figure>
+                        </figure> -->
                     </aside>
                 </div>
                 <div class="ps-layout__right">
@@ -393,14 +294,8 @@ while ($catRes = mysqli_fetch_array($catQuery)) {
 
   while ($totalRes = mysqli_fetch_array($productCount)) {
 
-      if (empty($totalRes['total'])) {
-          
-          $totalCount = 0;
-      }else{
-
-        $totalCount = $totalRes['total'];
-      }
-      
+        $totalCount  = $totalRes['total'];
+        $total_pages = ceil($totalCount / $limit);
   }
 
 
@@ -426,7 +321,7 @@ while ($catRes = mysqli_fetch_array($catQuery)) {
                         <div class="ps-tabs">
                             <div class="ps-tab active" id="tab-1">
                                 <div class="ps-shopping-product">
-                                    <div class="row">
+                                    <div class="row list">
 <?php 
 
 
@@ -465,353 +360,22 @@ while ($catRes = mysqli_fetch_array($catQuery)) {
   }
 
 ?>
-                                        <div class="col-xl-2 col-lg-4 col-md-4 col-sm-6 col-6 ">
-                                            <div class="ps-product">
-                                                <div class="ps-product__thumbnail"><a href="product.php?id=<?=base64_encode($product_id)?>&name=<?=str_replace(' ','-',$name)?>"><img src="upload/product/200_<?=$image?>" alt=""></a>
-                                                    <ul class="ps-product__actions">
-                                                        <li><a href="#" data-toggle="tooltip" data-placement="top" title="Read More"><i class="icon-bag2"></i></a></li>
-                                                        <li><a href="#" data-placement="top" title="Quick View" data-toggle="modal" data-target="#product-quickview"><i class="icon-eye"></i></a></li>
-                                                        <li><a href="#" data-toggle="tooltip" data-placement="top" title="Add to Whishlist"><i class="icon-heart"></i></a></li>
-                                                        <li><a href="#" data-toggle="tooltip" data-placement="top" title="Compare"><i class="icon-chart-bars"></i></a></li>
-                                                    </ul>
-                                                </div>
-                                                <div class="ps-product__container"><a class="ps-product__vendor" href="#">ROBERT’S STORE</a>
-                                                    <div class="ps-product__content"><a class="ps-product__title" href="product.php?id=<?=base64_encode($product_id)?>&name=<?=str_replace(' ','-',$name)?>"><?=$name?></a>
-                                                        <p class="ps-product__price">R<?=$price?></p>
-                                                    </div>
-                                                    <div class="ps-product__content hover"><a class="ps-product__title" href="product.php?id=<?=base64_encode($product_id)?>&name=<?=str_replace(' ','-',$name)?>"><?=$name?></a>
-                                                        <p class="ps-product__price">R<?=$price?></p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        
 <?php   } 
 ?>
-                                        <!-- <div class="col-xl-2 col-lg-4 col-md-4 col-sm-6 col-6 ">
-                                            <div class="ps-product">
-                                                <div class="ps-product__thumbnail"><a href="product-default.html"><img src="img/products/shop/1.jpg" alt=""></a>
-                                                    <ul class="ps-product__actions">
-                                                        <li><a href="#" data-toggle="tooltip" data-placement="top" title="Read More"><i class="icon-bag2"></i></a></li>
-                                                        <li><a href="#" data-placement="top" title="Quick View" data-toggle="modal" data-target="#product-quickview"><i class="icon-eye"></i></a></li>
-                                                        <li><a href="#" data-toggle="tooltip" data-placement="top" title="Add to Whishlist"><i class="icon-heart"></i></a></li>
-                                                        <li><a href="#" data-toggle="tooltip" data-placement="top" title="Compare"><i class="icon-chart-bars"></i></a></li>
-                                                    </ul>
-                                                </div>
-                                                <div class="ps-product__container"><a class="ps-product__vendor" href="#">Young Shop</a>
-                                                    <div class="ps-product__content"><a class="ps-product__title" href="product-default.html">Apple iPhone Retina 6s Plus 64GB</a>
-                                                        <p class="ps-product__price">$1150.00</p>
-                                                    </div>
-                                                    <div class="ps-product__content hover"><a class="ps-product__title" href="product-default.html">Apple iPhone Retina 6s Plus 64GB</a>
-                                                        <p class="ps-product__price">$1150.00</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-xl-2 col-lg-4 col-md-4 col-sm-6 col-6 ">
-                                            <div class="ps-product">
-                                                <div class="ps-product__thumbnail"><a href="product-default.html"><img src="img/products/shop/2.jpg" alt=""></a>
-                                                    <ul class="ps-product__actions">
-                                                        <li><a href="#" data-toggle="tooltip" data-placement="top" title="Read More"><i class="icon-bag2"></i></a></li>
-                                                        <li><a href="#" data-placement="top" title="Quick View" data-toggle="modal" data-target="#product-quickview"><i class="icon-eye"></i></a></li>
-                                                        <li><a href="#" data-toggle="tooltip" data-placement="top" title="Add to Whishlist"><i class="icon-heart"></i></a></li>
-                                                        <li><a href="#" data-toggle="tooltip" data-placement="top" title="Compare"><i class="icon-chart-bars"></i></a></li>
-                                                    </ul>
-                                                </div>
-                                                <div class="ps-product__container"><a class="ps-product__vendor" href="#">Go Pro</a>
-                                                    <div class="ps-product__content"><a class="ps-product__title" href="product-default.html">Marshall Kilburn Portable Wireless Speaker</a>
-                                                        <div class="ps-product__rating">
-                                                            <select class="ps-rating" data-read-only="true">
-                                                                <option value="1">1</option>
-                                                                <option value="1">2</option>
-                                                                <option value="1">3</option>
-                                                                <option value="1">4</option>
-                                                                <option value="2">5</option>
-                                                            </select><span>01</span>
-                                                        </div>
-                                                        <p class="ps-product__price">$42.99 - $60.00</p>
-                                                    </div>
-                                                    <div class="ps-product__content hover"><a class="ps-product__title" href="product-default.html">Marshall Kilburn Portable Wireless Speaker</a>
-                                                        <p class="ps-product__price">$42.99 - $60.00</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-xl-2 col-lg-4 col-md-4 col-sm-6 col-6 ">
-                                            <div class="ps-product">
-                                                <div class="ps-product__thumbnail"><a href="product-default.html"><img src="img/products/shop/3.jpg" alt=""></a>
-                                                    <ul class="ps-product__actions">
-                                                        <li><a href="#" data-toggle="tooltip" data-placement="top" title="Read More"><i class="icon-bag2"></i></a></li>
-                                                        <li><a href="#" data-placement="top" title="Quick View" data-toggle="modal" data-target="#product-quickview"><i class="icon-eye"></i></a></li>
-                                                        <li><a href="#" data-toggle="tooltip" data-placement="top" title="Add to Whishlist"><i class="icon-heart"></i></a></li>
-                                                        <li><a href="#" data-toggle="tooltip" data-placement="top" title="Compare"><i class="icon-chart-bars"></i></a></li>
-                                                    </ul>
-                                                </div>
-                                                <div class="ps-product__container"><a class="ps-product__vendor" href="#">Go Pro</a>
-                                                    <div class="ps-product__content"><a class="ps-product__title" href="product-default.html">Herschel Leather Duffle Bag In Brown Color</a>
-                                                        <div class="ps-product__rating">
-                                                            <select class="ps-rating" data-read-only="true">
-                                                                <option value="1">1</option>
-                                                                <option value="1">2</option>
-                                                                <option value="1">3</option>
-                                                                <option value="1">4</option>
-                                                                <option value="2">5</option>
-                                                            </select><span>01</span>
-                                                        </div>
-                                                        <p class="ps-product__price">$125.30</p>
-                                                    </div>
-                                                    <div class="ps-product__content hover"><a class="ps-product__title" href="product-default.html">Herschel Leather Duffle Bag In Brown Color</a>
-                                                        <p class="ps-product__price">$125.30</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-xl-2 col-lg-4 col-md-4 col-sm-6 col-6 ">
-                                            <div class="ps-product">
-                                                <div class="ps-product__thumbnail"><a href="product-default.html"><img src="img/products/shop/4.jpg" alt=""></a>
-                                                    <div class="ps-product__badge hot">hot</div>
-                                                    <ul class="ps-product__actions">
-                                                        <li><a href="#" data-toggle="tooltip" data-placement="top" title="Read More"><i class="icon-bag2"></i></a></li>
-                                                        <li><a href="#" data-placement="top" title="Quick View" data-toggle="modal" data-target="#product-quickview"><i class="icon-eye"></i></a></li>
-                                                        <li><a href="#" data-toggle="tooltip" data-placement="top" title="Add to Whishlist"><i class="icon-heart"></i></a></li>
-                                                        <li><a href="#" data-toggle="tooltip" data-placement="top" title="Compare"><i class="icon-chart-bars"></i></a></li>
-                                                    </ul>
-                                                </div>
-                                                <div class="ps-product__container"><a class="ps-product__vendor" href="#">Global Office</a>
-                                                    <div class="ps-product__content"><a class="ps-product__title" href="product-default.html">Xbox One Wireless Controller Black Color</a>
-                                                        <div class="ps-product__rating">
-                                                            <select class="ps-rating" data-read-only="true">
-                                                                <option value="1">1</option>
-                                                                <option value="1">2</option>
-                                                                <option value="1">3</option>
-                                                                <option value="1">4</option>
-                                                                <option value="2">5</option>
-                                                            </select><span>01</span>
-                                                        </div>
-                                                        <p class="ps-product__price">$55.99</p>
-                                                    </div>
-                                                    <div class="ps-product__content hover"><a class="ps-product__title" href="product-default.html">Xbox One Wireless Controller Black Color</a>
-                                                        <p class="ps-product__price">$55.99</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-xl-2 col-lg-4 col-md-4 col-sm-6 col-6 ">
-                                            <div class="ps-product">
-                                                <div class="ps-product__thumbnail"><a href="product-default.html"><img src="img/products/shop/5.jpg" alt=""></a>
-                                                    <div class="ps-product__badge">-37%</div>
-                                                    <ul class="ps-product__actions">
-                                                        <li><a href="#" data-toggle="tooltip" data-placement="top" title="Read More"><i class="icon-bag2"></i></a></li>
-                                                        <li><a href="#" data-placement="top" title="Quick View" data-toggle="modal" data-target="#product-quickview"><i class="icon-eye"></i></a></li>
-                                                        <li><a href="#" data-toggle="tooltip" data-placement="top" title="Add to Whishlist"><i class="icon-heart"></i></a></li>
-                                                        <li><a href="#" data-toggle="tooltip" data-placement="top" title="Compare"><i class="icon-chart-bars"></i></a></li>
-                                                    </ul>
-                                                </div>
-                                                <div class="ps-product__container"><a class="ps-product__vendor" href="#">Robert's Store</a>
-                                                    <div class="ps-product__content"><a class="ps-product__title" href="product-default.html">Grand Slam Indoor Of Show Jumping Novel</a>
-                                                        <div class="ps-product__rating">
-                                                            <select class="ps-rating" data-read-only="true">
-                                                                <option value="1">1</option>
-                                                                <option value="1">2</option>
-                                                                <option value="1">3</option>
-                                                                <option value="1">4</option>
-                                                                <option value="2">5</option>
-                                                            </select><span>01</span>
-                                                        </div>
-                                                        <p class="ps-product__price sale">$32.99 <del>$41.00 </del></p>
-                                                    </div>
-                                                    <div class="ps-product__content hover"><a class="ps-product__title" href="product-default.html">Grand Slam Indoor Of Show Jumping Novel</a>
-                                                        <p class="ps-product__price sale">$32.99 <del>$41.00 </del></p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-xl-2 col-lg-4 col-md-4 col-sm-6 col-6 ">
-                                            <div class="ps-product">
-                                                <div class="ps-product__thumbnail"><a href="product-default.html"><img src="img/products/shop/6.jpg" alt=""></a>
-                                                    <div class="ps-product__badge">-5%</div>
-                                                    <ul class="ps-product__actions">
-                                                        <li><a href="#" data-toggle="tooltip" data-placement="top" title="Read More"><i class="icon-bag2"></i></a></li>
-                                                        <li><a href="#" data-placement="top" title="Quick View" data-toggle="modal" data-target="#product-quickview"><i class="icon-eye"></i></a></li>
-                                                        <li><a href="#" data-toggle="tooltip" data-placement="top" title="Add to Whishlist"><i class="icon-heart"></i></a></li>
-                                                        <li><a href="#" data-toggle="tooltip" data-placement="top" title="Compare"><i class="icon-chart-bars"></i></a></li>
-                                                    </ul>
-                                                </div>
-                                                <div class="ps-product__container"><a class="ps-product__vendor" href="#">Youngshop</a>
-                                                    <div class="ps-product__content"><a class="ps-product__title" href="product-default.html">Sound Intone I65 Earphone White Version</a>
-                                                        <div class="ps-product__rating">
-                                                            <select class="ps-rating" data-read-only="true">
-                                                                <option value="1">1</option>
-                                                                <option value="1">2</option>
-                                                                <option value="1">3</option>
-                                                                <option value="1">4</option>
-                                                                <option value="2">5</option>
-                                                            </select><span>01</span>
-                                                        </div>
-                                                        <p class="ps-product__price sale">$100.99 <del>$106.00 </del></p>
-                                                    </div>
-                                                    <div class="ps-product__content hover"><a class="ps-product__title" href="product-default.html">Sound Intone I65 Earphone White Version</a>
-                                                        <p class="ps-product__price sale">$100.99 <del>$106.00 </del></p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-xl-2 col-lg-4 col-md-4 col-sm-6 col-6 ">
-                                            <div class="ps-product">
-                                                <div class="ps-product__thumbnail"><a href="product-default.html"><img src="img/products/shop/7.jpg" alt=""></a>
-                                                    <div class="ps-product__badge">-16%</div>
-                                                    <ul class="ps-product__actions">
-                                                        <li><a href="#" data-toggle="tooltip" data-placement="top" title="Read More"><i class="icon-bag2"></i></a></li>
-                                                        <li><a href="#" data-placement="top" title="Quick View" data-toggle="modal" data-target="#product-quickview"><i class="icon-eye"></i></a></li>
-                                                        <li><a href="#" data-toggle="tooltip" data-placement="top" title="Add to Whishlist"><i class="icon-heart"></i></a></li>
-                                                        <li><a href="#" data-toggle="tooltip" data-placement="top" title="Compare"><i class="icon-chart-bars"></i></a></li>
-                                                    </ul>
-                                                </div>
-                                                <div class="ps-product__container"><a class="ps-product__vendor" href="#">Youngshop</a>
-                                                    <div class="ps-product__content"><a class="ps-product__title" href="product-default.html">Korea Long Sofa Fabric In Blue Navy Color</a>
-                                                        <div class="ps-product__rating">
-                                                            <select class="ps-rating" data-read-only="true">
-                                                                <option value="1">1</option>
-                                                                <option value="1">2</option>
-                                                                <option value="1">3</option>
-                                                                <option value="1">4</option>
-                                                                <option value="2">5</option>
-                                                            </select><span>01</span>
-                                                        </div>
-                                                        <p class="ps-product__price sale">$567.89 <del>$670.20 </del></p>
-                                                    </div>
-                                                    <div class="ps-product__content hover"><a class="ps-product__title" href="product-default.html">Korea Long Sofa Fabric In Blue Navy Color</a>
-                                                        <p class="ps-product__price sale">$567.89 <del>$670.20 </del></p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-xl-2 col-lg-4 col-md-4 col-sm-6 col-6 ">
-                                            <div class="ps-product">
-                                                <div class="ps-product__thumbnail"><a href="product-default.html"><img src="img/products/shop/8.jpg" alt=""></a>
-                                                    <div class="ps-product__badge">-16%</div>
-                                                    <ul class="ps-product__actions">
-                                                        <li><a href="#" data-toggle="tooltip" data-placement="top" title="Read More"><i class="icon-bag2"></i></a></li>
-                                                        <li><a href="#" data-placement="top" title="Quick View" data-toggle="modal" data-target="#product-quickview"><i class="icon-eye"></i></a></li>
-                                                        <li><a href="#" data-toggle="tooltip" data-placement="top" title="Add to Whishlist"><i class="icon-heart"></i></a></li>
-                                                        <li><a href="#" data-toggle="tooltip" data-placement="top" title="Compare"><i class="icon-chart-bars"></i></a></li>
-                                                    </ul>
-                                                </div>
-                                                <div class="ps-product__container"><a class="ps-product__vendor" href="#">Young shop</a>
-                                                    <div class="ps-product__content"><a class="ps-product__title" href="product-default.html">Unero Military Classical Backpack</a>
-                                                        <div class="ps-product__rating">
-                                                            <select class="ps-rating" data-read-only="true">
-                                                                <option value="1">1</option>
-                                                                <option value="1">2</option>
-                                                                <option value="1">3</option>
-                                                                <option value="1">4</option>
-                                                                <option value="2">5</option>
-                                                            </select><span>02</span>
-                                                        </div>
-                                                        <p class="ps-product__price sale">$35.89 <del>$42.20 </del></p>
-                                                    </div>
-                                                    <div class="ps-product__content hover"><a class="ps-product__title" href="product-default.html">Unero Military Classical Backpack</a>
-                                                        <p class="ps-product__price sale">$35.89 <del>$42.20 </del></p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-xl-2 col-lg-4 col-md-4 col-sm-6 col-6 ">
-                                            <div class="ps-product">
-                                                <div class="ps-product__thumbnail"><a href="product-default.html"><img src="img/products/shop/9.jpg" alt=""></a>
-                                                    <ul class="ps-product__actions">
-                                                        <li><a href="#" data-toggle="tooltip" data-placement="top" title="Read More"><i class="icon-bag2"></i></a></li>
-                                                        <li><a href="#" data-placement="top" title="Quick View" data-toggle="modal" data-target="#product-quickview"><i class="icon-eye"></i></a></li>
-                                                        <li><a href="#" data-toggle="tooltip" data-placement="top" title="Add to Whishlist"><i class="icon-heart"></i></a></li>
-                                                        <li><a href="#" data-toggle="tooltip" data-placement="top" title="Compare"><i class="icon-chart-bars"></i></a></li>
-                                                    </ul>
-                                                </div>
-                                                <div class="ps-product__container"><a class="ps-product__vendor" href="#">Young shop</a>
-                                                    <div class="ps-product__content"><a class="ps-product__title" href="product-default.html">Rayban Rounded Sunglass Brown Color</a>
-                                                        <div class="ps-product__rating">
-                                                            <select class="ps-rating" data-read-only="true">
-                                                                <option value="1">1</option>
-                                                                <option value="1">2</option>
-                                                                <option value="1">3</option>
-                                                                <option value="1">4</option>
-                                                                <option value="2">5</option>
-                                                            </select><span>02</span>
-                                                        </div>
-                                                        <p class="ps-product__price">$35.89</p>
-                                                    </div>
-                                                    <div class="ps-product__content hover"><a class="ps-product__title" href="product-default.html">Rayban Rounded Sunglass Brown Color</a>
-                                                        <p class="ps-product__price">$35.89</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-xl-2 col-lg-4 col-md-4 col-sm-6 col-6 ">
-                                            <div class="ps-product">
-                                                <div class="ps-product__thumbnail"><a href="product-default.html"><img src="img/products/shop/10.jpg" alt=""></a>
-                                                    <ul class="ps-product__actions">
-                                                        <li><a href="#" data-toggle="tooltip" data-placement="top" title="Read More"><i class="icon-bag2"></i></a></li>
-                                                        <li><a href="#" data-placement="top" title="Quick View" data-toggle="modal" data-target="#product-quickview"><i class="icon-eye"></i></a></li>
-                                                        <li><a href="#" data-toggle="tooltip" data-placement="top" title="Add to Whishlist"><i class="icon-heart"></i></a></li>
-                                                        <li><a href="#" data-toggle="tooltip" data-placement="top" title="Compare"><i class="icon-chart-bars"></i></a></li>
-                                                    </ul>
-                                                </div>
-                                                <div class="ps-product__container"><a class="ps-product__vendor" href="#">Go Pro</a>
-                                                    <div class="ps-product__content"><a class="ps-product__title" href="product-default.html">Sleeve Linen Blend Caro Pane Shirt</a>
-                                                        <div class="ps-product__rating">
-                                                            <select class="ps-rating" data-read-only="true">
-                                                                <option value="1">1</option>
-                                                                <option value="1">2</option>
-                                                                <option value="1">3</option>
-                                                                <option value="1">4</option>
-                                                                <option value="2">5</option>
-                                                            </select><span>01</span>
-                                                        </div>
-                                                        <p class="ps-product__price">$29.39 - $39.99</p>
-                                                    </div>
-                                                    <div class="ps-product__content hover"><a class="ps-product__title" href="product-default.html">Sleeve Linen Blend Caro Pane Shirt</a>
-                                                        <p class="ps-product__price">$29.39 - $39.99</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-xl-2 col-lg-4 col-md-4 col-sm-6 col-6 ">
-                                            <div class="ps-product">
-                                                <div class="ps-product__thumbnail"><a href="product-default.html"><img src="img/products/shop/11.jpg" alt=""></a>
-                                                    <ul class="ps-product__actions">
-                                                        <li><a href="#" data-toggle="tooltip" data-placement="top" title="Read More"><i class="icon-bag2"></i></a></li>
-                                                        <li><a href="#" data-placement="top" title="Quick View" data-toggle="modal" data-target="#product-quickview"><i class="icon-eye"></i></a></li>
-                                                        <li><a href="#" data-toggle="tooltip" data-placement="top" title="Add to Whishlist"><i class="icon-heart"></i></a></li>
-                                                        <li><a href="#" data-toggle="tooltip" data-placement="top" title="Compare"><i class="icon-chart-bars"></i></a></li>
-                                                    </ul>
-                                                </div>
-                                                <div class="ps-product__container"><a class="ps-product__vendor" href="#">Robert's Store</a>
-                                                    <div class="ps-product__content"><a class="ps-product__title" href="product-default.html">Men’s Sports Runnning Swim Board Shorts</a>
-                                                        <div class="ps-product__rating">
-                                                            <select class="ps-rating" data-read-only="true">
-                                                                <option value="1">1</option>
-                                                                <option value="1">2</option>
-                                                                <option value="1">3</option>
-                                                                <option value="1">4</option>
-                                                                <option value="2">5</option>
-                                                            </select><span>01</span>
-                                                        </div>
-                                                        <p class="ps-product__price">$13.43</p>
-                                                    </div>
-                                                    <div class="ps-product__content hover"><a class="ps-product__title" href="product-default.html">Men’s Sports Runnning Swim Board Shorts</a>
-                                                        <p class="ps-product__price">$13.43</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div> -->
                                     </div>
                                 </div>
-                                <!-- <div class="ps-pagination">
-                                    <ul class="pagination">
-                                        <li class="active"><a href="#">1</a></li>
-                                        <li><a href="#">2</a></li>
-                                        <li><a href="#">3</a></li>
-                                        <li><a href="#">Next Page<i class="icon-chevron-right"></i></a></li>
+                                <div class="ps-pagination">
+                                    <ul class="pagination" id="pagination">
+                                    <?php if(!empty($total_pages)){for($i=1; $i<=$total_pages; $i++){  
+                                        if($i == 1){?>
+                                        <li class="active" id="<?php echo $i;?>"><a href="actions/productlistPagination.php?page=<?php echo $i;?><?=$link?>"><?php echo $i;?></a></li>
+                                        <?php } else{ ?>
+                                        <li id="<?php echo $i;?>"><a href="actions/productlistPagination.php?page=<?php echo $i;?><?=$link?>"><?php echo $i;?></a></li>
+                                        <?php }?>      
+                                    <?php }}?>
                                     </ul>
-                                </div> -->
+                                </div>
                             </div>
                             <div class="ps-tab" id="tab-2">
                                 <div class="ps-shopping-product">
@@ -1216,4 +780,112 @@ while ($catRes = mysqli_fetch_array($catQuery)) {
 
         window.location.assign('product-list.php?subcat_id='+sub_cat_id);
     }
+    function brandproductSearch(brand_id){
+
+        window.location.assign('product-list.php?brand_id='+brand_id);
+    }
+    function productPriceSeacrh(val){
+
+        if (val == '100') {
+
+
+            window.location.assign('product-list.php?price_range='+'0_100');
+        }
+        if (val == '250') {
+
+
+            window.location.assign('product-list.php?price_range='+'100_250');
+        }
+        if (val == '500') {
+
+
+            window.location.assign('product-list.php?price_range='+'250_500');
+        }
+        if (val == '750') {
+
+
+            window.location.assign('product-list.php?price_range='+'500_750');
+        }
+        if (val == '900') {
+
+
+            window.location.assign('product-list.php?price_range='+'750_1000');
+        }
+        if (val == '1000') {
+
+
+            window.location.assign('product-list.php?price_range='+'=>1000');
+        }
+    }
+<?php 
+if (isset($_GET['cat_id'])) { $cat_id = $_GET['cat_id'];?>
+
+
+    $(document).ready(function() {
+
+        $(".list").load("actions/productlistPagination.php?page=1&cat_id=<?=$cat_id?>");
+            $("#pagination li").on('click',function(e){
+          e.preventDefault();
+          $("#pagination li").removeClass('active');
+          $(this).addClass('active');
+          var pageNum = this.id;
+          $(".list").load("actions/productlistPagination.php?page=" + pageNum+"&cat_id=<?=$cat_id?>");
+        });
+    });
+
+<?php } ?>    
+
+<?php 
+if (isset($_GET['subcat_id'])) { $subcat_id = $_GET['subcat_id'];?>
+
+
+    $(document).ready(function() {
+
+        $(".list").load("actions/productlistPagination.php?page=1&subcat_id=<?=$subcat_id?>");
+            $("#pagination li").on('click',function(e){
+          e.preventDefault();
+          $("#pagination li").removeClass('active');
+          $(this).addClass('active');
+          var pageNum = this.id;
+          $(".list").load("actions/productlistPagination.php?page=" + pageNum+"&subcat_id=<?=$subcat_id?>");
+        });
+    });
+
+<?php } ?>
+
+<?php 
+if (isset($_GET['brand_id'])) { $brand_id = $_GET['brand_id'];?>
+
+
+    $(document).ready(function() {
+
+        $(".list").load("actions/productlistPagination.php?page=1&brand_id=<?=$brand_id?>");
+            $("#pagination li").on('click',function(e){
+          e.preventDefault();
+          $("#pagination li").removeClass('active');
+          $(this).addClass('active');
+          var pageNum = this.id;
+          $(".list").load("actions/productlistPagination.php?page=" + pageNum+"&brand_id=<?=$brand_id?>");
+        });
+    });
+
+<?php } ?>
+
+<?php 
+if (isset($_GET['price_range'])) { $brand_id = $_GET['price_range'];?>
+
+
+    $(document).ready(function() {
+
+        $(".list").load("actions/productlistPagination.php?page=1&price_range=<?=$price_range?>");
+            $("#pagination li").on('click',function(e){
+          e.preventDefault();
+          $("#pagination li").removeClass('active');
+          $(this).addClass('active');
+          var pageNum = this.id;
+          $(".list").load("actions/productlistPagination.php?page=" + pageNum+"&price_range=<?=$price_range?>");
+        });
+    });
+
+<?php } ?>
 </script>    
