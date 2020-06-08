@@ -12,13 +12,16 @@ if (isset($_POST['btnsub']))
 		while ($fetch = mysqli_fetch_array($login)) {
 			
 			if ($fetch['status'] == 'Y') {
-				
-			
 				session_start();
 				$_SESSION['type']='user';
 				$_SESSION['id']=$fetch['id'];
 				$_SESSION['name']=$fetch['name'];
 				$id = $_SESSION['id'];	
+
+				// If Login is correct then destroy the variable
+				unset($_SESSION['login_failed_error']);
+				$_SESSION['login_failed_error'] = false;
+
 				$time = date("Y-m-d H:i:s");
 				$ip   = $_SERVER['REMOTE_ADDR'];
 				$insert = "insert into login_log(user_id,login_time,ip) values('$id','$time','$ip')";
@@ -37,8 +40,8 @@ if (isset($_POST['btnsub']))
 	}
 	else
 	{
+		$_SESSION['login_failed_error'] = true;
 		header('Location: ' . $_SERVER['HTTP_REFERER'].'?msg=error');
-
 	}
 }
 

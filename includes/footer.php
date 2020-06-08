@@ -241,7 +241,10 @@ function showCartInbox(product_id){
 
 function search_modal_height_width_calculation() {
     var widthOfLeftHeader = document.getElementById("left__Header__ID");
-    var widthOfTotalLeftWidthOfHeader = ( widthOfLeftHeader.offsetWidth + 30) + "px";
+    var category_search = document.getElementById("category__Search__Id");
+
+
+    var widthOfTotalLeftWidthOfHeader = ( widthOfLeftHeader.offsetWidth + category_search.offsetWidth + 30) + "px";
     // console.log("Left Header width: ", widthOfTotalLeftWidthOfHeader);
 
 
@@ -252,7 +255,7 @@ function search_modal_height_width_calculation() {
     // get the total width of search bar
 
     var widthOfSearchBar = document.getElementById("search__form__id");
-    var widthOfTotalSearchBar = ( widthOfSearchBar.offsetWidth) + "px";
+    var widthOfTotalSearchBar = ( widthOfSearchBar.offsetWidth - category_search.offsetWidth ) + "px";
     $("#search__Modal__ID").css('width', widthOfTotalSearchBar);
     
 }

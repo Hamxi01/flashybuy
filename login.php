@@ -4,9 +4,40 @@
  
  ?>
 
+
+<?php
+    if(!isset($_GET['msg'])) {
+        unset($_SESSION['seller_login_failed_error']);
+    }
+?>
+
 <body>
     <div class="ps-page--my-account">
      <div class="ps-my-account-2">
+
+        <!-- If login information is not correct -->
+        <?php
+            if(isset($_SESSION['seller_login_failed_error']) && $_SESSION['seller_login_failed_error']){
+                 $error = 'error';
+                if($error == 'error') { ?>
+                    <div class="container">
+                        <div class="alert alert-danger fade show alert-dismissible py-3 mb-5 bg-white" style="max-width: 700px; border-left: 5px solid red;" role="alert">
+                            <strong><i class="fa fa-warning" aria-hidden="true"></i></strong> 
+                            <b>Incorrect Email or Password. Please try again!</b>
+                            <button type="button" class="close mt-2" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    </div>
+            <?php
+                }
+            }
+            else {
+                unset($_SESSION['seller_login_failed_error']);
+            }
+            ?> 
+
+
             <div class="container">
                 <div class="ps-section__wrapper">
                     <div class="ps-section__left">
@@ -42,12 +73,13 @@
                         </form>
                     </div>
                     <div class="ps-section__right">
-                        <figure class="ps-section__desc">
+                        
                             <?php
                              $query = mysqli_query($con,"select * from tbl_content where status = 1"); 
+                             if(($query)) {
                             while($fetch = mysqli_fetch_array($query)){
                             ?>
-                           
+                           <figure class="ps-section__desc">
                             <figcaption><?php echo $fetch[1] ?>:</figcaption>
                             <p><?php echo $fetch[2] ?>:</p>
                             <ul class="ps-list">
@@ -55,8 +87,9 @@
                                 <li><i class="icon-clipboard-check"></i><span><?php echo $fetch[4] ?></span></li>
                                 <li><i class="icon-bag2"></i><span><?php echo $fetch[5] ?></span></li>
                             </ul>
-                        <?php } ?>
-                        </figure>
+                            </figure>
+                        <?php } } ?>
+                        
                         <div class="ps-section__coupon"><span>$25</span>
                             <aside>
                                 <h5>A small gift for your first purchase</h5>

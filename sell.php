@@ -2,8 +2,8 @@
 
 </style>
 <?php 
- include('includes/head.php');
 include('includes/db.php');
+include('includes/head.php');
 ?>
     <body>
 
@@ -23,7 +23,7 @@ include('includes/db.php');
                 <div class="form-group">
                     <div class="col-xs-12">
                         
-                        <input class="form-control" type="text" id="firstname" name="firstname"placeholder="Firstname" tabindex="1">
+                        <input class="form-control" type="text" id="firstname" name="firstname"placeholder="Firstname" tabindex="1" required>
                         <span id="lblError" class="text-danger"></span>
                         <p id="lbl_error"></p>
 
@@ -35,7 +35,7 @@ include('includes/db.php');
                  <div class="form-group">
                     <div class="col-xs-12">
                         
-                        <input class="form-control" type="text"  id="lastname" name="lastname" placeholder="Lastname">
+                        <input class="form-control" type="text"  id="lastname" name="lastname" placeholder="Lastname" required>
                         <span id="lastname" class="text-danger"></span>
                         <i class="fa fa-user form-control-feedback l-h-34"></i>
                     </div>
@@ -44,7 +44,7 @@ include('includes/db.php');
                  <div class="form-group">
                     <div class="col-xs-12">
                         
-                        <input class="form-control" type="text"  id="shp_name" name="shp_name" placeholder="Shop Name">
+                        <input class="form-control" type="text"  id="shp_name" name="shp_name" placeholder="Shop Name" required>
                         <span id="lastname" class="text-danger"></span>
                         <i class="fa fa-user form-control-feedback l-h-34"></i>
                     </div>
@@ -54,7 +54,7 @@ include('includes/db.php');
                  <div class="form-group">
                     <div class="col-xs-12">
                         
-                        <input class="form-control" type="email" id="email" name="email" onblur="checkMailStatus()"  placeholder="Email">
+                        <input class="form-control" type="email" id="email" name="email" onblur="checkMailStatus()"  placeholder="Email" required>
                               <span id="availability"></span>
 
                         <i class="fa fa-envelope form-control-feedback l-h-34"></i>
@@ -85,7 +85,7 @@ include('includes/db.php');
                 <div class="form-group">
                     <div class="col-xs-12">
                         
-                        <input class="form-control" type="text"  id="company" name="company" placeholder="Company Name">
+                        <input class="form-control" type="text"  id="company" name="company" placeholder="Company Name" required>
                           <span id="lblcompany" class="text-danger"></span>
                         <i class="fa fa-bank form-control-feedback l-h-34"></i>
                     </div>
@@ -94,7 +94,7 @@ include('includes/db.php');
                 <div class="form-group">
                     <div class="col-xs-12">
                         
-                        <select name="category" id="category" class="form-control">
+                        <select name="category" id="category" class="form-control" required>
                         	<option value="">Select Category</option>
                         	<?php 
                         			$rec = mysqli_query($con,"select * from categories");
@@ -112,7 +112,7 @@ include('includes/db.php');
                  <div class="form-group">
                     <div class="col-xs-12">
                         
-                        <input class="form-control" name="web" type="text" placeholder="Website">
+                        <input class="form-control" name="web" type="text" placeholder="Website" required>
                         <i class="fa fa-globe form-control-feedback l-h-34"></i>
                     </div>
                 </div>
@@ -120,7 +120,7 @@ include('includes/db.php');
                    <div class="form-group">
                     <div class="col-xs-12">
                         
-                        <input class="form-control" name="s_media" type="text"  placeholder="Social Media">
+                        <input class="form-control" name="s_media" type="text"  placeholder="Social Media" required>
                         <i class="fa fa-circle form-control-feedback l-h-34"></i>
                     </div>
                 </div>
@@ -131,14 +131,14 @@ include('includes/db.php');
                             <label>Are you VAT registered?</label>
                         <div class="radio-area">
                         <div class="radio">
-                        <input type="radio" name="radio1" id="radio11" value="YES" >
+                        <input type="radio" name="radio1" id="radio11" value="YES">
                         <label for="radio11">
                         YES
                         </label>
                         </div>
 
                         <div class="radio">
-                        <input type="radio" name="radio1" id="radio11" value="NO" >
+                        <input type="radio" name="radio1" id="radio11" value="NO">
                         <label for="radio11">
                         NO
                         </label>
@@ -151,7 +151,7 @@ include('includes/db.php');
                 <div class="form-group" style="display:none" id="vat">
                     <div class="col-xs-12">
                         
-                        <input class="form-control" name="v_number" type="text"  placeholder="Vat Number">
+                        <input class="form-control" name="v_number" type="text"  placeholder="Vat Number" required>
                         <i class="fa fa-gg-circle form-control-feedback l-h-34"></i>
                     </div>
                 </div>
@@ -213,7 +213,7 @@ include('includes/db.php');
                  <div class="form-group">
                     <div class="col-xs-12">
                       <label>Business Registration Number</label>  
-             <input class="form-control" type="text"  name="b_number" id="b_number" placeholder="Business Registration Number">
+             <input class="form-control" type="text"  name="b_number" id="b_number" placeholder="Business Registration Number" required>
                   </div>
                 </div>
 

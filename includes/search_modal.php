@@ -32,5 +32,6 @@
             <img src="https://img.icons8.com/material/24/000000/delete-sign--v1.png" class="close">
         </div>
     </div>
+    
     <div id="products" style="overflow-x: hidden;" class="row"></div>
 </div>
