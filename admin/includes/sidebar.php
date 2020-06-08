@@ -40,6 +40,13 @@
               </ul>
             </li>
             <li class="dropdown">
+              <a href="#" class="menu-toggle nav-link has-dropdown"><i data-feather="command"></i><span>Vendors</span></a>
+              <ul class="dropdown-menu">
+                <li><a class="nav-link" href="view-vendor.php">Vendors</a></li>
+                <!-- <li><a class="nav-link" href="pending-products.php">Vendors Transactions</a></li> -->
+              </ul>
+            </li>
+            <li class="dropdown">
               <a href="#" class="menu-toggle nav-link has-dropdown"><i data-feather="command"></i><span>Product Reviews</span></a>
               <ul class="dropdown-menu">
                 <li><a class="nav-link" href="all-reviews.php">All Reviews</a></li>

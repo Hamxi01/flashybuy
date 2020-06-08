@@ -310,7 +310,7 @@ max-width: 130px !important;
                     </div><a class="ps-logo" href="index.php"><img src="img/logo.png" alt=""></a>
                 </div>
                 <div class="header__center">
-                    <form class="ps-form--quick-search" action="index.php" method="get" id="search__form__id">
+                    <form class="ps-form--quick-search" action="product-list.php" method="get" id="search__form__id">
                         <div class="form-group--icon"><i class="icon-chevron-down"></i>
                             <select class="form-control">
                                 <option value="0" selected="selected">All</option>
@@ -385,7 +385,7 @@ max-width: 130px !important;
                                 <option class="level-1" value="wine-cabinets">   Wine Cabinets</option>
                             </select>
                         </div>
-                        <input class="form-control" type="text" id="search_box" placeholder="I'm shopping for...">
+                        <input class="form-control" type="text" id="search_box" name="search" placeholder="I'm shopping for...">
                         <button>Search</button>
                     </form>
                 </div>

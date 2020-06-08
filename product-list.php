@@ -6,7 +6,25 @@
 $limit=4;
 ?>
 
-<?php 
+<?php
+if (isset($_GET['search'])) { 
+    
+    $keyword = $_GET['search'];
+    $countSql =  "SELECT
+                    COUNT(DISTINCT(VP.prod_id)) as total 
+                    FROM 
+                      vendor_product AS VP 
+                      LEFT JOIN product_variations AS PV ON PV.variation_id = VP.variation_id 
+                      INNER JOIN products AS P ON P.product_id = VP.prod_id 
+                    where 
+                      VP.active = 'Y'
+                      AND VP.quantity > 0 
+                      AND VP.price > 0
+                      AND (P.name like '%$keyword%'  OR P.description like '%$keyword%')";
+
+    $link = "&search=".$keyword;                   
+
+} 
 if (isset($_GET['cat_id'])) { 
     
     $cat_id = $_GET['cat_id'];
@@ -884,6 +902,23 @@ if (isset($_GET['price_range'])) { $brand_id = $_GET['price_range'];?>
           $(this).addClass('active');
           var pageNum = this.id;
           $(".list").load("actions/productlistPagination.php?page=" + pageNum+"&price_range=<?=$price_range?>");
+        });
+    });
+
+<?php } ?>
+<?php 
+if (isset($_GET['search'])) { $search = $_GET['search'];?>
+
+
+    $(document).ready(function() {
+
+        $(".list").load("actions/productlistPagination.php?page=1&search=<?=$search?>");
+            $("#pagination li").on('click',function(e){
+          e.preventDefault();
+          $("#pagination li").removeClass('active');
+          $(this).addClass('active');
+          var pageNum = this.id;
+          $(".list").load("actions/productlistPagination.php?page=" + pageNum+"&search=<?=$search?>");
         });
     });
 

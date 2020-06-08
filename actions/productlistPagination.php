@@ -5,6 +5,31 @@ $limit = 4;
 if (isset($_GET["page"])) { $page  = $_GET["page"]; } else { $page=1; };  
 $start_from = ($page-1) * $limit;
 
+
+//================== Search Query ===================== //
+if (isset($_GET['search'])) {
+  
+  $keyword = $_GET['search'];
+
+  $productQuery = "SELECT 
+                      VP.*, 
+                      P.name, 
+                      P.image1, 
+                      min(VP.price) as min, 
+                      max(VP.price) as max, 
+                      PV.sku as variant_Sku 
+                    FROM 
+                      vendor_product AS VP 
+                      LEFT JOIN product_variations AS PV ON PV.variation_id = VP.variation_id 
+                      INNER JOIN products AS P ON P.product_id = VP.prod_id 
+                    where 
+                      VP.active = 'Y'
+                      AND VP.quantity > 0 
+                      AND VP.price > 0
+                      AND (P.name like '%$keyword%'  OR P.description like '%$keyword%')
+                    GROUP BY 
+                      VP.prod_id LIMIT $start_from, $limit";
+}
  // ================== Categories ==================== //
 
 if (isset($_GET['cat_id'])) {
