@@ -68,22 +68,51 @@ $sql_fetch="SELECT VP.*,VP.id,VP.quantity,VP.price,P.name,P.product_id,P.image1 
                     // $imgName = file_ext_strip($img).'_130.'.file_ext($img);
 
                 ?>
-            <div class="item  col-sm-4">
-            <a href="product.php?id=<?=base64_encode($prod_id)?>&name=<?=str_replace(' ','-',$prod_name)?>">
-            <div class="thumbnail">
+            <div class="col-xs-4 col-lg-4 mb-3 px-2">
+
+
+            <div class="card-group">
+
+                <a href="product.php?id=<?=base64_encode($prod_id)?>&name=<?=str_replace(' ','-',$prod_name)?>">
+
+                    <div class="card">
+                        <img class="card-img-top img-fluid p-5" src="upload/product/200_<?=$img?>" alt="" />
+                        <div class="card-body">
+                            <h4 class="card-title text-center mb-3" style="min-height: 73px !important;">
+                                <?php if (strlen($prod_name) > 40){
+                                    $prod_name = substr($prod_name, 0, 40) . '...';
+                                }    
+                                ?>
+                                <?= $prod_name ?>
+                            </h4>
+
+                            
+                            <p class="text-muted text-center lead text-dark mt-5">
+                                <b> R<?=$price?> </b>
+                            </p>
+                           
+                        </div>
+                    </div>
+
+                </a>
+
+            </div>
+
+
+            
+            <!-- <div class="thumbnail">
                 <div class="upper_image">
-                <img class="group list-group-image" width="100%" src="upload/product/200_<?=$img?>" alt="" />
+                    <img class="group list-group-image img-fluid" src="upload/product/200_<?=$img?>" alt="" />
                 </div>
                 <div class="caption caption-for-search">
                     <?php if (strlen($prod_name) > 40){
-
                           $prod_name = substr($prod_name, 0, 40) . '...';
                       }    
-                ?>
-                    <h4 class="group  list-group-item-heading"><?=$prod_name?></h4>
-                    <!-- <p class="group inner list-group-item-text">
+                    ?>
+                    <h4 class="group list-group-item-heading"><?=$prod_name?></h4>
+                     <p class="group inner list-group-item-text">
                         Product description... Lorem ipsum dolor sit amet, consectetuer adipiscing elit,
-                        sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p> -->
+                        sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p> 
                     <div class="row">
                         <div class="col-xs-12 col-md-12">
                             
@@ -94,12 +123,13 @@ $sql_fetch="SELECT VP.*,VP.id,VP.quantity,VP.price,P.name,P.product_id,P.image1 
                       
                     </div>
                 </div>
-            </div>
-        </a>
+            </div> 
+        </a>-->
         </div>
 
 
 
+        
 <?php
 
 }

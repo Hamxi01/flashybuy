@@ -235,7 +235,36 @@ function showCartInbox(product_id){
     });
     // 
   
-}   
+}
+
+
+
+function search_modal_height_width_calculation() {
+    var widthOfLeftHeader = document.getElementById("left__Header__ID");
+    var widthOfTotalLeftWidthOfHeader = ( widthOfLeftHeader.offsetWidth + 30) + "px";
+    // console.log("Left Header width: ", widthOfTotalLeftWidthOfHeader);
+
+
+    // Set left margin of Search Modal
+
+    $("#search__Modal__ID").css('left', widthOfTotalLeftWidthOfHeader);
+
+    // get the total width of search bar
+
+    var widthOfSearchBar = document.getElementById("search__form__id");
+    var widthOfTotalSearchBar = ( widthOfSearchBar.offsetWidth) + "px";
+    $("#search__Modal__ID").css('width', widthOfTotalSearchBar);
+    
+}
+
+$(document).on('click', function(e) {
+  $('#search__Modal__ID').slideUp('fast'); // Dropdown Menu will close on another place click
+});
+
+
+$("#search__Modal__ID").on('click', function(e){
+    e.stopPropagation();
+});
 
 // ===================== Search Product =================== //  
 $(document).ready(function(){
@@ -256,39 +285,73 @@ $(document).ready(function(){
 
 
 
-         $('.close').click(function(){
-           $('.search-field').val('');
-           $('.Search_model').hide();
+    $('.close').click(function(){
+        $('.search-field').val('');
+        $('.Search_model').hide();
+    
+    });
+
+    $("#search_box").on("paste keyup", function() {
+            if($(this).val().length >= 3) {
+            var keyword=$(this).val();
+            var oldkeyword = $("#oldkeyword").val();
+            if (keyword!=oldkeyword) {
+
+                $('#products').animate({ scrollTop: 0 }, 0);
+                $('#row').val('0');
+                $("#oldkeyword").val(keyword);
+            }
+
+                $.ajax({
+                    type:"post",
+                    url:"search_ajax.php",
+                    data:{keyword:keyword},
+                    success:function(result){
+                    // console.log(result);    
+                        search_modal_height_width_calculation();
+                        $("#products").html(result);
+                        $('.Search_model').show();
+                    
+                    }
+                });
+            } else {
+
+                $('.Search_model').hide();
+
+            }
+    });
+
+
+
+    // Search For Mobile
+
+
+    $("#search_box_mobile").on("paste keyup", function() {
+            if($(this).val().length >= 3) {
+            var keyword=$(this).val();
            
-         });
+                $.ajax({
+                    type:"post",
+                    url:"search_ajax.php",
+                    data:{keyword:keyword},
+                    success:function(result){
+                    // console.log(result);    
+                        $("#products").html(result);
+                        var widthOfSearchBar = document.getElementById("search__box__form__For__Mobile");
+                        var widthOfTotalSearchBarOfMobile = ( widthOfSearchBar.offsetWidth) + "px";
+                        $("#search__Modal__ID").css('width', widthOfTotalSearchBarOfMobile);
+                        $('.Search_model').show();
+                    
+                    }
+                });
+            } else {
 
-            $("#search_box").on("paste keyup", function() {
-                 if($(this).val().length >= 3) {
-                 var keyword=$(this).val();
-                 var oldkeyword = $("#oldkeyword").val();
-                 if (keyword!=oldkeyword) {
+                $('.Search_model').hide();
 
-                     $('#products').animate({ scrollTop: 0 }, 0);
-                     $('#row').val('0');
-                     $("#oldkeyword").val(keyword);
-                 }
+            }
+    });
 
-                       $.ajax({
-                          type:"post",
-                          url:"search_ajax.php",
-                          data:{keyword:keyword},
-                          success:function(result){
-                            // console.log(result);    
-                              $("#products").html(result);
-                              $('.Search_model').show();
-                            
-                          }
-                        });
-                   } else {
 
-                     $('.Search_model').hide();
 
-                   }
-           });
     }); 
 </script>

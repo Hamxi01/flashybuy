@@ -33,6 +33,25 @@
     border-radius: 0px;
 }
 
+.thumbnail {
+    display: block;
+    padding: 4px;
+    margin-bottom: 20px;
+    line-height: 1.42857143;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    -webkit-transition: all .2s ease-in-out;
+    -o-transition: all .2s ease-in-out;
+    transition: all .2s ease-in-out;
+    height: 210px;
+}
+
+.thumbnail .caption {
+    padding: 9px;
+    color: #333;
+}
+
 .well{
     margin-bottom: 5px;
 }
@@ -84,29 +103,32 @@
 {
     margin: 0 0 11px;
 }
-.Search_model{
-     position: absolute;
-     width: 44%; 
-    left: 367.682px;
-    top: 67.0739px;
-    height: 90%;
-    min-height: 400px;
-    border: 1px solid #eee;
-    background: #fff;
-    z-index: 100000;
-    display: none;
-}
-#products{
-    height: 90%;
-    overflow-y: scroll;
-    width: 100%;
-    margin: auto;
-}
+
+
 .caption{
     text-align: center;
 }
 .lead{
     text-align: center;
+}
+
+@media (min-width: 768px){
+    .lead {
+        font-size: 21px;
+        font-weight: 700;
+    }
+
+    div#resultcount {
+        position: absolute;
+        top: 10px;
+        left: 245px!important;
+    }
+
+    div#result {
+        position: absolute;
+        top: 10px;
+        left: 280px!important;
+    }
 }
 .upper_image{
     text-align: center;
@@ -123,11 +145,22 @@
   background: #f5efef;
 }
 
+
 .caption-for-search h4{
   min-height:73px !important;
 }
 
+.list-group-item-heading {
+    margin-top: 0;
+    margin-bottom: 5px;
+}
+
 @media (min-width: 320px) and (max-width: 767px) {
+
+.Search_model {
+    top: 113px!important;
+    left: 20px!important;
+}
 
 .caption-for-search h4{
   font-size: 11px;
@@ -143,12 +176,12 @@
 div#result {
     position: absolute;
     top: 10px;
-    left: 280px;
+    left: 160px;
 }
 div#resultcount {
     position: absolute;
     top: 10px;
-    left: 245px;
+    left: 130px;
 }
 .item.list-group-item a .thumbnail .upper_image img{
 max-width: 130px !important;
@@ -180,7 +213,7 @@ max-width: 130px !important;
     <header class="header header--1" data-sticky="false">
         <div class="header__top">
             <div class="ps-container">
-                <div class="header__left">
+                <div class="header__left" id="left__Header__ID">
                     <div class="menu--product-categories">
                         <div class="menu__toggle"><i class="icon-menu"></i><span> Shop by Department</span></div>
                         <div class="menu__content">
@@ -277,7 +310,7 @@ max-width: 130px !important;
                     </div><a class="ps-logo" href="index.php"><img src="img/logo.png" alt=""></a>
                 </div>
                 <div class="header__center">
-                    <form class="ps-form--quick-search" action="index.php" method="get">
+                    <form class="ps-form--quick-search" action="index.php" method="get" id="search__form__id">
                         <div class="form-group--icon"><i class="icon-chevron-down"></i>
                             <select class="form-control">
                                 <option value="0" selected="selected">All</option>
@@ -750,9 +783,9 @@ max-width: 130px !important;
             </div>
         </div>
         <div class="ps-search--mobile">
-            <form class="ps-form--search-mobile" action="index.php" method="get">
+            <form class="ps-form--search-mobile" id="search__box__form__For__Mobile" action="index.php" method="get">
                 <div class="form-group--nest">
-                    <input class="form-control" type="text" placeholder="Search something...">
+                    <input class="form-control" type="text" id="search_box_mobile" placeholder="Search something...">
                     <button><i class="icon-magnifier"></i></button>
                 </div>
             </form>
@@ -1072,20 +1105,11 @@ max-width: 130px !important;
             </ul>
         </div>
     </div>
-    <!-- Search Modal -->
-    <div class="Search_model" style="" >
-    <div class="well well-sm">
-        <div class="btn-group">
-            <a  id="list" class=""><span class="glyphicon glyphicon-th-list">
-            </span></a> <a  id="grid" class=""><span
-                class="glyphicon glyphicon-th"></span></a>
 
-        </div>
-         <div class="close" style="float: right;"><img src="https://img.icons8.com/material/24/000000/delete-sign--v1.png"></div>
-    </div>
-    <div id="products" style="overflow-x: hidden;" class="row list-group">
-           
-    
-    </div>
-</div>
+
+    <!-- Search Modal -->
+    <?php include('includes/search_modal.php'); ?>
+
+
+
 <input type="hidden" id="row" value="0">
