@@ -186,6 +186,65 @@ div#resultcount {
 .item.list-group-item a .thumbnail .upper_image img{
 max-width: 130px !important;
 }
+
+@media screen and (min-width: 768px) {
+    #products .image-item{     
+        margin-left: 15px!important;
+    }
+}
+#products {
+    max-height: 500px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    padding: 0 20px;
+}
+
+.product-name {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1;
+    transition: 0.5s;
+    color: #0066cc;
+    text-decoration: none;
+}
+
+.price-item {
+    font-size: 16px;
+    color: #000;
+    line-height: 1;
+    margin-top: 5px;
+}
+
+@media screen and (max-width: 768px) {
+    #products {
+        max-height: 350px;
+        overflow-x: hidden;
+        overflow-y: scroll;
+        padding: 0 10px;
+    }
+    .product-name {
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 1;
+        transition: 0.5s;
+        color: #0066cc;
+        text-decoration: none;
+    }
+
+    .price-item {
+        font-size: 14px;
+        color: #000;
+        line-height: 1;
+        margin-top: 5px;
+    }
+
+    .px-sm-2 {
+        padding-left: 1rem!important;
+        padding-right: 1rem!important;
+        margin-left: 0!important;
+        margin-right: 0!important;
+    }
+}
     </style>
 </head>
 <body>
@@ -310,8 +369,13 @@ max-width: 130px !important;
                     </div><a class="ps-logo" href="index.php"><img src="img/logo.png" alt=""></a>
                 </div>
                 <div class="header__center">
+<<<<<<< HEAD
                     <form class="ps-form--quick-search" action="product-list.php" method="get" id="search__form__id">
                         <div class="form-group--icon"><i class="icon-chevron-down"></i>
+=======
+                    <form class="ps-form--quick-search" action="index.php" method="get" id="search__form__id">
+                        <div class="form-group--icon" id="category__Search__Id"><i class="icon-chevron-down"></i>
+>>>>>>> e06ec69ce71bf9e362c43e80bad83b3540596a46
                             <select class="form-control">
                                 <option value="0" selected="selected">All</option>
                                 <option class="level-0" value="babies-moms">Babies & Moms</option>
@@ -404,7 +468,7 @@ max-width: 130px !important;
                             <?php 
                                 if (isset($_SESSION['name'])) {
                             ?>        
-                            <div class="ps-block__right"><a href="my-account.php">my accounts</a><!-- <a href="my-account.html">Register</a> --></div>
+                            <div class="ps-block__right"><a href="my-account.php">My Account</a><!-- <a href="my-account.html">Register</a> --></div>
                         <?php }else{ ?>
 
                             <div class="ps-block__right"><a href="userlogin.php">Login</a><a href="userlogin.php">Register</a></div>

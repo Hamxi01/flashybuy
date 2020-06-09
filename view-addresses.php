@@ -48,7 +48,7 @@ if( isset( $_REQUEST['action']  ) && $_REQUEST['action']  == "delete" ){
                         <ul class="ps-section__links">
                             <li><a href="my-account.php">Dashboard</a></li>
                             <li  class="active"><a href="view-addresses.php">My Addresses</a></li>
-                            <li><a href="my-account.php">view Orders</a></li>
+                            <li><a href="view-orders.php">view Orders</a></li>
                             <!-- <li><a href="#">Setting</a></li> -->
                             <li><a href="logout.php">Logout</a></li>
                         </ul>

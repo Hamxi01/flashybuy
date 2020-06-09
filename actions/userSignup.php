@@ -13,10 +13,12 @@ if (isset($_POST['btnsignup']))
 
 	if (mysqli_query($con,$sql)) 
 	{
+		unset($_SESSION['same_email_error']);
 		header('Location:../userlogin.php?msg=success');
 	}
 	else
 	{
+		$_SESSION['same_email_error'] = true;
 		header('Location: ../userlogin.php?msg=error');
 
 	}

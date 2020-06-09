@@ -80,10 +80,39 @@ $sql_fetch="SELECT
                     $price = $rC['price'];
 
                 ?>
-            <div class="col-xs-4 col-lg-4 mb-3 px-2">
 
 
-            <div class="card-group">
+            <!-- <ul> -->
+                <div class="row w-100 px-5 px-sm-2 mb-4">
+                    <a class="image-item" href="product.php?id=<?=base64_encode($prod_id)?>&name=<?=str_replace(' ','-',$prod_name)?>"">
+                        <img style="max-width: 60px; margin-right: 10px;" src="upload/product/200_<?=$img?>" class="attachment-100x100 size-100x100" alt="" sizes="(max-width: 100px) 100vw, 100px">
+                    </a>
+                    <div class="content-item">
+                        <a class="title-item product-name" href="product.php?id=<?=base64_encode($prod_id)?>&name=<?=str_replace(' ','-',$prod_name)?>""">
+                        <?php if (strlen($prod_name) > 40){
+                                    $prod_name = substr($prod_name, 0, 40) . '...';
+                                }    
+                                ?>
+                                <?= $prod_name ?>
+                        </a>
+                    <!-- <div class="rating-item">
+
+                    </div> -->
+                    <div class="price-item">
+                    <span class="amount">
+                        <span>R</span><?=$price?>
+                    </span>
+                        </div>
+                    </div>
+                </div>
+            <!-- </ul> -->
+            
+
+
+            <!-- <div class="col-xs-12 col-lg-12 mb-3 px-2"> -->
+
+
+            <!-- <div class="card-group">
 
                 <a href="product.php?id=<?=base64_encode($prod_id)?>&name=<?=str_replace(' ','-',$prod_name)?>">
 
@@ -110,8 +139,41 @@ $sql_fetch="SELECT
 
                 </a>
 
+<<<<<<< HEAD
             </div>
         </div>
+=======
+            </div> -->
+
+
+            
+            <!-- <div class="thumbnail">
+                <div class="upper_image">
+                    <img class="group list-group-image img-fluid" src="upload/product/200_<?=$img?>" alt="" />
+                </div>
+                <div class="caption caption-for-search">
+                    <?php if (strlen($prod_name) > 40){
+                          $prod_name = substr($prod_name, 0, 40) . '...';
+                      }    
+                    ?>
+                    <h4 class="group list-group-item-heading"><?=$prod_name?></h4>
+                     <p class="group inner list-group-item-text">
+                        Product description... Lorem ipsum dolor sit amet, consectetuer adipiscing elit,
+                        sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p> 
+                    <div class="row">
+                        <div class="col-xs-12 col-md-12">
+                            
+                            <p class="lead"><b>
+                                R<?=$price?></b></p>
+                            
+                        </div>
+                      
+                    </div>
+                </div>
+            </div> 
+        </a>-->
+        <!-- </div> -->
+>>>>>>> e06ec69ce71bf9e362c43e80bad83b3540596a46
 
 
 

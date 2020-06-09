@@ -147,12 +147,11 @@
     <script src="assets/plugins/sticky-sidebar/dist/sticky-sidebar.min.js"></script>
     <script src="assets/plugins/jquery.slimscroll.min.js"></script>
     <script src="assets/plugins/select2/dist/js/select2.full.min.js"></script>
-    <script src="assets/plugins/gmap3.min.js"></script>
     <!-- custom scripts-->
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
     <script src="assets/js/main.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDxflHHc5FlDVI-J71pO7hM1QJNW1dRp4U&amp;region=GB"></script>
+  
     <!-- Data Table -->
 
 
@@ -241,7 +240,10 @@ function showCartInbox(product_id){
 
 function search_modal_height_width_calculation() {
     var widthOfLeftHeader = document.getElementById("left__Header__ID");
-    var widthOfTotalLeftWidthOfHeader = ( widthOfLeftHeader.offsetWidth + 30) + "px";
+    var category_search = document.getElementById("category__Search__Id");
+
+
+    var widthOfTotalLeftWidthOfHeader = ( widthOfLeftHeader.offsetWidth + category_search.offsetWidth + 30) + "px";
     // console.log("Left Header width: ", widthOfTotalLeftWidthOfHeader);
 
 
@@ -252,7 +254,7 @@ function search_modal_height_width_calculation() {
     // get the total width of search bar
 
     var widthOfSearchBar = document.getElementById("search__form__id");
-    var widthOfTotalSearchBar = ( widthOfSearchBar.offsetWidth) + "px";
+    var widthOfTotalSearchBar = ( widthOfSearchBar.offsetWidth - category_search.offsetWidth ) + "px";
     $("#search__Modal__ID").css('width', widthOfTotalSearchBar);
     
 }

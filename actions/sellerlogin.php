@@ -16,6 +16,11 @@ if (isset($_POST['btnsub']))
 		$_SESSION['name']=$fetch[1];
 		$_SESSION['img']=$fetch[20];
 		$id = $_SESSION['id'];	
+
+		// If Login is correct then destroy the variable
+		unset($_SESSION['seller_login_failed_error']);
+		$_SESSION['seller_login_failed_error'] = false;
+
 		$time = date("Y-m-d H:i:s");
 		$ip   = $_SERVER['REMOTE_ADDR'];
 		$insert = "insert into login_log(user_id,login_time,ip) values('$id','$time','$ip')";
@@ -27,6 +32,7 @@ if (isset($_POST['btnsub']))
 	}
 	else
 	{
+		$_SESSION['seller_login_failed_error'] = true;
 		header('Location: ' . $_SERVER['HTTP_REFERER'].'?msg=error');
 
 	}
