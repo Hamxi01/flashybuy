@@ -38,6 +38,7 @@ if (isset($_GET['id']) && isset($_GET['sku'])) {
         $keyword               = $result['keyword'];
         $ven_id                = $result['ven_id'];
         $keyword               = explode(',',$keyword);
+        $shortDesc             = $result['short_desc'];
   }
 }
 if (isset($_POST['action']) && $_POST['action'] == 'saveproduct') {
@@ -72,6 +73,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'saveproduct') {
   }
   // $courier_size                 =     $_POST['courier_size'];
   $description                     =     addslashes($_POST['description']);
+  $shortDesc                       =     addslashes($_POST['short_desc']);
   $sku                             =     str_replace(" ","-", $name);
   $image1                          =     $_POST['image1'];
   $image2                          =     $_POST['image2'];
@@ -80,7 +82,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'saveproduct') {
 
 
 
-     $query = "update products SET name='".$name."',cat_id='".$category_id."',sub_cat_id='".$subcategory_id."',sub_sub_cat_id='".$subsubcategory_id."',brand='".$brand."',quantity='".$quantity."',market_price='".$market_price."',selling_price='".$selling_price."',length='".$length."',width='".$width."',height='".$height."',keyword='".$keyword."',sku='".$sku."',description='".$description."',image1='".$image1."',image2='".$image2."',image3='".$image3."',image4='".$image4."',exclusive='".$exclusive."',courier_size='".$courier_size."',warranty='".$warranty."' Where product_id='".$product_id."'";
+     $query = "update products SET name='".$name."',cat_id='".$category_id."',sub_cat_id='".$subcategory_id."',sub_sub_cat_id='".$subsubcategory_id."',brand='".$brand."',quantity='".$quantity."',market_price='".$market_price."',selling_price='".$selling_price."',length='".$length."',width='".$width."',height='".$height."',keyword='".$keyword."',sku='".$sku."',description='".$description."',short_desc='".$shortDesc."',image1='".$image1."',image2='".$image2."',image3='".$image3."',image4='".$image4."',exclusive='".$exclusive."',courier_size='".$courier_size."',warranty='".$warranty."' Where product_id='".$product_id."'";
      ///// Check product is already in vendors products or not////
 
       $vpSql   = "SELECT * from vendor_product where prod_id = '$product_id'  AND ven_id='$ven_id'";
@@ -143,6 +145,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'acceptproduct') {
   }
   // $courier_size                 =     $_POST['courier_size'];
   $description                     =     addslashes($_POST['description']);
+  $shortDesc                       =     addslashes($_POST['short_desc']);
   $sku                             =     str_replace(" ","-", $name);
   $image1                          =     $_POST['image1'];
   $image2                          =     $_POST['image2'];
@@ -151,7 +154,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'acceptproduct') {
 
 
 
-     $query = "update products SET name='".$name."',cat_id='".$category_id."',sub_cat_id='".$subcategory_id."',sub_sub_cat_id='".$subsubcategory_id."',brand='".$brand."',quantity='".$quantity."',market_price='".$market_price."',selling_price='".$selling_price."',length='".$length."',width='".$width."',height='".$height."',keyword='".$keyword."',sku='".$sku."',description='".$description."',image1='".$image1."',image2='".$image2."',image3='".$image3."',image4='".$image4."',approved='".$approved."',exclusive='".$exclusive."',courier_size='".$courier_size."',warranty='".$warranty."' Where product_id='".$product_id."'";
+     $query = "update products SET name='".$name."',cat_id='".$category_id."',sub_cat_id='".$subcategory_id."',sub_sub_cat_id='".$subsubcategory_id."',brand='".$brand."',quantity='".$quantity."',market_price='".$market_price."',selling_price='".$selling_price."',length='".$length."',width='".$width."',height='".$height."',keyword='".$keyword."',sku='".$sku."',description='".$description."',short_desc='".$shortDesc."',image1='".$image1."',image2='".$image2."',image3='".$image3."',image4='".$image4."',approved='".$approved."',exclusive='".$exclusive."',courier_size='".$courier_size."',warranty='".$warranty."' Where product_id='".$product_id."'";
      ///// Check product is already in vendors products or not////
 
       $vpSql   = "SELECT * from vendor_product where prod_id = '$product_id'  AND ven_id='$ven_id'";
@@ -214,6 +217,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'rejectproduct') {
   }
   // $courier_size                 =     $_POST['courier_size'];
   $description                     =     addslashes($_POST['description']);
+  $shortDesc                       =     addslashes($_POST['short_desc']);
   $sku                             =     str_replace(" ","-", $name);
   $image1                          =     $_POST['image1'];
   $image2                          =     $_POST['image2'];
@@ -222,7 +226,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'rejectproduct') {
 
 
 
-     $query = "update products SET name='".$name."',cat_id='".$category_id."',sub_cat_id='".$subcategory_id."',sub_sub_cat_id='".$subsubcategory_id."',brand='".$brand."',quantity='".$quantity."',market_price='".$market_price."',selling_price='".$selling_price."',length='".$length."',width='".$width."',height='".$height."',keyword='".$keyword."',sku='".$sku."',description='".$description."',image1='".$image1."',image2='".$image2."',image3='".$image3."',image4='".$image4."',approved='".$approved."',exclusive='".$exclusive."',courier_size='".$courier_size."',warranty='".$warranty."' Where product_id='".$product_id."'";
+     $query = "update products SET name='".$name."',cat_id='".$category_id."',sub_cat_id='".$subcategory_id."',sub_sub_cat_id='".$subsubcategory_id."',brand='".$brand."',quantity='".$quantity."',market_price='".$market_price."',selling_price='".$selling_price."',length='".$length."',width='".$width."',height='".$height."',keyword='".$keyword."',sku='".$sku."',description='".$description."',short_desc='".$shortDesc."',image1='".$image1."',image2='".$image2."',image3='".$image3."',image4='".$image4."',approved='".$approved."',exclusive='".$exclusive."',courier_size='".$courier_size."',warranty='".$warranty."' Where product_id='".$product_id."'";
      ///// Check product is already in vendors products or not////
 
       $vpSql   = "SELECT * from vendor_product where prod_id = '$product_id'  AND ven_id='$ven_id'";
@@ -357,6 +361,12 @@ if (isset($_POST['action']) && $_POST['action'] == 'rejectproduct') {
                                 Oh no! Sub-subCategories is invalid.
                               </div>
                           </div>
+                            <div class="form-group row">
+                              <div class="col-md-12">
+                                <label class="col-form-label">Short Description</label>
+                                    <textarea class="form-control" required="" name="short_desc"><?=$shortDesc?></textarea>
+                              </div>
+                            </div>
                             <div class="form-group row">
                               <div class="col-md-12">
                                 <label class="col-form-label">Description</label>

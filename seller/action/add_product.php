@@ -30,6 +30,7 @@ if (isset($_POST['add-product'])) {
 	}
 	
 	$description                     =     addslashes( $_POST['description']);
+	$short_desc                      =     addslashes( $_POST['short_desc']);
 	$sku                             =     str_replace(" ","-", $name);
 	$image1                          =     $_POST['image1'];
 	$image2                          =     $_POST['image2'];
@@ -45,7 +46,7 @@ if (isset($_POST['add-product'])) {
 	  }
 
 
-	$sql = "INSERT into products (name,cat_id,sub_cat_id,sub_sub_cat_id,sku,brand,market_price,selling_price,quantity,ven_id,width,height,length,description,image1,image2,image3,image4,exclusive,warranty,courier_size) VALUES ('$name','$category_id', '$subcategory_id','$subsubcategory_id','$sku','$brand','$market_price','$selling_price','$quantity','$ven_id','$width','$height','$length','$description','$image1','$image2','$image3','$image4','$exclusive','$warranty','$courier_size')";
+	$sql = "INSERT into products (name,cat_id,sub_cat_id,sub_sub_cat_id,sku,brand,market_price,selling_price,quantity,ven_id,width,height,length,description,image1,image2,image3,image4,exclusive,warranty,courier_size,short_desc) VALUES ('$name','$category_id', '$subcategory_id','$subsubcategory_id','$sku','$brand','$market_price','$selling_price','$quantity','$ven_id','$width','$height','$length','$description','$image1','$image2','$image3','$image4','$exclusive','$warranty','$courier_size',$short_desc)";
 
 		
 	if ( mysqli_query($con,$sql)){

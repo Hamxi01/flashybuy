@@ -2,6 +2,8 @@
         include('includes/db.php');
         include('includes/head.php');
         include('actions/singleproductOtherOffers.php');
+        include('includes/relatedProducts.php');
+
 if (isset($_GET['id'])) {
 
 
@@ -49,8 +51,17 @@ if (isset($_GET['id'])) {
    $pQuery = mysqli_query($con,$pMain);
    while ( $result = mysqli_fetch_array($pQuery)) {
         
-        $name    = $result['name'];
+        $name      = $result['name'];
+        $cat_id    = $result['cat_id'];
+        $shortDesc = $result['short_desc']; 
+        ///=========Product Reveiw ================ //
+        $prSql       = mysqli_query($con,"SELECT count(DISTINCT(user_id)),rating FROM product_reviews where product_id ='$product_id'");
+        while($prRes = mysqli_fetch_array($prSql)){
 
+            $totalR = $prRes[0];
+            $rating = $prRes[1];
+        }
+        //===========================================//
     // ============= Check product is in deal or not ========= //
 
         $vpdSql  = mysqli_query($con,"SELECT * FROM vendor_product_deals WHERE start_date < UNIX_TIMESTAMP() AND end_date > UNIX_TIMESTAMP() AND product_id ='$product_id'");
@@ -275,23 +286,57 @@ if (isset($_GET['id'])) {
                                     <p>Brand:<a href="#"><?=$brand_name?></a></p>
                                     <div class="ps-product__rating">
                                         <select class="ps-rating" data-read-only="true">
-                                            <option value="1">1</option>
-                                            <option value="1">2</option>
-                                            <option value="1">3</option>
-                                            <option value="1">4</option>
-                                            <option value="2">5</option>
-                                        </select><span>(1 review)</span>
+                                            <?php if ($rating == 5) { ?>    
+                                                        <option value="1">1</option>
+                                                        <option value="1">2</option>
+                                                        <option value="1">3</option>
+                                                        <option value="1">4</option>
+                                                        <option value="1">5</option>
+                                                    <?php } ?>
+                                                    <?php if ($rating == 4) { ?>    
+                                                        <option value="1">1</option>
+                                                        <option value="1">2</option>
+                                                        <option value="1">3</option>
+                                                        <option value="1">4</option>
+                                                        <option value="2">5</option>
+                                                    <?php } ?>
+                                                    <?php if ($rating == 3) { ?>    
+                                                        <option value="1">1</option>
+                                                        <option value="1">2</option>
+                                                        <option value="1">3</option>
+                                                        <option value="2">4</option>
+                                                        <option value="2">5</option>
+                                                    <?php } ?>    
+                                                    <?php if ($rating == 2) { ?>    
+                                                        <option value="1">1</option>
+                                                        <option value="1">2</option>
+                                                        <option value="2">3</option>
+                                                        <option value="2">4</option>
+                                                        <option value="2">5</option>
+                                                    <?php } ?>
+                                                    <?php if ($rating == 1) { ?>    
+                                                        <option value="1">1</option>
+                                                        <option value="2">2</option>
+                                                        <option value="2">3</option>
+                                                        <option value="2">4</option>
+                                                        <option value="2">5</option>
+                                                    <?php }?>
+                                                    <?php if($rating == 0){ ?>
+
+                                                        <option value="0">1</option>
+                                                        <option>2</option>
+                                                        <option>3</option>
+                                                        <option>4</option>
+                                                        <option>5</option>
+                                                    <?php } ?>
+                                        </select><span>(<?=$totalR?> review)</span>
                                     </div>
                                 </div>
                                 <h4 id="ps-product__price"><b>R</b><?=$price?></h4>
                                 <div class="ps-product__desc">
                                     <p>Sold By:<a href="#"><strong id="vendorname"><?=$vendorname?></strong></a></p>
                                     <ul class="ps-list--dot">
-                                        <li> Unrestrained and portable active stereo speaker</li>
-                                        <li> Free from the confines of wires and chords</li>
-                                        <li> 20 hours of portable capabilities</li>
-                                        <li> Double-ended Coil Cord with 3.5mm Stereo Plugs Included</li>
-                                        <li> 3/4″ Dome Tweeters: 2X and 4″ Woofer: 1X</li>
+                                        <?=$shortDesc?>
                                     </ul>
                                 </div>
                                 <div class="ps-product__variations">
@@ -847,34 +892,9 @@ while($prRes = mysqli_fetch_array($prSql)){
                 </div>
                 <div class="ps-section__content">
                     <div class="ps-carousel--nav owl-slider" data-owl-auto="true" data-owl-loop="true" data-owl-speed="10000" data-owl-gap="30" data-owl-nav="true" data-owl-dots="true" data-owl-item="6" data-owl-item-xs="2" data-owl-item-sm="2" data-owl-item-md="3" data-owl-item-lg="4" data-owl-item-xl="5" data-owl-duration="1000" data-owl-mousedrag="on">
-                        <div class="ps-product">
-                            <div class="ps-product__thumbnail"><a href="product-default.html"><img src="img/products/shop/11.jpg" alt=""></a>
-                                <ul class="ps-product__actions">
-                                    <li><a href="#" data-toggle="tooltip" data-placement="top" title="Read More"><i class="icon-bag2"></i></a></li>
-                                    <li><a href="#" data-toggle="tooltip" data-placement="top" title="Quick View"><i class="icon-eye"></i></a></li>
-                                    <li><a href="#" data-toggle="tooltip" data-placement="top" title="Add to Whishlist"><i class="icon-heart"></i></a></li>
-                                    <li><a href="#" data-toggle="tooltip" data-placement="top" title="Compare"><i class="icon-chart-bars"></i></a></li>
-                                </ul>
-                            </div>
-                            <div class="ps-product__container"><a class="ps-product__vendor" href="#">Robert's Store</a>
-                                <div class="ps-product__content"><a class="ps-product__title" href="product-default.html">Men’s Sports Runnning Swim Board Shorts</a>
-                                    <div class="ps-product__rating">
-                                        <select class="ps-rating" data-read-only="true">
-                                            <option value="1">1</option>
-                                            <option value="1">2</option>
-                                            <option value="1">3</option>
-                                            <option value="1">4</option>
-                                            <option value="2">5</option>
-                                        </select><span>01</span>
-                                    </div>
-                                    <p class="ps-product__price">$13.43</p>
-                                </div>
-                                <div class="ps-product__content hover"><a class="ps-product__title" href="product-default.html">Men’s Sports Runnning Swim Board Shorts</a>
-                                    <p class="ps-product__price">$13.43</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="ps-product">
+                        
+                        <?php  echo relatedProducts($con,$cat_id); ?>
+                        <!-- <div class="ps-product">
                             <div class="ps-product__thumbnail"><a href="product-default.html"><img src="img/products/shop/12.jpg" alt=""></a>
                                 <ul class="ps-product__actions">
                                     <li><a href="#" data-toggle="tooltip" data-placement="top" title="Read More"><i class="icon-bag2"></i></a></li>
@@ -1092,7 +1112,7 @@ while($prRes = mysqli_fetch_array($prSql)){
                                     <p class="ps-product__price">$233.28</p>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>

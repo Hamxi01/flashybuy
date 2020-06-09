@@ -144,6 +144,13 @@ if (isset($_SESSION['id']))
                               <input type="hidden" name="brand" id="brandid" value="">
                               <ul id="brandslist">
                               </ul>
+                            </div>
+                            <div class="form-group row">
+                              <div class="col-md-12">
+                                <label class="col-form-label">Short Description</label>
+                                    <textarea class="form-control" name="short_desc" id="description"></textarea>
+                                    <span class="text-danger description"></span>
+                              </div>
                             </div>        
                             <div class="form-group row">
                               <div class="col-md-12">

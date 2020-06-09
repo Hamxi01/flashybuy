@@ -36,7 +36,8 @@ if (isset($_GET['id']) && isset($_GET['variant_id'])) {
         $keyword               = $result['keyword'];
         $description           = $result['description'];
         $ven_id                = $result['ven_id'];
-        $keywordid              = explode(',',$keyword);
+        $keywordid             = explode(',',$keyword);
+        $shortDesc             =  $result['short_desc'];
   }
    
 }
@@ -67,6 +68,7 @@ if (isset($_POST['action'])&& $_POST['action'] == "rejectproduct") {
   }
   
   $description                     =     addslashes($_POST['description']);
+  $shortDesc                       =     addslashes($_POST['short_desc']);
   $warranty                        =     addslashes($_POST['warranty']);
   $approved                        =     'N';
       
@@ -82,7 +84,7 @@ if (isset($_POST['action'])&& $_POST['action'] == "rejectproduct") {
 
 
 
-     $query = "update products SET name='".$name."',cat_id='".$category_id."',sub_cat_id='".$subcategory_id."',sub_sub_cat_id='".$subsubcategory_id."',brand='".$brand."',length='".$length."',width='".$width."',height='".$height."',keyword='".$keyword."',approved='".$approved."',exclusive='".$exclusive."',courier_size='".$courier_size."',warranty='".$warranty."' Where product_id='".$product_id."'";
+     $query = "update products SET name='".$name."',cat_id='".$category_id."',sub_cat_id='".$subcategory_id."',sub_sub_cat_id='".$subsubcategory_id."',brand='".$brand."',length='".$length."',width='".$width."',height='".$height."',keyword='".$keyword."',approved='".$approved."',exclusive='".$exclusive."',description='".$description."',short_desc='".$shortDesc."',courier_size='".$courier_size."',warranty='".$warranty."' Where product_id='".$product_id."'";
 
     foreach ($_POST['sku'] as $key => $value) {
       
@@ -153,6 +155,7 @@ if (isset($_POST['action'])&& $_POST['action'] == "saveproduct") {
   }
   
   $description                     =     addslashes($_POST['description']);
+  $shortDesc                       =     addslashes($_POST['short_desc']);
   $warranty                        =     addslashes($_POST['warranty']);
   $approved                        =     'Y';
       
@@ -168,7 +171,7 @@ if (isset($_POST['action'])&& $_POST['action'] == "saveproduct") {
 
 
 
-     $query = "update products SET name='".$name."',cat_id='".$category_id."',sub_cat_id='".$subcategory_id."',sub_sub_cat_id='".$subsubcategory_id."',brand='".$brand."',length='".$length."',width='".$width."',height='".$height."',keyword='".$keyword."',approved='".$approved."',exclusive='".$exclusive."',courier_size='".$courier_size."',warranty='".$warranty."' Where product_id='".$product_id."'";
+     $query = "update products SET name='".$name."',cat_id='".$category_id."',sub_cat_id='".$subcategory_id."',sub_sub_cat_id='".$subsubcategory_id."',brand='".$brand."',length='".$length."',width='".$width."',height='".$height."',keyword='".$keyword."',approved='".$approved."',exclusive='".$exclusive."',description='".$description."',short_desc='".$shortDesc."',courier_size='".$courier_size."',warranty='".$warranty."' Where product_id='".$product_id."'";
 
     foreach ($_POST['sku'] as $key => $value) {
       
@@ -242,6 +245,7 @@ if (isset($_POST['action']) && $_POST['action'] == "acceptproduct") {
   }
   
   $description                     =     addslashes($_POST['description']);
+  $shortDesc                       =     addslashes($_POST['short_desc']);
   $warranty                        =     addslashes($_POST['warranty']);
   $approved                        =     'Y';
       
@@ -257,7 +261,7 @@ if (isset($_POST['action']) && $_POST['action'] == "acceptproduct") {
 
 
 
-     $query = "update products SET name='".$name."',cat_id='".$category_id."',sub_cat_id='".$subcategory_id."',sub_sub_cat_id='".$subsubcategory_id."',brand='".$brand."',length='".$length."',width='".$width."',height='".$height."',keyword='".$keyword."',approved='".$approved."',exclusive='".$exclusive."',courier_size='".$courier_size."',warranty='".$warranty."' Where product_id='".$product_id."'";
+     $query = "update products SET name='".$name."',cat_id='".$category_id."',sub_cat_id='".$subcategory_id."',sub_sub_cat_id='".$subsubcategory_id."',brand='".$brand."',length='".$length."',width='".$width."',height='".$height."',keyword='".$keyword."',approved='".$approved."',exclusive='".$exclusive."',description='".$description."',short_desc='".$shortDesc."',courier_size='".$courier_size."',warranty='".$warranty."' Where product_id='".$product_id."'";
 
     foreach ($_POST['sku'] as $key => $value) {
       
@@ -409,6 +413,12 @@ foreach ($_POST['vi_id'] as $key => $vImageid) {
                                 Oh no! Sub-subCategories is invalid.
                               </div>
                           </div>
+                            <div class="form-group row">
+                              <div class="col-md-12">
+                                <label class="col-form-label">Short Description</label>
+                                    <textarea class="form-control" required="" name="short_desc"><?=$shortDesc?></textarea>
+                              </div>
+                            </div>
                             <div class="form-group row">
                               <div class="col-md-12">
                                 <label class="col-form-label">Description</label>
