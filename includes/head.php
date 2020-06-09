@@ -23,7 +23,7 @@
     <link rel="stylesheet" href="assets/css/style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <style type="text/css">
-               .glyphicon { margin-right:5px; }
+.glyphicon { margin-right:5px; }
 .thumbnail
 {
     margin-bottom: 8px;
