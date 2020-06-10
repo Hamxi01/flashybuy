@@ -10,7 +10,7 @@ $dSql = mysqli_query($con,"SELECT P.*,VPD.v_p_id,VPD.deal_price,VPD.start_date,V
                     WHERE   1 = 1  
                             AND VP.active = 'Y'
                             AND VP.price > 0
-                            AND deal_NO ='10030'
+                            AND deal_NO ='10050'
                             AND start_date < UNIX_TIMESTAMP()
                             AND end_date   > UNIX_TIMESTAMP()  
                             group by product_id
@@ -23,8 +23,8 @@ while ( $dRes = mysqli_fetch_array($dSql)) {
     
     $deal_price = $dRes['deal_price'];
     $mk_price = $dRes['market_price'];
-    $less = ($mk_price - $deal_price) / 100;
     $product_id = $dRes['product_id'];
+    $less = ($mk_price - $deal_price) / 100;
     $name       = $dRes['name'];
     $image = $dRes['image1'];
   if (empty($image)) {
