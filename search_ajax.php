@@ -84,17 +84,24 @@ $sql_fetch="SELECT
 
             <!-- <ul> -->
                 <div class="row w-100 px-5 px-sm-2 mb-4">
-                    <a class="image-item" href="product.php?id=<?=base64_encode($prod_id)?>&name=<?=str_replace(' ','-',$prod_name)?>"">
+                    <a class="image-item" href="product.php?id=<?=base64_encode($prod_id)?>&name=<?=str_replace(' ','-',$prod_name)?>">
                         <img style="max-width: 60px; margin-right: 10px;" src="upload/product/200_<?=$img?>" class="attachment-100x100 size-100x100" alt="" sizes="(max-width: 100px) 100vw, 100px">
                     </a>
                     <div class="content-item">
-                        <a class="title-item product-name" href="product.php?id=<?=base64_encode($prod_id)?>&name=<?=str_replace(' ','-',$prod_name)?>""">
+                        <a class="title-item product-name" href="product.php?id=<?=base64_encode($prod_id)?>&name=<?=str_replace(' ','-',$prod_name)?>">
                         <?php if (strlen($prod_name) > 40){
                                     $prod_name = substr($prod_name, 0, 40) . '...';
                                 }    
                                 ?>
                                 <?= $prod_name ?>
-                        </a>
+                        </a><br>
+                        <?php if (isset($variant)) {
+                            
+                              echo $variant;
+                              $variant ='';
+                        }
+
+                        ?>
                     <!-- <div class="rating-item">
 
                     </div> -->
@@ -105,75 +112,6 @@ $sql_fetch="SELECT
                         </div>
                     </div>
                 </div>
-            <!-- </ul> -->
-            
-
-
-            <!-- <div class="col-xs-12 col-lg-12 mb-3 px-2"> -->
-
-
-            <!-- <div class="card-group">
-
-                <a href="product.php?id=<?=base64_encode($prod_id)?>&name=<?=str_replace(' ','-',$prod_name)?>">
-
-                    <div class="card">
-                        <img class="card-img-top img-fluid p-5" src="upload/product/200_<?=$img?>" alt="" />
-                        <div class="card-body">
-                            <h4 class="card-title text-center mb-3" style="min-height: 73px !important;">
-                                <?php if (strlen($prod_name) > 40){
-                                    $prod_name = substr($prod_name, 0, 40) . '...';
-                                }    
-                                ?>
-                                <?= $prod_name ?>
-                            </h4>
-                            <?php if (isset($variant)) {
-                                echo $variant;
-                                $variant = '';
-                            }?>
-                            <p class="text-muted text-center lead text-dark mt-5">
-                                <b> R<?=$price?> </b>
-                            </p>
-                           
-                        </div>
-                    </div>
-
-                </a>
-
-
-            </div>
-        </div>
-
-            </div> -->
-
-
-            
-            <!-- <div class="thumbnail">
-                <div class="upper_image">
-                    <img class="group list-group-image img-fluid" src="upload/product/200_<?=$img?>" alt="" />
-                </div>
-                <div class="caption caption-for-search">
-                    <?php if (strlen($prod_name) > 40){
-                          $prod_name = substr($prod_name, 0, 40) . '...';
-                      }    
-                    ?>
-                    <h4 class="group list-group-item-heading"><?=$prod_name?></h4>
-                     <p class="group inner list-group-item-text">
-                        Product description... Lorem ipsum dolor sit amet, consectetuer adipiscing elit,
-                        sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p> 
-                    <div class="row">
-                        <div class="col-xs-12 col-md-12">
-                            
-                            <p class="lead"><b>
-                                R<?=$price?></b></p>
-                            
-                        </div>
-                      
-                    </div>
-                </div>
-            </div> 
-        </a>-->
-        <!-- </div> -->
-
 
 
 
