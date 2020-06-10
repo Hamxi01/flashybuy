@@ -2,10 +2,7 @@
 $con = mysqli_connect("localhost", "root","" , "newflashybuy") or die("No server found here");
 session_start();
 
-
-
 ///=============== All Couriers ============= //
-
 $sCo = mysqli_query( $con , " SELECT * FROM couriers " );
 
 while( $rCo = mysqli_fetch_array( $sCo )){
