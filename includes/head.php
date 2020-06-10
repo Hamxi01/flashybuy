@@ -757,8 +757,8 @@ max-width: 130px !important;
                         </li>
                     </ul>
                     <ul class="navigation__extra">
-                        <li><a href="#">Sell on Martfury</a></li>
-                        <li><a href="#">Tract your order</a></li>
+                        <li><a href="vendor.php">Sell on Flashybuy</a></li>
+                        <li><a href="#">Track your order</a></li>
                         <li>
                             <div class="ps-dropdown"><a href="#">US Dollar</a>
                                 <ul class="ps-dropdown-menu">

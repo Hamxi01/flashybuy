@@ -9,8 +9,8 @@ while ( $categoryResult = mysqli_fetch_array($categorySql)) { ?>
             <p>
                 <?php 
                 $prod_name = $categoryResult['name'];
-                if (strlen($categoryResult['name']) > 14){
-                    $prod_name = substr($categoryResult['name'], 0, 14) . '...';
+                if (strlen($categoryResult['name']) > 12){
+                    $prod_name = substr($categoryResult['name'], 0, 12) . '..';
                 }    
                 ?>
                 <?= $prod_name; ?>
