@@ -23,7 +23,7 @@
     <link rel="stylesheet" href="assets/css/style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <style type="text/css">
-.glyphicon { margin-right:5px; }
+               .glyphicon { margin-right:5px; }
 .thumbnail
 {
     margin-bottom: 8px;
@@ -369,13 +369,8 @@ max-width: 130px !important;
                     </div><a class="ps-logo" href="index.php"><img src="img/logo.png" alt=""></a>
                 </div>
                 <div class="header__center">
-
-                    <form class="ps-form--quick-search" action="product-list.php" method="get" id="search__form__id">
-                        <div class="form-group--icon"><i class="icon-chevron-down"></i>
-
                     <form class="ps-form--quick-search" action="index.php" method="get" id="search__form__id">
                         <div class="form-group--icon" id="category__Search__Id"><i class="icon-chevron-down"></i>
-
                             <select class="form-control">
                                 <option value="0" selected="selected">All</option>
                                 <option class="level-0" value="babies-moms">Babies & Moms</option>
@@ -449,7 +444,7 @@ max-width: 130px !important;
                                 <option class="level-1" value="wine-cabinets">   Wine Cabinets</option>
                             </select>
                         </div>
-                        <input class="form-control" type="text" id="search_box" name="search" placeholder="I'm shopping for...">
+                        <input class="form-control" type="text" id="search_box" placeholder="I'm shopping for...">
                         <button>Search</button>
                     </form>
                 </div>
