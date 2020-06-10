@@ -369,13 +369,13 @@ max-width: 130px !important;
                     </div><a class="ps-logo" href="index.php"><img src="img/logo.png" alt=""></a>
                 </div>
                 <div class="header__center">
-<<<<<<< HEAD
+
                     <form class="ps-form--quick-search" action="product-list.php" method="get" id="search__form__id">
                         <div class="form-group--icon"><i class="icon-chevron-down"></i>
-=======
+
                     <form class="ps-form--quick-search" action="index.php" method="get" id="search__form__id">
                         <div class="form-group--icon" id="category__Search__Id"><i class="icon-chevron-down"></i>
->>>>>>> e06ec69ce71bf9e362c43e80bad83b3540596a46
+
                             <select class="form-control">
                                 <option value="0" selected="selected">All</option>
                                 <option class="level-0" value="babies-moms">Babies & Moms</option>
