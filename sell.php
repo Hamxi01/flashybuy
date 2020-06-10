@@ -15,7 +15,7 @@ include('includes/head.php');
                 
                         
             <div class="text-center">
-                <a href="#" class="logo-lg"><i class="md md-equalizer"></i> <span>Flashy Buy</span> </a>
+                <a href="#" class="logo-lg"><i class="md md-equalizer"></i> <span>Become A Seller</span> </a>
             </div>
 
             <form class="ps-form--checkout" id="form_register" method="post" action="actions/seller_register.php">
@@ -91,23 +91,7 @@ include('includes/head.php');
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <div class="col-xs-12">
-                        
-                        <select name="category" id="category" class="form-control" required>
-                        	<option value="">Select Category</option>
-                        	<?php 
-                        			$rec = mysqli_query($con,"select * from categories");
-                        		while ($fetch= mysqli_fetch_array($rec)) 
-                        		{
-                        			echo "<option value='$fetch[0]'>$fetch[1]</option>";
-                        		}
-                        	?>
-
-                        </select>
-                        <i class="fa fa-list form-control-feedback l-h-34"></i>
-                    </div>
-                </div>
+            
 
                  <div class="form-group">
                     <div class="col-xs-12">
@@ -117,13 +101,7 @@ include('includes/head.php');
                     </div>
                 </div>
 
-                   <div class="form-group">
-                    <div class="col-xs-12">
-                        
-                        <input class="form-control" name="s_media" type="text"  placeholder="Social Media" required>
-                        <i class="fa fa-circle form-control-feedback l-h-34"></i>
-                    </div>
-                </div>
+                
                 </div>
                <div class="radio-holder">
                     <div class="form-group">
@@ -267,6 +245,9 @@ include('includes/head.php');
 function checkMailStatus(){
     //alert("came");
 var email=$("#email").val();// value in field email
+if(email != ''){
+
+
 $.ajax({
     type:'post',
         url:'actions/seller_email_check.php',// put your real file name 
@@ -276,7 +257,7 @@ $.ajax({
         }
  });
 }
-
+}
 </script>
 
 
