@@ -127,12 +127,12 @@
         <div class="ps-product-list ps-clothings">
             <div class="ps-container">
                 <div class="ps-section__header">
-                    <h3>Apparels & Clothings</h3>
+                    <h3>Deal 2</h3>
                     <ul class="ps-section__links">
-                        <li><a href="shop-grid.html">New Arrivals</a></li>
+                        <!-- <li><a href="shop-grid.html">New Arrivals</a></li>
                         <li><a href="shop-grid.html">Best seller</a></li>
                         <li><a href="shop-grid.html">Must Popular</a></li>
-                        <li><a href="shop-grid.html">View All</a></li>
+                        <li><a href="shop-grid.html">View All</a></li> -->
                     </ul>
                 </div>
                 <div class="ps-section__content">
@@ -173,12 +173,12 @@
         <div class="ps-product-list ps-garden-kitchen">
             <div class="ps-container">
                 <div class="ps-section__header">
-                    <h3>Home, Garden & Kitchen</h3>
+                    <h3>Deal 3</h3>
                     <ul class="ps-section__links">
-                        <li><a href="shop-grid.html">New Arrivals</a></li>
+                        <!-- <li><a href="shop-grid.html">New Arrivals</a></li>
                         <li><a href="shop-grid.html">Best seller</a></li>
                         <li><a href="shop-grid.html">Must Popular</a></li>
-                        <li><a href="shop-grid.html">View All</a></li>
+                        <li><a href="shop-grid.html">View All</a></li> -->
                     </ul>
                 </div>
                 <div class="ps-section__content">
@@ -229,17 +229,18 @@
                 <div class="ps-section__header">
                     <h3>Hot New Arrivals</h3>
                     <ul class="ps-section__links">
-                        <li><a href="shop-grid.html">Technologies</a></li>
+                        <!-- <li><a href="shop-grid.html">Technologies</a></li>
                         <li><a href="shop-grid.html">Electronic</a></li>
                         <li><a href="shop-grid.html">Furnitures</a></li>
                         <li><a href="shop-grid.html">Clothing & Apparel</a></li>
                         <li><a href="shop-grid.html">Health & Beauty</a></li>
-                        <li><a href="shop-grid.html">View All</a></li>
+                        <li><a href="shop-grid.html">View All</a></li> -->
                     </ul>
                 </div>
                 <div class="ps-section__content">
                     <div class="row">
-                        <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 col-12 ">
+                        <?php include('includes/recentaddedproduct.php') ?>
+                        <!-- <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 col-12 ">
                             <div class="ps-product--horizontal">
                                 <div class="ps-product__thumbnail"><a href="product.php"><img src="img/products/arrivals/1.jpg" alt=""></a></div>
                                 <div class="ps-product__content"><a class="ps-product__title" href="product.php">Apple iPhone Retina 6s Plus 32GB</a>
@@ -347,7 +348,7 @@
                                     <p class="ps-product__price sale">$41.27 <del>$62.39 </del></p>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>

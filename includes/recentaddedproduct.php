@@ -1,32 +1,50 @@
-<?php 
-if (isset($_REQUEST['deal_No'])) {
-    $deal_NO = $_REQUEST['deal_No'];
-    
-}
-$dSql = mysqli_query($con,"SELECT P.*,VPD.v_p_id,VPD.deal_price,VPD.start_date,VPD.end_date,VPD.deal_quantity,VPD.market_price , VPD.deal_NO ,VPD.v_p_d_id,VP.quantity 
-                    FROM vendor_product_deals AS VPD
-                    INNER JOIN vendor_product as VP ON VP.id= VPD.v_p_id
-                    INNER JOIN products AS P ON VPD.product_id = P.product_id 
-                    WHERE   1 = 1  
-                            AND VP.active = 'Y'
-                            AND VP.price > 0
-                            AND deal_NO ='10040'
-                            AND start_date < UNIX_TIMESTAMP()
-                            AND end_date   > UNIX_TIMESTAMP()  
-                            group by product_id
-                            ORDER BY v_p_d_id DESC");
-$dRows = mysqli_num_rows($dSql);
-if ($dRows>0) {
-   
 
-while ( $dRes = mysqli_fetch_array($dSql)) {
+<?php   
+$productQuery = "SELECT 
+                      VP.*, 
+                      P.name, 
+                      P.image1, 
+                      min(VP.price) as min, 
+                      max(VP.price) as max, 
+                      PV.sku as variant_Sku 
+                    FROM 
+                      vendor_product AS VP 
+                      LEFT JOIN product_variations AS PV ON PV.variation_id = VP.variation_id 
+                      INNER JOIN products AS P ON P.product_id = VP.prod_id 
+                    where 
+                      VP.active = 'Y'
+                      AND VP.quantity > 0 
+                      AND VP.price > 0
+                    GROUP BY 
+                      VP.prod_id
+                    ORDER BY
+                      P.product_id DESC
+                    LIMIT 
+                        8";
+$productSql = mysqli_query($con,$productQuery);
+while ( $productResult = mysqli_fetch_array($productSql)) {
+  
+  $product_id = $productResult['prod_id'];
+  $name       = $productResult['name'];
+  $min        = $productResult['min'];
+  $max        = $productResult['max'];
+
+  if (!empty($productResult['variation_id'])) {
     
-    $deal_price = $dRes['deal_price'];
-    $mk_price = $dRes['market_price'];
-    $less = ($mk_price - $deal_price) / 100;
-    $product_id = $dRes['product_id'];
-    $name       = $dRes['name'];
-    $image = $dRes['image1'];
+  
+      if ($max==$min) {
+             
+        $price = $min;
+      }
+      else{
+
+        $price = $min."-".$max;
+      }
+  }else{
+
+      $price = $productResult['price'];
+  }     
+  $image = $productResult['image1'];
   if (empty($image)) {
     
       $varaintImgQuery = "SELECT main_img from product_variant_images where product_id ='$product_id'";
@@ -41,22 +59,13 @@ while($prRes = mysqli_fetch_array($prSql)){
 
     $totalR = $prRes[0];
     $rating = $prRes[1];
-}
-
-?>    <div class="ps-product ps-product--inner">
-                            <div class="ps-product__thumbnail"><a href="product.php?id=<?=base64_encode($product_id)?>&name=<?=str_replace(' ','-',$name)?>"><img src="upload/product/200_<?=$image?>" alt=""></a>
-                                <div class="ps-product__badge"><?=$less?>%</div>
-                                <ul class="ps-product__actions">
-                                    <li><a href="#" data-toggle="tooltip" data-placement="top" title="Read More"><i class="icon-bag2"></i></a></li>
-                                    <li><a href="#" data-toggle="tooltip" data-placement="top" title="Quick View"><i class="icon-eye"></i></a></li>
-                                    <li><a href="#" data-toggle="tooltip" data-placement="top" title="Add to Whishlist"><i class="icon-heart"></i></a></li>
-                                    <li><a href="#" data-toggle="tooltip" data-placement="top" title="Compare"><i class="icon-chart-bars"></i></a></li>
-                                </ul>
-                            </div>
-                            <div class="ps-product__container">
-                                <p class="ps-product__price sale">R<?=$deal_price?> <del>R<?=$mk_price?> </del><small><?=$less?>%</small></p>
+}  
+?>                         
+                        <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 col-12 ">
+                            <div class="ps-product--horizontal">
+                                <div class="ps-product__thumbnail"><a href="product.php?id=<?=base64_encode($product_id)?>&name=<?=str_replace(' ','-',$name)?>"><img src="upload/product/200_<?=$image?>" alt=""></a></div>
                                 <div class="ps-product__content"><a class="ps-product__title" href="product.php?id=<?=base64_encode($product_id)?>&name=<?=str_replace(' ','-',$name)?>"><?=$name?></a>
-                                    <div class="ps-product__rating">
+                                  <div class="ps-product__rating">
                                         <select class="ps-rating" data-read-only="true">
                                             <?php if ($rating == 5) { ?>    
                                                         <option value="1">1</option>
@@ -105,11 +114,8 @@ while($prRes = mysqli_fetch_array($prSql)){
                                         </select>
                                         <span>(<?=$totalR?> Review)</span>
                                     </div>
-                                    <!-- <div class="ps-product__progress-bar ps-progress" data-value="94">
-                                        <div class="ps-progress__value"><span></span></div>
-                                        <p>Sold:16</p>
-                                    </div> -->
+                                    <p class="ps-product__price">R<?=$price?></p>
                                 </div>
                             </div>
                         </div>
-                        <?php } } ?>
+<?php } ?> 

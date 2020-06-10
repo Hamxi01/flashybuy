@@ -451,9 +451,9 @@ if (isset($_GET['id'])) {
                                 <li class="active"><a href="#tab-1">Description</a></li>
                                 <li><a href="#tab-2">Specification</a></li>
                                 <li><a href="#tab-3">Vendor</a></li>
-                                <li><a href="#tab-4">Reviews (1)</a></li>
-                                <li><a href="#tab-5">Questions and Answers</a></li>
-                                <li><a href="#tab-6">More Offers</a></li>
+                                <li><a href="#tab-4">Reviews (<?=$totalR?>)</a></li>
+                                <!-- <li><a href="#tab-5">Questions and Answers</a></li> -->
+                                <!-- <li><a href="#tab-6">More Offers</a></li> -->
                             </ul>
                             <div class="ps-tabs">
                                 <div class="ps-tab active" id="tab-1">
@@ -698,7 +698,7 @@ while($prRes = mysqli_fetch_array($prSql)){
                             
                 </div>
             </div>
-            <div class="ps-section--default ps-customer-bought">
+            <!-- <div class="ps-section--default ps-customer-bought">
                 <div class="ps-section__header">
                     <h3>Customers who bought this item also bought</h3>
                 </div>
@@ -885,7 +885,7 @@ while($prRes = mysqli_fetch_array($prSql)){
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
             <div class="ps-section--default">
                 <div class="ps-section__header">
                     <h3>Related products</h3>

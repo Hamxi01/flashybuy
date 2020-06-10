@@ -20,6 +20,8 @@ if ($dRows>0) {
    
 
 while ( $dRes = mysqli_fetch_array($dSql)) {
+
+    
     
     $deal_price = $dRes['deal_price'];
     $mk_price = $dRes['market_price'];
@@ -36,7 +38,12 @@ while ( $dRes = mysqli_fetch_array($dSql)) {
         $image = $productVaraintImg['main_img'];
       }
   }
+$prSql = mysqli_query($con,"SELECT count(DISTINCT(user_id)),rating FROM product_reviews where product_id ='$product_id'");
+while($prRes = mysqli_fetch_array($prSql)){
 
+    $totalR = $prRes[0];
+    $rating = $prRes[1];
+}
 
 ?>    <div class="ps-product ps-product--inner">
                             <div class="ps-product__thumbnail"><a href="product.php?id=<?=base64_encode($product_id)?>&name=<?=str_replace(' ','-',$name)?>"><img src="upload/product/200_<?=$image?>" alt=""></a>
@@ -53,12 +60,52 @@ while ( $dRes = mysqli_fetch_array($dSql)) {
                                 <div class="ps-product__content"><a class="ps-product__title" href="product.php?id=<?=base64_encode($product_id)?>&name=<?=str_replace(' ','-',$name)?>"><?=$name?></a>
                                     <div class="ps-product__rating">
                                         <select class="ps-rating" data-read-only="true">
-                                            <option value="1">1</option>
-                                            <option value="1">2</option>
-                                            <option value="1">3</option>
-                                            <option value="1">4</option>
-                                            <option value="2">5</option>
-                                        </select><span>01</span>
+                                            <?php if ($rating == 5) { ?>    
+                                                        <option value="1">1</option>
+                                                        <option value="1">2</option>
+                                                        <option value="1">3</option>
+                                                        <option value="1">4</option>
+                                                        <option value="1">5</option>
+                                                    <?php } ?>
+                                                    <?php if ($rating == 4) { ?>    
+                                                        <option value="1">1</option>
+                                                        <option value="1">2</option>
+                                                        <option value="1">3</option>
+                                                        <option value="1">4</option>
+                                                        <option value="2">5</option>
+                                                    <?php } ?>
+                                                    <?php if ($rating == 3) { ?>    
+                                                        <option value="1">1</option>
+                                                        <option value="1">2</option>
+                                                        <option value="1">3</option>
+                                                        <option value="2">4</option>
+                                                        <option value="2">5</option>
+                                                    <?php } ?>    
+                                                    <?php if ($rating == 2) { ?>    
+                                                        <option value="1">1</option>
+                                                        <option value="1">2</option>
+                                                        <option value="2">3</option>
+                                                        <option value="2">4</option>
+                                                        <option value="2">5</option>
+                                                    <?php } ?>
+                                                    <?php if ($rating == 1) { ?>    
+                                                        <option value="1">1</option>
+                                                        <option value="2">2</option>
+                                                        <option value="2">3</option>
+                                                        <option value="2">4</option>
+                                                        <option value="2">5</option>
+                                                    <?php }?>
+                                                    <?php if($rating == 0){ ?>
+
+                                                        <option value="0">1</option>
+                                                        <option>2</option>
+                                                        <option>3</option>
+                                                        <option>4</option>
+                                                        <option>5</option>
+                                                    <?php } ?>
+
+                                        </select>
+                                        <span>(<?=$totalR?> Review)</span>
                                     </div>
                                     <!-- <div class="ps-product__progress-bar ps-progress" data-value="94">
                                         <div class="ps-progress__value"><span></span></div>
