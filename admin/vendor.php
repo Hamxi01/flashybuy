@@ -21,11 +21,37 @@
             $second_product     = $_POST['second_product'];
             $company            = $_POST['company_name'];
             $registration_no    = $_POST['registration_no'];
-            $vat_number         = $_POST['vat_number']; 
+            $vat_number         = $_POST['vat_number'];
+            $address            = $_POST['address'];
+            $city               = $_POST['city'];
+            $state              = $_POST['state'];
+            $street             = $_POST['street'];
+            $subrub             = $_POST['subrub'];
+            $zip                = $_POST['zip'];
+            $country            = $_POST['country'];
+            $waddress           = $_POST['waddress'];
+            $wcity              = $_POST['wcity'];
+            $wstate             = $_POST['wstate'];
+            $wstreet            = $_POST['wstreet'];
+            $wsubrub            = $_POST['wsubrub'];
+            $wzip               = $_POST['wzip'];
+            $wcountry           = $_POST['wcountry']; 
 
-        $query = "update vendor SET name='".$name."',lastname='".$lastname."',shop_name='".$shop_name."',email='".$email."',mobile='".$mobile."',bank_name='".$bank_name."',bank_account='".$bank_account."',bank_branch='".$bank_branch."',branch_code='".$branch_code."',courier_permission='".$courier_permission."',exclusive_permission='".$exclusive."',s_p_permission='".$second_product."',company='".$company."',vat_number='".$vat_number."',business_reg='".$registration_no."' Where id='".$id."'";       
+        $query = "update vendor SET name='".$name."',lastname='".$lastname."',shop_name='".$shop_name."',email='".$email."',mobile='".$mobile."',bank_name='".$bank_name."',bank_account='".$bank_account."',bank_branch='".$bank_branch."',branch_code='".$branch_code."',courier_permission='".$courier_permission."',exclusive_permission='".$exclusive."',s_p_permission='".$second_product."',company='".$company."',vat_number='".$vat_number."',business_reg='".$registration_no."',address='".$address."',city='".$city."',state='".$state."',street='".$street."',subrub='".$subrub."',zip='".$zip."',country='".$country."',waddress='".$waddress."',wcity='".$wcity."',wstate='".$wstate."',wstreet='".$wstreet."',wsubrub='".$wsubrub."',wzip='".$wzip."',wcountry='".$wcountry."' Where id='".$id."'";       
         
         if (mysqli_query($con,$query)){
+
+            $sC = mysqli_query( $con , "DELETE FROM vendor_category WHERE ven_id = '$id'");
+            
+            $cat_chk  = $_REQUEST['cat_chk'];
+            if( !empty( $cat_chk )){
+              foreach( $cat_chk as $chk){
+              
+                $cat_price = $_REQUEST['cat_rate_' . $chk];
+                $cv = "INSERT INTO vendor_category SET cat_id = '$chk' ,ven_id = '$id' , cat_percent = '$cat_price' ";
+                mysqli_query( $con , $cv );
+              }
+            }
 
             echo "<script>window.location.assign('view-vendor.php');</script>";        }
         else{ 
@@ -33,8 +59,13 @@
         }
 
      }
-
-
+        
+$sR = mysqli_query( $con , "SELECT * FROM vendor_category WHERE ven_id = '$id'");
+while( $rR = mysqli_fetch_array( $sR )){
+  
+  $venC[$rR["cat_id"]] = $rR["cat_percent"];
+  $venCS[] = $rR["cat_id"];
+}
 //  Get brands data bases on id /////
 
      $sql = mysqli_query($con, "SELECT * From vendor WHERE id='$id'");
@@ -57,8 +88,23 @@
             $courier_permission   = $row['courier_permission'];
             $exclusive_permission = $row['exclusive_permission'];
             $secondhand           = $row['s_p_permission'];
+            $address              = $row['address'];
+            $city                 = $row['city'];
+            $state                = $row['state'];
+            $street               = $row['street'];
+            $subrub               = $row['subrub'];
+            $zip                  = $row['zip'];
+            $country              = $row['country'];
+            $waddress             = $row['waddress'];
+            $wcity                = $row['wcity'];
+            $wstate               = $row['wstate'];
+            $wstreet              = $row['wstreet'];
+            $wsubrub              = $row['wsubrub'];
+            $wzip                 = $row['wzip'];
+            $wcountry             = $row['wcountry'];
 
         }
+
 
 ?>
       <!-- Main Content -->
@@ -288,9 +334,37 @@ if (isset($msg)) { ?>
                 </div>
               </div>
             </div>
+            <div class="row" >
+              <div class="col-lg-4" style="height:35px; background:#0080FF; padding:10px; color:#FFFFFF" >Category</div>
+              <div class="col-lg-1" style="height:35px;background:#0080FF;padding:10px;color:#FFFFFF">Suggested</div>
+              <div class="col-lg-1" style="height:35px;background:#0080FF;padding:10px;color:#FFFFFF">Perc%</div>
+              <div class="col-lg-4" style="height:35px;background:#0080FF;padding:10px;color:#FFFFFF" >Category</div>
+              <div class="col-lg-1" style="height:35px;background:#0080FF;padding:10px;color:#FFFFFF">Suggested</div>
+              <div class="col-lg-1" style="height:35px;background:#0080FF;padding:10px;color:#FFFFFF">Perc%</div>
+            </div>
+            <div class="row" >
+              <div class="col-lg-12" style="font-size:18px; color:#BBDDFF; font-weight: bold;  padding:10px; background:#1A4383; color:#FFFFFF" >
+                <input type="checkbox" id="checkedAll" name="checkedAll" onclick="checkAll()"   />
+                &nbsp;Select All </div>
+            </div>
+            <div class="row" style="padding:10px; background:#1A4383; color:#FFFFFF" id="checkboxes" >
+                <?php foreach( $catArr as $ct => $category ){?>
+                <div class="col-lg-4" style="height:50px;" >
+                  <input type="checkbox" id="cat_chk" name="cat_chk[]" class="checkSingle" value="<?=$ct?>" <?php if(in_array( $ct , $venCS )){ echo "checked=checked"; $bold = 1; }else{ $bold = 0;}?>  />
+                  &nbsp;&nbsp;
+                  <?=( $bold == 1 ? "<span style='font-size:24px;color:#BBDDFF'><B>".$category."</B></span>" : $category )?>
+                </div>
+                <div class="col-lg-1" style="height:50px;">
+                  <input type="text" id="cat_rate" name="cat_rate" value="<?=$catP[$ct]?>" class="form-control" disabled="disabled"  />
+                </div>
+                <div class="col-lg-1" style="height:50px;">
+                  <input type="text" id="cat_rate_<?=$ct?>" name="cat_rate_<?=$ct?>" value="<?=( $venC[$ct] == "" ? $catP[$ct] :  $venC[$ct]) ?>" class="form-control" />
+                </div>
+                <?php } ?>
+              </div>
           <div class="card-footer text-right">
-                      <button class="btn btn-warning" type="Submit" name="edit-vendor">Submit</button>
-                    </div>
+             <button class="btn btn-warning" type="Submit" name="edit-vendor">Submit</button>
+          </div>
         </form>  
         </section>
       </div>  
@@ -300,4 +374,31 @@ if (isset($msg)) { ?>
 
         setTimeout(function(){ $(".msg").hide(); }, 5000);
     });
+    function checkAll(){
+
+  $("#checkedAll").change(function(){
+    if(this.checked){
+      $(".checkSingle").each(function(){
+        this.checked=true;
+      })              
+    }else{
+      $(".checkSingle").each(function(){
+        this.checked=false;
+      })              
+    }
+  });
+
+  $(".checkSingle").click(function () {
+    if ($(this).is(":checked")){
+      var isAllChecked = 0;
+      $(".checkSingle").each(function(){
+        if(!this.checked)
+           isAllChecked = 1;
+      })              
+      if(isAllChecked == 0){ $("#checkedAll").prop("checked", true); }     
+    }else {
+      $("#checkedAll").prop("checked", false);
+    }
+  });
+}
 </script>        

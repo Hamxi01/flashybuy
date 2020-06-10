@@ -3,21 +3,27 @@
 <?php   
 $productQuery = "SELECT 
                       VP.*, 
-                      P.name, 
-                      P.image1, 
+                      P.name,
+                      VP.prod_id, 
+                      P.image1,
+                      VP.price, 
                       min(VP.price) as min, 
                       max(VP.price) as max, 
                       PV.sku as variant_Sku 
                     FROM 
-                      vendor_product AS VP 
+                      vendor_product AS VP
+                      LEFT JOIN orders AS O ON VP.prod_id = O.order_prod_id 
                       LEFT JOIN product_variations AS PV ON PV.variation_id = VP.variation_id 
-                      INNER JOIN products AS P ON P.product_id = VP.prod_id 
+                      INNER JOIN products AS P ON P.product_id = O.order_prod_id 
                     where 
                       VP.active = 'Y'
                       AND VP.quantity > 0 
                       AND VP.price > 0
                     GROUP BY 
-                      VP.prod_id";
+                      VP.prod_id
+                    ORDER BY 
+                      O.order_id DESC 
+                    LIMIT 6";
 $productSql = mysqli_query($con,$productQuery);
 while ( $productResult = mysqli_fetch_array($productSql)) {
   

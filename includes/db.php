@@ -14,6 +14,8 @@ while( $rCo = mysqli_fetch_array( $sCo )){
 }
  
 ///=============== All Couriers ============= //
+$sCt = mysqli_query( $con , " SELECT * FROM categories WHERE delte = 0");
+while( $rCt = mysqli_fetch_array( $sCt )){ $catArr[$rCt["cat_id"]] = $rCt["name"]; $catArrName[$rCt["name"]] = $rCt["cat_id"]; $catP[$rCt["cat_id"]] = $rCt["commission"];  }
 ?>
 
 
