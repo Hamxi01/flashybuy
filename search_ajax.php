@@ -139,10 +139,10 @@ $sql_fetch="SELECT
 
                 </a>
 
-<<<<<<< HEAD
+
             </div>
         </div>
-=======
+
             </div> -->
 
 
@@ -173,7 +173,7 @@ $sql_fetch="SELECT
             </div> 
         </a>-->
         <!-- </div> -->
->>>>>>> e06ec69ce71bf9e362c43e80bad83b3540596a46
+
 
 
 
