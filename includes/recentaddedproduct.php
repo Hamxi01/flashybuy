@@ -20,15 +20,18 @@ $productQuery = "SELECT
                     ORDER BY
                       P.product_id DESC
                     LIMIT 
-                        8";
+                        12";
 $productSql = mysqli_query($con,$productQuery);
 while ( $productResult = mysqli_fetch_array($productSql)) {
   
   $product_id = $productResult['prod_id'];
   $name       = $productResult['name'];
+  $names       = $productResult['name'];
   $min        = $productResult['min'];
   $max        = $productResult['max'];
-
+  if (strlen($names) > 12){
+    $names  = substr($names, 0, 12) . '..';
+} 
   if (!empty($productResult['variation_id'])) {
     
   
@@ -61,61 +64,25 @@ while($prRes = mysqli_fetch_array($prSql)){
     $rating = $prRes[1];
 }  
 ?>                         
-                        <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 col-12 ">
-                            <div class="ps-product--horizontal">
-                                <div class="ps-product__thumbnail"><a href="product.php?id=<?=base64_encode($product_id)?>&name=<?=str_replace(' ','-',$name)?>"><img src="upload/product/200_<?=$image?>" alt=""></a></div>
-                                <div class="ps-product__content"><a class="ps-product__title" href="product.php?id=<?=base64_encode($product_id)?>&name=<?=str_replace(' ','-',$name)?>"><?=$name?></a>
-                                  <div class="ps-product__rating">
-                                        <select class="ps-rating" data-read-only="true">
-                                            <?php if ($rating == 5) { ?>    
-                                                        <option value="1">1</option>
-                                                        <option value="1">2</option>
-                                                        <option value="1">3</option>
-                                                        <option value="1">4</option>
-                                                        <option value="1">5</option>
-                                                    <?php } ?>
-                                                    <?php if ($rating == 4) { ?>    
-                                                        <option value="1">1</option>
-                                                        <option value="1">2</option>
-                                                        <option value="1">3</option>
-                                                        <option value="1">4</option>
-                                                        <option value="2">5</option>
-                                                    <?php } ?>
-                                                    <?php if ($rating == 3) { ?>    
-                                                        <option value="1">1</option>
-                                                        <option value="1">2</option>
-                                                        <option value="1">3</option>
-                                                        <option value="2">4</option>
-                                                        <option value="2">5</option>
-                                                    <?php } ?>    
-                                                    <?php if ($rating == 2) { ?>    
-                                                        <option value="1">1</option>
-                                                        <option value="1">2</option>
-                                                        <option value="2">3</option>
-                                                        <option value="2">4</option>
-                                                        <option value="2">5</option>
-                                                    <?php } ?>
-                                                    <?php if ($rating == 1) { ?>    
-                                                        <option value="1">1</option>
-                                                        <option value="2">2</option>
-                                                        <option value="2">3</option>
-                                                        <option value="2">4</option>
-                                                        <option value="2">5</option>
-                                                    <?php }?>
-                                                    <?php if($rating == 0){ ?>
-
-                                                        <option value="0">1</option>
-                                                        <option>2</option>
-                                                        <option>3</option>
-                                                        <option>4</option>
-                                                        <option>5</option>
-                                                    <?php } ?>
-
-                                        </select>
-                                        <span>(<?=$totalR?> Review)</span>
-                                    </div>
-                                    <p class="ps-product__price">R<?=$price?></p>
+                        <div class="col-xl-2 col-lg-4 col-md-4 col-sm-6 col-6" style="padding-bottom: 26px;">
+                 
+                            <div class="card" style="text-align: center;
+    padding-top: 10px;">
+                            <a href="product.php?id=<?=base64_encode($product_id)?>&name=<?=str_replace(' ','-',$name)?>"><img class="desktopimgsa" src="upload/product/300_<?=$image?>" alt=""></a>
+  <div class="card-body">
+  <div class="ps-product__container" style="text-align: center;">
+                            <p class="ps-product__price sale" style="color: #f30;">R<?=$price?> </p>
+                         
+                                <div class="ps-product__content"><a class="ps-product__title"  style="min-height: 34px;   color: black;
+    font-weight: 600;" href="product.php?id=<?=base64_encode($product_id)?>&name=<?=str_replace(' ','-',$name)?>"><?=$names?></a>
+                               
+                                    <!-- <div class="ps-product__progress-bar ps-progress" data-value="94">
+                                        <div class="ps-progress__value"><span></span></div>
+                                        <p>Sold:16</p>
+                                    </div> -->
                                 </div>
                             </div>
+  </div>
+</div>
                         </div>
 <?php } ?> 
