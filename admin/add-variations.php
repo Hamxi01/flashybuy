@@ -30,8 +30,9 @@
         <section class="section">
           <div class="section-body">
  <!-- Start Showing success or warning Msg -->
+ <!-- Start Showing success or warning Msg -->
 <?php
-if (isset($error)) {?>
+if (isset($_GET['msg']) && $_GET['msg'] == 'erorr') {?>
     <div class="row">
         <div class="col-lg-6 col-sm-offset-3">
             <div class="alert alert-warning msg">    
@@ -43,7 +44,7 @@ if (isset($error)) {?>
 }
 ?>
 <?php
-if (isset($msg)) { ?>
+if (isset($_GET['msg']) && $_GET['msg'] == 'success') { ?>
 <div class="row">
     <div class="col-lg-6 col-sm-offset-3">
         <div class="alert alert-success msg">    
