@@ -10,7 +10,9 @@ $options = array();
 if (isset($_POST['add-product'])) {
 
 	$name                            =     addslashes( $_POST['name']);
+	
 	$category_id                     =     addslashes( $_POST['category_id']);
+
 	$subcategory_id                  =     addslashes( $_POST['subcategory_id']);
 	$subsubcategory_id               =     addslashes( $_POST['subsubcategory_id']);
 	$brand                           =     addslashes( $_POST['brand']);
@@ -45,6 +47,49 @@ if (isset($_POST['add-product'])) {
 	    $exclusive = 'N';
 	  }
 
+	  if (empty($name)) {
+		
+		header("location:../add-product.php?msg=error");
+	}
+	if (empty($category_id)) {
+		
+		header("location:../add-product.php?msg=error");
+	}
+	if (empty($subcategory_id)) {
+		
+		header("location:../add-product.php?msg=error");
+	}
+	if (empty($subsubcategory_id)) {
+		
+		header("location:../add-product.php?msg=error");
+	}
+	if (empty($brand)) {
+		
+		header("location:../add-product.php?msg=error");
+	}
+	if (empty($brand)) {
+		
+		header("location:../add-product.php?msg=error");
+	}
+	if (empty($width)) {
+		
+		header("location:../add-product.php?msg=error");
+	}
+	if (empty($height)) {
+		
+		header("location:../add-product.php?msg=error");
+	}
+	if (empty($length)) {
+		
+		header("location:../add-product.php?msg=error");
+	}
+	if (empty($short_desc)) {
+		
+		header("location:../add-product.php?msg=error");
+	}if (empty($description)) {
+		
+		header("location:../add-product.php?msg=error");
+	}
 
 	$sql = "INSERT into products (name,cat_id,sub_cat_id,sub_sub_cat_id,sku,brand,market_price,selling_price,quantity,ven_id,width,height,length,description,image1,image2,image3,image4,exclusive,warranty,courier_size,short_desc) VALUES ('$name','$category_id', '$subcategory_id','$subsubcategory_id','$sku','$brand','$market_price','$selling_price','$quantity','$ven_id','$width','$height','$length','$description','$image1','$image2','$image3','$image4','$exclusive','$warranty','$courier_size',$short_desc)";
 

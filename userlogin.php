@@ -108,13 +108,14 @@ include('includes/head.php');
                                         <div class="ps-form__content">
                                             <h5>New User? Create Account</h5>
                                             <div class="form-group">
-                                                <input class="form-control" name="f_name" type="text" placeholder="First Name" required="">
+                                                <input class="form-control" name="f_name" type="text" id="fname" placeholder="First Name" required>
+                                                <span class="text-danger fname"></span>
                                             </div>
                                             <div class="form-group form-forgot">
-                                                <input class="form-control" name="l_name" type="text" placeholder="Last Name" required="">
+                                                <input class="form-control" name="l_name" type="text" placeholder="Last Name"  required>
                                             </div>
                                             <div class="form-group form-forgot">
-                                                <input class="form-control" name="email" type="email" placeholder="Enter Email" required="">
+                                                <input class="form-control" name="email" type="email" placeholder="Enter Email"  required>
                                             </div>
                                             <div class="form-group form-forgot">
                                                 <input class="form-control" name="password" type="password" id="txtPassword" placeholder="Enter password">
@@ -139,6 +140,11 @@ include('includes/head.php');
     <?php include('includes/footer.php'); ?>
     <script type="text/javascript">
     function Validate() {
+        var fname = document.getElementById("fname").value;
+        if (fname = '') {
+            $('.fname').html('First Name is required');
+            $('#fname').css('border','1px solid red');
+        }
         var password = document.getElementById("txtPassword").value;
         var confirmPassword = document.getElementById("txtConfirmPassword").value;
         if (password != confirmPassword) {
@@ -161,7 +167,7 @@ include('includes/head.php');
 
         var email = document.getElementById("email").value;
         var pwd = document.getElementById("pwd").value;
-        if (email == '' && email == '') {
+        if (email == '' && pwd == '') {
 
             $('.email').html('Email is required');
             $('#email').css('border','1px solid red');
@@ -184,5 +190,6 @@ include('includes/head.php');
           return false;
 
         }
+        return true;
     }
 </script>

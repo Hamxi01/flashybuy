@@ -5,6 +5,16 @@ if (isset($_POST['btnsub']))
 {
 	$email = $_POST['email'];
 	$pass = md5($_POST['pwd']);
+	if (empty($email)) {
+		
+		$_SESSION['login_failed_error'] = true;
+		header('Location: ' . $_SERVER['HTTP_REFERER'].'?msg=error');
+	}
+	if (empty($pass)) {
+		
+		$_SESSION['login_failed_error'] = true;
+		header('Location: ' . $_SERVER['HTTP_REFERER'].'?msg=error');
+	}
 	$login = mysqli_query($con,"SELECT * from customers where email ='$email' and password ='$pass'");
 	$count = mysqli_num_rows($login);
 	if ($count>0) 

@@ -9,6 +9,33 @@ if (isset($_POST['btnsignup']))
 	$email  = $_POST['email'];
 	$pass   = md5($_POST['password']);
 
+	if(empty($f_name)) {
+		
+		$_SESSION['login_failed_error'] = true;
+		header('Location: ' . $_SERVER['HTTP_REFERER'].'?msg=error');
+	}
+	if(empty($l_name)) {
+		
+		$_SESSION['login_failed_error'] = true;
+		header('Location: ' . $_SERVER['HTTP_REFERER'].'?msg=error');
+	}
+	if(empty($name)) {
+		
+		$_SESSION['login_failed_error'] = true;
+		header('Location: ' . $_SERVER['HTTP_REFERER'].'?msg=error');
+	}
+	if(empty($email)) {
+		
+		$_SESSION['login_failed_error'] = true;
+		header('Location: ' . $_SERVER['HTTP_REFERER'].'?msg=error');
+	}
+	if(empty($pass)) {
+		
+		$_SESSION['login_failed_error'] = true;
+		header('Location: ' . $_SERVER['HTTP_REFERER'].'?msg=error');
+	}
+
+
 	$sql    = "INSERT into customers (name,email,password) VALUES ('$name','$email','$pass')";
 
 	if (mysqli_query($con,$sql)) 
