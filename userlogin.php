@@ -10,11 +10,14 @@
 </style>
 
 <?php 
- include('includes/db.php');
- include('includes/head.php');
+
+include('includes/db.php');
+include('includes/head.php');
+
  ?>
 
 <?php
+
     if(!isset($_GET['msg'])) {
         unset($_SESSION['login_failed_error']);
         unset($_SESSION['same_email_error']);
@@ -77,14 +80,16 @@
                             </ul>
                             <div class="ps-tabs">
                                 <div class="ps-tab active" id="sign-in">
-                                    <form class="ps-form--account ps-tab-root mb-0 border-0" method="post" action="actions/userlogin.php">
+                                    <form class="ps-form--account ps-tab-root mb-0 border-0" method="post" action="actions/userlogin.php" onsubmit="return Validation()">
                                         <div class="ps-form__content">
                                             <h5>Log In Your Account</h5>
                                             <div class="form-group">
-                                                <input class="form-control" name="email" type="text" placeholder="Username or email address" required>
+                                                <input class="form-control" name="email" id="email" type="text" placeholder="Username or email address">
+                                                <span class="email text-danger"></span>
                                             </div>
                                             <div class="form-group form-forgot">
-                                                <input class="form-control" name="pwd" type="password" placeholder="Password" required>
+                                                <input class="form-control" name="pwd" id="pwd" type="password" placeholder="Password">
+                                                <span class="pwd text-danger"></span>
                                             </div>
                                             <div class="form-group">
                                                 <div class="ps-checkbox">
@@ -152,4 +157,32 @@
             $('.ps-site-overlay').addClass('new-active');
         });
 });
+    function Validation() {
+
+        var email = document.getElementById("email").value;
+        var pwd = document.getElementById("pwd").value;
+        if (email == '' && email == '') {
+
+            $('.email').html('Email is required');
+            $('#email').css('border','1px solid red');
+            $('.pwd').html('Password is required');
+            $('#pwd').css('border','1px solid red');
+            return false;
+        }
+        if (email != '' && pwd == ''){ 
+
+          
+          $('.pwd').html('Password is required');
+          $('#pwd').css('border','1px solid red');
+          return false;
+
+        }
+        if (email == '' && pwd != ''){ 
+
+          $('.email').html('Email is required');
+          $('#email').css('border','1px solid red');
+          return false;
+
+        }
+    }
 </script>

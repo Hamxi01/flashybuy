@@ -3,10 +3,68 @@
       include('includes/header.php');
       include('includes/sidebar.php');
 
+$today    = time()-(86400);
+$lastDay  = time()-(2*86400);
+$week     = time()-( 7*86400 );
+$month    = time()-( 30*86400 );
+
+
+$sO   = mysqli_query( $con ,  " SELECT COUNT(*) AS TOTAL, SUM( order_price ) AS price from orders ");
+$rO   = mysqli_fetch_array( $sO );
+$orderT = $rO["TOTAL"];
+$priceT = $rO["price"];
+
+$sO = mysqli_query( $con ,  " SELECT COUNT(*) AS TOTAL, SUM( order_price ) AS price  FROM orders WHERE time_id > '$lastDay'");
+$rO = mysqli_fetch_array( $sO );
+$orderTl = $rO["TOTAL"];
+$priceTl = $rO["price"];
+
+$sO = mysqli_query( $con ,  " SELECT COUNT(*) AS TOTAL, SUM( order_price ) AS price  FROM orders WHERE time_id > '$week' ");
+$rO = mysqli_fetch_array( $sO );
+$orderTw = $rO["TOTAL"];
+$priceTw = $rO["price"];
+
+$sO = mysqli_query( $con ,  " SELECT COUNT(*) AS TOTAL, SUM( order_price ) AS price  FROM orders WHERE time_id > '$month' ");
+$rO = mysqli_fetch_array( $sO );
+$orderTm = $rO["TOTAL"];
+$priceTm = $rO["price"];
+
+$sO = mysqli_query( $con ,  " SELECT COUNT(*) AS TOTAL FROM products  ");
+$rO = mysqli_fetch_array( $sO );
+$product = $rO["TOTAL"];
+
+$sO = mysqli_query( $con ,  " SELECT COUNT(*) AS TOTAL FROM products where approved = 'Y' ");
+$rO = mysqli_fetch_array( $sO );
+$productA = $rO["TOTAL"];
+
+$sO = mysqli_query( $con ,  " SELECT COUNT(*) AS TOTAL FROM products where approved = 'N' ");
+$rO = mysqli_fetch_array( $sO );
+$productI = $rO["TOTAL"];
+
+$sO   = mysqli_query( $con ,  " SELECT COUNT(DISTINCT(order_prod_id)) AS TOTAL  from orders ");
+$rO   = mysqli_fetch_array( $sO );
+$orderPT = $rO["TOTAL"];
+
+$sO = mysqli_query( $con ,  " SELECT COUNT(*) AS TOTAL FROM categories ");
+$rO = mysqli_fetch_array( $sO );
+$category = $rO["TOTAL"];
+
+$sO = mysqli_query( $con ,  " SELECT COUNT(*) AS TOTAL FROM categories WHERE delte = 0 ");
+$rO = mysqli_fetch_array( $sO );
+$categoryA = $rO["TOTAL"];
+
+$sO = mysqli_query( $con ,  " SELECT COUNT(*) AS TOTAL FROM sub_categories");
+$rO = mysqli_fetch_array( $sO );
+$subcategory = $rO["TOTAL"];
+
+$sO = mysqli_query( $con ,  " SELECT COUNT(*) AS TOTAL FROM sub_categories where delte = 0 ");
+$rO = mysqli_fetch_array( $sO );
+$subcategoryA = $rO["TOTAL"];
 ?>
       <!-- Main Content -->
       <div class="main-content">
         <section class="section">
+          <h4>Orders</h4>
           <div class="row ">
             <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-xs-12">
               <div class="card">
@@ -15,31 +73,9 @@
                     <div class="row ">
                       <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pr-0 pt-3">
                         <div class="card-content">
-                          <h5 class="font-15">New Booking</h5>
-                          <h2 class="mb-3 font-18">258</h2>
-                          <p class="mb-0"><span class="col-green">10%</span> Increase</p>
-                        </div>
-                      </div>
-                      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pl-0">
-                        <div class="banner-img">
-                          <img src="assets/img/banner/1.png" alt="">
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-xs-12">
-              <div class="card">
-                <div class="card-statistic-4">
-                  <div class="align-items-center justify-content-between">
-                    <div class="row ">
-                      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pr-0 pt-3">
-                        <div class="card-content">
-                          <h5 class="font-15"> Customers</h5>
-                          <h2 class="mb-3 font-18">1,287</h2>
-                          <p class="mb-0"><span class="col-orange">09%</span> Decrease</p>
+                          <h5 class="font-15">Total Orders</h5>
+                          <h2 class="mb-3 font-18"><?=$orderT?></h2>
+                          <p class="mb-0"><span class="col-green">R</span><?=$priceT?></p>
                         </div>
                       </div>
                       <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pl-0">
@@ -59,10 +95,10 @@
                     <div class="row ">
                       <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pr-0 pt-3">
                         <div class="card-content">
-                          <h5 class="font-15">New Project</h5>
-                          <h2 class="mb-3 font-18">128</h2>
-                          <p class="mb-0"><span class="col-green">18%</span>
-                            Increase</p>
+                          <h5 class="font-15">Today Orders</h5>
+                          <h2 class="mb-3 font-18"><?=$orderTl?></h2>
+                          <p class="mb-0"><span class="col-green">R</span>
+                            <?=$priceTl?></p>
                         </div>
                       </div>
                       <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pl-0">
@@ -82,9 +118,31 @@
                     <div class="row ">
                       <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pr-0 pt-3">
                         <div class="card-content">
-                          <h5 class="font-15">Revenue</h5>
-                          <h2 class="mb-3 font-18">$48,697</h2>
-                          <p class="mb-0"><span class="col-green">42%</span> Increase</p>
+                          <h5 class="font-15">Weekly Orders</h5>
+                          <h2 class="mb-3 font-18"><?=$orderTw?></h2>
+                          <p class="mb-0"><span class="col-orange">R</span><?=$priceTw?></p>
+                        </div>
+                      </div>
+                      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pl-0">
+                        <div class="banner-img">
+                          <img src="assets/img/banner/1.png" alt="">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-xs-12">
+              <div class="card">
+                <div class="card-statistic-4">
+                  <div class="align-items-center justify-content-between">
+                    <div class="row ">
+                      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pr-0 pt-3">
+                        <div class="card-content">
+                          <h5 class="font-15">Monthly Orders</h5>
+                          <h2 class="mb-3 font-18"><?=$orderTm?></h2>
+                          <p class="mb-0"><span class="col-green">R</span><?=$priceTm?></p>
                         </div>
                       </div>
                       <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pl-0">
@@ -98,7 +156,181 @@
               </div>
             </div>
           </div>
-          <div class="row">
+          <h4>Products</h4>
+          <div class="row ">
+            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-xs-12">
+              <div class="card">
+                <div class="card-statistic-4">
+                  <div class="align-items-center justify-content-between">
+                    <div class="row ">
+                      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pr-0 pt-3">
+                        <div class="card-content">
+                          <h5 class="font-15">Total Products</h5>
+                          <h2 class="mb-3 font-18"><?=$product?></h2>
+                        </div>
+                      </div>
+                      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pl-0">
+                        <div class="banner-img">
+                          <img src="assets/img/banner/2.png" alt="">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-xs-12">
+              <div class="card">
+                <div class="card-statistic-4">
+                  <div class="align-items-center justify-content-between">
+                    <div class="row ">
+                      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pr-0 pt-3">
+                        <div class="card-content">
+                          <h5 class="font-15">Active Products</h5>
+                          <h2 class="mb-3 font-18"><?=$productA?></h2>
+                        </div>
+                      </div>
+                      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pl-0">
+                        <div class="banner-img">
+                          <img src="assets/img/banner/3.png" alt="">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-xs-12">
+              <div class="card">
+                <div class="card-statistic-4">
+                  <div class="align-items-center justify-content-between">
+                    <div class="row ">
+                      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pr-0 pt-3">
+                        <div class="card-content">
+                          <h5 class="font-15">InActive Products</h5>
+                          <h2 class="mb-3 font-18"><?=$productI?></h2>
+                        </div>
+                      </div>
+                      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pl-0">
+                        <div class="banner-img">
+                          <img src="assets/img/banner/1.png" alt="">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-xs-12">
+              <div class="card">
+                <div class="card-statistic-4">
+                  <div class="align-items-center justify-content-between">
+                    <div class="row ">
+                      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pr-0 pt-3">
+                        <div class="card-content">
+                          <h5 class="font-15">Order Products</h5>
+                          <h2 class="mb-3 font-18"><?=$orderPT?></h2>
+                        </div>
+                      </div>
+                      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pl-0">
+                        <div class="banner-img">
+                          <img src="assets/img/banner/4.png" alt="">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <h4>Categories</h4>
+          <div class="row ">
+            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-xs-12">
+              <div class="card">
+                <div class="card-statistic-4">
+                  <div class="align-items-center justify-content-between">
+                    <div class="row ">
+                      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pr-0 pt-3">
+                        <div class="card-content">
+                          <h5 class="font-15">Total Categories</h5>
+                          <h2 class="mb-3 font-18"><?=$category?></h2>
+                        </div>
+                      </div>
+                      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pl-0">
+                        <div class="banner-img">
+                          <img src="assets/img/banner/2.png" alt="">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-xs-12">
+              <div class="card">
+                <div class="card-statistic-4">
+                  <div class="align-items-center justify-content-between">
+                    <div class="row ">
+                      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pr-0 pt-3">
+                        <div class="card-content">
+                          <h5 class="font-15">Active Categories</h5>
+                          <h2 class="mb-3 font-18"><?=$categoryA?></h2>
+                        </div>
+                      </div>
+                      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pl-0">
+                        <div class="banner-img">
+                          <img src="assets/img/banner/3.png" alt="">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-xs-12">
+              <div class="card">
+                <div class="card-statistic-4">
+                  <div class="align-items-center justify-content-between">
+                    <div class="row ">
+                      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pr-0 pt-3">
+                        <div class="card-content">
+                          <h5 class="font-15">Total Subcategory</h5>
+                          <h2 class="mb-3 font-18"><?=$subcategory?></h2>
+                        </div>
+                      </div>
+                      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pl-0">
+                        <div class="banner-img">
+                          <img src="assets/img/banner/1.png" alt="">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-xs-12">
+              <div class="card">
+                <div class="card-statistic-4">
+                  <div class="align-items-center justify-content-between">
+                    <div class="row ">
+                      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pr-0 pt-3">
+                        <div class="card-content">
+                          <h5 class="font-15">Active subcategory</h5>
+                          <h2 class="mb-3 font-18"><?=$subcategoryA?></h2>
+                        </div>
+                      </div>
+                      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pl-0">
+                        <div class="banner-img">
+                          <img src="assets/img/banner/4.png" alt="">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+         <!--  <div class="row">
             <div class="col-12 col-sm-12 col-lg-12">
               <div class="card ">
                 <div class="card-header">
@@ -473,11 +705,11 @@
                 </div>
               </div>
             </div>
-          </div>
-          <div class="row">
-            <div class="col-md-6 col-lg-12 col-xl-6">
+          </div> -->
+          <!-- <div class="row"> -->
+            <!-- <div class="col-md-6 col-lg-12 col-xl-6"> -->
               <!-- Support tickets -->
-              <div class="card">
+              <!-- <div class="card">
                 <div class="card-header">
                   <h4>Support Ticket</h4>
                   <form class="card-header-form">
@@ -535,10 +767,10 @@
                 </div>
                 <a href="javascript:void(0)" class="card-footer card-link text-center small ">View
                   All</a>
-              </div>
+              </div> -->
               <!-- Support tickets -->
-            </div>
-            <div class="col-md-6 col-lg-12 col-xl-6">
+            <!-- </div> -->
+            <!-- <div class="col-md-6 col-lg-12 col-xl-6">
               <div class="card">
                 <div class="card-header">
                   <h4>Projects Payments</h4>
@@ -621,8 +853,8 @@
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
+            </div> -->
+          <!-- </div> -->
         </section>
       </div>
         <?php  include('includes/footer.php')?>

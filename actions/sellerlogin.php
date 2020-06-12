@@ -8,7 +8,7 @@ if (isset($_POST['btnsub']))
 	$login = mysqli_query($con,"SELECT * from vendor where email ='$email' and pasword ='$pass'");
 	$count = mysqli_num_rows($login);
 	$fetch = mysqli_fetch_array($login);
-	if ($count>0 && $fetch[19]=="1" && $fetch[22]=="0"&& $fetch[23]=="0" ) 
+	if ($count>0 && $fetch[32]=="1" && $fetch[35]=="0"&& $fetch[36]=="0" ) 
 	{
 		session_start();
 		$_SESSION['type']='vendor';

@@ -14,7 +14,7 @@
         
         $deal_NO           = ( $_REQUEST['deal_NO']);
 
-        $vpq = mysqli_query($con,"SELECT * FROM vendor_product where id='$v_p_id'");
+        $vpq = mysqli_query($con,"SELECT * FROM vendor_product where id='$v_p_id' ");
          while( $rpq = mysqli_fetch_array($vpq)){
 
             $product_id   = $rpq['prod_id'];
@@ -88,7 +88,7 @@ while($rPd  =   mysqli_fetch_array( $sPd )) {
 	}
 
 
-$s = "SELECT * FROM vendor_product_deals WHERE product_id = '$product_id' AND variation_id = $variation_id";
+$s = "SELECT * FROM vendor_product_deals WHERE product_id = '$product_id' AND variation_id = $variation_id AND start_date < UNIX_TIMESTAMP()  AND end_date   > UNIX_TIMESTAMP()";
 
 $sPV = mysqli_query( $con , $s);
 $rPV = mysqli_fetch_array( $sPV );

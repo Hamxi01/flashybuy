@@ -85,7 +85,7 @@ while($rPd  =   mysqli_fetch_array( $sPd )) {
 	  $vendorName = '<input type="radio" value="'.$rV["id"].'" name="ven_p_'.$product_id.'" >&nbsp;&nbsp;'.$rV["shop_name"] .'(Qty-'.$rV["quantity"]. ')<br />';
 	}
 
-$s = "SELECT * FROM vendor_product_deals WHERE product_id = '$product_id'";
+$s = "SELECT * FROM vendor_product_deals WHERE product_id = '$product_id' AND start_date < UNIX_TIMESTAMP()  AND end_date   > UNIX_TIMESTAMP()";
 
 $sPV = mysqli_query( $con , $s);
 $rPV = mysqli_fetch_array( $sPV );

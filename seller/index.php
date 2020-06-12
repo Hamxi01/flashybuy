@@ -1,6 +1,29 @@
 <?php
 include('include/header.php'); 
 include('include/nav.php');
+
+$sO   = mysqli_query( $con ,  " SELECT COUNT(*) AS TOTAL, SUM( order_price ) AS price from orders  WHERE order_vendor_id = '$vendor_id'  AND order_status = 'inprog'  ");
+$rO   = mysqli_fetch_array( $sO );
+$orderT = $rO["TOTAL"];
+$priceT = $rO["price"];
+
+$pDCnt     = " SELECT COUNT(*) as total  FROM orders AS O 
+                                    INNER JOIN customers as C ON  O.order_user = C.id
+                                    INNER JOIN products as P ON  O.order_prod_id = P.product_id
+                                    INNER JOIN vendor as V ON  O.order_vendor_id  = V.id 
+                                    WHERE O.order_vendor_id = '$vendor_id' AND ( O.order_status = 'inprog'  )  AND  O.order_shipped = 'N' AND order_ship_draft = 'N'
+                                    AND  O.order_status != 'cancel' 
+                                  ORDER BY order_id DESC
+                                  ";
+
+$sPdCt    =   mysqli_query( $con ,  $pDCnt  );
+$rPdCt    =   mysqli_fetch_array( $sPdCt );
+
+$total    =   $rPdCt["total"];
+
+$sO    = mysqli_query( $con ,  "SELECT  COUNT(*) AS TOTAL FROM vendor_product AS PV  where ven_id = '$vendor_id'");
+$rO    = mysqli_fetch_array( $sO );
+$prodT   = $rO["TOTAL"];
 ?>
  <div class="main-content">
         <section class="section">
@@ -12,9 +35,9 @@ include('include/nav.php');
                     <div class="row ">
                       <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pr-0 pt-3">
                         <div class="card-content">
-                          <h5 class="font-15">Total Order</h5>
-                          <h2 class="mb-3 font-18">258</h2>
-                          <p class="mb-0"><span class="col-green">10%</span> Increase</p>
+                          <h5 class="font-15">New Orders</h5>
+                          <h2 class="mb-3 font-18"><?=$total?></h2><!-- 
+                          <p class="mb-0"><span class="col-green">10%</span> Increase</p> -->
                         </div>
                       </div>
                       <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pl-0">
@@ -34,9 +57,9 @@ include('include/nav.php');
                     <div class="row ">
                       <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pr-0 pt-3">
                         <div class="card-content">
-                          <h5 class="font-15"> Total Seller</h5>
-                          <h2 class="mb-3 font-18">1,287</h2>
-                          <p class="mb-0"><span class="col-orange">09%</span> Decrease</p>
+                          <h5 class="font-15">Orders Inprogress</h5>
+                          <h2 class="mb-3 font-18"><?=$orderT?></h2><!-- 
+                          <p class="mb-0"><span class="col-orange">09%</span> Decrease</p> -->
                         </div>
                       </div>
                       <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pl-0">
@@ -56,10 +79,10 @@ include('include/nav.php');
                     <div class="row ">
                       <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pr-0 pt-3">
                         <div class="card-content">
-                          <h5 class="font-15">Total Sales</h5>
-                          <h2 class="mb-3 font-18">128</h2>
+                          <h5 class="font-15">Inventory</h5>
+                          <h2 class="mb-3 font-18"><?=$prodT?></h2><!-- 
                           <p class="mb-0"><span class="col-green">18%</span>
-                            Increase</p>
+                            Increase</p> -->
                         </div>
                       </div>
                       <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pl-0">
@@ -95,7 +118,7 @@ include('include/nav.php');
               </div>
             </div>
           </div>
-          <div class="row">
+         <!--  <div class="row">
             <div class="col-12 col-sm-12 col-lg-12">
               <div class="card ">
                 <div class="card-header">
@@ -181,8 +204,8 @@ include('include/nav.php');
                 </div>
               </div>
             </div>
-          </div>
-          <div class="row">
+          </div> -->
+         <!--  <div class="row">
             <div class="col-12 col-sm-12 col-lg-4">
               <div class="card">
                 <div class="card-header">
@@ -219,8 +242,8 @@ include('include/nav.php');
                 </div>
               </div>
             </div>
-          </div>
-          <div class="row">
+          </div> -->
+          <!-- <div class="row">
             <div class="col-12">
               <div class="card">
                 <div class="card-header">
@@ -470,11 +493,11 @@ include('include/nav.php');
                 </div>
               </div>
             </div>
-          </div>
-          <div class="row">
-            <div class="col-md-6 col-lg-12 col-xl-6">
+          </div> -->
+          <!-- <div class="row">
+            <div class="col-md-6 col-lg-12 col-xl-6"> -->
               <!-- Support tickets -->
-              <div class="card">
+              <!-- <div class="card">
                 <div class="card-header">
                   <h4>Support Ticket</h4>
                   <form class="card-header-form">
@@ -532,10 +555,10 @@ include('include/nav.php');
                 </div>
                 <a href="javascript:void(0)" class="card-footer card-link text-center small ">View
                   All</a>
-              </div>
+              </div> -->
               <!-- Support tickets -->
-            </div>
-            <div class="col-md-6 col-lg-12 col-xl-6">
+            <!-- </div> -->
+            <!-- <div class="col-md-6 col-lg-12 col-xl-6">
               <div class="card">
                 <div class="card-header">
                   <h4>Projects Payments</h4>
@@ -619,9 +642,9 @@ include('include/nav.php');
                 </div>
               </div>
             </div>
-          </div>
+          </div> -->
         </section>
-        <div class="settingSidebar">
+        <!-- <div class="settingSidebar">
           <a href="javascript:void(0)" class="settingPanelToggle"> <i class="fa fa-spin fa-cog"></i>
           </a>
           <div class="settingSidebar-body ps-container ps-theme-default">
@@ -711,6 +734,6 @@ include('include/nav.php');
               </div>
             </div>
           </div>
-        </div>
+        </div> -->
       </div>
 <?php include('include/footer.php'); ?>

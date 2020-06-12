@@ -41,8 +41,7 @@
             <div class="container">
                 <div class="ps-section__wrapper">
                     <div class="ps-section__left">
-                        <form class="ps-form--account ps-tab-root" method="post"
-                         action="actions/sellerlogin.php" >
+                        <form class="ps-form--account ps-tab-root" method="post" action="actions/sellerlogin.php" onsubmit="return Validation()">
                             <ul class="ps-tab-list">
                                 <li class="active"><a href="#sign-in">Login</a></li>
                                 <li><a href="" onclick="location.href='sell.php';">Register</a></li>
@@ -52,10 +51,12 @@
                                     <div class="ps-form__content">
                                         <h5>Log In Your Account</h5>
                                         <div class="form-group">
-                                            <input class="form-control" name="email" type="text" placeholder="Username or email address">
+                                            <input class="form-control" name="email" id="email" type="text" placeholder="Username or email address">
+                                            <span class="email"></span>
                                         </div>
                                         <div class="form-group form-forgot">
-                                            <input class="form-control" name="pwd" type="password" placeholder="Password">
+                                            <input class="form-control" name="pwd" id="pwd" type="password" placeholder="Password">
+                                            <span class="pwd"></span>
                                         </div>
                                         <div class="form-group">
                                             <div class="ps-checkbox">
@@ -102,3 +103,33 @@
         </div>
     </div>
     <?php include('includes/footer.php'); ?>
+    <script type="text/javascript">
+        function Validation() {
+
+        var email = document.getElementById("email").value;
+        var pwd = document.getElementById("pwd").value;
+        if (email == '' && email == '') {
+
+            $('.email').html('Email is required');
+            $('#email').css('border','1px solid red');
+            $('.pwd').html('Password is required');
+            $('#pwd').css('border','1px solid red');
+            return false;
+        }
+        if (email != '' && pwd == ''){ 
+
+          
+          $('.pwd').html('Password is required');
+          $('#pwd').css('border','1px solid red');
+          return false;
+
+        }
+        if (email == '' && pwd != ''){ 
+
+          $('.email').html('Email is required');
+          $('#email').css('border','1px solid red');
+          return false;
+
+        }
+    }
+    </script>

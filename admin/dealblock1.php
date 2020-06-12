@@ -155,7 +155,7 @@ while ($rV = mysqli_fetch_array( $sV )){
   $vendorName .= '<input type="radio" value="'.$rV["id"].'" name="ven_p_'.$product_id.'" >&nbsp;&nbsp;'.$rV["shop_name"] .'(Qty-'.$rV["quantity"]. ')<br />';
 }
 if (!empty($variation_id)) {
-$s = "SELECT * FROM vendor_product_deals WHERE product_id = '$product_id' AND variation_id ='$variation_id'";
+$s = "SELECT * FROM vendor_product_deals WHERE product_id = '$product_id' AND variation_id ='$variation_id' AND start_date < UNIX_TIMESTAMP()  AND end_date   > UNIX_TIMESTAMP()";
 
 $sPV = mysqli_query( $con , $s);
 $rPV = mysqli_fetch_array( $sPV );
@@ -164,7 +164,7 @@ if( $rPV > 0 ){
 }
 }else{
 
-  $s = "SELECT * FROM vendor_product_deals WHERE product_id = '$product_id'";
+  $s = "SELECT * FROM vendor_product_deals WHERE product_id = '$product_id' AND start_date < UNIX_TIMESTAMP()  AND end_date   > UNIX_TIMESTAMP()";
 
 $sPV = mysqli_query( $con , $s);
 $rPV = mysqli_fetch_array( $sPV );
