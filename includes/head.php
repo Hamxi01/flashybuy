@@ -245,6 +245,20 @@ max-width: 130px !important;
         margin-right: 0!important;
     }
 }
+@media only screen and (min-width: 992px) {
+  .desktopimgsa{
+    width:200px;
+    height:180px;
+ 
+  }   
+}
+@media only screen and (max-width: 768px) {
+    .desktopimgsa{
+    width:200px;
+    height:180px;
+ 
+  }   
+}
     </style>
 </head>
 <body>
@@ -366,7 +380,7 @@ max-width: 130px !important;
                                 </li>
                             </ul>
                         </div>
-                    </div><a class="ps-logo" href="index.php"><img src="img/logo.png" alt=""></a>
+                    </div><a class="ps-logo" href="/"><img src="img/logo.png" alt=""></a>
                 </div>
                 <div class="header__center">
                     <form class="ps-form--quick-search" action="index.php" method="get" id="search__form__id">

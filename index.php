@@ -1,21 +1,6 @@
 <?php include('includes/db.php'); ?>
 <?php include('includes/head.php'); ?>
-<style>
-@media only screen and (min-width: 992px) {
-  .desktopimgsa{
-    width:200px;
-    height:180px;
- 
-  }   
-}
-@media only screen and (max-width: 768px) {
-    .desktopimgsa{
-    width:200px;
-    height:180px;
- 
-  }   
-}
-</style>
+
     <div id="homepage-1">
         <div class="ps-home-banner ps-home-banner--1">
             <div class="ps-container">

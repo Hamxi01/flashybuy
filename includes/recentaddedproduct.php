@@ -29,8 +29,8 @@ while ( $productResult = mysqli_fetch_array($productSql)) {
   $names       = $productResult['name'];
   $min        = $productResult['min'];
   $max        = $productResult['max'];
-  if (strlen($names) > 12){
-    $names  = substr($names, 0, 12) . '..';
+  if (strlen($names) > 16){
+    $names  = substr($names, 0, 16) . '..';
 } 
   if (!empty($productResult['variation_id'])) {
     
