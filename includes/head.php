@@ -383,7 +383,7 @@ max-width: 130px !important;
                     </div><a class="ps-logo" href="/"><img src="img/logo.png" alt=""></a>
                 </div>
                 <div class="header__center">
-                    <form class="ps-form--quick-search" action="index.php" method="get" id="search__form__id">
+                    <form class="ps-form--quick-search" action="product-list.php" method="get" id="search__form__id">
                         <div class="form-group--icon" id="category__Search__Id"><i class="icon-chevron-down"></i>
                             <select class="form-control">
                                 <option value="0" selected="selected">All</option>
@@ -458,7 +458,7 @@ max-width: 130px !important;
                                 <option class="level-1" value="wine-cabinets">   Wine Cabinets</option>
                             </select>
                         </div>
-                        <input class="form-control" type="text" id="search_box" placeholder="I'm shopping for...">
+                        <input class="form-control" type="text" id="search_box" name="search" placeholder="I'm shopping for...">
                         <button>Search</button>
                     </form>
                 </div>
@@ -664,9 +664,9 @@ max-width: 130px !important;
             </div>
         </div>
         <div class="ps-search--mobile">
-            <form class="ps-form--search-mobile" id="search__box__form__For__Mobile" action="index.php" method="get">
+            <form class="ps-form--search-mobile" id="search__box__form__For__Mobile" action="product-list.php" method="get">
                 <div class="form-group--nest">
-                    <input class="form-control" type="text" id="search_box_mobile" placeholder="Search something...">
+                    <input class="form-control" type="text" id="search_box_mobile"  name="search" placeholder="Search something...">
                     <button><i class="icon-magnifier"></i></button>
                 </div>
             </form>
@@ -794,9 +794,9 @@ max-width: 130px !important;
     </div>
     <div class="ps-panel--sidebar" id="search-sidebar">
         <div class="ps-panel__header">
-            <form class="ps-form--search-mobile" action="product-list.php" method="get">
+        <form class="ps-form--search-mobile" id="search__box__form__For__Mobile" action="product-list.php" method="get">
                 <div class="form-group--nest">
-                    <input class="form-control" type="text" placeholder="Search something...">
+                    <input class="form-control" type="text" id="search_box_mobile" name="search" placeholder="Search something...">
                     <button><i class="icon-magnifier"></i></button>
                 </div>
             </form>

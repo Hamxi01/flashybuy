@@ -89,8 +89,8 @@ $sql_fetch="SELECT
                     </a>
                     <div class="content-item">
                         <a class="title-item product-name" href="product.php?id=<?=base64_encode($prod_id)?>&name=<?=str_replace(' ','-',$prod_name)?>">
-                        <?php if (strlen($prod_name) > 40){
-                                    $prod_name = substr($prod_name, 0, 40) . '...';
+                        <?php if (strlen($prod_name) > 16){
+                                    $prod_name = substr($prod_name, 0, 16) . '..';
                                 }    
                                 ?>
                                 <?= $prod_name ?>
