@@ -191,13 +191,14 @@ if (isset($_SESSION['id']))
                             <div class="col-md-4">
                               <div class="form-group">
                                   <label>Market Price</label>
-                                  <input type="number" name="market_price"  class="form-control" value="">
+                                  <input type="number" name="market_price" id="mk_price"  class="form-control" value="">
                                 </div>
                               </div>
                               <div class="col-md-4">
                                 <div class="form-group">
                                   <label>Selling Price</label>
-                                  <input type="number" name="selling_price"  class="form-control" value="">
+                                  <input type="number" name="selling_price" id="sell_price" oninput="checkPrices()"  class="form-control" value="">
+                                  <span class="text-danger sell_price"></span>
                                 </div>
                               </div>
                               <div class="col-md-4">
@@ -1019,75 +1020,96 @@ if (name == ''){
 
   $('.product_name').html('Product name is required');
   $('#product_name').css('border','1px solid red');
+  $('#product_name').focus();
   return false;
 
 }
 else{
   $('.product_name').html(null);
-  $('#product_name').css('border','none');
+  $('#product_name').css('border','#e4e6fc 1px solid');
 }
 if(category == ''){
 
   $('.categories_name').html('Description is required');
   $('#categories_name').css('border','1px solid red');
+  $('#categories_name').focus();
   return false;
 
 }
 else{
   $('.categories_name').html(null);
-  $('#categories_name').css('border','none');
+  $('#categories_name').css('border','#e4e6fc 1px solid');
 }
 if(brand == ''){
 
   $('.brandkeyword').html('Brand is required');
   $('#brandkeyword').css('border','1px solid red');
+  $('#brandkeyword').focus();
   return false;
 
 }
 else{
   $('.brandkeyword').html(null);
-  $('#brandkeyword').css('border','none');
+  $('#brandkeyword').css('border','#e4e6fc 1px solid');
 }
 if (description == '') {
 
   $('.description').html('Description is required');
   $('#description').css('border','1px solid red');
+  $('#description').focus();
   return false;
 }
 else{
   $('.description').html(null);
-  $('#description').css('border','none');
+  $('#description').css('border','#e4e6fc 1px solid');
 } 
 if (width == '') {
 
   $('.width').html('width is required');
   $('#width').css('border','1px solid red');
+  $('#width').focus();
   return false;
 }
 else{
   $('.width').html(null);
-  $('#width').css('border','none');
+  $('#width').css('border','#e4e6fc 1px solid');
 }
 if (height == '') {
 
   $('.height').html('Height is required');
   $('#height').css('border','1px solid red');
+  $('#height').focus();
   return false;
 }
 else{
   $('.height').html(null);
-  $('#height').css('border','none');
+  $('#height').css('border','#e4e6fc 1px solid');
 }
 
 if (length == '') {
 
   $('.length').html('Length is required');
   $('#length').css('border','1px solid red');
+  $('#length').focus();
   return false;
 }else{
   $('.length').html(null);
-  $('#length').css('border','none');
+  $('#length').css('border','#e4e6fc 1px solid');
 }
 return true;
 } 
+
+function checkPrices(){
+
+  var sellPrice = $('#sell_price').val();
+  var mkPrice   = $('#mk_price').val();
+  if (sellPrice >= mkPrice) {
+
+    $('.sell_price').html('Selling Price is Less Than Market Price');
+    $('#sell_price').css('border','1px solid red')
+  }else{
+    $('.sell_price').html(null);
+    $('#sell_price').css('border','#e4e6fc 1px solid');
+  }
+}
 </script> 

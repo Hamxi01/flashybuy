@@ -54,9 +54,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'saveproduct') {
     $keyword     =  implode(',' , $_POST['keyword']);
 
   }
-  $market_price                    =     addslashes($_POST['market_price']);  
-  $selling_price                   =     addslashes($_POST['selling_price']);
-  $quantity                        =     addslashes($_POST['quantity']);
+
   $width                           =     addslashes($_POST['width']);
   $height                          =     addslashes($_POST['height']);
   $length                          =     addslashes($_POST['length']);
@@ -82,23 +80,12 @@ if (isset($_POST['action']) && $_POST['action'] == 'saveproduct') {
 
 
 
-     $query = "update products SET name='".$name."',cat_id='".$category_id."',sub_cat_id='".$subcategory_id."',sub_sub_cat_id='".$subsubcategory_id."',brand='".$brand."',quantity='".$quantity."',market_price='".$market_price."',selling_price='".$selling_price."',length='".$length."',width='".$width."',height='".$height."',keyword='".$keyword."',sku='".$sku."',description='".$description."',short_desc='".$shortDesc."',image1='".$image1."',image2='".$image2."',image3='".$image3."',image4='".$image4."',exclusive='".$exclusive."',courier_size='".$courier_size."',warranty='".$warranty."' Where product_id='".$product_id."'";
+     $query = "update products SET name='".$name."',cat_id='".$category_id."',sub_cat_id='".$subcategory_id."',sub_sub_cat_id='".$subsubcategory_id."',brand='".$brand."',length='".$length."',width='".$width."',height='".$height."',keyword='".$keyword."',sku='".$sku."',description='".$description."',short_desc='".$shortDesc."',image1='".$image1."',image2='".$image2."',image3='".$image3."',image4='".$image4."',exclusive='".$exclusive."',courier_size='".$courier_size."',warranty='".$warranty."' Where product_id='".$product_id."'";
      ///// Check product is already in vendors products or not////
 
-      $vpSql   = "SELECT * from vendor_product where prod_id = '$product_id'  AND ven_id='$ven_id'";
-      $vpQuery = mysqli_query($con,$vpSql);
-      $vpRows  = mysqli_num_rows($vpQuery);
+      
 
-      if ($vpRows>0) {
-            
-        $approvquery = "update vendor_product SET quantity='".$quantity."',price='".$selling_price."',mk_price='".$market_price."' where prod_id ='".$product_id."' AND ven_id ='".$ven_id."'";
-        mysqli_query($con,$approvquery);
-
-      }else{
-
-        $approvquery = "INSERT into vendor_product (prod_id,ven_id,quantity,price,mk_price) VALUES ('$product_id','$ven_id','$quantity','$selling_price','$market_price')";
-        mysqli_query($con,$approvquery);
-      }
+      
   //----- Vendor product update and insert new data end ----////////////
 
      if (mysqli_query($con,$query)){
@@ -487,7 +474,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'rejectproduct') {
                                 </div>
                               </div>  
                           </div>
-                        <?php if(!empty($width) && !empty($length) && !empty($height)){?>  
+                          
                           <div class="form-group row">
                             <div class="col-md-4">
                               <div class="form-group">
@@ -508,7 +495,6 @@ if (isset($_POST['action']) && $_POST['action'] == 'rejectproduct') {
                                 </div>
                               </div> 
                           </div>
-                        <?php } ?>
                           <div class="form-group row">
                             <div class="col-md-5">
                               <div class="form-group">
