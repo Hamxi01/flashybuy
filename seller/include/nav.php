@@ -9,7 +9,7 @@
             <li class="dropdown active">
               <a href="index.html" class="nav-link"><i data-feather="monitor"></i><span>Dashboard</span></a>
             </li>
-          
+<!--           
             <li class="dropdown">
               <a href="#" class="menu-toggle nav-link has-dropdown"><i data-feather="command"></i><span>Seller</span></a>
               <ul class="dropdown-menu">
@@ -18,7 +18,7 @@
                 <li><a class="nav-link" href="blog.html">Blog</a></li>
                 <li><a class="nav-link" href="calendar.html">Calendar</a></li>
               </ul>
-            </li>
+            </li> -->
             <li class="dropdown">
               <a href="#" class="menu-toggle nav-link has-dropdown"><i data-feather="command"></i><span>Products</span></a>
               <ul class="dropdown-menu">
@@ -33,17 +33,17 @@
                 <li><a class="nav-link" href="view-orders.php">Order</a></li>
               </ul>
             </li>
-              <li class="dropdown">
+              <!-- <li class="dropdown">
               <a href="#" class="menu-toggle nav-link has-dropdown"><i data-feather="command"></i><span>Admin</span></a>
               <ul class="dropdown-menu">
                 <li><a class="nav-link" href="Permissions.php">Permissions</a></li>
                 <li><a class="nav-link" href="blog.html">View Update Request</a></li>
                 <li><a class="nav-link" href="blog.html">Seller Verification Form</a></li>
               </ul>
-            </li>
+            </li> -->
 
 
-             <li class="dropdown">
+             <!-- <li class="dropdown">
               <a href="#" class="menu-toggle nav-link has-dropdown"><i data-feather="command"></i><span>Front End</span></a>
               <ul class="dropdown-menu">
                 <li><a class="nav-link" href="view_crousel.php">Main Banners</a></li>
@@ -53,7 +53,7 @@
                 
                 <li><a class="nav-link" href="manage_footer.php">Footer</a></li>
               </ul>
-            </li>
+            </li> -->
             <?php 
 
                 $sql = mysqli_query($con, "SELECT * From vendor where id = $vendor_id");

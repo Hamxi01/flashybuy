@@ -65,7 +65,7 @@ while($prRes = mysqli_fetch_array($prSql)){
 }
 ?>                         
                         <div class="ps-product">
-                            <div class="ps-product__thumbnail"><a href="product.php?id=<?=base64_encode($product_id)?>&name=<?=str_replace(' ','-',$name)?>"><img src="upload/product/200_<?=$image?>" alt=""></a>
+                            <div class="ps-product__thumbnail"><a href="product.php?id=<?=base64_encode($product_id)?>&name=<?=str_replace(' ','-',$name)?>"><img class="desktopimgsa" src="upload/product/200_<?=$image?>" alt=""></a>
                                 <!-- <div class="ps-product__badge">-16%</div> -->
                                 <ul class="ps-product__actions">
                                     <li><a href="#" data-toggle="tooltip" data-placement="top" title="Read More"><i class="icon-bag2"></i></a></li>
@@ -75,7 +75,7 @@ while($prRes = mysqli_fetch_array($prSql)){
                                 </ul>
                             </div>
                             <div class="ps-product__container"><a class="ps-product__vendor" href="#">Go Pro</a>
-                                <div class="ps-product__content"><a class="ps-product__title" href="product.php?id=<?=base64_encode($product_id)?>&name=<?=str_replace(' ','-',$name)?>"><?=$name?></a>
+                                <div class="ps-product__content"><a class="ps-product__title" style="min-height: 34px;" href="product.php?id=<?=base64_encode($product_id)?>&name=<?=str_replace(' ','-',$name)?>"><?=$name?></a>
                                     <div class="ps-product__rating">
                                         <select class="ps-rating" data-read-only="true">
                                             <?php if ($rating == 5) { ?>    

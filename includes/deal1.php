@@ -25,7 +25,9 @@ while ( $dRes = mysqli_fetch_array($dSql)) {
     
     $deal_price = $dRes['deal_price'];
     $mk_price = $dRes['market_price'];
-    $less = ($mk_price - $deal_price) / 100;
+   // $less = ($mk_price - $deal_price) / 100;
+    $pdG = $deal_price-$mk_price ;
+    $less = ceil(( abs($pdG)/$mk_price )*100);
     $product_id = $dRes['product_id'];
     $name       = $dRes['name'];
     $image = $dRes['image1'];
@@ -45,9 +47,16 @@ while($prRes = mysqli_fetch_array($prSql)){
     $rating = $prRes[1];
 }
 
-?>    <div class="ps-product ps-product--inner">
-                            <div class="ps-product__thumbnail"><a href="product.php?id=<?=base64_encode($product_id)?>&name=<?=str_replace(' ','-',$name)?>"><img src="upload/product/200_<?=$image?>" alt=""></a>
-                                <div class="ps-product__badge"><?=$less?>%</div>
+?>  
+  <div class="ps-product ps-product--inner">
+                            <div class="ps-product__thumbnail">
+                            <a href="product.php?id=<?=base64_encode($product_id)?>&name=<?=str_replace(' ','-',$name)?>"><img class="desktopimgsa" src="upload/product/300_<?=$image?>" alt=""></a>
+                            
+                                <?php 
+                                if($less > 5){ ?>
+ <div class="ps-product__badge"><?=$less?>%</div>
+                                <?php } ?>
+                               
                                 <ul class="ps-product__actions">
                                     <li><a href="#" data-toggle="tooltip" data-placement="top" title="Read More"><i class="icon-bag2"></i></a></li>
                                     <li><a href="#" data-toggle="tooltip" data-placement="top" title="Quick View"><i class="icon-eye"></i></a></li>
@@ -56,8 +65,14 @@ while($prRes = mysqli_fetch_array($prSql)){
                                 </ul>
                             </div>
                             <div class="ps-product__container">
-                                <p class="ps-product__price sale">R<?=$deal_price?> <del>R<?=$mk_price?> </del><small><?=$less?>%</small></p>
-                                <div class="ps-product__content"><a class="ps-product__title" href="product.php?id=<?=base64_encode($product_id)?>&name=<?=str_replace(' ','-',$name)?>"><?=$name?></a>
+                            <?php 
+                                if($less > 5){ ?>
+<p class="ps-product__price sale">R<?=$deal_price?> <del>R<?=$mk_price?> </del><small><?=$less?>%</small></p>
+                                <?php } else { ?>
+                                    <p class="ps-product__price sale">R<?=$deal_price?> </p>
+                                    <?php } ?>
+                                
+                                <div class="ps-product__content"><a class="ps-product__title"  style="min-height: 34px;" href="product.php?id=<?=base64_encode($product_id)?>&name=<?=str_replace(' ','-',$name)?>"><?=$name?></a>
                                     <div class="ps-product__rating">
                                         <select class="ps-rating" data-read-only="true">
                                             <?php if ($rating == 5) { ?>    
