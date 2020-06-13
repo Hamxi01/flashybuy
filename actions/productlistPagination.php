@@ -1,4 +1,8 @@
 <?php include("../includes/db.php"); ?>
+<div class="ps-tabs">
+                            <div class="ps-tab active" id="tab-1">
+                                <div class="ps-shopping-product">
+                                    <div class="row">
 <?php 
 
 $limit = 4;  
@@ -14,6 +18,7 @@ if (isset($_GET['search'])) {
   $productQuery = "SELECT 
                       VP.*, 
                       P.name, 
+                      P.short_desc, 
                       P.image1, 
                       min(VP.price) as min, 
                       max(VP.price) as max, 
@@ -38,7 +43,8 @@ if (isset($_GET['cat_id'])) {
 
 	$productQuery = "SELECT 
                       VP.*, 
-                      P.name, 
+                      P.name,
+                      P.short_desc,  
                       P.image1, 
                       min(VP.price) as min, 
                       max(VP.price) as max, 
@@ -65,6 +71,7 @@ if (isset($_GET['subcat_id'])) {
 	$productQuery = "SELECT 
                       VP.*, 
                       P.name, 
+                      P.short_desc, 
                       P.image1, 
                       min(VP.price) as min, 
                       max(VP.price) as max, 
@@ -90,6 +97,7 @@ if (isset($_GET['brand_id'])) {
 	$productQuery = "SELECT 
                       VP.*, 
                       P.name, 
+                      P.short_desc, 
                       P.image1, 
                       min(VP.price) as min, 
                       max(VP.price) as max, 
@@ -117,6 +125,7 @@ if (isset($_GET['price_range'])) {
     	$productQuery = "SELECT 
                       VP.*, 
                       P.name, 
+                      P.short_desc, 
                       P.image1, 
                       min(VP.price) as min, 
                       max(VP.price) as max, 
@@ -138,6 +147,7 @@ if (isset($_GET['price_range'])) {
     	$productQuery = "SELECT 
                       VP.*, 
                       P.name, 
+                      P.short_desc, 
                       P.image1, 
                       min(VP.price) as min, 
                       max(VP.price) as max, 
@@ -159,6 +169,7 @@ if (isset($_GET['price_range'])) {
     	$productQuery = "SELECT 
                       VP.*, 
                       P.name, 
+                      P.short_desc, 
                       P.image1, 
                       min(VP.price) as min, 
                       max(VP.price) as max, 
@@ -180,6 +191,7 @@ if (isset($_GET['price_range'])) {
     	$productQuery = "SELECT 
                       VP.*, 
                       P.name, 
+                      P.short_desc, 
                       P.image1, 
                       min(VP.price) as min, 
                       max(VP.price) as max, 
@@ -201,6 +213,7 @@ if (isset($_GET['price_range'])) {
     	$productQuery = "SELECT 
                       VP.*, 
                       P.name, 
+                      P.short_desc, 
                       P.image1, 
                       min(VP.price) as min, 
                       max(VP.price) as max, 
@@ -222,6 +235,7 @@ if (isset($_GET['price_range'])) {
     	$productQuery = "SELECT 
                       VP.*, 
                       P.name, 
+                      P.short_desc, 
                       P.image1, 
                       min(VP.price) as min, 
                       max(VP.price) as max, 
@@ -243,6 +257,7 @@ if (isset($_GET['price_range'])) {
     	$productQuery = "SELECT 
                       VP.*, 
                       P.name, 
+                      P.short_desc, 
                       P.image1, 
                       min(VP.price) as min, 
                       max(VP.price) as max, 
@@ -318,3 +333,74 @@ if (isset($_GET['price_range'])) {
 <?php
 }
 ?>
+  </div>
+                                </div>
+                                
+                            </div>
+                            <div class="ps-tab" id="tab-2">
+                                <div class="ps-shopping-product">
+<?php
+ $productSql = mysqli_query($con,$productQuery);
+ while ( $productResult = mysqli_fetch_array($productSql)) {
+
+       $product_id = $productResult['prod_id'];
+        $short_desc = $productResult['short_desc'];
+        
+ $name       = $productResult['name'];
+ $names       = $productResult['name'];
+ if (strlen($names) > 16){
+  $names  = substr($names, 0, 16) . '..';
+} 
+ $min        = $productResult['min'];
+ $max        = $productResult['max'];
+
+ if (!empty($productResult['variation_id'])) {
+   
+ 
+     if ($max==$min) {
+            
+       $price = $min;
+     }
+     else{
+
+       $price = $min."-".$max;
+     }
+ }else{
+
+     $price = $productResult['price'];
+ }     
+ $image = $productResult['image1'];
+ if (empty($image)) {
+   
+     $varaintImgQuery = "SELECT main_img from product_variant_images where product_id ='$product_id'";
+     $varaintImgSql   = mysqli_query($con,$varaintImgQuery);
+     while ($productVaraintImg = mysqli_fetch_array($varaintImgSql)) {
+
+       $image = $productVaraintImg['main_img'];
+     }
+ }
+
+?>
+                                    <div class="ps-product ps-product--wide">
+                                        <div class="ps-product__thumbnail"><a href="product.php?id=<?=base64_encode($product_id)?>&name=<?=str_replace(' ','-',$name)?>"><img src="upload/product/200_<?=$image?>" alt=""></a>
+                                        </div>
+                                        <div class="ps-product__container">
+                                            <div class="ps-product__content"  style="width: 800px;"><a class="ps-product__title" href="product.php?id=<?=base64_encode($product_id)?>&name=<?=str_replace(' ','-',$name)?>"><?=$names?></a>
+                                              <?= $short_desc?>
+                                            </div>
+                                            <div class="ps-product__shopping">
+                                                <p class="ps-product__price">R<?=$price?></p><a class="ps-btn" href="product.php?id=<?=base64_encode($product_id)?>&name=<?=str_replace(' ','-',$name)?>">Shop </a>
+                                                <!-- <ul class="ps-product__actions">
+                                                    <li><a href="#"><i class="icon-heart"></i> Wishlist</a></li>
+                                                    <li><a href="#"><i class="icon-chart-bars"></i> Compare</a></li>
+                                                </ul> -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <?php
+}
+?>
+                                   
+                                </div>
+                            
+                            </div>

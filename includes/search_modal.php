@@ -3,7 +3,7 @@
         position: absolute;
         top: 67.0739px;
         height: auto;
-        min-height: 400px;
+        min-height: 124px;
         border: 1px solid #eee;
         background: #fff;
         z-index: 100000;
@@ -11,7 +11,8 @@
     }
 
     #products{
-        height: 100vh;
+        max-height: 100vh;
+        min-height: 12vh;
         overflow-y: scroll;
         width: 100%;
         margin: auto;
