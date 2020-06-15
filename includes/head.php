@@ -250,14 +250,19 @@ max-width: 130px !important;
     width:200px;
     height:180px;
  
-  }   
+  } 
+  
 }
 @media only screen and (max-width: 768px) {
     .desktopimgsa{
     width:200px;
     height:180px;
  
+  } 
+  .content1{
+    display: none;
   }   
+  
 }
     </style>
 </head>
