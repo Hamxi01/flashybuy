@@ -132,6 +132,7 @@
         </div>
     </div>
     <script src="assets/plugins/jquery-1.12.4.min.js"></script>
+    <script src="assets/plugins/nouislider/nouislider.min.js"></script>
     <script src="assets/plugins/popper.min.js"></script>
     <script src="assets/plugins/owl-carousel/owl.carousel.min.js"></script>
     <script src="assets/plugins/bootstrap4/js/bootstrap.min.js"></script>
@@ -147,6 +148,7 @@
     <script src="assets/plugins/sticky-sidebar/dist/sticky-sidebar.min.js"></script>
     <script src="assets/plugins/jquery.slimscroll.min.js"></script>
     <script src="assets/plugins/select2/dist/js/select2.full.min.js"></script>
+    <script src="assets/plugins/gmap3.min.js"></script>
     <!-- custom scripts-->
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
