@@ -358,4 +358,31 @@ $(document).ready(function(){
 
 
     }); 
+
+
+// Whishlist
+
+    function whishlist(product_id){
+
+        <?php if (isset($_SESSION['id'])) {
+
+                $user_id = $_SESSION['id'];?>
+                var user_id = <?=$user_id?>;
+                $.ajax({
+                        type:"post",
+                        url:"whishlist.php",
+                        data:{product_id:product_id,user_id,user_id},
+                        success:function(result){
+
+                        }
+                });
+        <?php }
+                else{ 
+
+                    echo "<script>window.location.assign('userlogin.php');</script>";
+
+                }
+        ?>
+        
+    }
 </script>
