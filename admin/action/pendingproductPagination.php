@@ -128,9 +128,9 @@ $start_from = ($page-1) * $limit;
                               <a href="#" data-toggle="dropdown" class="btn btn-warning dropdown-toggle">Options</a>
                               <div class="dropdown-menu">     
                                 <?php if (!empty($res['variant_Sku'])) { ?>
-                                    <a href="edit-variantProduct.php?id=<?=$id?>&variant_id=<?=$variation_id?>" class="dropdown-item has-icon"><i class="far fa-edit"></i>Edit</a>
+                                    <a href="edit-variantProduct.php?id=<?=$id?>&variant_id=<?=$variation_id?>" class="dropdown-item has-icon"><i class="far fa-edit"></i>View</a>
                                 <?php }else{ ?>
-                                    <a href="edit-product.php?id=<?=$id?>&sku=<?=$res['sku']?>" class="dropdown-item has-icon"><i class="far fa-edit"></i>Edit</a>
+                                    <a href="edit-product.php?id=<?=$id?>&sku=<?=$res['sku']?>" class="dropdown-item has-icon"><i class="far fa-edit"></i>View</a>
                                 <?php } ?>
                               </div>
                             </div>

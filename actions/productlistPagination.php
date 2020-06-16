@@ -310,9 +310,9 @@ if (isset($_GET['price_range'])) {
 
 ?>
 
-<div class="col-xl-2 col-lg-4 col-md-4 col-sm-6 col-6 ">
+<div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 col-6 ">
                                             <div class="ps-product">
-                                                <div class="ps-product__thumbnail"><a href="product.php?id=<?=base64_encode($product_id)?>&name=<?=str_replace(' ','-',$name)?>"><img src="upload/product/200_<?=$image?>" alt=""></a>
+                                                <div class="ps-product__thumbnail"><a href="product.php?id=<?=base64_encode($product_id)?>&name=<?=str_replace(' ','-',$name)?>"><img class="desktopimgsa" src="upload/product/300_<?=$image?>" alt=""></a>
                                                     <ul class="ps-product__actions">
                                                         <li><a href="#" data-toggle="tooltip" data-placement="top" title="Read More"><i class="icon-bag2"></i></a></li>
                                                         <li><a href="#" data-placement="top" title="Quick View" data-toggle="modal" data-target="#product-quickview"><i class="icon-eye"></i></a></li>
@@ -320,8 +320,8 @@ if (isset($_GET['price_range'])) {
                                                         <li><a href="#" data-toggle="tooltip" data-placement="top" title="Compare"><i class="icon-chart-bars"></i></a></li>
                                                     </ul>
                                                 </div>
-                                                <div class="ps-product__container"><a class="ps-product__vendor" href="#">ROBERT’S STORE</a>
-                                                    <div class="ps-product__content"><a class="ps-product__title" href="product.php?id=<?=base64_encode($product_id)?>&name=<?=str_replace(' ','-',$name)?>"><?=$name?></a>
+                                                <div class="ps-product__container">
+                                                    <div class="ps-product__content"><a class="ps-product__title"  style="min-height: 34px;" href="product.php?id=<?=base64_encode($product_id)?>&name=<?=str_replace(' ','-',$name)?>"><?=$name?></a>
                                                         <p class="ps-product__price">R<?=$price?></p>
                                                     </div>
                                                     <div class="ps-product__content hover"><a class="ps-product__title" href="product.php?id=<?=base64_encode($product_id)?>&name=<?=str_replace(' ','-',$name)?>"><?=$name?></a>
@@ -348,8 +348,8 @@ if (isset($_GET['price_range'])) {
         
  $name       = $productResult['name'];
  $names       = $productResult['name'];
- if (strlen($names) > 16){
-  $names  = substr($names, 0, 16) . '..';
+ if (strlen($names) > 24){
+  $names  = substr($names, 0,24) . '..';
 } 
  $min        = $productResult['min'];
  $max        = $productResult['max'];
@@ -385,10 +385,10 @@ if (isset($_GET['price_range'])) {
                                         <div class="ps-product__thumbnail"><a href="product.php?id=<?=base64_encode($product_id)?>&name=<?=str_replace(' ','-',$name)?>"><img src="upload/product/200_<?=$image?>" alt=""></a>
                                         </div>
                                         <div class="ps-product__container">
-                                            <div class="ps-product__content"  style="width: 800px;"><a class="ps-product__title" href="product.php?id=<?=base64_encode($product_id)?>&name=<?=str_replace(' ','-',$name)?>"><?=$names?></a>
+                                            <div class="ps-product__content  content1"  style="width: 800px;"><a class="ps-product__title" href="product.php?id=<?=base64_encode($product_id)?>&name=<?=str_replace(' ','-',$name)?>"><?=$names?></a>
                                               <?= $short_desc?>
                                             </div>
-                                            <div class="ps-product__shopping">
+                                            <div class="ps-product__shopping" style="text-align: center;">
                                                 <p class="ps-product__price">R<?=$price?></p><a class="ps-btn" href="product.php?id=<?=base64_encode($product_id)?>&name=<?=str_replace(' ','-',$name)?>">Shop </a>
                                                 <!-- <ul class="ps-product__actions">
                                                     <li><a href="#"><i class="icon-heart"></i> Wishlist</a></li>

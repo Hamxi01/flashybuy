@@ -52,6 +52,10 @@ if (isset($_GET['id'])) {
    while ( $result = mysqli_fetch_array($pQuery)) {
         
         $name      = $result['name'];
+        $names       = $result['name'];
+        if (strlen($names) > 24){
+         $names  = substr($names, 0,24) . '..';
+       } 
         $cat_id    = $result['cat_id'];
         $shortDesc = $result['short_desc']; 
         ///=========Product Reveiw ================ //
@@ -281,7 +285,7 @@ if (isset($_GET['id'])) {
                                 </div>
                             </div>
                             <div class="ps-product__info">
-                                <h1><?=$name?></h1>
+                                <h1><?=$names?></h1>
                                 <div class="ps-product__meta">
                                     <p>Brand:<a href="#"><?=$brand_name?></a></p>
                                     <div class="ps-product__rating">
