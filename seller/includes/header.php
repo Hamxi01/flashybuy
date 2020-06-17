@@ -178,7 +178,7 @@
                 class="user-img-radious-style"> <span class="d-sm-none d-lg-inline-block"></span></a>
             <div class="dropdown-menu dropdown-menu-right pullDown">
               <div class="dropdown-title">Hello <?php if(isset($_SESSION['username'])){?> <?=$_SESSION['username']?> <?php } ?></div>
-              <a href="profile.html" class="dropdown-item has-icon"> <i class="far
+              <a href="profile.php" class="dropdown-item has-icon"> <i class="far
 										fa-user"></i> Profile
               </a> <a href="timeline.html" class="dropdown-item has-icon"> <i class="fas fa-bolt"></i>
                 Activities

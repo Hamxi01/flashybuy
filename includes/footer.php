@@ -374,12 +374,13 @@ $(document).ready(function(){
                         data:{product_id:product_id,user_id,user_id},
                         success:function(result){
 
+                            alert(result);
                         }
                 });
         <?php }
                 else{ 
 
-                    echo "<script>window.location.assign('userlogin.php');</script>";
+                    echo "window.location.assign('userlogin.php');";
 
                 }
         ?>
