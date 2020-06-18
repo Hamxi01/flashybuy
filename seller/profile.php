@@ -3,31 +3,29 @@
       include('includes/sidebar.php'); 
 
 
-     // if(isset($_POST['add-couriersizes'])){
+     if(isset($_POST['update-profile'])){
 
-     //    $id   = $_POST['id'];
-     //    $size = $_POST['size'];
-     //    $city = $_POST['city'];
-     //    $price = $_POST['price'];
+        $id           = $_POST['id'];
+        $f_name       = $_POST['f_name'];
+        $l_name       = $_POST['l_name'];
+        $shop_name    = $_POST['shop_name'];
+        $mobile       = $_POST['mobile'];
+        $phone        = $_POST['phone'];
+        $company      = $_POST['company'];
+        $registration = $_POST['reg'];
+        $vat          = $_POST['vat'];
 
-     //    $sql = mysqli_query($con,"SELECT * from vendor_courier_sizes where id='$id' AND size='$size' AND city='$city'");
-     //    $rows = mysqli_num_rows($sql);
-     //    if ($rows>0) {
         
-     //      echo "<script>window.location.assign('addcouriersizes.php?msg=error');</script>";
 
-     //    }
-     //    else{
+            $sql = "update vendor SET name='".$f_name."',lastname='".$l_name."',shop_name='".$shop_name."',mobile='".$mobile."',phone='".$phone."',company='".$company."',vat_number='".$vat."',business_reg='".$registration."' Where id='".$id."'";
 
-     //        $sql = "INSERT into vendor_courier_sizes (vendor_id,size,city,price) VALUES ('$id','$size','$city','$price')";
-     //        if ($query =mysqli_query($con,$sql)) {
+            if (mysqli_query($con,$sql)) {
 
-     //          echo "<script>window.location.assign('addcouriersizes.php?msg=success');</script>";
-     //        }
+              $vaSql = mysqli_query($con,"INSERT into vendor_activity (description,ven_id) VALUES ('You changed your Profile','$id')");
+              echo "<script>window.location.assign('profile.php?msg=success');</script>";
+            }
 
-     //    }
-
-     // }
+     }
 
 ?>
       <!-- Main Content -->
@@ -69,7 +67,10 @@ while ($vRes = mysqli_fetch_array($vSql)) {
   $shop_name  = $vRes['shop_name'];
   $email      = $vRes['email'];
   $phone      = $vRes['phone'];
+  $mobile      = $vRes['mobile'];
   $company    = $vRes['company'];
+  $registration = $vRes['business_reg'];
+  $vat = $vRes['vat_number'];
 }
 
 ?>
@@ -77,43 +78,97 @@ while ($vRes = mysqli_fetch_array($vSql)) {
             <div class="row">
               <div class="col-md-10 offset-md-1">
                 <div class="card">
-                  <form action="addcouriersizes.php"  method="post">
+                  <form action="profile.php"  method="post">
                     <div class="card-header">
                       <h4>Edit Your Profile</h4>
                     </div>
                     <div class="card-body">
-                      <div class="form-group row">
-                        <input type="hidden" name="id" value="<?=$vendor_id?>" id="id">
-                        <div class="col-lg-4">
-                          <label>First Name*</label>
-                          <input type="text" name="f_name" class="form-control" value="<?=$first_name?>" required="" id="size">
+                      <div class="row">
+                        <div class="col-lg-2">
+                          <label>Seller ID</label>
                         </div>
                         <div class="col-lg-4">
-                          <label>Last Name*</label>
-                          <input type="text" name="l_name" class="form-control" value="<?=$last_name?>" required="">
-                        </div>
-                        <div class="col-lg-4">
-                          <label><b>Shop Name</b></label>
-                          <input type="text" name="shop_name" class="form-control" value="<?=$shop_name?>" required="" id="city">
+                          <b><?=$vendor_id?></b>
+                          <input type="hidden" name="id" value="<?=$vendor_id?>">
                         </div>
                       </div>
-                      <div class="form-group row">
-                        <input type="hidden" name="id" value="<?=$vendor_id?>" id="id">
-                        <div class="col-lg-4">
-                          <label>Email*</label>
-                          <input type="text" name="email" class="form-control" value="<?=$email?>" required="" id="size">
+                      <div class="row">
+                        <div class="col-lg-2">
+                          <label>Seller Email</label>
                         </div>
                         <div class="col-lg-4">
-                          <label>Phone*</label>
-                          <input type="text" name="phone" class="form-control" value="<?=$phone?>" required="">
-                        </div>
-                        <div class="col-lg-4">
-                          <label><b>Company</b></label>
-                          <input type="text" name="company" class="form-control" value="<?=$company?>" required="" id="city">
+                          <b><?=$email?></b>
                         </div>
                       </div>
+                      <div class="row">
+                        <div class="col-lg-2">
+                          <label>First Name</label>
+                        </div>
+                        <div class="col-lg-4">
+                          <input type="text" name="f_name" class="form-control" value="<?=$first_name?>">
+                        </div>
+                      </div><br>
+                      <div class="row">
+                        <div class="col-lg-2">
+                          <label>Last Name</label>
+                        </div>
+                        <div class="col-lg-4">
+                          <input type="text" name="l_name" class="form-control" value="<?=$last_name?>">
+                        </div>
+                      </div><br>
+                      <div class="row">
+                        <div class="col-lg-2">
+                          <label>Shop Name</label>
+                        </div>
+                        <div class="col-lg-4">
+                          <input type="text" name="shop_name" class="form-control" value="<?=$shop_name?>">
+                        </div>
+                      </div><br>
+                      <div class="row">
+                        <div class="col-lg-2">
+                          <label>Mobile</label>
+                        </div>
+                        <div class="col-lg-4">
+                          <input type="text" name="mobile" class="form-control" value="<?=$mobile?>">
+                        </div>
+                      </div><br>
+                      <div class="row">
+                        <div class="col-lg-2">
+                          <label>Phone</label>
+                        </div>
+                        <div class="col-lg-4">
+                          <input type="text" name="phone" class="form-control" value="<?=$phone?>">
+                        </div>
+                      </div><br>
+                      <div class="row">
+                        <div class="col-lg-2">
+                          <label>Company</label>
+                        </div>
+                        <div class="col-lg-4">
+                          <input type="text" name="company" class="form-control" value="<?=$company?>">
+                        </div>
+                      </div><br>
+                      
+                      <div class="row">
+                        <div class="col-lg-2">
+                          <label>Registration Number</label>
+                        </div>
+                        <div class="col-lg-4">
+                          <input type="text" name="reg" class="form-control" value="<?=$registration?>">
+                        </div>
+                      </div><br>
+                      <div class="row">
+                        <div class="col-lg-2">
+                          <label>VAT Number</label>
+                        </div>
+                        <div class="col-lg-4">
+                          <input type="text" name="vat" class="form-control" value="<?=$vat?>">
+                        </div>
+                      </div><br>
+
+                    </div> 
                     <div class="card-footer text-right">
-                      <button class="btn btn-primary" type="submit" name="add-couriersizes">Submit</button>
+                      <button class="btn btn-primary" type="submit" name="update-profile">Submit</button>
                     </div>
                   </form>
                 </div>

@@ -175,9 +175,9 @@ if (isset($_SESSION['id']))
               <div class="dropdown-title">Hello <?php if(isset($_SESSION['username'])){?> <?=$_SESSION['username']?> <?php } ?></div>
               <a href="profile.php" class="dropdown-item has-icon"> <i class="far
                     fa-user"></i> Profile
-              </a> <a href="timeline.html" class="dropdown-item has-icon"> <i class="fas fa-bolt"></i>
-                Activities
-              </a> <a href="#" class="dropdown-item has-icon"> <i class="fas fa-cog"></i>
+              </a> <a href="addresses.php" class="dropdown-item has-icon"> <i class="fas fa-bolt"></i>
+                Addresses
+              </a> <a href="setting.php" class="dropdown-item has-icon"> <i class="fas fa-cog"></i>
                 Settings
               </a>
               <div class="dropdown-divider"></div>
