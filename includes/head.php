@@ -385,7 +385,7 @@ max-width: 130px !important;
                                 </li>
                             </ul>
                         </div>
-                    </div><a class="ps-logo" href="/"><img src="img/logo.png" alt=""></a>
+                    </div><a class="ps-logo" href="index.php"><img src="img/logo.png" alt=""></a>
                 </div>
                 <div class="header__center">
                     <form class="ps-form--quick-search" action="product-list.php" method="get" id="search__form__id">

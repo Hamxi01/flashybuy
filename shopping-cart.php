@@ -82,7 +82,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'submit_order') {
     $totalOrderShippingPrice  = addslashes($_POST['total_shipping_price']);
     $uiaddress                = addslashes($_POST['address']);
 
-    $check_wallet_payment     = addslashes($_POST['check_wallet_payment']);
+    $check_wallet_payment   = addslashes($_REQUEST['check_wallet_payment']);
 
     $sU                     =   mysqli_query( $con ,  " SELECT * FROM user_addresses  where u_a_id = '$uiaddress'" );
     $rU                     =   mysqli_fetch_array( $sU ); 
@@ -100,7 +100,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'submit_order') {
     $order_wallet_price = 0;
     $_SESSION['total_wallet_price'] = 0;
 
-        $user_id = $user_id = $_SESSION['id'];
+        $user_id = $_SESSION['id'];
         $sL   = " SELECT * FROM customers WHERE id = '$user_id' ";
         $sQry = mysqli_query( $con , $sL );
         $rQry = mysqli_fetch_array( $sQry );
@@ -121,20 +121,17 @@ if (isset($_POST['action']) && $_POST['action'] == 'submit_order') {
                 $ven_id        = $sV["ven_id"];
                 $ven_quantity  = $sV["quantity"];
                 $v_p_id        = $sV["v_p_id"];
-
+                $ven_price     = $sV["price"];
                 $dPSql = mysqli_query($con,"SELECT * FROM vendor_product_deals where v_p_id = '$v_p_id' AND start_date < UNIX_TIMESTAMP() AND end_date > UNIX_TIMESTAMP()");
                 while ($dpRes = mysqli_fetch_array($dPSql)) {
 
                     if (!empty($dpRes['deal_price'])) {
                         
                         $ven_price = $dpRes['deal_price'];
-                    }else{
-
-
-                            $ven_price     = $sV["price"];
                     }
                     
                 }
+                
                 $vendor        = $sV['shop_name'];
 
 
@@ -516,8 +513,40 @@ if (isset($_POST['action']) && $_POST['action'] == 'submit_order') {
             }    
         }
     }
-    $_SESSION['product_cart'] = '';
-    unset( $_SESSION['product_cart'] );    
+    $check_payment         = $_POST['payment_options']; 
+    
+    
+    if( $check_payment == 'EFT' ){          $paymentStatus = 'EFT'; }
+    if( $check_payment == 'visa' ){         $paymentStatus = 'Visa'; }
+    if( $check_payment == 'master' ){       $paymentStatus = 'Master'; }
+    if( $check_payment == 'Debit' ){        $paymentStatus = 'Debit'; }
+    // $_SESSION['product_cart'] = '';
+    // unset( $_SESSION['product_cart'] );
+    if( $check_payment == 'EFT' ){
+        $sP = "UPDATE orders SET funds_payment = 'eft' , funds_type = 'eft' WHERE order_ids = '$order_ids' ";
+        mysqli_query( $con , $sP );
+        echo '<script type="text/javascript">window.location.href = "payfast_payment.php?payment_method=eft&id='.$order_ids.'"</script>';
+        //header("location:transcation_bank.php?payment_method=eft&id=$order_ids");
+        exit;       
+    }
+    if( $check_payment == 'visa' ){
+        $sP = "UPDATE orders SET funds_payment = 'payfast' , funds_type = 'credit card' WHERE order_ids = '$order_ids' ";
+        mysqli_query( $con , $sP );        
+        echo '<script type="text/javascript">window.location.href = "payfast_payment.php?payment_method=eft&id='.$order_ids.'"</script>';
+        exit;
+    }
+    if( $check_payment == 'master' ){
+        $sP = "UPDATE orders SET funds_payment = 'payfast' , funds_type = 'credit card' WHERE order_ids = '$order_ids' ";
+        mysqli_query( $con , $sP );
+        echo '<script type="text/javascript">window.location.href = "payfast_payment.php?payment_method=eft&id='.$order_ids.'"</script>';
+        exit;
+    }
+    if( $check_payment == 'Debit' ){
+        $sP = "UPDATE orders SET funds_payment = 'payfast' , funds_type = 'debit card' WHERE order_ids = '$order_ids' ";
+        mysqli_query( $con , $sP );
+        echo '<script type="text/javascript">window.location.href = "payfast_payment.php?payment_method=eft&id='.$order_ids.'"</script>';
+        exit;
+    }    
     echo '<script type="text/javascript">window.location.href = "submit-order.php?id='.$order_ids.'"</script>';
 
 }
