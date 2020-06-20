@@ -353,7 +353,8 @@
                 </div>
             </div>
         </div>
-        <?php include('includes/deal1Quickview.php'); ?>
-        <?php include('includes/deal2Quickview.php'); ?>
-        <?php include('includes/deal3Quickview.php'); ?>
+        <?php include('includes/deal1Quickview.php');    ?>
+        <?php include('includes/deal2Quickview.php');    ?>
+        <?php include('includes/deal3Quickview.php');    ?>
+        <?php include('includes/psectionquickview.php'); ?>
 <?php include('includes/footer.php'); ?>

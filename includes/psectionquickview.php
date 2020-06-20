@@ -1,32 +1,54 @@
-<?php 
-if (isset($_REQUEST['deal_No'])) {
-    $deal_NO = $_REQUEST['deal_No'];
-    
-}
-$dSql = mysqli_query($con,"SELECT P.*,VPD.v_p_id,VPD.deal_price,VPD.start_date,VPD.end_date,VPD.deal_quantity,VPD.market_price , VPD.deal_NO ,VPD.v_p_d_id,VP.quantity 
-                    FROM vendor_product_deals AS VPD
-                    INNER JOIN vendor_product as VP ON VP.id= VPD.v_p_id
-                    INNER JOIN products AS P ON VPD.product_id = P.product_id 
-                    WHERE   1 = 1  
-                            AND VP.active = 'Y'
-                            AND VP.price > 0
-                            AND deal_NO ='10050'
-                            AND start_date < UNIX_TIMESTAMP()
-                            AND end_date   > UNIX_TIMESTAMP()  
-                            group by product_id
-                            ORDER BY v_p_d_id DESC");
-$dRows = mysqli_num_rows($dSql);
-if ($dRows>0) {
-   
+<?php   
+$productQuery = "SELECT 
+                      VP.*, 
+                      P.name,
+                      P.short_desc,
+                      P.brand,
+                      VP.prod_id, 
+                      P.image1,
+                      VP.price, 
+                      min(VP.price) as min, 
+                      max(VP.price) as max, 
+                      PV.sku as variant_Sku 
+                    FROM 
+                      vendor_product AS VP
+                      LEFT JOIN orders AS O ON VP.prod_id = O.order_prod_id 
+                      LEFT JOIN product_variations AS PV ON PV.variation_id = VP.variation_id 
+                      INNER JOIN products AS P ON P.product_id = O.order_prod_id 
+                    where 
+                      VP.active = 'Y'
+                      AND VP.quantity > 0 
+                      AND VP.price > 0
+                    GROUP BY 
+                      VP.prod_id
+                    ORDER BY 
+                      O.order_id DESC 
+                    LIMIT 6";
+$productSql = mysqli_query($con,$productQuery);
+while ( $productResult = mysqli_fetch_array($productSql)) {
+  
+  $product_id = $productResult['prod_id'];
+  $name       = $productResult['name'];
+  $shortDesc  = $productResult['short_desc'];
+  $min        = $productResult['min'];
+  $max        = $productResult['max'];
 
-while ( $dRes = mysqli_fetch_array($dSql)) {
+  if (!empty($productResult['variation_id'])) {
     
-    $deal_price = $dRes['deal_price'];
-    $mk_price = $dRes['market_price'];
-    $product_id = $dRes['product_id'];
-    $less = ($mk_price - $deal_price) / 100;
-    $name       = $dRes['name'];
-    $image = $dRes['image1'];
+  
+      if ($max==$min) {
+             
+        $price = $min;
+      }
+      else{
+
+        $price = $min."-".$max;
+      }
+  }else{
+
+      $price = $productResult['price'];
+  }     
+  $image = $productResult['image1'];
   if (empty($image)) {
     
       $varaintImgQuery = "SELECT main_img from product_variant_images where product_id ='$product_id'";
@@ -42,20 +64,28 @@ while($prRes = mysqli_fetch_array($prSql)){
     $totalR = $prRes[0];
     $rating = $prRes[1];
 }
-
-?>    <div class="ps-product ps-product--inner">
-                            <div class="ps-product__thumbnail"><a href="product.php?id=<?=base64_encode($product_id)?>&name=<?=str_replace(' ','-',$name)?>"><img src="upload/product/200_<?=$image?>" alt=""></a>
-                                <div class="ps-product__badge"><?=$less?>%</div>
-                                <ul class="ps-product__actions">
-                                    <li><a href="#" data-toggle="tooltip" data-placement="top" title="Read More"><i class="icon-bag2"></i></a></li><li><a href="#" data-placement="top" title="Quick View" data-toggle="modal" data-target="#product-quickview<?=$product_id?>"><i class="icon-eye"></i></a></li>
-                                    <li><a href="#" data-toggle="tooltip" data-placement="top" title="Add to Whishlist" onclick="whishlist(<?=$product_id?>)"><i class="icon-heart"></i></a></li>
-                                    <li><a href="#" data-toggle="tooltip" data-placement="top" title="Compare"><i class="icon-chart-bars"></i></a></li>
-                                </ul>
+$brand_id  = $productResult['brand'];
+        $bSql      = mysqli_query($con,"SELECT name from brands where id='$brand_id' AND delte =0");
+        $bRes      = mysqli_fetch_array($bSql);
+        $brand_name = $bRes[0];
+?>  
+<div class="modal fade" id="product-quickview<?=$product_id?>" tabindex="-1" role="dialog" aria-labelledby="product-quickview" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content"><span class="modal-close" data-dismiss="modal"><i class="icon-cross2"></i></span>
+                <article class="ps-product--detail ps-product--fullwidth ps-product--quickview">
+                    <div class="ps-product__header">
+                        <div class="ps-product__thumbnail" data-vertical="false">
+                            <div class="ps-product__images" data-arrow="true">
+                                <div class="item"><img src="upload/product/200_<?=$image?>" alt=""></div><!-- 
+                                <div class="item"><img src="img/products/detail/fullwidth/2.jpg" alt=""></div>
+                                <div class="item"><img src="img/products/detail/fullwidth/3.jpg" alt=""></div> -->
                             </div>
-                            <div class="ps-product__container">
-                                <p class="ps-product__price sale">R<?=$deal_price?> <del>R<?=$mk_price?> </del><small><?=$less?>%</small></p>
-                                <div class="ps-product__content"><a class="ps-product__title" href="product.php?id=<?=base64_encode($product_id)?>&name=<?=str_replace(' ','-',$name)?>"><?=$name?></a>
-                                    <div class="ps-product__rating">
+                        </div>
+                        <div class="ps-product__info">
+                            <h1><?=$name?></h1>
+                            <div class="ps-product__meta">
+                                <p>Brand:<a href=""><?=$brand_name?></a></p>
+                                <div class="ps-product__rating">
                                         <select class="ps-rating" data-read-only="true">
                                             <?php if ($rating == 5) { ?>    
                                                         <option value="1">1</option>
@@ -104,11 +134,22 @@ while($prRes = mysqli_fetch_array($prSql)){
                                         </select>
                                         <span>(<?=$totalR?> Review)</span>
                                     </div>
-                                    <!-- <div class="ps-product__progress-bar ps-progress" data-value="94">
-                                        <div class="ps-progress__value"><span></span></div>
-                                        <p>Sold:16</p>
-                                    </div> -->
-                                </div>
+                            </div>
+                            <h4 class="ps-product__price">R<?=$price?></h4>
+                            <div class="ps-product__desc">
+                                <!-- <p>Sold By:<a href="#"><strong> Go Pro</strong></a></p> -->
+                                <ul class="ps-list--dot">
+                                    <?=$shortDesc?>
+                                </ul>
+                            </div>
+                            <div class="ps-product__shopping"><a class="ps-btn ps-btn--black" href="#">Add to cart</a><a class="ps-btn" href="#">Buy Now</a>
+                                <div class="ps-product__actions"><a href="#"><i class="icon-heart"></i></a><a href="#"><i class="icon-chart-bars"></i></a></div>
                             </div>
                         </div>
-                        <?php } } ?>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </div>
+
+<?php } ?> 

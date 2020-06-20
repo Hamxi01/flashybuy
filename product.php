@@ -440,7 +440,7 @@ if (isset($_GET['id'])) {
 
                                     <?php } ?>
                                     <!-- <a class="ps-btn" href="#">Buy Now</a> -->
-                                    <div class="ps-product__actions"><a href="#"><i class="icon-heart"></i></a><a href="#"><i class="icon-chart-bars"></i></a></div>
+                                    <div class="ps-product__actions"><a href="#" ><i class="icon-heart" onclick="whishlist(<?=$product_id?>)"></i></a><a href="#"><i class="icon-chart-bars"></i></a></div>
                                 </div>
                                 <div class="ps-product__specification"><a class="report" href="#">Report Abuse</a>
                                     <p><strong>SKU:</strong> SF1133569600-1</p>
