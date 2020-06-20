@@ -3,7 +3,7 @@
         position: absolute;
         top: 67.0739px;
         height: auto;
-        min-height: 124px;
+        min-height: 400px;
         border: 1px solid #eee;
         background: #fff;
         z-index: 100000;
@@ -11,14 +11,12 @@
     }
 
     #products{
-        max-height: 100vh;
-        min-height: 12vh;
+        height: 100vh;
         overflow-y: scroll;
         width: 100%;
         margin: auto;
     }
 </style>
-
 <div class="Search_model" id="search__Modal__ID">
     <div class="card border-0 py-3">
         <!-- <div class="btn-group">
